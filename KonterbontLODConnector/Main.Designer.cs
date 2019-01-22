@@ -57,7 +57,7 @@
             this.btnFetch.TabIndex = 2;
             this.btnFetch.Text = "&Fetch";
             this.btnFetch.UseVisualStyleBackColor = true;
-            this.btnFetch.Click += new System.EventHandler(this.btnFetch_Click);
+            this.btnFetch.Click += new System.EventHandler(this.btnFetch_ClickAsync);
             // 
             // Main
             // 
