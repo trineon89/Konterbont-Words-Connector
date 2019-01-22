@@ -10,8 +10,9 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using HtmlAgilityPack;
 
-namespace WindowsFormsApp1
+namespace KonterbontLODConnector
 {
     public partial class Main : Form
     {
@@ -27,7 +28,7 @@ namespace WindowsFormsApp1
             var httpClient = new HttpClient();
             var httpContent = new HttpRequestMessage
             {
-                RequestUri = new Uri("https://www.lod.lu/php/getartde.php?artid=" + XML + ".xml"),
+                RequestUri = new Uri("https://www.lod.lu/php/getart.php?artid=" + XML + ".xml"),
                 Method = HttpMethod.Get,
                 Headers =
                            {
@@ -64,6 +65,34 @@ namespace WindowsFormsApp1
         {
             //if (ControlInvokeRequired(rtbResult, () => SetResultText(txt))) return;
             theResponse = txt;
+        }
+
+        private void btnParse_Click(object sender, EventArgs e)
+        {
+            var doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(rtbResult.Text);
+
+            var navigator = (HtmlAgilityPack.HtmlNodeNavigator)doc.CreateNavigator();
+
+            var xpath1 = "//span[@class='adress mentioun_adress']";
+            //
+
+            
+
+            var result = navigator.SelectSingleNode(xpath1);
+            Console.WriteLine(result.Value);
+            label1.Text = result.Value;
+            var xpath2 = "//span[@class='text_gen']";
+            var text_gen = navigator.Select(xpath2);
+
+            Console.WriteLine(doc.DocumentNode.SelectNodes("//span[@class='text_gen']").First().InnerText);
+            Console.WriteLine(doc.DocumentNode.SelectNodes("//span[@class='text_gen']").ElementAt(1).InnerText);
+
+
+
+
+            /*result = navigator.SelectSingleNode(xpath2);
+            Console.WriteLine(result.Value);*/
         }
     }
 }
