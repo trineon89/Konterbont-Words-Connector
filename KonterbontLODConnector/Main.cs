@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace WindowsFormsApp1
 {
@@ -19,22 +20,32 @@ namespace WindowsFormsApp1
             InitializeComponent();
         }
 
-        private void btnFetch_Click(object sender, EventArgs e)
+        private async Task<HttpResponseMessage> FetchWords(string XML)
         {
             var httpClient = new HttpClient();
             var httpContent = new HttpRequestMessage
-            {
-                RequestUri = new Uri("https:///sony/IRCC"),
-                Method = HttpMethod.Get,
-                Headers =
-                        {
-                            { HttpRequestHeader.ContentType.ToString(), "text/xml; charset=\"utf-8\";" },
-                            { "Referer", "1337" }
-                        },
-                Content = new StringContent("<?xml version=\"1.0\"?><s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" s:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\"><s:Body><u:X_SendIRCC xmlns:u=\"urn:schemas-sony-com:service:IRCC:1\"><IRCCCode>\"" + actionarr[3] + "\"</IRCCCode></u:X_SendIRCC></s:Body></s:Envelope> ", Encoding.UTF8, "text/xml")
-            };
 
-            HttpResponseMessage _response = await httpClient.SendAsync(httpContent);
+
+           {
+               RequestUri = new Uri("https://www.lod.lu/php/getartde.php?artid="+XML+".xml"),
+               Method = HttpMethod.Get,
+               Headers =
+                           {
+                              // { HttpRequestHeader.ContentType.ToString(), "text/xml; charset=\"utf-8\";" },
+                              { HttpRequestHeader.Host.ToString(), "www.lod.lu" },
+                               { HttpRequestHeader.Referer.ToString(), "https://www.lod.lu/" }
+                           }
+           };
+
+            //HttpResponseMessage _response =  await httpClient.SendAsync(httpContent);
+            httpClient.Timeout = TimeSpan.FromMilliseconds(250);
+            var _response = await httpClient.SendAsync(httpContent);
+            return _response;
+        }
+
+        private void btnFetch_Click(object sender, EventArgs e)
+        {
+            rtbResult.Text = FetchWords(edtXML.Text).Result.ToString();
         }
     }
 }
