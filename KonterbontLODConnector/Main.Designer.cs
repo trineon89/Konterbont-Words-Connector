@@ -33,6 +33,7 @@
             this.btnFetch = new System.Windows.Forms.Button();
             this.btnParse = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.rtbTest = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // edtXML
@@ -82,11 +83,20 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "label1";
             // 
+            // rtbTest
+            // 
+            this.rtbTest.Location = new System.Drawing.Point(57, 396);
+            this.rtbTest.Name = "rtbTest";
+            this.rtbTest.Size = new System.Drawing.Size(533, 178);
+            this.rtbTest.TabIndex = 5;
+            this.rtbTest.Text = "";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1401, 791);
+            this.Controls.Add(this.rtbTest);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnParse);
             this.Controls.Add(this.btnFetch);
@@ -106,6 +116,7 @@
         private System.Windows.Forms.Button btnFetch;
         private System.Windows.Forms.Button btnParse;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RichTextBox rtbTest;
     }
 }
 

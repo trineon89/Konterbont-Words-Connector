@@ -13,10 +13,36 @@ using System.Net.Http.Headers;
 using HtmlAgilityPack;
 
 namespace KonterbontLODConnector
-{
+{     
     public partial class Main : Form
     {
         String theResponse = null;
+
+        public class Wuert
+        {
+            public string LU;
+            public string LUs;
+            public string Wordform;
+            public string DE;
+            public string FR;
+            public string EN;
+            public string PT;
+            public string Example;
+            public string MP3;
+
+            public Wuert() // Constructor
+            {
+                LU = "";
+                LUs = "";
+                Wordform = "";
+                DE = "";
+                FR = "";
+                EN = "";
+                PT = "";
+                Example = "";
+                MP3 = "";
+            }
+        } 
 
         public Main()
         {
@@ -47,7 +73,7 @@ namespace KonterbontLODConnector
 
         private void btnFetch_ClickAsync(object sender, EventArgs e)
         {
-
+            rtbResult.Clear();
             Task.WaitAll(Task.Run(async () => await FetchWords(edtXML.Text)));
             rtbResult.Text = theResponse;
         }
@@ -69,30 +95,31 @@ namespace KonterbontLODConnector
 
         private void btnParse_Click(object sender, EventArgs e)
         {
+            Wuert theWuert = new Wuert();
             var doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(rtbResult.Text);
+      
 
-            var navigator = (HtmlAgilityPack.HtmlNodeNavigator)doc.CreateNavigator();
+            theWuert.LU = doc.DocumentNode.SelectNodes("//span[@class='adress mentioun_adress']").First().InnerText;
+            Console.WriteLine("LU: "+theWuert.LU);
 
-            var xpath1 = "//span[@class='adress mentioun_adress']";
-            //
+            theWuert.Wordform = doc.DocumentNode.SelectNodes("//span[@class='klass']").First().InnerText.Trim();
+            Console.WriteLine("Wordform: "+theWuert.Wordform);
 
-            
+            var meanings = new List<string>();
 
-            var result = navigator.SelectSingleNode(xpath1);
-            Console.WriteLine(result.Value);
-            label1.Text = result.Value;
-            var xpath2 = "//span[@class='text_gen']";
-            var text_gen = navigator.Select(xpath2);
-
-            Console.WriteLine(doc.DocumentNode.SelectNodes("//span[@class='text_gen']").First().InnerText);
-            Console.WriteLine(doc.DocumentNode.SelectNodes("//span[@class='text_gen']").ElementAt(1).InnerText);
-
-
+            if (doc.DocumentNode.SelectNodes("//div[@class='uds_block']") != null)
+            {
+                foreach (var node in doc.DocumentNode.SelectNodes("//div[@class='uds_block']"))
+                {
+                    rtbTest.Text = node.InnerHtml;
+                    meanings.Add(node.InnerHtml);
 
 
-            /*result = navigator.SelectSingleNode(xpath2);
-            Console.WriteLine(result.Value);*/
+                    // Display meanings in CBox
+                }
+            }
+            label1.Text = theWuert.LU+theWuert.Wordform;
         }
     }
 }
