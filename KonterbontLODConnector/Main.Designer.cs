@@ -34,6 +34,7 @@
             this.btnParse = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.rtbTest = new System.Windows.Forms.RichTextBox();
+            this.cbMeanings = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // edtXML
@@ -85,17 +86,26 @@
             // 
             // rtbTest
             // 
-            this.rtbTest.Location = new System.Drawing.Point(57, 396);
+            this.rtbTest.Location = new System.Drawing.Point(590, 381);
             this.rtbTest.Name = "rtbTest";
             this.rtbTest.Size = new System.Drawing.Size(533, 178);
             this.rtbTest.TabIndex = 5;
             this.rtbTest.Text = "";
+            // 
+            // cbMeanings
+            // 
+            this.cbMeanings.FormattingEnabled = true;
+            this.cbMeanings.Location = new System.Drawing.Point(46, 381);
+            this.cbMeanings.Name = "cbMeanings";
+            this.cbMeanings.Size = new System.Drawing.Size(538, 21);
+            this.cbMeanings.TabIndex = 6;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1401, 791);
+            this.Controls.Add(this.cbMeanings);
             this.Controls.Add(this.rtbTest);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnParse);
@@ -117,6 +127,7 @@
         private System.Windows.Forms.Button btnParse;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox rtbTest;
+        private System.Windows.Forms.ComboBox cbMeanings;
     }
 }
 

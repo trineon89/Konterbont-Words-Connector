@@ -106,16 +106,27 @@ namespace KonterbontLODConnector
             theWuert.Wordform = doc.DocumentNode.SelectNodes("//span[@class='klass']").First().InnerText.Trim();
             Console.WriteLine("Wordform: "+theWuert.Wordform);
 
-            var meanings = new List<string>();
 
             if (doc.DocumentNode.SelectNodes("//div[@class='uds_block']") != null)
             {
-                foreach (var node in doc.DocumentNode.SelectNodes("//div[@class='uds_block']"))
+                foreach (HtmlNode mnode in doc.DocumentNode.SelectNodes("//div[@class='uds_block']"))
                 {
-                    rtbTest.Text = node.InnerHtml;
-                    meanings.Add(node.InnerHtml);
+                    rtbTest.Text = mnode.InnerHtml;
+                    var nodes = mnode.Elements("span");
+                    string Meaning = "";
+                    foreach (var node in nodes)
+                    {
+                        
+                        if (node.NodeType == HtmlNodeType.Element)
+                        {
+                            Console.WriteLine(node.InnerHtml);
+                            
+                            Meaning = Meaning + node.InnerText;
+                        }
+                    }
+                    cbMeanings.Items.Add(Meaning);
 
-
+                    //var meaningNr = meaningHTML.DocumentNode.SelectSingleNode("//span[@class='uds_num']");
                     // Display meanings in CBox
                 }
             }
