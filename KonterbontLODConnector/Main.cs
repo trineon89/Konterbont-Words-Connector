@@ -84,34 +84,41 @@ namespace KonterbontLODConnector
                 HtmlNode[] MeaningArray;
                 string Example = Meaning.SelectSingleNode(".//span[@class='beispill']").InnerText; // Fetch 1st Example
                 if (theWuert.LUs == theWuert.LU)
-                {                 //Fetch Plural from mention
+                {
+                    //Fetch Plural from mention
                     if (Meaning.SelectSingleNode(".//span[@class='mentioun_adress']") != null)
                     {
                         MeaningLUs = Meaning.SelectSingleNode(".//span[@class='mentioun_adress']").InnerText;
                     }
                 }
-
-                if (Meaning.SelectSingleNode("span[@class='text_gen']") != null)
+                if (theWuert.Wordform != "Eegennumm")
                 {
-                    if (Meaning.SelectSingleNode("span[@class='text_gen']").InnerText.Contains("["))
+                    if (Meaning.SelectSingleNode("span[@class='text_gen']") != null)
                     {
-                        MeaningText = Meaning.SelectSingleNode("span[@class='et']").InnerText;
-                        MeaningTextAdd = Meaning.SelectSingleNode("span[@class='text_gen']").InnerText;
-                    }
-                    else
-                    {
-                        MeaningArray = Meaning.SelectNodes(".//span[@class='et']").ToArray();
-
-                        for (int _m = 0; _m < MeaningArray.Length; _m++)
+                        if (Meaning.SelectSingleNode("span[@class='text_gen']").InnerText.Contains("["))
                         {
-                            MeaningText = MeaningText + MeaningArray[_m].InnerText;
-                            if (_m < MeaningArray.Length - 1)
-                            {
-                                MeaningText = MeaningText + ", ";
-                            }
+                            MeaningText = Meaning.SelectSingleNode("span[@class='et']").InnerText;
+                            MeaningTextAdd = Meaning.SelectSingleNode("span[@class='text_gen']").InnerText;
+                        }
+                        else
+                        {
+                            MeaningArray = Meaning.SelectNodes(".//span[@class='et']").ToArray();
 
+                            for (int _m = 0; _m < MeaningArray.Length; _m++)
+                            {
+                                MeaningText = MeaningText + MeaningArray[_m].InnerText;
+                                if (_m < MeaningArray.Length - 1)
+                                {
+                                    MeaningText = MeaningText + ", ";
+                                }
+
+                            }
                         }
                     }
+                }
+                else
+                {
+                    MeaningText = Meaning.SelectSingleNode(".//span[@class='et']").InnerText;
                 }
 
                 if (Selection == _j.ToString())
@@ -233,29 +240,6 @@ namespace KonterbontLODConnector
             return true;
         }
 
-        /*private void SetResultText(String txt, String lang)
-        {
-            //if (ControlInvokeRequired(rtbResult, () => SetResultText(txt))) return;
-            switch (lang)
-            {
-                case "LU":
-                    theResponse = txt;
-                    break;
-                case "DE":
-                    theResponseDE = txt;
-                    break;
-                case "FR":
-                    theResponseFR = txt;
-                    break;
-                case "EN":
-                    theResponseEN = txt;
-                    break;
-                case "PT":
-                    theResponsePT = txt;
-                    break;
-            }
-        }*/
-
         // ---------------------------------------------------- //
         // ---------------------------------------------------- //
         private void GetMeanings()
@@ -280,7 +264,25 @@ namespace KonterbontLODConnector
             HtmlNode[] LUsArray = docLU.DocumentNode.SelectNodes("//span[@class='mentioun_adress']").ToArray();
             if (theWuert.LU == theWuert.LUs || theWuert.LUs == "")
             {
-                theWuert.LUs = LUsArray[1].InnerText;
+                switch (theWuert.Wordform)
+                {
+                    case "Eegennumm":
+                        theWuert.LUs = "";
+                        break;
+                    case "Adverb":
+                        theWuert.LUs = "";
+                        break;
+                    case "Adjektiv":
+                        theWuert.LUs = "";
+                        break;
+                    case "Pronomen":
+                        theWuert.LUs = "";
+                        break;
+                    default:
+                        theWuert.LUs = LUsArray[1].InnerText;
+                        break;
+
+                }
             }
 
             // Meanings START
@@ -335,7 +337,10 @@ namespace KonterbontLODConnector
                     }
                     else
                     {
-                        MeaningNr = Meaning.SelectSingleNode("span[@class='uds_num']").InnerText;
+                        if (Meaning.SelectSingleNode("span[@class='uds_num']") != null)
+                        {
+                            MeaningNr = Meaning.SelectSingleNode("span[@class='uds_num']").InnerText;
+                        }
                         MeaningText = Meaning.SelectSingleNode("span[@class='et']").InnerText;
                     }
                     Selection = _i.ToString();
@@ -367,13 +372,30 @@ namespace KonterbontLODConnector
             LUsArray = docLU.DocumentNode.SelectNodes("//span[@class='mentioun_adress']").ToArray();
             if (theWuert.LU == theWuert.LUs || theWuert.LUs == "")
             {
-                theWuert.LUs = LUsArray[1].InnerText;
-                if (LUsArray[2].InnerText != theWuert.LU)
+                switch (theWuert.Wordform)
                 {
-                    theWuert.LUs = theWuert.LUs + " / " + LUsArray[2].InnerText;
+                    case "Eegennumm":
+                        theWuert.LUs = "";
+                        break;
+                    case "Adverb":
+                        theWuert.LUs = "";
+                        break;
+                    case "Adjektiv":
+                        theWuert.LUs = "";
+                        break;
+                    case "Pronomen":
+                        theWuert.LUs = "";
+                        break;
+                    default:
+                        theWuert.LUs = LUsArray[1].InnerText;
+                        if (LUsArray[2].InnerText != theWuert.LU)
+                        {
+                            theWuert.LUs = theWuert.LUs + " / " + LUsArray[2].InnerText;
+                        }
+                        break;
+
                 }
             }
-
             PrintProperties(theWuert); // Write class to Console
         }
         // ---------------------------------------------------- //
@@ -384,22 +406,63 @@ namespace KonterbontLODConnector
         {
             var docXML = new HtmlAgilityPack.HtmlDocument();
             string onClickVal = "";
+            frmSelectMeaning frmSelectMeaning = new frmSelectMeaning();
+            HtmlNode[] XMLArray;
+            int _i = 1;
+            string Selection = "";
 
             docXML.LoadHtml(theXMLResponse);
+            XMLArray = docXML.DocumentNode.SelectNodes("//a[@onclick]").ToArray();
+
+            int XMLCount = XMLArray.Count();
+
+
+
+            if (XMLCount > 1)
+            {
+                foreach (HtmlNode XML in XMLArray)
+                {
+                    // Selection = _i.ToString();
+                    RadioButton rb = new RadioButton();
+                    rb.Name = _i.ToString();
+                    rb.Text = XML.InnerText;
+                    rb.Location = new Point(10, _i * 30);
+                    rb.Width = 500;
+                    frmSelectMeaning.gbMeanings.Controls.Add(rb);
+                    frmSelectMeaning.gbMeanings.Text = "Wuert auswielen:";
+                    frmSelectMeaning.Text = "Wuert auswielen";
+                    _i++;
+                }
+                if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
+                {
+                    var selectedXML = frmSelectMeaning.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+                    Selection = selectedXML.Name;
+                    onClickVal = docXML.DocumentNode.SelectNodes("//a[@onclick]")[Int32.Parse(Selection)-1].GetAttributeValue("onclick", "default"); //Bsp: getart('PERSOUN1.xml','persoun1.mp3')
+
+                }
+
+            }
+            else
+            {
+                onClickVal = docXML.DocumentNode.SelectSingleNode("//a[@onclick]").GetAttributeValue("onclick", "default"); //Bsp: getart('PERSOUN1.xml','persoun1.mp3')
+            }
 
             rtbTest.Text = docXML.DocumentNode.SelectSingleNode("//a[@onclick]").GetAttributeValue("onclick", "default");
-            onClickVal = docXML.DocumentNode.SelectSingleNode("//a[@onclick]").GetAttributeValue("onclick", "default"); //Bsp: getart('PERSOUN1.xml','persoun1.mp3')
+
 
             // get XML and MP3 from Word search
             var QuotePos = onClickVal.IndexOf("'");
             onClickVal = onClickVal.Remove(0, QuotePos + 1); // result: PERSOUN1.xml','persoun1.mp3')
+
             QuotePos = onClickVal.IndexOf("'");
-            SearchXML = onClickVal.Substring(0, QuotePos);
+            SearchXML = onClickVal.Substring(0, QuotePos);   // result: PERSOUN1.xml
             onClickVal = onClickVal.Remove(0, QuotePos + 1); // result: ,'persoun1.mp3')
+
             QuotePos = onClickVal.IndexOf("'");
             onClickVal = onClickVal.Remove(0, QuotePos + 1); // result: persoun1.mp3')
+
             QuotePos = onClickVal.IndexOf("'");
-            theWuert.MP3 = onClickVal.Substring(0, QuotePos);
+            theWuert.MP3 = onClickVal.Substring(0, QuotePos); // result: persoun1.mp3
         }
     }
 }

@@ -43,7 +43,7 @@
             this.gbMeanings.Size = new System.Drawing.Size(466, 268);
             this.gbMeanings.TabIndex = 0;
             this.gbMeanings.TabStop = false;
-            this.gbMeanings.Text = "Meanings";
+            this.gbMeanings.Text = "Bedeitung auswielen:";
             // 
             // btnAuswielen
             // 
@@ -70,7 +70,7 @@
             this.MinimizeBox = false;
             this.Name = "frmSelectMeaning";
             this.ShowInTaskbar = false;
-            this.Text = "Select Meaning";
+            this.Text = "Bedeitung auswielen";
             this.ResumeLayout(false);
             this.PerformLayout();
 
