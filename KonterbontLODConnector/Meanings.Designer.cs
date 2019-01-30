@@ -28,8 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gbMeanings = new System.Windows.Forms.GroupBox();
             this.btnAuswielen = new System.Windows.Forms.Button();
+            this.tpInfo = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // gbMeanings
@@ -56,6 +58,10 @@
             this.btnAuswielen.Text = "&Auswielen";
             this.btnAuswielen.UseVisualStyleBackColor = true;
             // 
+            // tpInfo
+            // 
+            this.tpInfo.Popup += new System.Windows.Forms.PopupEventHandler(this.tpInfo_Popup);
+            // 
             // frmSelectMeaning
             // 
             this.AcceptButton = this.btnAuswielen;
@@ -79,5 +85,6 @@
         #endregion
         private System.Windows.Forms.Button btnAuswielen;
         public System.Windows.Forms.GroupBox gbMeanings;
+        public System.Windows.Forms.ToolTip tpInfo;
     }
 }

@@ -16,5 +16,10 @@ namespace KonterbontLODConnector
         {
             InitializeComponent();
         }
+
+        private void tpInfo_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
     }
 }
