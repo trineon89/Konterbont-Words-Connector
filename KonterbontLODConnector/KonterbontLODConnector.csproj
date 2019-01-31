@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WordsClass.cs" />
     <EmbeddedResource Include="Meanings.resx">
       <DependentUpon>Meanings.cs</DependentUpon>
     </EmbeddedResource>
