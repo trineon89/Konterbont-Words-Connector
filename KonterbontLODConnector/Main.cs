@@ -107,9 +107,29 @@ namespace KonterbontLODConnector
                 {
                     string MeaningText = "";
                     string MeaningTextAdd = "";
+                    string Pluriel;
 
                     HtmlNode[] MeaningArray;
                     HtmlNode[] LUsArray = htmlDocument.DocumentNode.SelectNodes("//span[@class='mentioun_adress']").ToArray();
+                    if (htmlDocument.DocumentNode.SelectSingleNode("//span[@class='text_gen']").InnerText.Contains("(")) //has base pluriel
+                    {
+                        
+                        Pluriel = LUsArray[1].InnerText;
+                    } else Pluriel = null; // no base pluriel
+
+
+                    /*
+                     *  Meaning (kee Pluriel) ::html:: <span class=text_gen> ( <span class=info_plex>kee Pluriel</span>  ) </span>
+                     * 
+                     *  Meaning (Pluriel PlurielWuert) ::html:: <span class=text_gen> ( <span class=info_plex>Pluriel <span class=mentioun_adress> 
+                     *      <span class=mentioun_adress> PlurielWuert </span> </span> </span>  ) </span>            
+                     * 
+                     *  Meaning SpecialWuert ::html:: <span class=polylex> SpecialWuert </span>
+                     * 
+                     *  Meaning DE Wuert ::html:: <span class=intro_et> ..... </span>
+                     * 
+                     */
+
                     Meaning meaning = new Meaning();
 
                     if (Meaning.SelectSingleNode("span[@class='text_gen']") != null)
@@ -126,10 +146,11 @@ namespace KonterbontLODConnector
                         {
                             if (Meaning.SelectSingleNode("span[@class='uds_num']") != null) { MeaningNr = Meaning.SelectSingleNode("span[@class='uds_num']").InnerText; }
                             MeaningArray = Meaning.SelectNodes(".//span[@class='et']").ToArray();
-
+                            
                             for (int _m = 0; _m < MeaningArray.Length; _m++)
                             {
-                                if (_m < MeaningArray.Length - 1)  { MeaningText = MeaningText + MeaningArray[_m].InnerText + ", "; } else { MeaningText = MeaningText + "[" + MeaningArray[_m].InnerText + "]"; }
+                                if (_m < MeaningArray.Length - 1)  { MeaningText = MeaningText + MeaningArray[_m].InnerText + ", "; }
+                                else if (Lang=="LU" && MeaningArray.Length>2) { MeaningText = MeaningText + "[" + MeaningArray[_m].InnerText + "]"; }
                             }
                         }
                     }
