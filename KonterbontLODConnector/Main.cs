@@ -112,11 +112,6 @@ namespace KonterbontLODConnector
                     HtmlNode[] MeaningArray;
                     HtmlNode[] LUsArray = htmlDocument.DocumentNode.SelectNodes("//span[@class='mentioun_adress']").ToArray();
 
-                    //var lol = Meaning.SelectSingleNode("//span[@class='text_gen'][2]");
-                    var lol = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']");
-
-                    var lel = Meaning.SelectNodes(".//span");
-
                     if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']") != null) //has base pluriel
                     {
                         Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']").InnerText;
@@ -137,16 +132,12 @@ namespace KonterbontLODConnector
 
                     Meaning meaning = new Meaning();
 
-                    if (Meaning.SelectSingleNode("span[@class='text_gen']") != null)
+                    if (Meaning.SelectSingleNode(".//span[@class='text_gen']") != null)
                     { // Meaning 1 or 2 or 4
                         meaning.LU = wuert.WuertLu;
                         meaning.LUs = Pluriel;
                         Console.WriteLine("Meaning 1, 2, 4");
-                        var men = Meaning.SelectSingleNode(".//span[@class='mentioun_adress']");
-
-                        var c = Meaning.ChildNodes.Count();
-
-                        if (Meaning.ChildNodes[1].InnerText.Trim()== "(kee Pluriel)")
+                        if (Meaning.SelectSingleNode(".//span[@class='text_gen'][1]").ChildNodes.Count() == 3)
                         { // -> Meaning 1
                             Console.WriteLine("Meaning 1");
                             meaning.LUs = null;
@@ -171,49 +162,34 @@ namespace KonterbontLODConnector
                         if (Meaning.SelectSingleNode("span[@class='polylex']") != null)
                         { // -> Meaning 3
                             Console.WriteLine("Meaning 3");
-                            meaning.LUs = wuert.WuertLuS;
                             meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText;
+                            meaning.LUs = wuert.WuertLuS;
+                        } else
+                        { // -> Meaning 4 safe
+                            Console.WriteLine("Meaning 4 (safe)");
+                            meaning.LUs = wuert.WuertLuS;
+                            meaning.LU = wuert.WuertLu;
                         }
                     }
-
-                    /*
-                    * OLD ONE - removed soon 
-                         
-                        if (Meaning.SelectSingleNode("span[@class='text_gen']") != null)
+                    if (Lang != "LU")
                     {
-                        if (Meaning.SelectSingleNode("span[@class='text_gen']").InnerText.Contains("["))
+                        if (Meaning.SelectSingleNode(".//span[@class='et']") != null)
                         {
-                            MeaningNr = _i.ToString() + ".";
-                           
-                            //meaning.DE = Meaning.SelectSingleNode("span[@class='et']").InnerText + Meaning.SelectSingleNode("span[@class='text_gen']").InnerText;
-                            MeaningText = Meaning.SelectSingleNode("span[@class='et']").InnerText;
-                            MeaningTextAdd = Meaning.SelectSingleNode("span[@class='text_gen']").InnerText;
+                            MeaningText = Meaning.SelectSingleNode(".//span[@class='et']").InnerText;
                         }
-                        else
+                        if (Meaning.SelectSingleNode(".//span[@class='text_gen']") != null)
                         {
-                            if (Meaning.SelectSingleNode("span[@class='uds_num']") != null) { MeaningNr = Meaning.SelectSingleNode("span[@class='uds_num']").InnerText; }
-                            MeaningArray = Meaning.SelectNodes(".//span[@class='et']").ToArray();
-                            
-                            for (int _m = 0; _m < MeaningArray.Length; _m++)
+                            if (Meaning.SelectSingleNode(".//span[@class='text_gen']").InnerText.Contains("["))
                             {
-                                if (_m < MeaningArray.Length - 1)  { MeaningText = MeaningText + MeaningArray[_m].InnerText + ", "; }
-                                else if (Lang=="LU" && MeaningArray.Length>2) { MeaningText = MeaningText + "[" + MeaningArray[_m].InnerText + "]"; }
-                            }
+                                var tmp = Meaning.SelectSingleNode(".//span[@class='text_gen']").InnerText;
+                                MeaningText = MeaningText + tmp;                             }
+                            //MeaningText;
                         }
                     }
-                    else
-                    {
-                        if (Meaning.SelectSingleNode("span[@class='uds_num']") != null) { MeaningNr = Meaning.SelectSingleNode("span[@class='uds_num']").InnerText; }
-                        MeaningText = Meaning.SelectSingleNode("span[@class='et']").InnerText;
-                        MeaningTextAdd = "";
-                    }
-                    */
 
                     switch (Lang)
                     {
                         case "LU":
-                            //if (Meaning.SelectSingleNode("span[@class='polylex']") != null) { meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText; }
-                            //else { meaning.LU = wuert.WuertLu; } //Not necessary 
                             meaning.MP3 = wuert.MP3;
                             HtmlNodeCollection htmlExamples = htmlDocument.DocumentNode.SelectNodes("//span[@class='beispill']");
                             foreach (HtmlNode htmlexample in htmlExamples)
@@ -221,13 +197,6 @@ namespace KonterbontLODConnector
                                 Example example = new Example(htmlexample.InnerText);
                                 meaning.Examples.Add(example);
                             }
-                            //meaning.LUs = LUsArray[1].InnerText;
-                            /*
-                            if (LUsArray[2].InnerText != meaning.LU)
-                            {
-                                meaning.LUs = meaning.LUs + " / " + LUsArray[2].InnerText;
-                            }
-                            */
                             break;
                         case "DE":
                             wuert.Meanings[_i - 1].DE = MeaningText + MeaningTextAdd;
@@ -260,7 +229,7 @@ namespace KonterbontLODConnector
                     if (Lang == "LU") { wuert.Meanings.Add(meaning); }
                     _i++;
                 }
-                if (htmlNodes.Count() > 1 && Lang =="LU")
+                if (htmlNodes.Count() > 1 && Lang =="PT")
                 {
                     if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
                     {
