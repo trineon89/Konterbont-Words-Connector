@@ -67,10 +67,11 @@
             this.edtWord.Name = "edtWord";
             this.edtWord.Size = new System.Drawing.Size(684, 20);
             this.edtWord.TabIndex = 6;
-            this.edtWord.Text = "Persoun";
+            this.edtWord.Text = "beier";
             // 
             // Main
             // 
+            this.AcceptButton = this.btnFetch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1401, 791);

@@ -111,28 +111,75 @@ namespace KonterbontLODConnector
 
                     HtmlNode[] MeaningArray;
                     HtmlNode[] LUsArray = htmlDocument.DocumentNode.SelectNodes("//span[@class='mentioun_adress']").ToArray();
-                    if (htmlDocument.DocumentNode.SelectSingleNode("//span[@class='text_gen']").InnerText.Contains("(")) //has base pluriel
-                    {
-                        
-                        Pluriel = LUsArray[1].InnerText;
-                    } else Pluriel = null; // no base pluriel
 
+                    //var lol = Meaning.SelectSingleNode("//span[@class='text_gen'][2]");
+                    var lol = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']");
+
+                    var lel = Meaning.SelectNodes(".//span");
+
+                    if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']") != null) //has base pluriel
+                    {
+                        Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']").InnerText;
+                    } else Pluriel = null; // no base pluriel
+                    wuert.WuertLuS = Pluriel;
 
                     /*
-                     *  Meaning (kee Pluriel) ::html:: <span class=text_gen> ( <span class=info_plex>kee Pluriel</span>  ) </span>
+                     * 1 Meaning (kee Pluriel) ::html:: <span class=text_gen> ( <span class=info_plex>kee Pluriel</span>  ) </span>
                      * 
-                     *  Meaning (Pluriel PlurielWuert) ::html:: <span class=text_gen> ( <span class=info_plex>Pluriel <span class=mentioun_adress> 
+                     * 2 Meaning (Pluriel PlurielWuert) ::html:: <span class=text_gen> ( <span class=info_plex>Pluriel <span class=mentioun_adress> 
                      *      <span class=mentioun_adress> PlurielWuert </span> </span> </span>  ) </span>            
                      * 
-                     *  Meaning SpecialWuert ::html:: <span class=polylex> SpecialWuert </span>
+                     * 3 Meaning SpecialWuert ::html:: <span class=polylex> SpecialWuert </span>
                      * 
-                     *  Meaning DE Wuert ::html:: <span class=intro_et> ..... </span>
+                     * 4 Meaning DE Wuert ::html:: <span class=intro_et> ..... </span>
                      * 
                      */
 
                     Meaning meaning = new Meaning();
 
                     if (Meaning.SelectSingleNode("span[@class='text_gen']") != null)
+                    { // Meaning 1 or 2 or 4
+                        meaning.LU = wuert.WuertLu;
+                        meaning.LUs = Pluriel;
+                        Console.WriteLine("Meaning 1, 2, 4");
+                        var men = Meaning.SelectSingleNode(".//span[@class='mentioun_adress']");
+
+                        var c = Meaning.ChildNodes.Count();
+
+                        if (Meaning.ChildNodes[1].InnerText.Trim()== "(kee Pluriel)")
+                        { // -> Meaning 1
+                            Console.WriteLine("Meaning 1");
+                            meaning.LUs = null;
+                        } else if (Meaning.SelectSingleNode(".//span[@class='mentioun_adress']") != null)
+                        { // Meaning 2 or 4
+                            Console.WriteLine("Meaning 2, 4");
+                            if (Meaning.SelectSingleNode(".//span[@class='info_flex']") != null)
+                            { // -> Meaning 2
+                                Console.WriteLine("Meaning 2");
+                                meaning.LUs = Meaning.SelectSingleNode(".//span[@class='mentioun_adress']").InnerText;
+                            } else
+                            { // -> Meaning 4
+                                Console.WriteLine("Meaning 4");
+                            }
+                        } else
+                        { // -> Meaning 1
+                            Console.WriteLine("Meaning 1");
+                            meaning.LUs = null;
+                        }
+                    } else
+                    {
+                        if (Meaning.SelectSingleNode("span[@class='polylex']") != null)
+                        { // -> Meaning 3
+                            Console.WriteLine("Meaning 3");
+                            meaning.LUs = wuert.WuertLuS;
+                            meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText;
+                        }
+                    }
+
+                    /*
+                    * OLD ONE - removed soon 
+                         
+                        if (Meaning.SelectSingleNode("span[@class='text_gen']") != null)
                     {
                         if (Meaning.SelectSingleNode("span[@class='text_gen']").InnerText.Contains("["))
                         {
@@ -160,12 +207,13 @@ namespace KonterbontLODConnector
                         MeaningText = Meaning.SelectSingleNode("span[@class='et']").InnerText;
                         MeaningTextAdd = "";
                     }
+                    */
 
                     switch (Lang)
                     {
                         case "LU":
-                            if (Meaning.SelectSingleNode("span[@class='polylex']") != null) { meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText; }
-                            else { meaning.LU = wuert.WuertLu; } //Not necessary 
+                            //if (Meaning.SelectSingleNode("span[@class='polylex']") != null) { meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText; }
+                            //else { meaning.LU = wuert.WuertLu; } //Not necessary 
                             meaning.MP3 = wuert.MP3;
                             HtmlNodeCollection htmlExamples = htmlDocument.DocumentNode.SelectNodes("//span[@class='beispill']");
                             foreach (HtmlNode htmlexample in htmlExamples)
@@ -173,11 +221,13 @@ namespace KonterbontLODConnector
                                 Example example = new Example(htmlexample.InnerText);
                                 meaning.Examples.Add(example);
                             }
-                            meaning.LUs = LUsArray[1].InnerText;
+                            //meaning.LUs = LUsArray[1].InnerText;
+                            /*
                             if (LUsArray[2].InnerText != meaning.LU)
                             {
                                 meaning.LUs = meaning.LUs + " / " + LUsArray[2].InnerText;
                             }
+                            */
                             break;
                         case "DE":
                             wuert.Meanings[_i - 1].DE = MeaningText + MeaningTextAdd;

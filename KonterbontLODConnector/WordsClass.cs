@@ -23,7 +23,7 @@ namespace KonterbontLODConnector
     public class Wuert
     {
         public string WuertLu;
-        private string WuertLuS;
+        public string WuertLuS;
         public WordForm WuertForm;
         public List<Meaning> Meanings;
         public int Selection;
@@ -32,6 +32,7 @@ namespace KonterbontLODConnector
 
         public Wuert()
         {
+            WuertLuS = null;
             Meanings = new List<Meaning>();
             WuertForm = new WordForm();
             Selection = 0;
