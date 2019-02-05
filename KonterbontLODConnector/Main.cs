@@ -11,14 +11,24 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using HtmlAgilityPack;
+using System.IO;
+using System.Diagnostics;
 
 namespace KonterbontLODConnector
 {
-    public partial class Main : Form
+    public partial class frmMain : Form
     {
-        public Main()
+        public string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
+        public string ArticlePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Artikelen\\";
+        public Ookii.Dialogs.WinForms.VistaFolderBrowserDialog folderBrowser;
+
+        public frmMain()
         {
             InitializeComponent();
+            folderBrowser = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog
+            {
+                SelectedPath = ArticlePath
+            };
         }
 
 
@@ -326,7 +336,7 @@ namespace KonterbontLODConnector
             return null;
         }
 
-        private void btnFetch_ClickAsync(object sender, EventArgs e)
+        private void BtnFetch_ClickAsync(object sender, EventArgs e)
         {
             Task<string> task = Task.Run(async () => await FetchXMLasync(edtWord.Text));
             task.Wait();
@@ -349,11 +359,11 @@ namespace KonterbontLODConnector
             Task<AutoComplete> taskPT = Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
             taskPT.Wait();
             acwuert = taskPT.Result;
-
+            /*
             DataHandler dt = new DataHandler("test.qs", "K:\\Artikelen\\");
             dt.AddWordToList(acwuert);
-            dt.SaveToFile(dt);$
-
+            dt.SaveToFile(dt);
+            */
             /*
             GetMeanings(TheResults.Selection);
             */
@@ -460,28 +470,68 @@ namespace KonterbontLODConnector
 
             return tooltip;
         }
-        /*
-            private void GetXMLTT(HtmlNode XMLTT)
+
+        private async Task<AutoComplete> GetWordAsync(string searchstring)
         {
-            // string onClickVal = "";
-            var a = new HtmlAgilityPack.HtmlDocument();
-
-            a.LoadHtml(XMLTT.OuterHtml);
-
-            string onClickVal = a.DocumentNode.SelectSingleNode("//a[@onclick]").GetAttributeValue("onclick", "default"); //Bsp: getart('PERSOUN1.xml','persoun1.mp3')
-
-            // get XML and MP3 from Word search
-            var QuotePos = onClickVal.IndexOf("'");
-            onClickVal = onClickVal.Remove(0, QuotePos + 1); // result: PERSOUN1.xml','persoun1.mp3')
-
-            QuotePos = onClickVal.IndexOf("'");
-            SearchXMLTT = onClickVal.Substring(0, QuotePos);   // result: PERSOUN1.xml
-
-            Task.WaitAll(Task.Run(async () => await FetchWordsTT(SearchXMLTT, "LU")));
-            Task.WaitAll(Task.Run(async () => await FetchWordsTT(SearchXMLTT, "DE")));
-            Task.WaitAll(Task.Run(async () => await FetchWordsTT(SearchXMLTT, "FR")));
-            GetMeaningsTT();
+            return await Task.Run(() => GetWord(searchstring));
         }
-        */
+
+        private async Task<AutoComplete> GetWord(string searchstring)
+        {
+            string fetchedXml = await Task.Run(async () => await FetchXMLasync(searchstring));
+
+            AutoComplete acwuert = ParseXMLWords(fetchedXml);
+
+            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "LU"));
+            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "DE"));
+            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "FR"));
+            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
+            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
+
+            return acwuert;
+        }
+
+        private void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Menu -> Artikel Opmaachen
+            if (folderBrowser.ShowDialog() == DialogResult.OK)
+            {
+                if (Directory.Exists(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources"))
+                {
+                    try
+                    {
+                        Directory.Delete(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources", true);
+                    }
+                    catch (Exception ea)
+                    {
+                        Debug.WriteLine("{0} Exception caught.", ea);
+                    }
+                }
+                Directory.CreateDirectory(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources");
+                string[] files = Directory.GetFiles(folderBrowser.SelectedPath, "*.words");
+                foreach (var file in files)
+                {
+                    string tmpfilename = Path.GetFileNameWithoutExtension(file);
+                    DataHandler dt = new DataHandler(tmpfilename, folderBrowser.SelectedPath+"\\");
+
+                    if (!(File.Exists(folderBrowser.SelectedPath + dt.QuickSelectFile)))
+                    {
+                        File.CreateText(folderBrowser.SelectedPath + dt.QuickSelectFile).Dispose();
+                    } else
+                    {
+                        string tmppath = folderBrowser.SelectedPath + dt.QuickSelectFile;
+                        dt.LoadQuickSelect(File.ReadLines(tmppath));
+                    }
+                    string tmpstring = null;
+
+                    Task<AutoComplete> task = Task.Run(async () => await GetWordAsync(tmpstring));
+                    task.Wait();
+                    AutoComplete acword = task.Result;
+
+                    dt.AddWordToList(acword);
+                    dt.SaveToFile(dt);
+                }
+            }
+        }
     }
 }

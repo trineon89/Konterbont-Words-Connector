@@ -46,7 +46,7 @@ namespace KonterbontLODConnector
             QSindex = 0;
             Filename = _filename;
             Filepath = _filepath;
-            QuickSelectFile = null;
+            QuickSelectFile = Path.GetFileNameWithoutExtension(_filename) + ".selections"; ;
             QuickSelect = new Dictionary<int, int>();
             WordList = new List<AutoComplete>();
         }
@@ -70,6 +70,16 @@ namespace KonterbontLODConnector
             {
                 serializer.Serialize(writer, dt);
             }
+
+            File.WriteAllLines(Filepath + QuickSelectFile, QuickSelect.Select(kv => String.Join("	", kv.Key, kv.Value)));
+        }
+
+        /// <summary>
+        /// QuickSelect Datei Lueden an als Lëscht oofspäicheren
+        /// </summary>
+        public void LoadQuickSelect(IEnumerable<string> filepaths)
+        {
+            QuickSelect = filepaths.Select(sline => sline.Split('	')).ToDictionary(split => Convert.ToInt32(split[0]), split => Convert.ToInt32(split[1]));
         }
     }
 
