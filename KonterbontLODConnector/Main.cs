@@ -349,7 +349,10 @@ namespace KonterbontLODConnector
             Task<AutoComplete> taskPT = Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
             taskPT.Wait();
             acwuert = taskPT.Result;
-            
+
+            DataHandler dt = new DataHandler("test.qs", "K:\\Artikelen\\");
+            dt.AddWordToList(acwuert);
+            dt.SaveToFile(dt);$
 
             /*
             GetMeanings(TheResults.Selection);
