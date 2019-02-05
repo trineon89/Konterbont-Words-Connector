@@ -125,7 +125,11 @@ namespace KonterbontLODConnector
 
                     if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']") != null) //has base pluriel
                     {
-                        Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']").InnerText;
+                        if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']") != null) //Failsafe pluriel
+                        {
+                            Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']").InnerText;
+                        }
+                        else Pluriel = null;
                     } else Pluriel = null; // no base pluriel
                     wuert.WuertLuS = Pluriel;
 
@@ -336,7 +340,7 @@ namespace KonterbontLODConnector
             return null;
         }
 
-        private void BtnFetch_ClickAsync(object sender, EventArgs e)
+        private async void BtnFetch_ClickAsync(object sender, EventArgs e)
         {
             Task<string> task = Task.Run(async () => await FetchXMLasync(edtWord.Text));
             task.Wait();
@@ -344,21 +348,12 @@ namespace KonterbontLODConnector
 
             AutoComplete acwuert = ParseXMLWords(fetchedXml);
 
-            Task<AutoComplete> taskLU = Task.Run(async () => await FetchWordsAsync(acwuert, "LU"));
-            taskLU.Wait();
-            acwuert = taskLU.Result;
-            Task<AutoComplete> taskDE = Task.Run(async () => await FetchWordsAsync(acwuert, "DE"));
-            taskDE.Wait();
-            acwuert = taskDE.Result;
-            Task<AutoComplete> taskFR = Task.Run(async () => await FetchWordsAsync(acwuert, "FR"));
-            taskFR.Wait();
-            acwuert = taskFR.Result;
-            Task<AutoComplete> taskEN = Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
-            taskEN.Wait();
-            acwuert = taskEN.Result;
-            Task<AutoComplete> taskPT = Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
-            taskPT.Wait();
-            acwuert = taskPT.Result;
+            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "LU"));
+            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "DE"));
+            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "FR"));
+            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
+            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
+
             /*
             DataHandler dt = new DataHandler("test.qs", "K:\\Artikelen\\");
             dt.AddWordToList(acwuert);
@@ -481,17 +476,34 @@ namespace KonterbontLODConnector
             string fetchedXml = await Task.Run(async () => await FetchXMLasync(searchstring));
 
             AutoComplete acwuert = ParseXMLWords(fetchedXml);
-
-            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "LU"));
-            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "DE"));
-            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "FR"));
-            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
-            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
-
+            /*
+            AutoComplete acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "LU"));
+            AutoComplete acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "DE"));
+            AutoComplete acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "FR"));
+            AutoComplete acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
+            AutoComplete acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
+            */
+            
+            Task<AutoComplete> taskLU = Task.Run(async () => await FetchWordsAsync(acwuert, "LU"));
+            taskLU.Wait();
+            acwuert = taskLU.Result;
+            Task<AutoComplete> taskDE = Task.Run(async () => await FetchWordsAsync(acwuert, "DE"));
+            taskDE.Wait();
+            acwuert = taskDE.Result;
+            Task<AutoComplete> taskFR = Task.Run(async () => await FetchWordsAsync(acwuert, "FR"));
+            taskFR.Wait();
+            acwuert = taskFR.Result;
+            Task<AutoComplete> taskEN = Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
+            taskEN.Wait();
+            acwuert = taskEN.Result;
+            Task<AutoComplete> taskPT = Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
+            taskPT.Wait();
+            acwuert = taskPT.Result;
+            
             return acwuert;
         }
 
-        private void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Menu -> Artikel Opmaachen
             if (folderBrowser.ShowDialog() == DialogResult.OK)
@@ -511,7 +523,7 @@ namespace KonterbontLODConnector
                 string[] files = Directory.GetFiles(folderBrowser.SelectedPath, "*.words");
                 foreach (var file in files)
                 {
-                    string tmpfilename = Path.GetFileNameWithoutExtension(file);
+                    string tmpfilename = Path.GetFileNameWithoutExtension(file)+".wordslist";
                     DataHandler dt = new DataHandler(tmpfilename, folderBrowser.SelectedPath+"\\");
 
                     if (!(File.Exists(folderBrowser.SelectedPath + dt.QuickSelectFile)))
@@ -522,13 +534,14 @@ namespace KonterbontLODConnector
                         string tmppath = folderBrowser.SelectedPath + dt.QuickSelectFile;
                         dt.LoadQuickSelect(File.ReadLines(tmppath));
                     }
-                    string tmpstring = null;
-
-                    Task<AutoComplete> task = Task.Run(async () => await GetWordAsync(tmpstring));
-                    task.Wait();
-                    AutoComplete acword = task.Result;
-
-                    dt.AddWordToList(acword);
+                    string line = null;
+                    StreamReader reader = File.OpenText(file);
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        AutoComplete acword = await Task.Run(async () => await GetWordAsync(line));
+                        dt.AddWordToList(acword);
+                    }
+                    reader.Close();
                     dt.SaveToFile(dt);
                 }
             }

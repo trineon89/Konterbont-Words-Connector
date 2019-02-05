@@ -36,7 +36,7 @@ namespace KonterbontLODConnector
             QSindex = 0;
             Filename = _filename;
             Filepath = null;
-            QuickSelectFile = null;
+            QuickSelectFile = Path.GetFileNameWithoutExtension(_filename) + ".selections"; ;
             QuickSelect = new Dictionary<int, int>();
             WordList = new List<AutoComplete>();
         }
