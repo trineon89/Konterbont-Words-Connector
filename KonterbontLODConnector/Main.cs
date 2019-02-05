@@ -62,8 +62,9 @@ namespace KonterbontLODConnector
             return await Task.Run(() => FetchXML(Word));
         }
 
-        private async Task<Wuert> FetchWordsAsync(Wuert wuert, string Lang)
+        private async Task<AutoComplete> FetchWordsAsync(AutoComplete acwuert, string Lang)
         {
+            Wuert wuert = acwuert.Wierder[acwuert.Selection - 1];
             var httpClient = new HttpClient();
             string LangURL;
 
@@ -109,7 +110,7 @@ namespace KonterbontLODConnector
                     string MeaningTextAdd = "";
                     string Pluriel;
 
-                    HtmlNode[] MeaningArray;
+                    //HtmlNode[] MeaningArray;
                     HtmlNode[] LUsArray = htmlDocument.DocumentNode.SelectNodes("//span[@class='mentioun_adress']").ToArray();
 
                     if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']") != null) //has base pluriel
@@ -240,8 +241,9 @@ namespace KonterbontLODConnector
                     }
                 }
             }
-
-                return wuert;
+            acwuert.Wierder[acwuert.Selection - 1] = wuert;
+            return acwuert;
+            //return wuert;
         }
 
         private async Task<string> FetchWordsTT(string XML, string Lang)
@@ -330,25 +332,25 @@ namespace KonterbontLODConnector
             task.Wait();
             string fetchedXml = task.Result;
 
-            Wuert wuert = ParseXMLWords(fetchedXml);
+            AutoComplete acwuert = ParseXMLWords(fetchedXml);
 
-            Task<Wuert> taskLU = Task.Run(async () => await FetchWordsAsync(wuert, "LU"));
+            Task<AutoComplete> taskLU = Task.Run(async () => await FetchWordsAsync(acwuert, "LU"));
             taskLU.Wait();
-            wuert = taskLU.Result;
-
-            Task<Wuert> taskDE = Task.Run(async () => await FetchWordsAsync(wuert, "DE"));
+            acwuert = taskLU.Result;
+            Task<AutoComplete> taskDE = Task.Run(async () => await FetchWordsAsync(acwuert, "DE"));
             taskDE.Wait();
-            wuert = taskDE.Result;
-            Task<Wuert> taskFR = Task.Run(async () => await FetchWordsAsync(wuert, "FR"));
+            acwuert = taskDE.Result;
+            Task<AutoComplete> taskFR = Task.Run(async () => await FetchWordsAsync(acwuert, "FR"));
             taskFR.Wait();
-            wuert = taskFR.Result;
-            Task<Wuert> taskEN = Task.Run(async () => await FetchWordsAsync(wuert, "EN"));
+            acwuert = taskFR.Result;
+            Task<AutoComplete> taskEN = Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
             taskEN.Wait();
-            wuert = taskEN.Result;
-            Task<Wuert> taskPT = Task.Run(async () => await FetchWordsAsync(wuert, "PT"));
+            acwuert = taskEN.Result;
+            Task<AutoComplete> taskPT = Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
             taskPT.Wait();
-            wuert = taskPT.Result;
+            acwuert = taskPT.Result;
             
+
             /*
             GetMeanings(TheResults.Selection);
             */
@@ -366,7 +368,7 @@ namespace KonterbontLODConnector
         }
         
 
-        private Wuert ParseXMLWords(string XML)
+        private AutoComplete ParseXMLWords(string XML)
         {
             AutoComplete ac = new AutoComplete();
 
@@ -433,8 +435,8 @@ namespace KonterbontLODConnector
            } else {
                 ac.Selection = 1;
            }
-           
-            return ac.Wierder[ac.Selection - 1];
+            return ac;
+            //return ac.Wierder[ac.Selection - 1];
         }
        
 

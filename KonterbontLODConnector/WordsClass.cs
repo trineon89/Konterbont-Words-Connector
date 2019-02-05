@@ -9,6 +9,7 @@ namespace KonterbontLODConnector
 
     public class AutoComplete
     {
+        public int internalId;
         public List<Wuert> Wierder;
         public int Selection;
 
@@ -20,6 +21,7 @@ namespace KonterbontLODConnector
 
     }
 
+    [Serializable]
     public class Wuert
     {
         public string WuertLu;
