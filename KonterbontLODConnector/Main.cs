@@ -60,10 +60,10 @@ namespace KonterbontLODConnector
                               { HttpRequestHeader.Referer.ToString(), "https://www.lod.lu/" }
                            }
             };
-            httpClient.Timeout = TimeSpan.FromSeconds(30);
             var _response = await httpClient.SendAsync(httpContent);
             _response.EnsureSuccessStatusCode();
             string responseBody = await _response.Content.ReadAsStringAsync();
+            httpClient.Dispose();
             return responseBody;
         }
 
@@ -97,10 +97,10 @@ namespace KonterbontLODConnector
                            }
             };
 
-            httpClient.Timeout = TimeSpan.FromSeconds(30);
             var _response = await httpClient.SendAsync(httpContent);
             _response.EnsureSuccessStatusCode();
             string responseBody = await _response.Content.ReadAsStringAsync();
+            httpClient.Dispose();
 
             HtmlAgilityPack.HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
             htmlDocument.LoadHtml(responseBody);
@@ -284,11 +284,10 @@ namespace KonterbontLODConnector
                            }
             };
 
-            httpClient.Timeout = TimeSpan.FromSeconds(30);
             var _response = await httpClient.SendAsync(httpContent);
             _response.EnsureSuccessStatusCode();
             string responseBody = await _response.Content.ReadAsStringAsync();
-
+            httpClient.Dispose();
             HtmlAgilityPack.HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
             htmlDocument.LoadHtml(responseBody);
 
