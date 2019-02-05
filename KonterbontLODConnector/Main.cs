@@ -189,17 +189,12 @@ namespace KonterbontLODConnector
                     if (Lang != "LU")
                     {
                         var ModMean = Meaning;
-                        HtmlNode node;
-                        for (var i = 0; i < Meaning.ChildNodes.Count(); i++)
+                        int i = 0;
+                        while (ModMean.InnerHtml.Contains("intro_et"))
                         {
-                            node = Meaning.ChildNodes[i];
-                            if (node.InnerHtml != "<div class=\"empty_spacer\"></div>")
-                            {
-                                ModMean.RemoveChild(node);
-                            }
-
+                            ModMean.ChildNodes[i].Remove();
                         }
-                        
+                    
                         var RemoveNode = ModMean.SelectSingleNode("./div[@class='bspsblock']");
                         Meaning.RemoveChild(RemoveNode);
                         Console.Write(Meaning.InnerText);
