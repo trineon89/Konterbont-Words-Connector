@@ -184,17 +184,46 @@ namespace KonterbontLODConnector
                     }
                     if (Lang != "LU")
                     {
+                        var ModMean = Meaning;
+                        HtmlNode node;
+                        for (var i = 0; i < Meaning.ChildNodes.Count(); i++)
+                        {
+                            node = Meaning.ChildNodes[i];
+                            if (node.InnerHtml != "<div class=\"empty_spacer\"></div>")
+                            {
+                                ModMean.RemoveChild(node);
+                            }
+
+                        }
+                        
+                        var RemoveNode = ModMean.SelectSingleNode("./div[@class='bspsblock']");
+                        Meaning.RemoveChild(RemoveNode);
+                        Console.Write(Meaning.InnerText);
+
+
+                        var tmpCount = Meaning.SelectNodes(".//span[@class='et']").Count(); 
                         if (Meaning.SelectSingleNode(".//span[@class='et']") != null)
                         {
-                            MeaningText = Meaning.SelectSingleNode(".//span[@class='et']").InnerText;
+                                MeaningText = Meaning.SelectSingleNode(".//span[@class='et']").InnerText;   
                         }
-                        if (Meaning.SelectSingleNode(".//span[@class='text_gen']") != null)
+
+                        var count = 0;
+
+                        if (Meaning.SelectNodes(".//span[@class='text_gen']") != null)
                         {
-                            if (Meaning.SelectSingleNode(".//span[@class='text_gen']").InnerText.Contains("["))
+                            count = Meaning.SelectNodes(".//span[@class='text_gen']").Count();
+                        }
+                        
+
+                        if (Meaning.SelectSingleNode("./span[@class='text_gen'][" + count.ToString() + "]") != null)
+                        {
+                            var text = Meaning.SelectSingleNode("./span[@class='text_gen']["+ count.ToString() + "]").InnerText;
+
+                            if (Meaning.SelectSingleNode("./span[@class='text_gen'][" + count.ToString() + "]").InnerText.Contains("["))
                             {
-                                var tmp = Meaning.SelectSingleNode(".//span[@class='text_gen']").InnerText;
-                                MeaningText = MeaningText + tmp;                             }
-                            //MeaningText;
+                                var tmp = Meaning.SelectSingleNode("./span[@class='text_gen'][" + count.ToString() + "]").InnerText;
+                                MeaningText = MeaningText + tmp;
+                            }
                         }
                     }
 
@@ -202,7 +231,7 @@ namespace KonterbontLODConnector
                     {
                         case "LU":
                             meaning.MP3 = wuert.MP3;
-                            HtmlNodeCollection htmlExamples = htmlDocument.DocumentNode.SelectNodes("//span[@class='beispill']");
+                            HtmlNodeCollection htmlExamples = htmlDocument.DocumentNode.SelectNodes(".//span[@class='beispill']");
                             foreach (HtmlNode htmlexample in htmlExamples)
                             {
                                 Example example = new Example(htmlexample.InnerText);
@@ -240,7 +269,7 @@ namespace KonterbontLODConnector
                     if (Lang == "LU") { wuert.Meanings.Add(meaning); }
                     _i++;
                 }
-                if (htmlNodes.Count() > 1 && Lang =="PT")
+                if (htmlNodes.Count() > 1 && Lang =="DE")
                 {
                     if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
                     {
@@ -332,6 +361,7 @@ namespace KonterbontLODConnector
                     MeaningsTT = MeaningsTT + " " + MeaningNr + " " + MeaningText + "" + MeaningTextAdd + Environment.NewLine;
                 }
                 return MeaningsTT;
+                ;
             }
             return null;
         }
