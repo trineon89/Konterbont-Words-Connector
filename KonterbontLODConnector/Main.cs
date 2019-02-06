@@ -188,18 +188,19 @@ namespace KonterbontLODConnector
                     }
                     if (Lang != "LU")
                     {
-                        var ModMean = Meaning;
+                       // var ModMean = Meaning;
                         int i = 0;
-                        while (ModMean.InnerHtml.Contains("intro_et"))
+                        while (Meaning.InnerHtml.Contains("intro_et"))
                         {
-                            ModMean.ChildNodes[i].Remove();
+                            Meaning.ChildNodes[i].Remove();
                         }
                     
-                        var RemoveNode = ModMean.SelectSingleNode("./div[@class='bspsblock']");
+                        var RemoveNode = Meaning.SelectSingleNode("./div[@class='bspsblock']");
                         Meaning.RemoveChild(RemoveNode);
                         Console.Write(Meaning.InnerText);
 
-
+                        MeaningText = Meaning.InnerText;
+                        /*
                         var tmpCount = Meaning.SelectNodes(".//span[@class='et']").Count(); 
                         if (Meaning.SelectSingleNode(".//span[@class='et']") != null)
                         {
@@ -224,6 +225,7 @@ namespace KonterbontLODConnector
                                 MeaningText = MeaningText + tmp;
                             }
                         }
+                        */
                     }
 
                     switch (Lang)
