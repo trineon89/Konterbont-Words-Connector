@@ -28,30 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.rtbResult = new System.Windows.Forms.RichTextBox();
             this.btnFetch = new System.Windows.Forms.Button();
-            this.rtbTest = new System.Windows.Forms.RichTextBox();
             this.edtWord = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.artikelOpmaachenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.lbWords = new System.Windows.Forms.ListBox();
+            this.lbSelectWord = new System.Windows.Forms.ListBox();
+            this.lbSelectMeaning = new System.Windows.Forms.ListBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // rtbResult
-            // 
-            this.rtbResult.BackColor = System.Drawing.SystemColors.Window;
-            this.rtbResult.Location = new System.Drawing.Point(30, 68);
-            this.rtbResult.Name = "rtbResult";
-            this.rtbResult.Size = new System.Drawing.Size(231, 238);
-            this.rtbResult.TabIndex = 1;
-            this.rtbResult.Text = "";
-            // 
             // btnFetch
             // 
-            this.btnFetch.Location = new System.Drawing.Point(735, 29);
+            this.btnFetch.Location = new System.Drawing.Point(639, 27);
             this.btnFetch.Name = "btnFetch";
             this.btnFetch.Size = new System.Drawing.Size(75, 23);
             this.btnFetch.TabIndex = 2;
@@ -59,19 +50,11 @@
             this.btnFetch.UseVisualStyleBackColor = true;
             this.btnFetch.Click += new System.EventHandler(this.BtnFetch_ClickAsync);
             // 
-            // rtbTest
-            // 
-            this.rtbTest.Location = new System.Drawing.Point(289, 68);
-            this.rtbTest.Name = "rtbTest";
-            this.rtbTest.Size = new System.Drawing.Size(182, 178);
-            this.rtbTest.TabIndex = 5;
-            this.rtbTest.Text = "";
-            // 
             // edtWord
             // 
-            this.edtWord.Location = new System.Drawing.Point(30, 31);
+            this.edtWord.Location = new System.Drawing.Point(12, 30);
             this.edtWord.Name = "edtWord";
-            this.edtWord.Size = new System.Drawing.Size(684, 20);
+            this.edtWord.Size = new System.Drawing.Size(621, 20);
             this.edtWord.TabIndex = 6;
             this.edtWord.Text = "beier";
             // 
@@ -81,7 +64,7 @@
             this.dateiToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(897, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(726, 24);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -107,25 +90,41 @@
             this.artikelOpmaachenToolStripMenuItem.Text = "Artikel opmaachen...";
             this.artikelOpmaachenToolStripMenuItem.Click += new System.EventHandler(this.ArtikelOpmaachenToolStripMenuItem_Click);
             // 
-            // richTextBox1
+            // lbWords
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(491, 68);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(182, 178);
-            this.richTextBox1.TabIndex = 8;
-            this.richTextBox1.Text = "";
+            this.lbWords.FormattingEnabled = true;
+            this.lbWords.Location = new System.Drawing.Point(12, 57);
+            this.lbWords.Name = "lbWords";
+            this.lbWords.Size = new System.Drawing.Size(225, 459);
+            this.lbWords.TabIndex = 8;
+            // 
+            // lbSelectWord
+            // 
+            this.lbSelectWord.FormattingEnabled = true;
+            this.lbSelectWord.Location = new System.Drawing.Point(243, 57);
+            this.lbSelectWord.Name = "lbSelectWord";
+            this.lbSelectWord.Size = new System.Drawing.Size(234, 199);
+            this.lbSelectWord.TabIndex = 9;
+            // 
+            // lbSelectMeaning
+            // 
+            this.lbSelectMeaning.FormattingEnabled = true;
+            this.lbSelectMeaning.Location = new System.Drawing.Point(490, 56);
+            this.lbSelectMeaning.Name = "lbSelectMeaning";
+            this.lbSelectMeaning.Size = new System.Drawing.Size(224, 199);
+            this.lbSelectMeaning.TabIndex = 10;
             // 
             // frmMain
             // 
             this.AcceptButton = this.btnFetch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(897, 524);
-            this.Controls.Add(this.richTextBox1);
+            this.ClientSize = new System.Drawing.Size(726, 524);
+            this.Controls.Add(this.lbSelectMeaning);
+            this.Controls.Add(this.lbSelectWord);
+            this.Controls.Add(this.lbWords);
             this.Controls.Add(this.edtWord);
-            this.Controls.Add(this.rtbTest);
             this.Controls.Add(this.btnFetch);
-            this.Controls.Add(this.rtbResult);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmMain";
@@ -138,15 +137,15 @@
         }
 
         #endregion
-        private System.Windows.Forms.RichTextBox rtbResult;
         private System.Windows.Forms.Button btnFetch;
-        private System.Windows.Forms.RichTextBox rtbTest;
         private System.Windows.Forms.TextBox edtWord;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem neiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem artikelOpmaachenToolStripMenuItem;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ListBox lbWords;
+        private System.Windows.Forms.ListBox lbSelectWord;
+        private System.Windows.Forms.ListBox lbSelectMeaning;
     }
 }
 
