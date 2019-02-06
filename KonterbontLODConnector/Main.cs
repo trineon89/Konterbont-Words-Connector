@@ -116,6 +116,8 @@ namespace KonterbontLODConnector
                         if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']") != null) //Failsafe pluriel
                         {
                             Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']").InnerText;
+                            Pluriel = Pluriel.Replace("&lt;", "<");
+                            Pluriel = Pluriel.Replace("&gt;", ">");
                         }
                         else
                             Pluriel = null;
@@ -197,6 +199,7 @@ namespace KonterbontLODConnector
                         RemoveNode = Meaning.SelectSingleNode("./div[@class='syn_block']");
                         if (RemoveNode != null)
                             Meaning.RemoveChild(RemoveNode);
+
                         Console.Write(Meaning.InnerText);
 
                         MeaningText = Meaning.InnerText;
@@ -639,21 +642,81 @@ namespace KonterbontLODConnector
 
         private void lbSelectMeaning_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var SelWord = globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex];
-            var SelMeaning = globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex];
             rtbDetails.Clear();
-            rtbDetails.AppendText("LU: " + SelMeaning.LU);
-            rtbDetails.AppendText(Environment.NewLine + "WordForm: " + SelWord.WuertForm.WuertForm);
-            rtbDetails.AppendText(Environment.NewLine + "LUs: " + SelMeaning.LUs);
-            rtbDetails.AppendText(Environment.NewLine + "DE: " + SelMeaning.DE);
-            rtbDetails.AppendText(Environment.NewLine + "FR: " + SelMeaning.FR);
-            rtbDetails.AppendText(Environment.NewLine + "EN: " + SelMeaning.EN);
-            rtbDetails.AppendText(Environment.NewLine + "PT: " + SelMeaning.PT);
-            rtbDetails.AppendText(Environment.NewLine + "MP3: " + SelMeaning.MP3);
+            Wuert SelWord = globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex];
+            Meaning SelMeaning = globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex];
+
+            Font Bold = new Font(rtbDetails.SelectionFont, FontStyle.Bold);
+            Font Normal = new Font(rtbDetails.SelectionFont, FontStyle.Regular);
+            Font Italic = new Font(rtbDetails.SelectionFont, FontStyle.Italic);
+
+            rtbDetails.SelectionFont = Bold;
+            rtbDetails.AppendText("LU: ");
+            rtbDetails.SelectionFont = Normal;
+            rtbDetails.AppendText(SelMeaning.LU);
+
+            rtbDetails.SelectionFont = Bold;
+            rtbDetails.AppendText(Environment.NewLine + "Wuertform: ");
+            rtbDetails.SelectionFont = Normal;
+            rtbDetails.AppendText(SelWord.WuertForm.WuertForm);
+
+            rtbDetails.SelectionFont = Bold;
+            if (SelWord.WuertForm.WuertForm == "Verb")
+            {
+                rtbDetails.AppendText(Environment.NewLine + "participe passé: ");
+            }
+            else
+            {
+                rtbDetails.AppendText(Environment.NewLine + "Pluriel: ");
+            }
+
+            if (SelMeaning.LUs != null)
+            {
+                rtbDetails.SelectionFont = Normal;
+                string tmpPluriel = SelMeaning.LUs;
+                tmpPluriel = tmpPluriel.Replace("&lt;", "<");
+                tmpPluriel = tmpPluriel.Replace("&gt;", ">");
+                rtbDetails.AppendText(tmpPluriel);
+            }
+            else
+            {
+                rtbDetails.SelectionFont = Italic;
+                rtbDetails.AppendText("(Kee Pluriel)");
+            }
+
+            rtbDetails.SelectionFont = Bold;
+            rtbDetails.AppendText(Environment.NewLine + "DE: ");
+            rtbDetails.SelectionFont = Normal;
+            rtbDetails.AppendText(SelMeaning.DE);
+
+            rtbDetails.SelectionFont = Bold;
+            rtbDetails.AppendText(Environment.NewLine + "FR: ");
+            rtbDetails.SelectionFont = Normal;
+            rtbDetails.AppendText(SelMeaning.FR);
+
+            rtbDetails.SelectionFont = Bold;
+            rtbDetails.AppendText(Environment.NewLine + "EN: ");
+            rtbDetails.SelectionFont = Normal;
+            rtbDetails.AppendText(SelMeaning.EN);
+
+            rtbDetails.SelectionFont = Bold;
+            rtbDetails.AppendText(Environment.NewLine + "PT: ");
+            rtbDetails.SelectionFont = Normal;
+            rtbDetails.AppendText(SelMeaning.PT);
+
+            rtbDetails.SelectionFont = Bold;
+            rtbDetails.AppendText(Environment.NewLine + "MP3: ");
+            rtbDetails.SelectionFont = Normal;
+            rtbDetails.AppendText(SelMeaning.MP3);
+
+
             var Ex = 1;
             foreach (Example SelExample in SelMeaning.Examples)
             {
-                rtbDetails.AppendText(Environment.NewLine + "Beispill " + Ex.ToString() + ": " + SelExample.ExampleText);
+                rtbDetails.SelectionFont = Bold;
+                rtbDetails.AppendText(Environment.NewLine + "Beispill " + Ex.ToString() + ": ");
+                rtbDetails.SelectionFont = Normal;
+                rtbDetails.AppendText(SelExample.ExampleText);
                 Ex++;
             }
 

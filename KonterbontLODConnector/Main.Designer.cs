@@ -126,6 +126,7 @@
             this.rtbDetails.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.rtbDetails.Location = new System.Drawing.Point(244, 263);
             this.rtbDetails.Name = "rtbDetails";
+            this.rtbDetails.ReadOnly = true;
             this.rtbDetails.Size = new System.Drawing.Size(470, 253);
             this.rtbDetails.TabIndex = 11;
             this.rtbDetails.Text = "";
