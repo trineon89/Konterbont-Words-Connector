@@ -74,6 +74,41 @@ namespace KonterbontLODConnector
             File.WriteAllLines(Filepath + QuickSelectFile, QuickSelect.Select(kv => String.Join("	", kv.Key, kv.Value)));
         }
 
+        public void OutputPopup(Wuert wuert, string occurence, string rgbvalue)
+        {
+            string _tmpfilecontent = Properties.Resources.popup;
+            _tmpfilecontent = _tmpfilecontent.Replace("leColorCSScolor", rgbvalue);
+            _tmpfilecontent = _tmpfilecontent.Replace("aarbecht1.mp3", wuert.MP3);
+            _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORD_", wuert.Meanings[wuert.Selection-1].LU);
+            _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORDPLURAL_", wuert.Meanings[wuert.Selection - 1].LUs);
+            _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORDFORM_", wuert.WuertForm.WuertForm);
+            _tmpfilecontent = _tmpfilecontent.Replace("_FRWORD_", wuert.Meanings[wuert.Selection - 1].FR);
+            _tmpfilecontent = _tmpfilecontent.Replace("_DEWORD_", wuert.Meanings[wuert.Selection - 1].DE);
+            _tmpfilecontent = _tmpfilecontent.Replace("_ENWORD_", wuert.Meanings[wuert.Selection - 1].EN);
+            _tmpfilecontent = _tmpfilecontent.Replace("_PTWORD_", wuert.Meanings[wuert.Selection - 1].PT);
+
+            File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\" + occurence + ".html", _tmpfilecontent);
+        }
+
+        public void PrepareOutputFolder()
+        {
+            if (Directory.Exists(Filepath + "WebResources\\popupbase-web-resources"))
+            {
+                try
+                {
+                    Directory.Delete(Filepath + "WebResources\\popupbase-web-resources", true);
+                }
+                catch (Exception ea)
+                {
+                    Console.WriteLine("{0} Exception caught.", ea);
+                }
+            }
+            Directory.CreateDirectory(Filepath + "WebResources\\popupbase-web-resources");
+            File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro_BookItalic.ttf", Properties.Resources.FreightSansCmpPro_BookItalic);
+            File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro_Med.ttf", Properties.Resources.FreightSansCmpPro_Med);
+            File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro_Semi.ttf", Properties.Resources.FreightSansCmpPro_Semi);
+        }
+
         /// <summary>
         /// QuickSelect Datei Lueden an als Lëscht oofspäicheren
         /// </summary>

@@ -90,5 +90,56 @@ namespace KonterbontLODConnector.Properties {
                 return ResourceManager.GetString("_01_prepare_doc", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] FreightSansCmpPro_BookItalic {
+            get {
+                object obj = ResourceManager.GetObject("FreightSansCmpPro_BookItalic", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] FreightSansCmpPro_Med {
+            get {
+                object obj = ResourceManager.GetObject("FreightSansCmpPro_Med", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] FreightSansCmpPro_Semi {
+            get {
+                object obj = ResourceManager.GetObject("FreightSansCmpPro_Semi", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
+        ///&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+        ///	&lt;head&gt;
+        ///		&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0,user-scalable=no&quot;&gt;
+        ///		&lt;title&gt;popup&lt;/title&gt;
+        ///		&lt;style&gt;
+        ///			div { height:0; }
+        ///			body { margin:0; height:100%; }
+        ///			html { height:100%; }
+        ///			.highlight, .marker-color { color: rgb(leColorCSScolor) !important; color:yellow; } 
+        ///			.i { font-style:italic; }
+        ///			.b { font-weight:bold; }
+        ///			p.Tab_Wuert {  color: rgb(leColorCSScolor) !important; }         /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string popup {
+            get {
+                return ResourceManager.GetString("popup", resourceCulture);
+            }
+        }
     }
 }

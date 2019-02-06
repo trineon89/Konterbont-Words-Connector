@@ -573,6 +573,7 @@ namespace KonterbontLODConnector
                         Line3 = "Calculating Time Remaining..."
                     };
                     progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
+                    dt.PrepareOutputFolder();
                     foreach (string line in lines)
                     {
                         progressDialog.Line1 = "Siche nom Wuert: " + line;
@@ -583,6 +584,7 @@ namespace KonterbontLODConnector
                         progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
                         progressDialog.Value = _currprog;
                         c++;
+                        dt.OutputPopup(dt.WordList[c-1].Wierder[dt.WordList[c-1].Selection -1], line, "240,120,84");
                     }
                     progressDialog.CloseDialog();
 

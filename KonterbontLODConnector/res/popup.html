@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+		<title>popup</title>
+		<style>
+			div { height:0; }
+			body { margin:0; height:100%; }
+			html { height:100%; }
+			.highlight, .marker-color { color: rgb(leColorCSScolor) !important; color:yellow; } 
+			.i { font-style:italic; }
+			.b { font-weight:bold; }
+			p.Tab_Wuert {  color: rgb(leColorCSScolor) !important; } 
+			div.divTable { font-family: "Arial Black", Gadget, sans-serif; background-color: #000; width: 100vw; height: 100vh; text-align: center; border-collapse: collapse; }
+			div.divTableBody { height:100%; width:100%; background-color:rgb(leColorCSScolor) !important;background-color:red;padding:2px; }
+			div.innerTableBody {background-color:black; height:100%; }
+			div.divTableCell { color: white;height:auto; }
+			
+			.flex-container { display:flex; height:100%; width:100%; }
+			.flex-child { border: 2px solid rgb(240,10,20);background-color:black;box-sizing:border-box; height:100%; width:100%;justify-content:center;display:flex; flex-direction:column; }
+			#audiocontainer { position:absolute;background-color:white;right:10px;top:10px;width:35px;height:35px;border-radius:23px; }
+			.flex-innercontainer { display:flex;height:auto;padding-top:10px; }
+			.flex-innerchild { height:auto;color:white; }
+			.flex-1 {flex:1;}
+			.flex-2 {flex:4;}
+			.flex-3 {flex:8;}
+			.top {align-self: flex-start;}
+			@font-face { font-family: 'FreightSansCmpPro Med'; src: url('FreightSansCmpPro-Med.ttf')  format('truetype'); }
+			@font-face { font-family: 'FreightSansCmpPro Semi'; src: url('FreightSansCmpPro-Semi.ttf')  format('truetype'); }
+			@font-face { font-family: 'FreightSansCmpPro Book Italic'; src: url('FreightSansCmpPro-BookItalic.ttf')  format('truetype'); }
+		</style>
+	</head>
+	<body>
+	
+	<div class="flex-container">
+		<div class="flex-child">
+			<div class="flex-innercontainer">
+				<div class="flex-innerchild flex-1">&nbsp;</div>
+				<div class="flex-innerchild flex-3 marker-color b"">_LUXWORD_</div>
+				<div class="flex-innerchild flex-1">&nbsp;</div>
+			</div>
+			<div class="flex-innercontainer">
+				<div class="flex-innerchild flex-1">&nbsp;</div>
+				<div class="flex-innerchild flex-3"><span class="text-white i b" id="_PLURALBEGIN_">_PLURALBEGIN_</span><span class="marker-color i b">_LUXWORDPLURAL_</span><span class="text-white i b">_PLURALEND_</span></div>
+				<div class="flex-innerchild flex-1">&nbsp;</div>
+			</div>
+			<div class="flex-innercontainer">
+				<div class="flex-innerchild flex-1">&nbsp;</div>
+				<div class="flex-innerchild flex-3">_LUXWORDFORM_</div>
+				<div class="flex-innerchild flex-1">&nbsp;</div>
+			</div>
+			<div class="flex-innercontainer">&nbsp;</div>
+			<div class="flex-innercontainer">
+				<div class="flex-innerchild flex-1">&nbsp;</div>
+				<div class="flex-innerchild flex-2">DE</div>
+				<div class="flex-innerchild flex-2">FR</div>
+				<div class="flex-innerchild flex-2">EN</div>
+				<div class="flex-innerchild flex-2">PT</div>
+				<div class="flex-innerchild flex-1">&nbsp;</div>
+			</div>
+			<div class="flex-innercontainer">
+				<div class="flex-innerchild flex-1">&nbsp;</div>
+				<div class="flex-innerchild flex-2">_DEWORD_</div>
+				<div class="flex-innerchild flex-2">_FRWORD_</div>
+				<div class="flex-innerchild flex-2">_ENWORD_</div>
+				<div class="flex-innerchild flex-2">_PTWORD_</div>
+				<div class="flex-innerchild flex-1">&nbsp;</div>
+			</div>
+		</div>
+	</div>
+	<div id="audiocontainer">
+		<svg id="soundimage" version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 425.2 425.2" xml:space="preserve">
+			<g>
+				<path d="M243.46,213.08c0,45.08,0,90.16,0,135.24c0,16.38-13.34,29.69-29.72,29.73c-8.1,0.02-15.61-1.63-21.43-7.73
+					c-4.59-4.81-8.86-9.94-13.48-14.73c-19.7-20.48-39.8-40.52-62.39-57.9c-8.53-6.56-17.94-9.89-28.71-9.69
+					c-8.25,0.16-16.5,0.04-24.75,0.03c-16.05-0.01-29.51-13.42-29.52-29.42c-0.01-30.33-0.03-60.66-0.01-90.99
+					c0.01-16.21,13.42-29.57,29.61-29.59c9.08-0.01,18.16-0.06,27.25-0.08c8.88-0.02,16.82-2.82,23.96-8.02
+					c13.02-9.49,25.08-20.13,36.53-31.41c12.75-12.56,25.17-25.47,37.7-38.26c1.33-1.36,2.41-2.97,3.7-4.38
+					c4.59-5.02,10.6-7.02,17.13-7.75c16.8-1.88,30.99,8.8,33.85,25.47c0.24,1.38,0.27,2.82,0.27,4.23
+					C243.46,122.92,243.46,168,243.46,213.08z"/>
+				<path d="M313.45,108.1c5.56-8.31,11.06-16.53,16.57-24.76c83.91,64.21,85.24,193.63,0.02,259.45
+					c-5.51-8.23-11.01-16.45-16.58-24.79c32.22-27.62,49.8-62.34,49.8-104.95C363.26,170.5,345.73,135.84,313.45,108.1z"/>
+				<path d="M279.8,267.64c31.22-29.72,31.91-79.25,0.07-109.2c5.55-8.32,11.11-16.67,16.69-25.04
+					c48.22,39.73,50.13,117.15,0.05,159.37C291.02,284.41,285.45,276.08,279.8,267.64z"/>
+			</g>
+		</svg>
+	</div>
+<audio id="audio" src="audio/aarbecht1.mp3"><source src="audio/aarbecht1.mp3" type="audio/mpeg"></audio>
+<script>
+	function play(){
+	   var audio = document.getElementById("audio");
+	   audio.currentTime=0; audio.load(); audio.play(); }
+</script>
+</body>
+</html>
