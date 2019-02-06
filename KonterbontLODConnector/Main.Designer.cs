@@ -54,7 +54,7 @@
             // 
             this.edtWord.Location = new System.Drawing.Point(12, 30);
             this.edtWord.Name = "edtWord";
-            this.edtWord.Size = new System.Drawing.Size(621, 20);
+            this.edtWord.Size = new System.Drawing.Size(621, 22);
             this.edtWord.TabIndex = 6;
             this.edtWord.Text = "beier";
             // 
@@ -92,11 +92,13 @@
             // 
             // lbWords
             // 
+            this.lbWords.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbWords.FormattingEnabled = true;
             this.lbWords.Location = new System.Drawing.Point(12, 57);
             this.lbWords.Name = "lbWords";
             this.lbWords.Size = new System.Drawing.Size(225, 459);
             this.lbWords.TabIndex = 8;
+            this.lbWords.SelectedIndexChanged += new System.EventHandler(this.lbWords_SelectedIndexChanged);
             // 
             // lbSelectWord
             // 
@@ -126,6 +128,7 @@
             this.Controls.Add(this.edtWord);
             this.Controls.Add(this.btnFetch);
             this.Controls.Add(this.menuStrip1);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "frmMain";
             this.Text = "Konterbont LOD Connector";

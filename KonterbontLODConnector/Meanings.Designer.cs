@@ -72,11 +72,15 @@
             this.ClientSize = new System.Drawing.Size(466, 268);
             this.Controls.Add(this.btnAuswielen);
             this.Controls.Add(this.gbMeanings);
+            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmSelectMeaning";
+            this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Bedeitung auswielen";
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

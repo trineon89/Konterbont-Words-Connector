@@ -22,6 +22,7 @@ namespace KonterbontLODConnector
         public string ArticlePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Artikelen\\";
         public Ookii.Dialogs.WinForms.VistaFolderBrowserDialog folderBrowser;
         private INDesignPlugin iNDesignPlugin;
+        public DataHandler globaldt = null;
 
         public frmMain()
         {
@@ -32,22 +33,6 @@ namespace KonterbontLODConnector
             };
             iNDesignPlugin = new INDesignPlugin();
         }
-
-
-        /* Print Class https://stackoverflow.com/questions/19823726/c-sharp-how-to-output-all-the-items-in-a-classstruct  */
-        private void PrintProperties(Meaning myObj)
-        {
-            foreach (var prop in myObj.GetType().GetProperties())
-            {
-                Console.WriteLine(prop.Name + ": " + prop.GetValue(myObj, null));
-            }
-
-            foreach (var field in myObj.GetType().GetFields())
-            {
-                Console.WriteLine(field.Name + ": " + field.GetValue(myObj));
-            }
-        }
-        /* Print Class End */
 
         private async Task<string> FetchXML(string Word)
         {
@@ -539,6 +524,7 @@ namespace KonterbontLODConnector
 
         private async void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Add Progress Bar?
             //Menu -> Artikel Opmaachen
             if (folderBrowser.ShowDialog() == DialogResult.OK)
             {
@@ -578,16 +564,25 @@ namespace KonterbontLODConnector
                     }
                     reader.Close();
                     dt.SaveToFile(dt);
-
-                    // add list to listbox (dt.WordList [AutoComplete] [Wuert])
-                    // foreach (AutoComplete ac in dt.Wordlist)
-
-                    foreach (AutoComplete ac in dt.WordList)
+ 
+                    foreach (AutoComplete ac in dt.WordList) // Adds Words to lbWords on Main Form
                     {
                         lbWords.Items.Add(ac.Wierder[ac.Selection - 1].WuertLu);
                     }
-
+                    globaldt = dt;
+                    lbWords.SelectedIndex = 0;
                 }
+            }
+        }
+
+        private void lbWords_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // ✓ 
+            lbSelectWord.Items.Clear();
+            foreach (var Wuert in globaldt.WordList[lbWords.SelectedIndex].Wierder)
+            {
+                lbSelectWord.Items.Add(Wuert.WuertLu);
+
             }
         }
     }
