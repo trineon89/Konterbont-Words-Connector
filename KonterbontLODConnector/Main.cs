@@ -598,11 +598,21 @@ namespace KonterbontLODConnector
         private void lbWords_SelectedIndexChanged(object sender, EventArgs e)
         {
             // ✓ 
+            var _i = 0;
             lbSelectWord.Items.Clear();
             foreach (var Wuert in globaldt.WordList[lbWords.SelectedIndex].Wierder)
             {
-                lbSelectWord.Items.Add(Wuert.WuertLu);
-
+                if (Wuert.Selection-1 == _i)
+                {
+                    lbSelectWord.Items.Add(Wuert.WuertLu + " ✓");
+                    lbSelectWord.SelectedIndex = _i;
+                }
+                else
+                {
+                    lbSelectWord.Items.Add(Wuert.WuertLu);
+                }
+                
+                _i++;
             }
         }
     }
