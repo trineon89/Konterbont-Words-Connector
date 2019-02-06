@@ -21,6 +21,7 @@ namespace KonterbontLODConnector
         public string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
         public string ArticlePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Artikelen\\";
         public Ookii.Dialogs.WinForms.VistaFolderBrowserDialog folderBrowser;
+        public Ookii.Dialogs.WinForms.ProgressDialog progressDialog;
         private INDesignPlugin iNDesignPlugin;
         public DataHandler globaldt = null;
 
@@ -555,14 +556,33 @@ namespace KonterbontLODConnector
                         string tmppath = folderBrowser.SelectedPath + dt.QuickSelectFile;
                         dt.LoadQuickSelect(File.ReadLines(tmppath));
                     }
-                    string line = null;
-                    StreamReader reader = File.OpenText(file);
-                    while ((line = reader.ReadLine()) != null)
+                    
+                    string tfile = new StreamReader(file).ReadToEnd();
+                    string[] lines = tfile.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                    int countlines = lines.GetLength(0);
+                    int c = 1;
+                    Pietschsoft.NativeProgressDialog progressDialog = new Pietschsoft.NativeProgressDialog(this.Handle)
                     {
+                        Title = "Sichen Wierder um LOD...",
+                        CancelMessage = "Eieiei... Da wart elo...",
+                        Maximum = 100,
+                        Value = 0,
+                        Line3 = "Calculating Time Remaining..."
+                    };
+                    progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
+                    foreach (string line in lines)
+                    {
+                        progressDialog.Line1="Siche nom Wuert: "+line;
                         AutoComplete acword = await Task.Run(async () => await GetWordAsync(line));
                         dt.AddWordToList(acword);
+                        double dbl = 100d / countlines * c;
+                        uint _currprog = Convert.ToUInt32(Math.Round(dbl));
+                        progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
+                        progressDialog.Value = _currprog;
+                        c++;
                     }
-                    reader.Close();
+                    progressDialog.CloseDialog();
+                    
                     dt.SaveToFile(dt);
  
                     foreach (AutoComplete ac in dt.WordList) // Adds Words to lbWords on Main Form
