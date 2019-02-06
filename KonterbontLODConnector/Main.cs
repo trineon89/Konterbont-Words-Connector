@@ -196,7 +196,9 @@ namespace KonterbontLODConnector
                         }
                     
                         var RemoveNode = Meaning.SelectSingleNode("./div[@class='bspsblock']");
-                        Meaning.RemoveChild(RemoveNode);
+                        if (RemoveNode!= null) Meaning.RemoveChild(RemoveNode);
+                        RemoveNode = Meaning.SelectSingleNode("./div[@class='syn_block']");
+                        if (RemoveNode != null) Meaning.RemoveChild(RemoveNode);
                         Console.Write(Meaning.InnerText);
 
                         MeaningText = Meaning.InnerText;
@@ -324,7 +326,22 @@ namespace KonterbontLODConnector
                 string Selection = null;
                 string MeaningsTT = null;
                 HtmlNodeCollection MeaningsDE = htmlDocument.DocumentNode.SelectNodes("//div[@class='uds_block']");
-                
+
+                if (MeaningsDE == null) // keen normale Fall, Variant
+                {
+                    HtmlNode Node = htmlDocument.DocumentNode.SelectSingleNode("//div[@class='artikel']");
+                    var RemoveNode = Node.SelectSingleNode("//span[@class='mentioun_adress']");
+                    if (RemoveNode!=null) Node.RemoveChild(RemoveNode);
+                    RemoveNode= Node.SelectSingleNode("//span[@class='klass']");
+                    if (RemoveNode != null) Node.RemoveChild(RemoveNode);
+                    RemoveNode = Node.SelectSingleNode("//div[@class='lux.map']");
+                    if (RemoveNode != null) Node.RemoveChild(RemoveNode);
+                   
+                    //Meaning.RemoveChild(RemoveNode);
+                    MeaningsTT = Node.InnerText;
+                    return MeaningsTT;
+                }
+
                 foreach (HtmlNode htmlNode in MeaningsDE)
                 {
                     string MeaningNr = null;
@@ -379,15 +396,6 @@ namespace KonterbontLODConnector
             acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "FR"));
             acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
             acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
-
-            /*
-            DataHandler dt = new DataHandler("test.qs", "K:\\Artikelen\\");
-            dt.AddWordToList(acwuert);
-            dt.SaveToFile(dt);
-            */
-            /*
-            GetMeanings(TheResults.Selection);
-            */
         }
 
         public bool ControlInvokeRequired(Control c, Action a)
