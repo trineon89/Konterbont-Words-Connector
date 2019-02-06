@@ -556,7 +556,7 @@ namespace KonterbontLODConnector
                         string tmppath = folderBrowser.SelectedPath + dt.QuickSelectFile;
                         dt.LoadQuickSelect(File.ReadLines(tmppath));
                     }
-                    
+
                     string tfile = new StreamReader(file).ReadToEnd();
                     string[] lines = tfile.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
                     int countlines = lines.GetLength(0);
@@ -572,7 +572,7 @@ namespace KonterbontLODConnector
                     progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
                     foreach (string line in lines)
                     {
-                        progressDialog.Line1="Siche nom Wuert: "+line;
+                        progressDialog.Line1 = "Siche nom Wuert: " + line;
                         AutoComplete acword = await Task.Run(async () => await GetWordAsync(line));
                         dt.AddWordToList(acword);
                         double dbl = 100d / countlines * c;
@@ -582,9 +582,10 @@ namespace KonterbontLODConnector
                         c++;
                     }
                     progressDialog.CloseDialog();
-                    
+
                     dt.SaveToFile(dt);
- 
+
+                    lbWords.Items.Clear();
                     foreach (AutoComplete ac in dt.WordList) // Adds Words to lbWords on Main Form
                     {
                         lbWords.Items.Add(ac.Wierder[ac.Selection - 1].WuertLu);
@@ -600,20 +601,62 @@ namespace KonterbontLODConnector
             // ✓ 
             var _i = 0;
             lbSelectWord.Items.Clear();
-            foreach (var Wuert in globaldt.WordList[lbWords.SelectedIndex].Wierder)
+            foreach (Wuert SelWuert in globaldt.WordList[lbWords.SelectedIndex].Wierder)
             {
-                if (Wuert.Selection-1 == _i)
+                if (SelWuert.Selection - 1 == _i)
                 {
-                    lbSelectWord.Items.Add(Wuert.WuertLu + " ✓");
+                    lbSelectWord.Items.Add(SelWuert.WuertLu + " ✓");
                     lbSelectWord.SelectedIndex = _i;
                 }
                 else
                 {
-                    lbSelectWord.Items.Add(Wuert.WuertLu);
+                    lbSelectWord.Items.Add(SelWuert.WuertLu);
                 }
-                
                 _i++;
             }
+        }
+
+        private void lbSelectWord_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // ✓ 
+            var _i = 0;
+            lbSelectMeaning.Items.Clear();
+
+            foreach (Meaning SelMeaning in globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings)
+            {
+                if (globaldt.WordList[lbWords.SelectedIndex].Selection - 1 == _i)
+                {
+                    lbSelectMeaning.Items.Add(SelMeaning.DE.Trim() + " ✓");
+                    lbSelectMeaning.SelectedIndex = _i;
+                }
+                else
+                {
+                    lbSelectMeaning.Items.Add(SelMeaning.DE.Trim());
+                }
+                _i++;
+            }
+        }
+
+        private void lbSelectMeaning_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var SelWord = globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex];
+            var SelMeaning = globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex];
+            rtbDetails.Clear();
+            rtbDetails.AppendText("LU: " + SelMeaning.LU);
+            rtbDetails.AppendText(Environment.NewLine + "WordForm: " + SelWord.WuertForm.WuertForm);
+            rtbDetails.AppendText(Environment.NewLine + "LUs: " + SelMeaning.LUs);
+            rtbDetails.AppendText(Environment.NewLine + "DE: " + SelMeaning.DE);
+            rtbDetails.AppendText(Environment.NewLine + "FR: " + SelMeaning.FR);
+            rtbDetails.AppendText(Environment.NewLine + "EN: " + SelMeaning.EN);
+            rtbDetails.AppendText(Environment.NewLine + "PT: " + SelMeaning.PT);
+            rtbDetails.AppendText(Environment.NewLine + "MP3: " + SelMeaning.MP3);
+            var Ex = 1;
+            foreach (Example SelExample in SelMeaning.Examples)
+            {
+                rtbDetails.AppendText(Environment.NewLine + "Beispill " + Ex.ToString() + ": " + SelExample.ExampleText);
+                Ex++;
+            }
+
         }
     }
 }

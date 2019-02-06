@@ -37,6 +37,7 @@
             this.lbWords = new System.Windows.Forms.ListBox();
             this.lbSelectWord = new System.Windows.Forms.ListBox();
             this.lbSelectMeaning = new System.Windows.Forms.ListBox();
+            this.rtbDetails = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -107,14 +108,27 @@
             this.lbSelectWord.Name = "lbSelectWord";
             this.lbSelectWord.Size = new System.Drawing.Size(234, 199);
             this.lbSelectWord.TabIndex = 9;
+            this.lbSelectWord.SelectedIndexChanged += new System.EventHandler(this.lbSelectWord_SelectedIndexChanged);
             // 
             // lbSelectMeaning
             // 
             this.lbSelectMeaning.FormattingEnabled = true;
-            this.lbSelectMeaning.Location = new System.Drawing.Point(490, 56);
+            this.lbSelectMeaning.Location = new System.Drawing.Point(483, 57);
             this.lbSelectMeaning.Name = "lbSelectMeaning";
-            this.lbSelectMeaning.Size = new System.Drawing.Size(224, 199);
+            this.lbSelectMeaning.Size = new System.Drawing.Size(231, 199);
             this.lbSelectMeaning.TabIndex = 10;
+            this.lbSelectMeaning.SelectedIndexChanged += new System.EventHandler(this.lbSelectMeaning_SelectedIndexChanged);
+            // 
+            // rtbDetails
+            // 
+            this.rtbDetails.BackColor = System.Drawing.SystemColors.Control;
+            this.rtbDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.rtbDetails.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.rtbDetails.Location = new System.Drawing.Point(244, 263);
+            this.rtbDetails.Name = "rtbDetails";
+            this.rtbDetails.Size = new System.Drawing.Size(470, 253);
+            this.rtbDetails.TabIndex = 11;
+            this.rtbDetails.Text = "";
             // 
             // frmMain
             // 
@@ -122,6 +136,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(726, 524);
+            this.Controls.Add(this.rtbDetails);
             this.Controls.Add(this.lbSelectMeaning);
             this.Controls.Add(this.lbSelectWord);
             this.Controls.Add(this.lbWords);
@@ -149,6 +164,7 @@
         private System.Windows.Forms.ListBox lbWords;
         private System.Windows.Forms.ListBox lbSelectWord;
         private System.Windows.Forms.ListBox lbSelectMeaning;
+        private System.Windows.Forms.RichTextBox rtbDetails;
     }
 }
 
