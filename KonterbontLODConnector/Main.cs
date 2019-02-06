@@ -21,6 +21,7 @@ namespace KonterbontLODConnector
         public string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
         public string ArticlePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Artikelen\\";
         public Ookii.Dialogs.WinForms.VistaFolderBrowserDialog folderBrowser;
+        private INDesignPlugin iNDesignPlugin;
 
         public frmMain()
         {
@@ -29,6 +30,7 @@ namespace KonterbontLODConnector
             {
                 SelectedPath = ArticlePath
             };
+            iNDesignPlugin = new INDesignPlugin();
         }
 
 
@@ -202,32 +204,6 @@ namespace KonterbontLODConnector
                         Console.Write(Meaning.InnerText);
 
                         MeaningText = Meaning.InnerText;
-                        /*
-                        var tmpCount = Meaning.SelectNodes(".//span[@class='et']").Count(); 
-                        if (Meaning.SelectSingleNode(".//span[@class='et']") != null)
-                        {
-                                MeaningText = Meaning.SelectSingleNode(".//span[@class='et']").InnerText;   
-                        }
-
-                        var count = 0;
-
-                        if (Meaning.SelectNodes(".//span[@class='text_gen']") != null)
-                        {
-                            count = Meaning.SelectNodes(".//span[@class='text_gen']").Count();
-                        }
-                        
-
-                        if (Meaning.SelectSingleNode("./span[@class='text_gen'][" + count.ToString() + "]") != null)
-                        {
-                            var text = Meaning.SelectSingleNode("./span[@class='text_gen']["+ count.ToString() + "]").InnerText;
-
-                            if (Meaning.SelectSingleNode("./span[@class='text_gen'][" + count.ToString() + "]").InnerText.Contains("["))
-                            {
-                                var tmp = Meaning.SelectSingleNode("./span[@class='text_gen'][" + count.ToString() + "]").InnerText;
-                                MeaningText = MeaningText + tmp;
-                            }
-                        }
-                        */
                     }
 
                     switch (Lang)
@@ -255,7 +231,7 @@ namespace KonterbontLODConnector
                             break;
                     }
 
-                    Selection = _i.ToString();
+                    Selection = (_i + 1).ToString();
                     RadioButton rb = new RadioButton
                     {
                         Name = _i.ToString(),
@@ -439,7 +415,7 @@ namespace KonterbontLODConnector
                 {
                     WuertLu = htmlNode.InnerText.Trim(),
                     WuertForm = new WordForm(tmpWordForm),
-                    Selection = 0,
+                    Selection = 1,
                     XMLFile = tmpxml.Substring(0, tmpxml.IndexOf("'")),
                     MP3 = tmpmp3.Substring(0, tmpmp3.IndexOf("'"))
                 };
@@ -577,6 +553,9 @@ namespace KonterbontLODConnector
                     }
                     reader.Close();
                     dt.SaveToFile(dt);
+
+                    // add list to listbox (dt.WordList [AutoComplete] [Wuert])
+                    // foreach (AutoComplete ac in dt.Wordlist)
                 }
             }
         }

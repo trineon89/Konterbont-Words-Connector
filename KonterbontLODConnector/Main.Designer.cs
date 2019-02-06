@@ -36,6 +36,7 @@
             this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.artikelOpmaachenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,7 +45,7 @@
             this.rtbResult.BackColor = System.Drawing.SystemColors.Window;
             this.rtbResult.Location = new System.Drawing.Point(30, 68);
             this.rtbResult.Name = "rtbResult";
-            this.rtbResult.Size = new System.Drawing.Size(780, 238);
+            this.rtbResult.Size = new System.Drawing.Size(231, 238);
             this.rtbResult.TabIndex = 1;
             this.rtbResult.Text = "";
             // 
@@ -60,9 +61,9 @@
             // 
             // rtbTest
             // 
-            this.rtbTest.Location = new System.Drawing.Point(30, 322);
+            this.rtbTest.Location = new System.Drawing.Point(289, 68);
             this.rtbTest.Name = "rtbTest";
-            this.rtbTest.Size = new System.Drawing.Size(533, 178);
+            this.rtbTest.Size = new System.Drawing.Size(182, 178);
             this.rtbTest.TabIndex = 5;
             this.rtbTest.Text = "";
             // 
@@ -106,12 +107,21 @@
             this.artikelOpmaachenToolStripMenuItem.Text = "Artikel opmaachen...";
             this.artikelOpmaachenToolStripMenuItem.Click += new System.EventHandler(this.ArtikelOpmaachenToolStripMenuItem_Click);
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(491, 68);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(182, 178);
+            this.richTextBox1.TabIndex = 8;
+            this.richTextBox1.Text = "";
+            // 
             // frmMain
             // 
             this.AcceptButton = this.btnFetch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(897, 524);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.edtWord);
             this.Controls.Add(this.rtbTest);
             this.Controls.Add(this.btnFetch);
@@ -136,6 +146,7 @@
         private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem neiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem artikelOpmaachenToolStripMenuItem;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 

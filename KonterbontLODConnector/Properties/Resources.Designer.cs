@@ -22,7 +22,7 @@ namespace KonterbontLODConnector.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace KonterbontLODConnector.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KonterbontLODConnector.Properties.Resources", typeof(Resources).Assembly);
@@ -51,12 +51,43 @@ namespace KonterbontLODConnector.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #targetengine &quot;session&quot;
+        ///#include &quot;getWords.jsx&quot;
+        ///#include &quot;json2.jsx&quot;
+        ///
+        ///var theFileName = app.activeDocument.name.substr(0,7)+&quot;_&quot;;
+        ///var myCharacterStyleName = &quot;Marker&quot;;
+        ///var myScriptPath = getScriptFolder();
+        ///
+        ///var finishedWords=new Array();
+        ///
+        ///theDocCharStyles = app.activeDocument.characterStyles;
+        ///
+        ///createms();
+        ///
+        ///var _docStories = app.activeDocument.stories;
+        ///
+        ///var myBounds;
+        ///var markerColor;
+        ///var _countword = new Array();
+        ///var _count = 0;
+        ///for (var c=0; c &lt; _docStories.length; c++)
+        ///{ 
+        ///    var _docSt [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string _01_prepare_doc {
+            get {
+                return ResourceManager.GetString("_01_prepare_doc", resourceCulture);
             }
         }
     }
