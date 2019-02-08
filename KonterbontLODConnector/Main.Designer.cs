@@ -99,7 +99,7 @@
             this.lbWords.Name = "lbWords";
             this.lbWords.Size = new System.Drawing.Size(225, 459);
             this.lbWords.TabIndex = 8;
-            this.lbWords.SelectedIndexChanged += new System.EventHandler(this.lbWords_SelectedIndexChanged);
+            this.lbWords.SelectedIndexChanged += new System.EventHandler(this.LbWords_SelectedIndexChanged);
             // 
             // lbSelectWord
             // 
@@ -108,7 +108,7 @@
             this.lbSelectWord.Name = "lbSelectWord";
             this.lbSelectWord.Size = new System.Drawing.Size(234, 199);
             this.lbSelectWord.TabIndex = 9;
-            this.lbSelectWord.SelectedIndexChanged += new System.EventHandler(this.lbSelectWord_SelectedIndexChanged);
+            this.lbSelectWord.SelectedIndexChanged += new System.EventHandler(this.LbSelectWord_SelectedIndexChanged);
             // 
             // lbSelectMeaning
             // 
@@ -117,7 +117,7 @@
             this.lbSelectMeaning.Name = "lbSelectMeaning";
             this.lbSelectMeaning.Size = new System.Drawing.Size(231, 199);
             this.lbSelectMeaning.TabIndex = 10;
-            this.lbSelectMeaning.SelectedIndexChanged += new System.EventHandler(this.lbSelectMeaning_SelectedIndexChanged);
+            this.lbSelectMeaning.SelectedIndexChanged += new System.EventHandler(this.LbSelectMeaning_SelectedIndexChanged);
             // 
             // rtbDetails
             // 

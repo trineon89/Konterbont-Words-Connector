@@ -60,7 +60,6 @@ namespace KonterbontLODConnector
 
         public void SaveToFile(DataHandler dt)
         {
-            //string json = dt.ToJson();
             JsonSerializer serializer = new JsonSerializer();
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
             serializer.NullValueHandling = N.Ignore;
@@ -70,8 +69,19 @@ namespace KonterbontLODConnector
             {
                 serializer.Serialize(writer, dt);
             }
-
             File.WriteAllLines(Filepath + QuickSelectFile, QuickSelect.Select(kv => String.Join("	", kv.Key, kv.Value)));
+        }
+
+        public DataHandler LoadFromFile(string _filepath, string _filename)
+        {
+            DataHandler dt = new DataHandler(_filename, _filepath);
+            JsonSerializer serializer = new JsonSerializer();
+            using (StreamReader sr = new StreamReader(_filepath+"\\"+_filename))
+            using (JsonReader reader = new JsonTextReader(sr))
+            {
+                dt = serializer.Deserialize<DataHandler>(reader);
+            }
+            return dt;
         }
 
         public void OutputPopup(Wuert wuert, string occurence, string rgbvalue)

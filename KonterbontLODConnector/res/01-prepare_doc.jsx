@@ -294,7 +294,7 @@ for (var c=0; c < _docStories.length; c++)
 			{
 			   case 0: {  setPopup("V", _spread, _found); createbutton(myBounds,_spread,_textRange.contents,"V"); break;}
 			   case 1: {  setPopup("H", _spread, _found); createbutton(myBounds,_spread,_textRange.contents,"H"); break;}
-			   case 2: {  setPopup("P", _spread, _found); createbutton(myBounds,_spread,_textRange.contents,"P"); break;}
+                case 2: { setPopup("P", _spread, _found); createbutton(myBounds, _spread, _textRange.contents, "P", _count); break;}
 			}
         }
     }
@@ -307,7 +307,7 @@ function setPopup(mod, _thespread, _found)
        // CallTooltip(_textRange.contents, null, mod, null, theOS, _cRuns, _found);
 }
 
-function createbutton(GB,_theSpread,_theButtonName, _pageSel)
+function createbutton(GB, _theSpread, _theButtonName, _pageSel, _count)
 {
    var popupLayer = app.activeDocument.layers.itemByName("Buttons");
    app.activeDocument.activeLayer=popupLayer;
@@ -337,7 +337,7 @@ function createbutton(GB,_theSpread,_theButtonName, _pageSel)
          _button.insertLabel("com.rovingbird.epublisher.wo", myJsonString);
          // Wierder sammelen
          _theButtonName = _theButtonName.replace(/\s/gi, ' ');
-         finishedWords.push(_theButtonName);
+       finishedWords.push(_theButtonName + "\t" + _count);
     } else {
       var number = Math.floor(Math.random()*123456+1);
       var myProperties = {

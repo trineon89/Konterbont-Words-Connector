@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace KonterbontLODConnector
 {
 
-    public class AutoComplete
+    public class AutoComplete : IEquatable<AutoComplete>
     {
         public int internalId;
         public List<Wuert> Wierder;
@@ -19,10 +19,29 @@ namespace KonterbontLODConnector
             Selection = 0;
         }
 
+        public bool Equals(AutoComplete other)
+        {
+            if (Object.ReferenceEquals(other, null)) return false;
+            if (Object.ReferenceEquals(this, other)) return true;
+
+            if (Wierder.Count == other.Wierder.Count)
+            {
+                foreach(Wuert wuert in Wierder)
+                {
+                    foreach (Wuert otherWuert in other.Wierder)
+                    {
+                        if (wuert.Equals(otherWuert)) return true;
+                    }
+                }
+                return false;
+                return true;
+            }
+            else return false;
+        }
     }
 
     [Serializable]
-    public class Wuert
+    public class Wuert : IEquatable<Wuert>
     {
         public string WuertLu;
         public string WuertLuS;
@@ -40,6 +59,15 @@ namespace KonterbontLODConnector
             Selection = 0;
             MP3 = null;
             XMLFile = null;
+        }
+
+        public bool Equals(Wuert other)
+        {
+            if (Object.ReferenceEquals(other, null)) return false;
+            if (Object.ReferenceEquals(this, other)) return true;
+
+            var tmp=WuertLu.Equals(other.WuertLu) && WuertForm.WuertForm.Equals(other.WuertForm.WuertForm) && MP3.Equals(other.MP3) && XMLFile.Equals(other.XMLFile);
+            return tmp;
         }
     }
 
