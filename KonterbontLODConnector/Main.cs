@@ -108,7 +108,7 @@ namespace KonterbontLODConnector
                 RequestUri = new Uri("https://www.lod.lu/php/getart" + LangURL + ".php?artid=" + XML),
                 Method = HttpMethod.Get,
                 Headers =
-                {fréier
+                {
                     { HttpRequestHeader.Host.ToString(), "www.lod.lu" },
                     { HttpRequestHeader.Referer.ToString(), "https://www.lod.lu/" }
                 }
@@ -710,8 +710,8 @@ namespace KonterbontLODConnector
         {
             AutoComplete acresults = await Task.Run(async () => await GetFullTranslationsAsync(searchstring));
 
-            var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3) && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile) && (b.Selection ==x.Selection) && (acx.Selection ==acresults.Selection))));
-            
+            var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3) && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile))));
+
             Console.WriteLine("");
             if (tmp == null)
             {
