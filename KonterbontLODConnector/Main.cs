@@ -54,7 +54,7 @@ namespace KonterbontLODConnector
             httpClient.Dispose();
             return responseBody;
         }
-        private async Task<AutoComplete> GetFullTranslationsAsync(string searchstring, bool compare=true)
+        private async Task<AutoComplete> GetFullTranslationsAsync(string searchstring, bool compare = true)
         {
             return await Task.Run(() => GetFullTranslations(searchstring, compare));
         }
@@ -67,19 +67,19 @@ namespace KonterbontLODConnector
 
             AutoComplete acwuert = ParseXMLWords(fetchedXml, compare, searchstring);
 
-            Task<AutoComplete> taskLU = Task.Run(async () => await FetchFullWordsAsync(acwuert, "LU"));
+            Task<AutoComplete> taskLU = Task.Run(async () => await FetchFullWordsAsync(acwuert, "LU", !compare));
             taskLU.Wait();
             acwuert = taskLU.Result;
-            Task<AutoComplete> taskDE = Task.Run(async () => await FetchFullWordsAsync(acwuert, "DE"));
+            Task<AutoComplete> taskDE = Task.Run(async () => await FetchFullWordsAsync(acwuert, "DE", !compare));
             taskDE.Wait();
             acwuert = taskDE.Result;
-            Task<AutoComplete> taskFR = Task.Run(async () => await FetchFullWordsAsync(acwuert, "FR"));
+            Task<AutoComplete> taskFR = Task.Run(async () => await FetchFullWordsAsync(acwuert, "FR", !compare));
             taskFR.Wait();
             acwuert = taskFR.Result;
-            Task<AutoComplete> taskEN = Task.Run(async () => await FetchFullWordsAsync(acwuert, "EN"));
+            Task<AutoComplete> taskEN = Task.Run(async () => await FetchFullWordsAsync(acwuert, "EN", !compare));
             taskEN.Wait();
             acwuert = taskEN.Result;
-            Task<AutoComplete> pttask = Task.Run(async () => await FetchFullWordsAsync(acwuert,"PT"));
+            Task<AutoComplete> pttask = Task.Run(async () => await FetchFullWordsAsync(acwuert, "PT", !compare));
             pttask.Wait();
             AutoComplete res = pttask.Result;
             return res;
@@ -116,7 +116,7 @@ namespace KonterbontLODConnector
 
             var _responseT = httpClient.SendAsync(httpContent, new HttpCompletionOption());
 
-           // await Task.WhenAny(_responseT);
+            // await Task.WhenAny(_responseT);
             _responseT.Wait();
             var _response = _responseT.Result;
             _response.EnsureSuccessStatusCode();
@@ -126,10 +126,14 @@ namespace KonterbontLODConnector
             return responseBody;
         }
 
-        private async Task<AutoComplete> FetchFullWordsAsync(AutoComplete acwuert, string Lang, bool showselection=false)
+        private async Task<AutoComplete> FetchFullWordsAsync(AutoComplete acwuert, string Lang, bool showselection = false)
         {
             AutoComplete reswuert = new AutoComplete();
             reswuert.Occurence = acwuert.Occurence;
+            int _c = 1;
+            int _MeaningsCount = 0;
+            frmSelectMeaning frmSelectMeaning = new frmSelectMeaning();
+
             foreach (Wuert wuert in acwuert.Wierder)
             {
                 string responseBody = await HttpRequest(Lang, wuert.XMLFile);
@@ -142,8 +146,7 @@ namespace KonterbontLODConnector
                 {
                     int _i = 1;
                     string Selection = "";
-                    frmSelectMeaning frmSelectMeaning = new frmSelectMeaning();
-
+                    
                     HtmlNodeCollection htmlNodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='uds_block']");
                     foreach (HtmlNode Meaning in htmlNodes)
                     {
@@ -262,13 +265,47 @@ namespace KonterbontLODConnector
                         }
                         Selection = (_i + 1).ToString();
 
+                        // Wuert wuert = acwuert.Wierder[acwuert.Selection - 1];
+                        if (showselection && acwuert.Selection == _c)
+                        {
+                            string thename = _i.ToString();
+                            RadioButton rb = new RadioButton
+                            {
+                                Name = thename,
+                                Text = thename + " " + MeaningText + "" + MeaningTextAdd,
+
+                                Location = new Point(10, _i * 30),
+                                Width = 500
+                            };
+                            if (_i == 1)
+                            {
+                                rb.Checked = true;
+                            }
+                            frmSelectMeaning.gbMeanings.Text = "Bedeitung fir '" + wuert.WuertLu + "' auswielen:";
+                            frmSelectMeaning.gbMeanings.Controls.Add(rb);
+                            _MeaningsCount = htmlNodes.Count();
+                        }
+
                         if (Lang == "LU")
                         { wuert.Meanings.Add(meaning); }
                         _i++;
                     }
                 }
+                if (_MeaningsCount > 1 && Lang == "DE")
+                {
+                    if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
+                    {
+                        RadioButton selectedMeaning = frmSelectMeaning.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+                        string Selection = selectedMeaning.Name;
+                        wuert.Selection = Int32.Parse(Selection);
+                        //TheResults.Wierder[TheResults.Selection].Selection = Int32.Parse(Selection);
+                    }
+                }
+
                 reswuert.Wierder.Add(wuert);
+                _c++;
             }
+            reswuert.Selection = acwuert.Selection;
             return reswuert;
         }
 
@@ -667,7 +704,8 @@ namespace KonterbontLODConnector
                 _i++;
             }
 
-            if (onlycompare) return ac;
+            if (onlycompare)
+                return ac;
 
             if (htmlNodes.Count() > 1)
             {
@@ -712,17 +750,18 @@ namespace KonterbontLODConnector
         {
             AutoComplete acresults = await Task.Run(async () => await GetFullTranslationsAsync(searchstring));
 
-            var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3) && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile) && (acx.Occurence==searchstring) )));
+            var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3) && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile) && (acx.Occurence == searchstring))));
 
             Console.WriteLine("");
             if (tmp == null)
             {
                 return true;
-            } else
+            }
+            else
             {
                 return false;
             }
-            
+
         }
 
         private async Task<AutoComplete> GetWordAsync(string searchstring)
@@ -777,14 +816,16 @@ namespace KonterbontLODConnector
                 {
                     string tmpfilename = Path.GetFileNameWithoutExtension(file) + ".wordslist";
 
-                    DataHandler dt = new DataHandler(); ;
+                    DataHandler dt = new DataHandler();
+                    ;
 
-                    if (File.Exists(folderBrowser.SelectedPath+ "\\" + tmpfilename))
+                    if (File.Exists(folderBrowser.SelectedPath + "\\" + tmpfilename))
                     {
                         dt = dt.LoadFromFile(folderBrowser.SelectedPath, tmpfilename);
-                    } else
+                    }
+                    else
                     {
-                         dt = new DataHandler(tmpfilename, folderBrowser.SelectedPath + "\\");
+                        dt = new DataHandler(tmpfilename, folderBrowser.SelectedPath + "\\");
                     }
 
                     if (!(File.Exists(folderBrowser.SelectedPath + dt.QuickSelectFile)))
@@ -814,14 +855,17 @@ namespace KonterbontLODConnector
                     foreach (string line in lines)
                     {
                         progressDialog.Line1 = "Siche nom Wuert: " + line;
-                       
-                        if (dt.WordList.Count == 0) {
+
+                        if (dt.WordList.Count == 0)
+                        {
                             AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
                             dt.AddWordToList(acword);
-                        } else { 
-                            bool HasChanged = await Task.Run(async () => await CheckIfWordHasChangedAsync(line,dt.WordList));
+                        }
+                        else
+                        {
+                            bool HasChanged = await Task.Run(async () => await CheckIfWordHasChangedAsync(line, dt.WordList));
                             if (HasChanged)
-                            { 
+                            {
                                 AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
                                 dt.AddWordToList(acword);
                             }
@@ -854,12 +898,15 @@ namespace KonterbontLODConnector
             // ✓ 
             var _i = 0;
             lbSelectWord.Items.Clear();
+
             foreach (Wuert SelWuert in globaldt.WordList[lbWords.SelectedIndex].Wierder)
             {
-                if (SelWuert.Selection - 1 == _i)
+                if (globaldt.WordList[lbWords.SelectedIndex].Selection == _i)
+                //if (SelWuert.Selection - 1 == _i)
                 {
                     lbSelectWord.Items.Add(SelWuert.WuertLu + " ✓");
                     lbSelectWord.SelectedIndex = _i;
+
                 }
                 else
                 {
@@ -877,7 +924,7 @@ namespace KonterbontLODConnector
 
             foreach (Meaning SelMeaning in globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings)
             {
-                if (globaldt.WordList[lbWords.SelectedIndex].Selection - 1 == _i)
+                if (globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1 == _i)
                 {
                     lbSelectMeaning.Items.Add(SelMeaning.DE.Trim() + " ✓");
                     lbSelectMeaning.SelectedIndex = _i;
