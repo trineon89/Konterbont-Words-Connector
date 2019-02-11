@@ -10,6 +10,7 @@ namespace KonterbontLODConnector
     public class AutoComplete : IEquatable<AutoComplete>
     {
         public int internalId;
+        public string Occurence;
         public List<Wuert> Wierder;
         public int Selection;
 

@@ -54,18 +54,18 @@ namespace KonterbontLODConnector
             httpClient.Dispose();
             return responseBody;
         }
-        private async Task<AutoComplete> GetFullTranslationsAsync(string searchstring)
+        private async Task<AutoComplete> GetFullTranslationsAsync(string searchstring, bool compare=true)
         {
-            return await Task.Run(() => GetFullTranslations(searchstring));
+            return await Task.Run(() => GetFullTranslations(searchstring, compare));
         }
 
-        private async Task<AutoComplete> GetFullTranslations(string searchstring)
+        private async Task<AutoComplete> GetFullTranslations(string searchstring, bool compare)
         {
             Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
             task.Wait();
             string fetchedXml = task.Result;
 
-            AutoComplete acwuert = ParseXMLWords(fetchedXml, true);
+            AutoComplete acwuert = ParseXMLWords(fetchedXml, compare, searchstring);
 
             Task<AutoComplete> taskLU = Task.Run(async () => await FetchFullWordsAsync(acwuert, "LU"));
             taskLU.Wait();
@@ -126,9 +126,10 @@ namespace KonterbontLODConnector
             return responseBody;
         }
 
-        private async Task<AutoComplete> FetchFullWordsAsync(AutoComplete acwuert, string Lang)
+        private async Task<AutoComplete> FetchFullWordsAsync(AutoComplete acwuert, string Lang, bool showselection=false)
         {
             AutoComplete reswuert = new AutoComplete();
+            reswuert.Occurence = acwuert.Occurence;
             foreach (Wuert wuert in acwuert.Wierder)
             {
                 string responseBody = await HttpRequest(Lang, wuert.XMLFile);
@@ -607,9 +608,10 @@ namespace KonterbontLODConnector
         }
 
 
-        private AutoComplete ParseXMLWords(string XML, bool onlycompare = false)
+        private AutoComplete ParseXMLWords(string XML, bool onlycompare = false, string occurence = null)
         {
             AutoComplete ac = new AutoComplete();
+            ac.Occurence = occurence;
 
             HtmlAgilityPack.HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
             HtmlNode[] htmlNodes;
@@ -710,7 +712,7 @@ namespace KonterbontLODConnector
         {
             AutoComplete acresults = await Task.Run(async () => await GetFullTranslationsAsync(searchstring));
 
-            var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3) && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile))));
+            var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3) && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile) && (acx.Occurence==searchstring) )));
 
             Console.WriteLine("");
             if (tmp == null)
@@ -732,7 +734,7 @@ namespace KonterbontLODConnector
         {
             string fetchedXml = await Task.Run(async () => await FetchXMLasync(searchstring));
 
-            AutoComplete acwuert = ParseXMLWords(fetchedXml);
+            AutoComplete acwuert = ParseXMLWords(fetchedXml, false, searchstring);
             Task<AutoComplete> taskLU = Task.Run(async () => await FetchWordsAsync(acwuert, "LU"));
             taskLU.Wait();
             acwuert = taskLU.Result;
@@ -814,13 +816,13 @@ namespace KonterbontLODConnector
                         progressDialog.Line1 = "Siche nom Wuert: " + line;
                        
                         if (dt.WordList.Count == 0) {
-                            AutoComplete acword = await Task.Run(async () => await GetWordAsync(line));
+                            AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
                             dt.AddWordToList(acword);
                         } else { 
                             bool HasChanged = await Task.Run(async () => await CheckIfWordHasChangedAsync(line,dt.WordList));
                             if (HasChanged)
                             { 
-                                AutoComplete acword = await Task.Run(async () => await GetWordAsync(line));
+                                AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
                                 dt.AddWordToList(acword);
                             }
                         }
@@ -829,7 +831,7 @@ namespace KonterbontLODConnector
                         progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
                         progressDialog.Value = _currprog;
                         c++;
-                        dt.OutputPopup(dt.WordList[c-1].Wierder[dt.WordList[c-1].Selection -1], line, "240,120,84");
+                        //dt.OutputPopup(dt.WordList[c-1].Wierder[dt.WordList[c-1].Selection -1], line, "240,120,84");
                     }
                     progressDialog.CloseDialog();
 
@@ -838,7 +840,8 @@ namespace KonterbontLODConnector
                     lbWords.Items.Clear();
                     foreach (AutoComplete ac in dt.WordList) // Adds Words to lbWords on Main Form
                     {
-                        lbWords.Items.Add(ac.Wierder[ac.Selection - 1].WuertLu);
+                        //lbWords.Items.Add(ac.Wierder[ac.Selection - 1].WuertLu);
+                        lbWords.Items.Add(ac.Occurence);
                     }
                     globaldt = dt;
                     lbWords.SelectedIndex = 0;
