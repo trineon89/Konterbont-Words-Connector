@@ -185,7 +185,7 @@ namespace KonterbontLODConnector
                             meaning.LU = wuert.WuertLu;
                             meaning.HV = Pluriel; // writes "Hëllefsverb" to class
                                                   // write PP to LUs variable
-                            if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress']") != null) //Failsafe pluriel
+                            if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress']") != null)
                             {
                                 Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress']").InnerText;
                                 if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress'][2]") != null)
@@ -204,48 +204,54 @@ namespace KonterbontLODConnector
                         }
                         else
                         {
-                            if (Meaning.SelectSingleNode(".//span[@class='text_gen']") != null)
-                            { // Meaning 1 or 2 or 4
-                                meaning.LU = wuert.WuertLu;
-                                meaning.LUs = Pluriel;
-                                Console.WriteLine("Meaning 1, 2, 4");
-                                if (Meaning.SelectSingleNode(".//span[@class='text_gen'][1]").ChildNodes.Count() == 3)
-                                { // -> Meaning 1
-                                    Console.WriteLine("Meaning 1");
-                                    meaning.LUs = null;
-                                }
-                                else if (Meaning.SelectSingleNode(".//span[@class='mentioun_adress']") != null)
-                                { // Meaning 2 or 4
-                                    Console.WriteLine("Meaning 2, 4");
-                                    if (Meaning.SelectSingleNode("span[@class='info_flex']") != null)
-                                    { // -> Meaning 2
-                                        Console.WriteLine("Meaning 2");
-                                        meaning.LUs = Meaning.SelectSingleNode(".//span[@class='mentioun_adress']").InnerText;
+                            if (Lang == "LU")
+                            {
+                                if (Meaning.SelectSingleNode(".//span[@class='text_gen']") != null)
+                                { // Meaning 1 or 2 or 4
+                                    meaning.LU = wuert.WuertLu;
+                                    meaning.LUs = Pluriel;
+                                    Console.WriteLine("Meaning 1, 2, 4");
+                                    if (Meaning.SelectSingleNode(".//span[@class='text_gen'][1]").ChildNodes.Count() == 3)
+                                    { // -> Meaning 1
+                                        Console.WriteLine("Meaning 1");
+                                        //meaning.LUs = null;
                                     }
                                     else
-                                    { // -> Meaning 4
-                                        Console.WriteLine("Meaning 4");
+                                    {
+                                        if (Meaning.SelectSingleNode(".//span[@class='mentioun_adress']") != null)
+                                        { // Meaning 2 or 4
+                                            Console.WriteLine("Meaning 2, 4");
+                                            if (Meaning.SelectSingleNode(".//span[@class='info_flex']") != null)
+                                            { // -> Meaning 2
+                                                Console.WriteLine("Meaning 2");
+                                                meaning.LUs = Meaning.SelectSingleNode(".//span[@class='mentioun_adress']").InnerText;
+                                            }
+                                            else
+                                            { // -> Meaning 4
+                                                Console.WriteLine("Meaning 4");
+                                            }
+                                        }
+                                        else
+                                        { // -> Meaning 1
+                                            Console.WriteLine("Meaning 1");
+                                            meaning.LUs = null;
+                                        }
                                     }
                                 }
                                 else
-                                { // -> Meaning 1
-                                    Console.WriteLine("Meaning 1");
-                                    meaning.LUs = null;
-                                }
-                            }
-                            else
-                            {
-                                if (Meaning.SelectSingleNode("span[@class='polylex']") != null)
-                                { // -> Meaning 3
-                                    Console.WriteLine("Meaning 3");
-                                    meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText;
-                                    meaning.LUs = wuert.WuertLuS;
-                                }
-                                else
-                                { // -> Meaning 4 safe
-                                    Console.WriteLine("Meaning 4 (safe)");
-                                    meaning.LUs = wuert.WuertLuS;
-                                    meaning.LU = wuert.WuertLu;
+                                {
+                                    if (Meaning.SelectSingleNode("span[@class='polylex']") != null)
+                                    { // -> Meaning 3
+                                        Console.WriteLine("Meaning 3");
+                                        meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText;
+                                        meaning.LUs = wuert.WuertLuS;
+                                    }
+                                    else
+                                    { // -> Meaning 4 safe
+                                        Console.WriteLine("Meaning 4 (safe)");
+                                        meaning.LUs = wuert.WuertLuS;
+                                        meaning.LU = wuert.WuertLu;
+                                    }
                                 }
                             }
                         }
@@ -270,6 +276,11 @@ namespace KonterbontLODConnector
                             MeaningText = Meaning.InnerText;
                             string regex = "(\\&lt;.*\\&gt;)";
                             MeaningText = System.Text.RegularExpressions.Regex.Replace(MeaningText, regex, "");
+
+                            if (MeaningText.Contains("--- coming soon ---") || MeaningText.Contains("--- disponível em breve ---"))
+                            {
+                                MeaningText = null;
+                            }
 
                         }
 
@@ -799,7 +810,6 @@ namespace KonterbontLODConnector
 
             var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3) && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile) && (acx.Occurence == searchstring))));
 
-            Console.WriteLine("");
             if (tmp == null)
             {
                 return true;
