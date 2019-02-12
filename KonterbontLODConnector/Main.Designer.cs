@@ -38,6 +38,8 @@
             this.lbSelectWord = new System.Windows.Forms.ListBox();
             this.lbSelectMeaning = new System.Windows.Forms.ListBox();
             this.rtbDetails = new System.Windows.Forms.RichTextBox();
+            this.astellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.magazineSelectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,7 +64,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dateiToolStripMenuItem});
+            this.dateiToolStripMenuItem,
+            this.astellungenToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(726, 24);
@@ -131,6 +134,21 @@
             this.rtbDetails.TabIndex = 11;
             this.rtbDetails.Text = "";
             // 
+            // astellungenToolStripMenuItem
+            // 
+            this.astellungenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.magazineSelectorToolStripMenuItem});
+            this.astellungenToolStripMenuItem.Name = "astellungenToolStripMenuItem";
+            this.astellungenToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
+            this.astellungenToolStripMenuItem.Text = "Astellungen";
+            // 
+            // magazineSelectorToolStripMenuItem
+            // 
+            this.magazineSelectorToolStripMenuItem.Name = "magazineSelectorToolStripMenuItem";
+            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.magazineSelectorToolStripMenuItem.Text = "Magazine Selector...";
+            this.magazineSelectorToolStripMenuItem.Click += new System.EventHandler(this.MagazineSelectorToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AcceptButton = this.btnFetch;
@@ -166,6 +184,8 @@
         private System.Windows.Forms.ListBox lbSelectWord;
         private System.Windows.Forms.ListBox lbSelectMeaning;
         private System.Windows.Forms.RichTextBox rtbDetails;
+        private System.Windows.Forms.ToolStripMenuItem astellungenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem magazineSelectorToolStripMenuItem;
     }
 }
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using J = Newtonsoft.Json.JsonPropertyAttribute;
@@ -18,6 +19,9 @@ namespace KonterbontLODConnector
     public partial class DataHandler
     {
         private string lodmp3path = "https://www.lod.lu/audio/";
+        private string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
+        private frmMagazineSelector theform;
+        private string targetMag;
 
         [J("filename", NullValueHandling = N.Ignore)] public string Filename { get; set; }
         [J("filepath", NullValueHandling = N.Ignore)] public string Filepath { get; set; }
@@ -25,7 +29,6 @@ namespace KonterbontLODConnector
         [J("qsindex", NullValueHandling = N.Ignore)] private int QSindex { get; set; }
         [J("quickselect", NullValueHandling = N.Ignore)] public Dictionary<int, int> QuickSelect { get; set; }
         [J("wordlist", NullValueHandling = N.Ignore)] public List<AutoComplete> WordList { get; set; }
-
         public DataHandler()
         {
             QSindex = 0;
@@ -34,6 +37,7 @@ namespace KonterbontLODConnector
             QuickSelectFile = null;
             QuickSelect = new Dictionary<int, int>();
             WordList = new List<AutoComplete>();
+            frmMagazineSelectorInit();
         }
 
         public DataHandler(string _filename)
@@ -44,6 +48,7 @@ namespace KonterbontLODConnector
             QuickSelectFile = Path.GetFileNameWithoutExtension(_filename) + ".selections"; ;
             QuickSelect = new Dictionary<int, int>();
             WordList = new List<AutoComplete>();
+            frmMagazineSelectorInit();
         }
 
         public DataHandler(string _filename, string _filepath)
@@ -54,6 +59,32 @@ namespace KonterbontLODConnector
             QuickSelectFile = Path.GetFileNameWithoutExtension(_filename) + ".selections"; ;
             QuickSelect = new Dictionary<int, int>();
             WordList = new List<AutoComplete>();
+            frmMagazineSelectorInit();
+        }
+
+        public void frmMagazineSelectorInit()
+        {
+            string[] _dirs = Directory.GetDirectories(MagazinePath);
+            theform = new frmMagazineSelector();
+            ComboBox theCombo = (ComboBox)theform.Controls.Find("cbMagazine", false)[0];
+            foreach (string _dir in _dirs)
+            {
+                var dirName = new DirectoryInfo(_dir).Name;
+                if (dirName != "Published")
+                {
+                    theCombo.Items.Add(dirName);
+                }
+            }
+        }
+
+        public void ShowMagazineSelector()
+        {
+            theform.ShowDialog();
+            ComboBox theCombo = (ComboBox)theform.Controls.Find("cbMagazine", false)[0];
+            if (theCombo.SelectedIndex >= 0)
+            {
+                targetMag = theCombo.SelectedItem.ToString();
+            }
         }
 
         public void AddWordToList(AutoComplete ac)
