@@ -1089,5 +1089,15 @@ namespace KonterbontLODConnector
             }
 
         }
+
+        private void MagazineSelectorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //show MagazineSelector Form
+            if (globaldt == null)
+            {
+                globaldt = new DataHandler();
+            }
+            globaldt.ShowMagazineSelector();
+        }
     }
 }
