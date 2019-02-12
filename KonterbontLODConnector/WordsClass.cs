@@ -86,6 +86,7 @@ namespace KonterbontLODConnector
     public partial class Example
     {
         public string ExampleText;
+        public string EGS;
         public Example()
         {
             this.ExampleText = null;
@@ -93,6 +94,7 @@ namespace KonterbontLODConnector
         public Example(string ExText)
         {
             ExampleText = ExText;
+            EGS = null;
         }
     }
 

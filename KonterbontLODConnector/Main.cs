@@ -184,9 +184,23 @@ namespace KonterbontLODConnector
                         {
                             meaning.LU = wuert.WuertLu;
                             meaning.HV = Pluriel; // writes "Hëllefsverb" to class
-                            // write PP to LUs variable
+                                                  // write PP to LUs variable
+                            if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress']") != null) //Failsafe pluriel
+                            {
+                                Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress']").InnerText;
+                                if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress'][2]") != null)
+                                {
+                                    string Pluriel2 = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress'][2]").InnerText;
+                                    Pluriel = Pluriel + " / " + Pluriel2;
+                                }
+                                Pluriel = Pluriel.Replace("&lt;", "<");
+                                Pluriel = Pluriel.Replace("&gt;", ">");
+                            }
+                            else
+                                Pluriel = null;
 
-                            
+                            meaning.LUs = Pluriel;
+                            wuert.WuertLuS = Pluriel;
                         }
                         else
                         {
@@ -1008,6 +1022,11 @@ namespace KonterbontLODConnector
                     rtbDetails.SelectionFont = Italic;
                     rtbDetails.AppendText("(Kee Pluriel)");
                 }
+                rtbDetails.SelectionFont = Bold;
+                rtbDetails.AppendText(Environment.NewLine + "Hëllefsverb: ");
+                rtbDetails.SelectionFont = Normal;
+                rtbDetails.AppendText(SelMeaning.HV);
+
             }
             else
             {
