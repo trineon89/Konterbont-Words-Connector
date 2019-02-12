@@ -291,7 +291,24 @@ namespace KonterbontLODConnector
                                 HtmlNodeCollection htmlExamples = Meaning.SelectNodes(".//span[@class='beispill']");
                                 foreach (HtmlNode htmlexample in htmlExamples)
                                 {
+                                    var RemoveNode = htmlexample.SelectSingleNode("span[@id='sprangop']");
+                                    if (RemoveNode != null)
+                                    {
+                                        htmlexample.RemoveChild(RemoveNode);
+                                    }
+                                    /*string EGS = "";
+                                    if (htmlexample.SelectSingleNode(".//span[@id='text_gen']") != null)
+                                    {
+                                        EGS = htmlexample.SelectSingleNode(".//span[@id='text_gen']").InnerText;
+                                    }
+                                    RemoveNode = htmlexample.SelectSingleNode(".//span[@id='text_gen']");
+                                    if (RemoveNode != null)
+                                    {
+                                        htmlexample.RemoveChild(RemoveNode);
+                                    }*/
                                     Example example = new Example(htmlexample.InnerText);
+                                    
+                                    //Console.WriteLine(EGS);
                                     meaning.Examples.Add(example);
                                 }
                                 break;
