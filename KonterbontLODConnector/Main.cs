@@ -134,6 +134,7 @@ namespace KonterbontLODConnector
             int _MeaningsCount = 0;
             frmSelectMeaning frmSelectMeaning = new frmSelectMeaning();
 
+
             foreach (Wuert wuert in acwuert.Wierder)
             {
                 string responseBody = await HttpRequest(Lang, wuert.XMLFile);
@@ -146,7 +147,12 @@ namespace KonterbontLODConnector
                 {
                     int _i = 1;
                     string Selection = "";
-                    
+
+                    if (Lang == "LU")
+                    {
+                        wuert.WuertForm.WuertForm = htmlDocument.DocumentNode.SelectSingleNode(".//span[@class='klass']").InnerText.Trim();
+                    }
+
                     HtmlNodeCollection htmlNodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='uds_block']");
                     foreach (HtmlNode Meaning in htmlNodes)
                     {
@@ -174,48 +180,59 @@ namespace KonterbontLODConnector
 
                         Meaning meaning = new Meaning();
 
-                        if (Meaning.SelectSingleNode(".//span[@class='text_gen']") != null)
-                        { // Meaning 1 or 2 or 4
+                        if (wuert.WuertForm.WuertForm == "Verb")
+                        {
                             meaning.LU = wuert.WuertLu;
-                            meaning.LUs = Pluriel;
-                            Console.WriteLine("Meaning 1, 2, 4");
-                            if (Meaning.SelectSingleNode(".//span[@class='text_gen'][1]").ChildNodes.Count() == 3)
-                            { // -> Meaning 1
-                                Console.WriteLine("Meaning 1");
-                                meaning.LUs = null;
-                            }
-                            else if (Meaning.SelectSingleNode(".//span[@class='mentioun_adress']") != null)
-                            { // Meaning 2 or 4
-                                Console.WriteLine("Meaning 2, 4");
-                                if (Meaning.SelectSingleNode(".//span[@class='info_flex']") != null)
-                                { // -> Meaning 2
-                                    Console.WriteLine("Meaning 2");
-                                    meaning.LUs = Meaning.SelectSingleNode(".//span[@class='mentioun_adress']").InnerText;
-                                }
-                                else
-                                { // -> Meaning 4
-                                    Console.WriteLine("Meaning 4");
-                                }
-                            }
-                            else
-                            { // -> Meaning 1
-                                Console.WriteLine("Meaning 1");
-                                meaning.LUs = null;
-                            }
+                            meaning.HV = Pluriel; // writes "Hëllefsverb" to class
+                            // write PP to LUs variable
+
+                            
                         }
                         else
                         {
-                            if (Meaning.SelectSingleNode("span[@class='polylex']") != null)
-                            { // -> Meaning 3
-                                Console.WriteLine("Meaning 3");
-                                meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText;
-                                meaning.LUs = wuert.WuertLuS;
+                            if (Meaning.SelectSingleNode(".//span[@class='text_gen']") != null)
+                            { // Meaning 1 or 2 or 4
+                                meaning.LU = wuert.WuertLu;
+                                meaning.LUs = Pluriel;
+                                Console.WriteLine("Meaning 1, 2, 4");
+                                if (Meaning.SelectSingleNode(".//span[@class='text_gen'][1]").ChildNodes.Count() == 3)
+                                { // -> Meaning 1
+                                    Console.WriteLine("Meaning 1");
+                                    meaning.LUs = null;
+                                }
+                                else if (Meaning.SelectSingleNode(".//span[@class='mentioun_adress']") != null)
+                                { // Meaning 2 or 4
+                                    Console.WriteLine("Meaning 2, 4");
+                                    if (Meaning.SelectSingleNode("span[@class='info_flex']") != null)
+                                    { // -> Meaning 2
+                                        Console.WriteLine("Meaning 2");
+                                        meaning.LUs = Meaning.SelectSingleNode(".//span[@class='mentioun_adress']").InnerText;
+                                    }
+                                    else
+                                    { // -> Meaning 4
+                                        Console.WriteLine("Meaning 4");
+                                    }
+                                }
+                                else
+                                { // -> Meaning 1
+                                    Console.WriteLine("Meaning 1");
+                                    meaning.LUs = null;
+                                }
                             }
                             else
-                            { // -> Meaning 4 safe
-                                Console.WriteLine("Meaning 4 (safe)");
-                                meaning.LUs = wuert.WuertLuS;
-                                meaning.LU = wuert.WuertLu;
+                            {
+                                if (Meaning.SelectSingleNode("span[@class='polylex']") != null)
+                                { // -> Meaning 3
+                                    Console.WriteLine("Meaning 3");
+                                    meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText;
+                                    meaning.LUs = wuert.WuertLuS;
+                                }
+                                else
+                                { // -> Meaning 4 safe
+                                    Console.WriteLine("Meaning 4 (safe)");
+                                    meaning.LUs = wuert.WuertLuS;
+                                    meaning.LU = wuert.WuertLu;
+                                }
                             }
                         }
                         if (Lang != "LU")
@@ -237,6 +254,9 @@ namespace KonterbontLODConnector
                             Console.Write(Meaning.InnerText);
 
                             MeaningText = Meaning.InnerText;
+                            string regex = "(\\&lt;.*\\&gt;)";
+                            MeaningText = System.Text.RegularExpressions.Regex.Replace(MeaningText, regex, "");
+
                         }
 
                         switch (Lang)
@@ -342,12 +362,16 @@ namespace KonterbontLODConnector
             HtmlAgilityPack.HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
             htmlDocument.LoadHtml(responseBody);
 
+
             // Meanings START
             if (htmlDocument.DocumentNode.SelectNodes("//div[@class='uds_block']") != null)
             {
                 int _i = 1;
                 string Selection = "";
                 string MeaningNr = "";
+
+
+
                 frmSelectMeaning frmSelectMeaning = new frmSelectMeaning();
 
                 HtmlNodeCollection htmlNodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='uds_block']");
@@ -356,6 +380,8 @@ namespace KonterbontLODConnector
                     string MeaningText = "";
                     string MeaningTextAdd = "";
                     string Pluriel;
+
+
 
                     //HtmlNode[] MeaningArray;
                     HtmlNode[] LUsArray = htmlDocument.DocumentNode.SelectNodes("//span[@class='mentioun_adress']").ToArray();
@@ -375,6 +401,8 @@ namespace KonterbontLODConnector
                         Pluriel = null; // no base pluriel
                     wuert.WuertLuS = Pluriel;
 
+
+
                     /*
                      * 1 Meaning (kee Pluriel) ::html:: <span class=text_gen> ( <span class=info_plex>kee Pluriel</span>  ) </span>
                      * 
@@ -388,6 +416,8 @@ namespace KonterbontLODConnector
                      */
 
                     Meaning meaning = new Meaning();
+
+
 
                     if (Meaning.SelectSingleNode(".//span[@class='text_gen']") != null)
                     { // Meaning 1 or 2 or 4
@@ -510,6 +540,7 @@ namespace KonterbontLODConnector
                     }
                 }
             }
+
             acwuert.Wierder[acwuert.Selection - 1] = wuert;
             return acwuert;
             //return wuert;
@@ -674,7 +705,8 @@ namespace KonterbontLODConnector
                 Wuert wuert = new Wuert
                 {
                     WuertLu = htmlNode.InnerText.Trim(),
-                    WuertForm = new WordForm(tmpWordForm),
+                    //WuertForm = new WordForm(tmpWordForm),
+                    WuertForm = new WordForm(""),
                     Selection = 1,
                     XMLFile = tmpxml.Substring(0, tmpxml.IndexOf("'")),
                     MP3 = tmpmp3.Substring(0, tmpmp3.IndexOf("'"))
@@ -685,7 +717,8 @@ namespace KonterbontLODConnector
                 RadioButton rb = new RadioButton
                 {
                     Name = _i.ToString(),
-                    Text = wuert.WuertLu + " (" + wuert.WuertForm.WuertForm + ")",
+                    //Text = wuert.WuertLu + " (" + wuert.WuertForm.WuertForm + ")",
+                    Text = wuert.WuertLu + " (" + tmpWordForm + ")",
                     Location = new Point(10, _i * 30),
                     Width = 500
                 };
@@ -901,7 +934,7 @@ namespace KonterbontLODConnector
 
             foreach (Wuert SelWuert in globaldt.WordList[lbWords.SelectedIndex].Wierder)
             {
-                if (globaldt.WordList[lbWords.SelectedIndex].Selection == _i)
+                if (globaldt.WordList[lbWords.SelectedIndex].Selection - 1 == _i)
                 //if (SelWuert.Selection - 1 == _i)
                 {
                     lbSelectWord.Items.Add(SelWuert.WuertLu + " ✓");
@@ -961,25 +994,44 @@ namespace KonterbontLODConnector
             if (SelWord.WuertForm.WuertForm == "Verb")
             {
                 rtbDetails.AppendText(Environment.NewLine + "participe passé: ");
+
+                if (SelMeaning.LUs != null)
+                {
+                    rtbDetails.SelectionFont = Normal;
+                    string tmpPluriel = SelMeaning.LUs;
+                    tmpPluriel = tmpPluriel.Replace("&lt;", "<");
+                    tmpPluriel = tmpPluriel.Replace("&gt;", ">");
+                    rtbDetails.AppendText(tmpPluriel);
+                }
+                else
+                {
+                    rtbDetails.SelectionFont = Italic;
+                    rtbDetails.AppendText("(Kee Pluriel)");
+                }
             }
             else
             {
-                rtbDetails.AppendText(Environment.NewLine + "Pluriel: ");
+                if (SelWord.WuertForm.WuertForm.Contains("Substantiv"))
+                {
+                    rtbDetails.AppendText(Environment.NewLine + "Pluriel: ");
+
+                    if (SelMeaning.LUs != null)
+                    {
+                        rtbDetails.SelectionFont = Normal;
+                        string tmpPluriel = SelMeaning.LUs;
+                        tmpPluriel = tmpPluriel.Replace("&lt;", "<");
+                        tmpPluriel = tmpPluriel.Replace("&gt;", ">");
+                        rtbDetails.AppendText(tmpPluriel);
+                    }
+                    else
+                    {
+                        rtbDetails.SelectionFont = Italic;
+                        rtbDetails.AppendText("(Kee Pluriel)");
+                    }
+                }
             }
 
-            if (SelMeaning.LUs != null)
-            {
-                rtbDetails.SelectionFont = Normal;
-                string tmpPluriel = SelMeaning.LUs;
-                tmpPluriel = tmpPluriel.Replace("&lt;", "<");
-                tmpPluriel = tmpPluriel.Replace("&gt;", ">");
-                rtbDetails.AppendText(tmpPluriel);
-            }
-            else
-            {
-                rtbDetails.SelectionFont = Italic;
-                rtbDetails.AppendText("(Kee Pluriel)");
-            }
+
 
             rtbDetails.SelectionFont = Bold;
             rtbDetails.AppendText(Environment.NewLine + "DE: ");

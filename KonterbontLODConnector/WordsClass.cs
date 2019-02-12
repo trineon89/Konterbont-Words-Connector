@@ -100,6 +100,7 @@ namespace KonterbontLODConnector
     {
         public string LU;
         public string LUs;
+        public string HV;
         public string DE;
         public string FR;
         public string EN;
@@ -111,6 +112,7 @@ namespace KonterbontLODConnector
         {
             LU = null;
             LUs = null;
+            HV = null;
             DE = null;
             FR = null;
             EN = null;
