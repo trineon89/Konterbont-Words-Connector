@@ -673,7 +673,7 @@ namespace KonterbontLODConnector
             }
             return null;
         }
-
+        /*
         private async void BtnFetch_ClickAsync(object sender, EventArgs e)
         {
             Task<string> task = Task.Run(async () => await FetchXMLasync(edtWord.Text));
@@ -688,7 +688,7 @@ namespace KonterbontLODConnector
             acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
             acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
         }
-
+        */
         public bool ControlInvokeRequired(Control c, Action a)
         {
             if (c.InvokeRequired)
@@ -946,6 +946,8 @@ namespace KonterbontLODConnector
                     }
                     globaldt = dt;
                     lbWords.SelectedIndex = 0;
+                    btnSave.Enabled = true;
+                    btnCreatePopups.Enabled = true;
                 }
             }
         }
@@ -1108,6 +1110,17 @@ namespace KonterbontLODConnector
                 globaldt = new DataHandler();
             }
             globaldt.ShowMagazineSelector();
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            //Save
+        }
+
+        private void BtnCreatePopups_Click(object sender, EventArgs e)
+        {
+            //CreatePopups
+            globaldt.OutputPopups();
         }
     }
 }

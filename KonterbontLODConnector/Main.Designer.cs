@@ -28,38 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnFetch = new System.Windows.Forms.Button();
-            this.edtWord = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.artikelOpmaachenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.astellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.magazineSelectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lbWords = new System.Windows.Forms.ListBox();
             this.lbSelectWord = new System.Windows.Forms.ListBox();
             this.lbSelectMeaning = new System.Windows.Forms.ListBox();
             this.rtbDetails = new System.Windows.Forms.RichTextBox();
-            this.astellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.magazineSelectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnCreatePopups = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnFetch
-            // 
-            this.btnFetch.Location = new System.Drawing.Point(639, 27);
-            this.btnFetch.Name = "btnFetch";
-            this.btnFetch.Size = new System.Drawing.Size(75, 23);
-            this.btnFetch.TabIndex = 2;
-            this.btnFetch.Text = "&Fetch";
-            this.btnFetch.UseVisualStyleBackColor = true;
-            this.btnFetch.Click += new System.EventHandler(this.BtnFetch_ClickAsync);
-            // 
-            // edtWord
-            // 
-            this.edtWord.Location = new System.Drawing.Point(12, 30);
-            this.edtWord.Name = "edtWord";
-            this.edtWord.Size = new System.Drawing.Size(621, 22);
-            this.edtWord.TabIndex = 6;
-            this.edtWord.Text = "beier";
             // 
             // menuStrip1
             // 
@@ -93,6 +75,21 @@
             this.artikelOpmaachenToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.artikelOpmaachenToolStripMenuItem.Text = "Artikel opmaachen...";
             this.artikelOpmaachenToolStripMenuItem.Click += new System.EventHandler(this.ArtikelOpmaachenToolStripMenuItem_Click);
+            // 
+            // astellungenToolStripMenuItem
+            // 
+            this.astellungenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.magazineSelectorToolStripMenuItem});
+            this.astellungenToolStripMenuItem.Name = "astellungenToolStripMenuItem";
+            this.astellungenToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
+            this.astellungenToolStripMenuItem.Text = "Astellungen";
+            // 
+            // magazineSelectorToolStripMenuItem
+            // 
+            this.magazineSelectorToolStripMenuItem.Name = "magazineSelectorToolStripMenuItem";
+            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.magazineSelectorToolStripMenuItem.Text = "Magazine Selector...";
+            this.magazineSelectorToolStripMenuItem.Click += new System.EventHandler(this.MagazineSelectorToolStripMenuItem_Click);
             // 
             // lbWords
             // 
@@ -134,33 +131,39 @@
             this.rtbDetails.TabIndex = 11;
             this.rtbDetails.Text = "";
             // 
-            // astellungenToolStripMenuItem
+            // btnSave
             // 
-            this.astellungenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.magazineSelectorToolStripMenuItem});
-            this.astellungenToolStripMenuItem.Name = "astellungenToolStripMenuItem";
-            this.astellungenToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
-            this.astellungenToolStripMenuItem.Text = "Astellungen";
+            this.btnSave.Enabled = false;
+            this.btnSave.Location = new System.Drawing.Point(12, 28);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(102, 23);
+            this.btnSave.TabIndex = 12;
+            this.btnSave.Text = "Späicheren";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
-            // magazineSelectorToolStripMenuItem
+            // btnCreatePopups
             // 
-            this.magazineSelectorToolStripMenuItem.Name = "magazineSelectorToolStripMenuItem";
-            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.magazineSelectorToolStripMenuItem.Text = "Magazine Selector...";
-            this.magazineSelectorToolStripMenuItem.Click += new System.EventHandler(this.MagazineSelectorToolStripMenuItem_Click);
+            this.btnCreatePopups.Enabled = false;
+            this.btnCreatePopups.Location = new System.Drawing.Point(121, 28);
+            this.btnCreatePopups.Name = "btnCreatePopups";
+            this.btnCreatePopups.Size = new System.Drawing.Size(116, 23);
+            this.btnCreatePopups.TabIndex = 13;
+            this.btnCreatePopups.Text = "Popups erstellen";
+            this.btnCreatePopups.UseVisualStyleBackColor = true;
+            this.btnCreatePopups.Click += new System.EventHandler(this.BtnCreatePopups_Click);
             // 
             // frmMain
             // 
-            this.AcceptButton = this.btnFetch;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(726, 524);
+            this.Controls.Add(this.btnCreatePopups);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.rtbDetails);
             this.Controls.Add(this.lbSelectMeaning);
             this.Controls.Add(this.lbSelectWord);
             this.Controls.Add(this.lbWords);
-            this.Controls.Add(this.edtWord);
-            this.Controls.Add(this.btnFetch);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MainMenuStrip = this.menuStrip1;
@@ -174,8 +177,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button btnFetch;
-        private System.Windows.Forms.TextBox edtWord;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem neiToolStripMenuItem;
@@ -186,6 +187,8 @@
         private System.Windows.Forms.RichTextBox rtbDetails;
         private System.Windows.Forms.ToolStripMenuItem astellungenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem magazineSelectorToolStripMenuItem;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnCreatePopups;
     }
 }
 

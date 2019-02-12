@@ -29,6 +29,8 @@ namespace KonterbontLODConnector
         [J("qsindex", NullValueHandling = N.Ignore)] private int QSindex { get; set; }
         [J("quickselect", NullValueHandling = N.Ignore)] public Dictionary<int, int> QuickSelect { get; set; }
         [J("wordlist", NullValueHandling = N.Ignore)] public List<AutoComplete> WordList { get; set; }
+        [J("globrgb", NullValueHandling = N.Ignore)] public string globrgb { get; set; }
+
         public DataHandler()
         {
             QSindex = 0;
@@ -75,6 +77,11 @@ namespace KonterbontLODConnector
                     theCombo.Items.Add(dirName);
                 }
             }
+        }
+
+        public void SetRGB(string input)
+        {
+            globrgb = input;
         }
 
         public void ShowMagazineSelector()
@@ -125,6 +132,15 @@ namespace KonterbontLODConnector
             using (WebClient wc = new WebClient())
             {
                 wc.DownloadFileAsync(new Uri(lodmp3path + mp3filename), Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
+            }
+        }
+
+        public void OutputPopups()
+        {
+            foreach (AutoComplete ac in WordList)
+            {
+                OutputPopup(ac.Wierder[ac.Selection - 1], ac.Occurence, globrgb);
+                    //dt.OutputPopup(dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1], line, "240,120,84");
             }
         }
 
