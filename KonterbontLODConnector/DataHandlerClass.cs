@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -10,10 +11,14 @@ using Newtonsoft.Json.Converters;
 using J = Newtonsoft.Json.JsonPropertyAttribute;
 using N = Newtonsoft.Json.NullValueHandling;
 
+
+
 namespace KonterbontLODConnector
 {
     public partial class DataHandler
     {
+        private string lodmp3path = "https://www.lod.lu/audio/";
+
         [J("filename", NullValueHandling = N.Ignore)] public string Filename { get; set; }
         [J("filepath", NullValueHandling = N.Ignore)] public string Filepath { get; set; }
         [J("quickselectfile", NullValueHandling = N.Ignore)] public string QuickSelectFile { get; set; }
@@ -84,6 +89,14 @@ namespace KonterbontLODConnector
             return dt;
         }
 
+        public void GetMp3(string mp3filename)
+        {
+            using (WebClient wc = new WebClient())
+            {
+                wc.DownloadFileAsync(new Uri(lodmp3path + mp3filename), Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
+            }
+        }
+
         public void OutputPopup(Wuert wuert, string occurence, string rgbvalue)
         {
             string _tmpfilecontent = Properties.Resources.popup;
@@ -96,7 +109,7 @@ namespace KonterbontLODConnector
             _tmpfilecontent = _tmpfilecontent.Replace("_DEWORD_", wuert.Meanings[wuert.Selection - 1].DE);
             _tmpfilecontent = _tmpfilecontent.Replace("_ENWORD_", wuert.Meanings[wuert.Selection - 1].EN);
             _tmpfilecontent = _tmpfilecontent.Replace("_PTWORD_", wuert.Meanings[wuert.Selection - 1].PT);
-
+            GetMp3(wuert.MP3);
             File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\" + occurence + ".html", _tmpfilecontent);
         }
 
@@ -114,6 +127,7 @@ namespace KonterbontLODConnector
                 }
             }
             Directory.CreateDirectory(Filepath + "WebResources\\popupbase-web-resources");
+            Directory.CreateDirectory(Filepath + "WebResources\\popupbase-web-resources\\audio");
             File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro_BookItalic.ttf", Properties.Resources.FreightSansCmpPro_BookItalic);
             File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro_Med.ttf", Properties.Resources.FreightSansCmpPro_Med);
             File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro_Semi.ttf", Properties.Resources.FreightSansCmpPro_Semi);
