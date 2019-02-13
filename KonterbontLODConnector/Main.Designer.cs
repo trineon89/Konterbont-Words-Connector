@@ -109,6 +109,7 @@
             this.lbSelectWord.Size = new System.Drawing.Size(234, 199);
             this.lbSelectWord.TabIndex = 9;
             this.lbSelectWord.SelectedIndexChanged += new System.EventHandler(this.LbSelectWord_SelectedIndexChanged);
+            this.lbSelectWord.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectWord_MouseDoubleClick);
             // 
             // lbSelectMeaning
             // 
@@ -118,6 +119,7 @@
             this.lbSelectMeaning.Size = new System.Drawing.Size(231, 199);
             this.lbSelectMeaning.TabIndex = 10;
             this.lbSelectMeaning.SelectedIndexChanged += new System.EventHandler(this.LbSelectMeaning_SelectedIndexChanged);
+            this.lbSelectMeaning.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectMeaning_MouseDoubleClick);
             // 
             // rtbDetails
             // 

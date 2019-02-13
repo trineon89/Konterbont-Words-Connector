@@ -13,6 +13,7 @@ using System.Net.Http.Headers;
 using HtmlAgilityPack;
 using System.IO;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace KonterbontLODConnector
 {
@@ -275,7 +276,7 @@ namespace KonterbontLODConnector
 
                             MeaningText = Meaning.InnerText;
                             string regex = "(\\&lt;.*\\&gt;)";
-                            MeaningText = System.Text.RegularExpressions.Regex.Replace(MeaningText, regex, "");
+                            MeaningText = Regex.Replace(MeaningText, regex, "");
 
                             if (MeaningText.Contains("--- coming soon ---") || MeaningText.Contains("--- disponível em breve ---"))
                             {
@@ -296,19 +297,22 @@ namespace KonterbontLODConnector
                                     {
                                         htmlexample.RemoveChild(RemoveNode);
                                     }
-                                    /*string EGS = "";
-                                    if (htmlexample.SelectSingleNode(".//span[@id='text_gen']") != null)
+
+                                    string EGS = "";
+                                    if (htmlexample.SelectSingleNode(".//span[@class='text_gen']") != null)
                                     {
-                                        EGS = htmlexample.SelectSingleNode(".//span[@id='text_gen']").InnerText;
+                                        EGS = htmlexample.SelectSingleNode(".//span[@class='text_gen']").InnerText;
                                     }
-                                    RemoveNode = htmlexample.SelectSingleNode(".//span[@id='text_gen']");
+
+                                    RemoveNode = htmlexample.SelectSingleNode(".//span[@class='text_gen']");
                                     if (RemoveNode != null)
                                     {
                                         htmlexample.RemoveChild(RemoveNode);
-                                    }*/
-                                    Example example = new Example(htmlexample.InnerText);
-                                    
-                                    //Console.WriteLine(EGS);
+                                    }
+                                    Console.WriteLine(EGS);
+
+                                    Example example = new Example(htmlexample.InnerText,EGS.Trim());
+
                                     meaning.Examples.Add(example);
                                 }
                                 break;
@@ -371,7 +375,7 @@ namespace KonterbontLODConnector
             return reswuert;
         }
 
-        private async Task<AutoComplete> FetchWordsAsync(AutoComplete acwuert, string Lang)
+        /*private async Task<AutoComplete> FetchWordsAsync(AutoComplete acwuert, string Lang)
         {
             Wuert wuert = acwuert.Wierder[acwuert.Selection - 1];
             var httpClient = new HttpClient();
@@ -455,7 +459,7 @@ namespace KonterbontLODConnector
                      * 
                      * 4 Meaning DE Wuert ::html:: <span class=intro_et> ..... </span>
                      * 
-                     */
+                     *
 
                     Meaning meaning = new Meaning();
 
@@ -533,7 +537,7 @@ namespace KonterbontLODConnector
                             HtmlNodeCollection htmlExamples = Meaning.SelectNodes(".//span[@class='beispill']");
                             foreach (HtmlNode htmlexample in htmlExamples)
                             {
-                                Example example = new Example(htmlexample.InnerText);
+                                Example example = new Example(htmlexample.InnerText,"");
                                 meaning.Examples.Add(example);
                             }
                             break;
@@ -586,7 +590,7 @@ namespace KonterbontLODConnector
             acwuert.Wierder[acwuert.Selection - 1] = wuert;
             return acwuert;
             //return wuert;
-        }
+        }*/
 
         private async Task<string> FetchWordsTT(string XML, string Lang)
         {
@@ -838,7 +842,7 @@ namespace KonterbontLODConnector
 
         }
 
-        private async Task<AutoComplete> GetWordAsync(string searchstring)
+       /*private async Task<AutoComplete> GetWordAsync(string searchstring)
         {
             return await Task.Run(() => GetWord(searchstring));
         }
@@ -865,7 +869,7 @@ namespace KonterbontLODConnector
             acwuert = taskPT.Result;
 
             return acwuert;
-        }
+        }*/
 
         private async void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -972,6 +976,7 @@ namespace KonterbontLODConnector
         private void LbWords_SelectedIndexChanged(object sender, EventArgs e)
         {
             // ✓ 
+            if (lbWords.SelectedIndex == -1) return;
             var _i = 0;
             lbSelectWord.Items.Clear();
 
@@ -995,6 +1000,8 @@ namespace KonterbontLODConnector
         private void LbSelectWord_SelectedIndexChanged(object sender, EventArgs e)
         {
             // ✓ 
+            if (lbSelectWord.SelectedIndex == -1) return;
+            if (lbWords.SelectedIndex == -1) return;
             var _i = 0;
             lbSelectMeaning.Items.Clear();
 
@@ -1015,8 +1022,12 @@ namespace KonterbontLODConnector
 
         private void LbSelectMeaning_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (lbSelectWord.SelectedIndex == -1) return;
+            if (lbWords.SelectedIndex == -1) return;
+            if (lbSelectMeaning.SelectedIndex == -1) return;
             rtbDetails.Clear();
             Wuert SelWord = globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex];
+
             Meaning SelMeaning = globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex];
 
             Font Bold = new Font(rtbDetails.SelectionFont, FontStyle.Bold);
@@ -1114,6 +1125,14 @@ namespace KonterbontLODConnector
                 rtbDetails.AppendText(Environment.NewLine + "Beispill " + Ex.ToString() + ": ");
                 rtbDetails.SelectionFont = Normal;
                 rtbDetails.AppendText(SelExample.ExampleText);
+                // ëmgangssproochlech
+                if (SelExample.EGS != "")
+                {
+                    rtbDetails.SelectionFont = Bold;
+                    rtbDetails.AppendText(Environment.NewLine + "Beispill " + Ex.ToString() + "(EGS): ");
+                    rtbDetails.SelectionFont = Normal;
+                    rtbDetails.AppendText(SelExample.EGS);
+                }
                 Ex++;
             }
 
@@ -1138,6 +1157,48 @@ namespace KonterbontLODConnector
         {
             //CreatePopups
             globaldt.OutputPopups();
+        }
+
+        private void lbSelectWord_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            for (int Item = 0; Item < lbSelectWord.Items.Count; Item++)
+            {
+                lbSelectWord.Items[Item] = Regex.Replace(lbSelectWord.Items[Item].ToString(), @"( ✓)", "");
+            }
+
+
+            if (!lbSelectWord.Items[lbSelectWord.SelectedIndex].ToString().Contains("✓"))
+            {
+                lbSelectWord.Items[lbSelectWord.SelectedIndex] = lbSelectWord.Items[lbSelectWord.SelectedIndex] + " ✓";
+                for (int Item = 0; Item < lbSelectMeaning.Items.Count; Item++)
+                {
+                    lbSelectMeaning.Items[Item] = Regex.Replace(lbSelectMeaning.Items[Item].ToString(), @"( ✓)", "");
+                }
+                lbSelectMeaning.Items[0] = lbSelectMeaning.Items[0] + " ✓";
+                globaldt.WordList[lbWords.SelectedIndex].Selection = lbSelectWord.SelectedIndex + 1;
+                globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection = 1;
+                lbSelectMeaning.SelectedIndex = 0;
+                // save
+                globaldt.SaveToFile(globaldt);
+            }
+        }
+
+        private void lbSelectMeaning_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            
+            for (int Item = 0; Item < lbSelectMeaning.Items.Count; Item++)
+            {
+                lbSelectMeaning.Items[Item] = Regex.Replace(lbSelectMeaning.Items[Item].ToString(), @"( ✓)", "");
+            }
+
+            if (!lbSelectMeaning.Items[lbSelectMeaning.SelectedIndex].ToString().Contains("✓"))
+            {
+                lbSelectMeaning.Items[lbSelectMeaning.SelectedIndex] = lbSelectMeaning.Items[lbSelectMeaning.SelectedIndex] + " ✓";
+                globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection = lbSelectMeaning.SelectedIndex + 1;
+                // save
+                globaldt.SaveToFile(globaldt);
+            }
+            
         }
     }
 }

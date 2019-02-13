@@ -91,10 +91,10 @@ namespace KonterbontLODConnector
         {
             this.ExampleText = null;
         }
-        public Example(string ExText)
+        public Example(string ExText,string EGSText)
         {
             ExampleText = ExText;
-            EGS = null;
+            EGS = EGSText;
         }
     }
 
