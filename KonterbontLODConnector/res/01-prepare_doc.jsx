@@ -337,7 +337,7 @@ function createbutton(GB, _theSpread, _theButtonName, _pageSel, _count)
          _button.insertLabel("com.rovingbird.epublisher.wo", myJsonString);
          // Wierder sammelen
          _theButtonName = _theButtonName.replace(/\s/gi, ' ');
-       finishedWords.push(_theButtonName + "\t" + _count);
+       finishedWords.push(_theButtonName);
     } else {
       var number = Math.floor(Math.random()*123456+1);
       var myProperties = {
@@ -406,11 +406,9 @@ function deUmlaut(value){
 }
 
 function savewords() {
-  finishedWords.sort();
-  myFile =  File(app.activeDocument.filePath + "/"+theFileName+".txt");
+  myFile =  File(app.activeDocument.filePath + "/"+theFileName+".words");
   myFile.encoding = "UTF-8";
   myFile.open("w");    
-  myFile.writeln("_wierder_	");
   myFile.writeln(markerColor);
   for (var i=0;i<finishedWords.length;i++)
     {

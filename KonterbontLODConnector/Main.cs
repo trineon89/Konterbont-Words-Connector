@@ -311,7 +311,7 @@ namespace KonterbontLODConnector
                                     }
                                     Console.WriteLine(EGS);
 
-                                    Example example = new Example(htmlexample.InnerText,EGS.Trim());
+                                    Example example = new Example(htmlexample.InnerText, EGS.Trim());
 
                                     meaning.Examples.Add(example);
                                 }
@@ -842,34 +842,34 @@ namespace KonterbontLODConnector
 
         }
 
-       /*private async Task<AutoComplete> GetWordAsync(string searchstring)
-        {
-            return await Task.Run(() => GetWord(searchstring));
-        }
+        /*private async Task<AutoComplete> GetWordAsync(string searchstring)
+         {
+             return await Task.Run(() => GetWord(searchstring));
+         }
 
-        private async Task<AutoComplete> GetWord(string searchstring)
-        {
-            string fetchedXml = await Task.Run(async () => await FetchXMLasync(searchstring));
+         private async Task<AutoComplete> GetWord(string searchstring)
+         {
+             string fetchedXml = await Task.Run(async () => await FetchXMLasync(searchstring));
 
-            AutoComplete acwuert = ParseXMLWords(fetchedXml, false, searchstring);
-            Task<AutoComplete> taskLU = Task.Run(async () => await FetchWordsAsync(acwuert, "LU"));
-            taskLU.Wait();
-            acwuert = taskLU.Result;
-            Task<AutoComplete> taskDE = Task.Run(async () => await FetchWordsAsync(acwuert, "DE"));
-            taskDE.Wait();
-            acwuert = taskDE.Result;
-            Task<AutoComplete> taskFR = Task.Run(async () => await FetchWordsAsync(acwuert, "FR"));
-            taskFR.Wait();
-            acwuert = taskFR.Result;
-            Task<AutoComplete> taskEN = Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
-            taskEN.Wait();
-            acwuert = taskEN.Result;
-            Task<AutoComplete> taskPT = Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
-            taskPT.Wait();
-            acwuert = taskPT.Result;
+             AutoComplete acwuert = ParseXMLWords(fetchedXml, false, searchstring);
+             Task<AutoComplete> taskLU = Task.Run(async () => await FetchWordsAsync(acwuert, "LU"));
+             taskLU.Wait();
+             acwuert = taskLU.Result;
+             Task<AutoComplete> taskDE = Task.Run(async () => await FetchWordsAsync(acwuert, "DE"));
+             taskDE.Wait();
+             acwuert = taskDE.Result;
+             Task<AutoComplete> taskFR = Task.Run(async () => await FetchWordsAsync(acwuert, "FR"));
+             taskFR.Wait();
+             acwuert = taskFR.Result;
+             Task<AutoComplete> taskEN = Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
+             taskEN.Wait();
+             acwuert = taskEN.Result;
+             Task<AutoComplete> taskPT = Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
+             taskPT.Wait();
+             acwuert = taskPT.Result;
 
-            return acwuert;
-        }*/
+             return acwuert;
+         }*/
 
         private async void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -919,6 +919,7 @@ namespace KonterbontLODConnector
                     string tfile = new StreamReader(file).ReadToEnd();
                     string[] lines = tfile.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
                     int countlines = lines.GetLength(0);
+                    // removes empty line at end
                     int c = 0;
                     Pietschsoft.NativeProgressDialog progressDialog = new Pietschsoft.NativeProgressDialog(this.Handle)
                     {
@@ -932,28 +933,36 @@ namespace KonterbontLODConnector
                     dt.PrepareOutputFolder();
                     foreach (string line in lines)
                     {
-                        progressDialog.Line1 = "Siche nom Wuert: " + line;
-
-                        if (dt.WordList.Count == 0)
+                        if (c == 0)
                         {
-                            AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
-                            dt.AddWordToList(acword);
+                            dt.SetRGB(line);
+                            c++;
                         }
-                        else
+                        else if (line != "")
                         {
-                            bool HasChanged = await Task.Run(async () => await CheckIfWordHasChangedAsync(line, dt.WordList));
-                            if (HasChanged)
+                            progressDialog.Line1 = "Siche nom Wuert: " + line;
+
+                            if (dt.WordList.Count == 0)
                             {
                                 AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
                                 dt.AddWordToList(acword);
                             }
+                            else
+                            {
+                                bool HasChanged = await Task.Run(async () => await CheckIfWordHasChangedAsync(line, dt.WordList));
+                                if (HasChanged)
+                                {
+                                    AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
+                                    dt.AddWordToList(acword);
+                                }
+                            }
+                            double dbl = 100d / countlines * c;
+                            uint _currprog = Convert.ToUInt32(Math.Round(dbl));
+                            progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
+                            progressDialog.Value = _currprog;
+                            c++;
+                            //dt.OutputPopup(dt.WordList[c-1].Wierder[dt.WordList[c-1].Selection -1], line, "240,120,84");
                         }
-                        double dbl = 100d / countlines * c;
-                        uint _currprog = Convert.ToUInt32(Math.Round(dbl));
-                        progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
-                        progressDialog.Value = _currprog;
-                        c++;
-                        //dt.OutputPopup(dt.WordList[c-1].Wierder[dt.WordList[c-1].Selection -1], line, "240,120,84");
                     }
                     progressDialog.CloseDialog();
 
@@ -976,7 +985,8 @@ namespace KonterbontLODConnector
         private void LbWords_SelectedIndexChanged(object sender, EventArgs e)
         {
             // ✓ 
-            if (lbWords.SelectedIndex == -1) return;
+            if (lbWords.SelectedIndex == -1)
+                return;
             var _i = 0;
             lbSelectWord.Items.Clear();
 
@@ -1000,8 +1010,10 @@ namespace KonterbontLODConnector
         private void LbSelectWord_SelectedIndexChanged(object sender, EventArgs e)
         {
             // ✓ 
-            if (lbSelectWord.SelectedIndex == -1) return;
-            if (lbWords.SelectedIndex == -1) return;
+            if (lbSelectWord.SelectedIndex == -1)
+                return;
+            if (lbWords.SelectedIndex == -1)
+                return;
             var _i = 0;
             lbSelectMeaning.Items.Clear();
 
@@ -1022,9 +1034,12 @@ namespace KonterbontLODConnector
 
         private void LbSelectMeaning_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lbSelectWord.SelectedIndex == -1) return;
-            if (lbWords.SelectedIndex == -1) return;
-            if (lbSelectMeaning.SelectedIndex == -1) return;
+            if (lbSelectWord.SelectedIndex == -1)
+                return;
+            if (lbWords.SelectedIndex == -1)
+                return;
+            if (lbSelectMeaning.SelectedIndex == -1)
+                return;
             rtbDetails.Clear();
             Wuert SelWord = globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex];
 
@@ -1151,6 +1166,7 @@ namespace KonterbontLODConnector
         private void BtnSave_Click(object sender, EventArgs e)
         {
             //Save
+            globaldt.SaveToFile(globaldt);
         }
 
         private void BtnCreatePopups_Click(object sender, EventArgs e)
@@ -1185,7 +1201,7 @@ namespace KonterbontLODConnector
 
         private void lbSelectMeaning_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            
+
             for (int Item = 0; Item < lbSelectMeaning.Items.Count; Item++)
             {
                 lbSelectMeaning.Items[Item] = Regex.Replace(lbSelectMeaning.Items[Item].ToString(), @"( ✓)", "");
@@ -1198,7 +1214,7 @@ namespace KonterbontLODConnector
                 // save
                 globaldt.SaveToFile(globaldt);
             }
-            
+
         }
     }
 }

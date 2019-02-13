@@ -47,7 +47,8 @@ namespace KonterbontLODConnector
             QSindex = 0;
             Filename = _filename;
             Filepath = null;
-            QuickSelectFile = Path.GetFileNameWithoutExtension(_filename) + ".selections"; ;
+            QuickSelectFile = Path.GetFileNameWithoutExtension(_filename) + ".selections";
+            ;
             QuickSelect = new Dictionary<int, int>();
             WordList = new List<AutoComplete>();
             frmMagazineSelectorInit();
@@ -58,7 +59,8 @@ namespace KonterbontLODConnector
             QSindex = 0;
             Filename = _filename;
             Filepath = _filepath;
-            QuickSelectFile = Path.GetFileNameWithoutExtension(_filename) + ".selections"; ;
+            QuickSelectFile = Path.GetFileNameWithoutExtension(_filename) + ".selections";
+            ;
             QuickSelect = new Dictionary<int, int>();
             WordList = new List<AutoComplete>();
             frmMagazineSelectorInit();
@@ -107,7 +109,7 @@ namespace KonterbontLODConnector
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
             serializer.NullValueHandling = N.Ignore;
 
-            using (StreamWriter sw = new StreamWriter(Filepath+Filename))
+            using (StreamWriter sw = new StreamWriter(Filepath + Filename))
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
                 serializer.Serialize(writer, dt);
@@ -119,7 +121,7 @@ namespace KonterbontLODConnector
         {
             DataHandler dt = new DataHandler(_filename, _filepath);
             JsonSerializer serializer = new JsonSerializer();
-            using (StreamReader sr = new StreamReader(_filepath+"\\"+_filename))
+            using (StreamReader sr = new StreamReader(_filepath + "\\" + _filename))
             using (JsonReader reader = new JsonTextReader(sr))
             {
                 dt = serializer.Deserialize<DataHandler>(reader);
@@ -140,7 +142,7 @@ namespace KonterbontLODConnector
             foreach (AutoComplete ac in WordList)
             {
                 OutputPopup(ac.Wierder[ac.Selection - 1], ac.Occurence, globrgb);
-                    //dt.OutputPopup(dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1], line, "240,120,84");
+                //dt.OutputPopup(dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1], line, "240,120,84");
             }
         }
 
@@ -149,8 +151,26 @@ namespace KonterbontLODConnector
             string _tmpfilecontent = Properties.Resources.popup;
             _tmpfilecontent = _tmpfilecontent.Replace("leColorCSScolor", rgbvalue);
             _tmpfilecontent = _tmpfilecontent.Replace("aarbecht1.mp3", wuert.MP3);
-            _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORD_", wuert.Meanings[wuert.Selection-1].LU);
+            _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORD_", wuert.Meanings[wuert.Selection - 1].LU);
+
+            if (wuert.Meanings[wuert.Selection - 1].LUs == null)
+            {
+                _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "");
+                _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", "");
+            }
+            else if (wuert.WuertForm.WuertForm == "Verb")
+            {
+                _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "(Participe Passé: ");
+                _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", ")");
+            }
+            else
+            {
+                _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "(Pluriel: ");
+                _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", ")");
+            }
+
             _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORDPLURAL_", wuert.Meanings[wuert.Selection - 1].LUs);
+
             _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORDFORM_", wuert.WuertForm.WuertForm);
             _tmpfilecontent = _tmpfilecontent.Replace("_FRWORD_", wuert.Meanings[wuert.Selection - 1].FR);
             _tmpfilecontent = _tmpfilecontent.Replace("_DEWORD_", wuert.Meanings[wuert.Selection - 1].DE);
