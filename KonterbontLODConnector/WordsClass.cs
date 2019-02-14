@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KonterbontLODConnector
 {
@@ -35,9 +33,22 @@ namespace KonterbontLODConnector
                     }
                 }
                 return false;
-                return true;
             }
             else return false;
+        }
+
+        public bool DeepCheck(AutoComplete ac)
+        {
+            foreach (Wuert word in ac.Wierder)
+            {
+                foreach (Meaning mean in word.Meanings)
+                {
+                    var tmp = ac.Wierder.FirstOrDefault(acx => acx.Meanings.Any(x => (x.LU == mean.LU) && (x.LUs == mean.LUs)
+                    && (x.DE == mean.DE) && (x.FR == mean.FR) && (x.EN == mean.EN) && (x.PT == mean.PT) ));
+                    if (tmp == null) return true;
+                }
+            }
+            return false;
         }
     }
 

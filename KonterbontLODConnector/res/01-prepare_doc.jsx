@@ -341,7 +341,7 @@ function createbutton(GB, _theSpread, _theButtonName, _pageSel, _count)
     } else {
       var number = Math.floor(Math.random()*123456+1);
       var myProperties = {
-              'woUrl':                  'webresource://popupbase-web-resources/'+theFileName+'popup_'+deUmlaut(_theButtonName)+'H.html',
+              'woUrl':                  'webresource://popupbase-web-resources/'+theFileName+'popup_'+deUmlaut(_theButtonName)+'.html',
               'woAllowUserInteraction': true,
               'woWidth':                '500',
               'woHeight':               '154',
@@ -401,8 +401,7 @@ function deUmlaut(value){
     value = value.replace(/û/gi, 'u');
     value = value.replace(/â/gi, 'a');
     value = value.replace(/ô/gi, 'o');
-  
-  return value;
+    return value;
 }
 
 function savewords() {

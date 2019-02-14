@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using J = Newtonsoft.Json.JsonPropertyAttribute;
 using N = Newtonsoft.Json.NullValueHandling;
-
-
 
 namespace KonterbontLODConnector
 {
@@ -23,45 +19,31 @@ namespace KonterbontLODConnector
         private frmMagazineSelector theform;
         private string targetMag;
 
-        [J("filename", NullValueHandling = N.Ignore)] public string Filename { get; set; }
+        public string Filename { get; set; }
         [J("filepath", NullValueHandling = N.Ignore)] public string Filepath { get; set; }
-        [J("quickselectfile", NullValueHandling = N.Ignore)] public string QuickSelectFile { get; set; }
-        [J("qsindex", NullValueHandling = N.Ignore)] private int QSindex { get; set; }
-        [J("quickselect", NullValueHandling = N.Ignore)] public Dictionary<int, int> QuickSelect { get; set; }
         [J("wordlist", NullValueHandling = N.Ignore)] public List<AutoComplete> WordList { get; set; }
         [J("globrgb", NullValueHandling = N.Ignore)] public string globrgb { get; set; }
 
         public DataHandler()
         {
-            QSindex = 0;
             Filename = null;
             Filepath = null;
-            QuickSelectFile = null;
-            QuickSelect = new Dictionary<int, int>();
             WordList = new List<AutoComplete>();
             frmMagazineSelectorInit();
         }
 
         public DataHandler(string _filename)
         {
-            QSindex = 0;
             Filename = _filename;
             Filepath = null;
-            QuickSelectFile = Path.GetFileNameWithoutExtension(_filename) + ".selections";
-            ;
-            QuickSelect = new Dictionary<int, int>();
             WordList = new List<AutoComplete>();
             frmMagazineSelectorInit();
         }
 
         public DataHandler(string _filename, string _filepath)
         {
-            QSindex = 0;
             Filename = _filename;
             Filepath = _filepath;
-            QuickSelectFile = Path.GetFileNameWithoutExtension(_filename) + ".selections";
-            ;
-            QuickSelect = new Dictionary<int, int>();
             WordList = new List<AutoComplete>();
             frmMagazineSelectorInit();
         }
@@ -99,8 +81,6 @@ namespace KonterbontLODConnector
         public void AddWordToList(AutoComplete ac)
         {
             WordList.Add(ac);
-            QSindex++;
-            QuickSelect.Add(QSindex, WordList.Count() - 1);
         }
 
         public void SaveToFile(DataHandler dt)
@@ -114,7 +94,6 @@ namespace KonterbontLODConnector
             {
                 serializer.Serialize(writer, dt);
             }
-            File.WriteAllLines(Filepath + QuickSelectFile, QuickSelect.Select(kv => String.Join("	", kv.Key, kv.Value)));
         }
 
         public DataHandler LoadFromFile(string _filepath, string _filename)
@@ -137,13 +116,13 @@ namespace KonterbontLODConnector
             }
         }
 
-        public void OutputPopups()
+        public bool OutputPopups()
         {
             foreach (AutoComplete ac in WordList)
             {
                 OutputPopup(ac.Wierder[ac.Selection - 1], ac.Occurence, globrgb);
-                //dt.OutputPopup(dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1], line, "240,120,84");
             }
+            return true;
         }
 
         public void OutputPopup(Wuert wuert, string occurence, string rgbvalue)
@@ -177,10 +156,37 @@ namespace KonterbontLODConnector
             _tmpfilecontent = _tmpfilecontent.Replace("_ENWORD_", wuert.Meanings[wuert.Selection - 1].EN);
             _tmpfilecontent = _tmpfilecontent.Replace("_PTWORD_", wuert.Meanings[wuert.Selection - 1].PT);
             GetMp3(wuert.MP3);
-            File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\" + occurence + ".html", _tmpfilecontent);
+            occurence = DeUmlaut(occurence);
+            File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\" + Path.GetFileNameWithoutExtension(Filename) + "popup_" +occurence + ".html", _tmpfilecontent);
         }
 
-        public void PrepareOutputFolder()
+        public string DeUmlaut(string inp)
+        {
+            string Result;
+            Result = inp;
+            Result = Result.ToLower();
+            Result = Regex.Replace(Result, "ä", "ae", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "ö", "oe", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "ü", "ue", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "ß", "ss", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "é", "e", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "è", "e", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "ä", "a", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "ë", "e", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "û", "u", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "Û", "u", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "ê", "e", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "â", "a", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "\\s", "_", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "'", "", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "’", "", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "û", "u", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "â", "a", RegexOptions.IgnoreCase);
+            Result = Regex.Replace(Result, "ô", "o", RegexOptions.IgnoreCase);
+            return Result;
+        }
+
+        public void PrepareOutputFolder(bool reset = true)
         {
             if (Directory.Exists(Filepath + "WebResources\\popupbase-web-resources"))
             {
@@ -198,14 +204,7 @@ namespace KonterbontLODConnector
             File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro_BookItalic.ttf", Properties.Resources.FreightSansCmpPro_BookItalic);
             File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro_Med.ttf", Properties.Resources.FreightSansCmpPro_Med);
             File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro_Semi.ttf", Properties.Resources.FreightSansCmpPro_Semi);
-        }
-
-        /// <summary>
-        /// QuickSelect Datei Lueden an als Lëscht oofspäicheren
-        /// </summary>
-        public void LoadQuickSelect(IEnumerable<string> filepaths)
-        {
-            QuickSelect = filepaths.Select(sline => sline.Split('	')).ToDictionary(split => Convert.ToInt32(split[0]), split => Convert.ToInt32(split[1]));
+            File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\popupstyle.css", Properties.Resources.popupstyle);
         }
     }
 

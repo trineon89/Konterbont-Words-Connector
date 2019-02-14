@@ -62,28 +62,33 @@ namespace KonterbontLODConnector.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to #targetengine &quot;session&quot;
-        ///#include &quot;getWords.jsx&quot;
-        ///#include &quot;json2.jsx&quot;
         ///
-        ///var theFileName = app.activeDocument.name.substr(0,7)+&quot;_&quot;;
-        ///var myCharacterStyleName = &quot;Marker&quot;;
-        ///var myScriptPath = getScriptFolder();
+        ////*
+        /// * 
+        /// * json2.jsx
+        /// * 
+        /// * 
+        /// */
         ///
-        ///var finishedWords=new Array();
+        ///if (typeof JSON !== &apos;object&apos;) {
+        ///    JSON = {};
+        ///}
         ///
-        ///theDocCharStyles = app.activeDocument.characterStyles;
+        ///(function () {
+        ///    &apos;use strict&apos;;
         ///
-        ///createms();
+        ///    function f(n) {
+        ///        return n &lt; 10 ? &apos;0&apos; + n : n;
+        ///    }
         ///
-        ///var _docStories = app.activeDocument.stories;
+        ///    if (typeof Date.prototype.toJSON !== &apos;function&apos;) {
         ///
-        ///var myBounds;
-        ///var markerColor;
-        ///var _countword = new Array();
-        ///var _count = 0;
-        ///for (var c=0; c &lt; _docStories.length; c++)
-        ///{ 
-        ///    var _docSt [rest of string was truncated]&quot;;.
+        ///        Date.prototype.toJSON = function () {
+        ///
+        ///            return isFinite(this.valueOf())
+        ///                ? this.getUTCFullYear() + &apos;-&apos; +
+        ///                f(this.getUTCMonth() + 1) + &apos;-&apos; +
+        ///                f(this.getUTCDate( [rest of string was truncated]&quot;;.
         /// </summary>
         public static string _01_prepare_doc {
             get {
@@ -128,17 +133,38 @@ namespace KonterbontLODConnector.Properties {
         ///		&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0,user-scalable=no&quot;&gt;
         ///		&lt;title&gt;popup&lt;/title&gt;
         ///		&lt;style&gt;
-        ///			div { height:0; }
-        ///			body { margin:0; height:100%; }
-        ///			html { height:100%; }
         ///			.highlight, .marker-color { color: rgb(leColorCSScolor) !important; color:yellow; } 
-        ///			.i { font-style:italic; }
-        ///			.b { font-weight:bold; }
-        ///			p.Tab_Wuert {  color: rgb(leColorCSScolor) !important; }         /// [rest of string was truncated]&quot;;.
+        ///			p.Tab_Wuert {  color: rgb(leColorCSScolor) !important; }
+        ///			div.divTableBody { height:100%; width:100%; background-color:rgb(leColorCSScolor) !important;background-color:red;padding:2px; }
+        ///			.flex-c [rest of string was truncated]&quot;;.
         /// </summary>
         public static string popup {
             get {
                 return ResourceManager.GetString("popup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @media screen and (orientation: portrait) {
+        ///	/* phone-specific style */
+        ///	.flex-innercontainer { flex-direction: column;margin:5px 5px 0 5px; }
+        ///	.flex-1 { height:5px !important; }
+        ///}
+        ///@media screen and (orientation: landscape) {
+        ///	/* tablet-specific style */
+        ///}
+        ///div { height:0; }
+        ///body { margin:0; height:100%; }
+        ///html,
+        ///body { position: fixed; overflow: hidden; } /* iOS disable bounce */
+        ///html { height:100%; }
+        ///.i { font-style:italic; }
+        ///.b { font-weight:bold; }
+        ///div.divTable { font-family: &quot;FreightSansCm [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string popupstyle {
+            get {
+                return ResourceManager.GetString("popupstyle", resourceCulture);
             }
         }
     }

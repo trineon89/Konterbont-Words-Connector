@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using HtmlAgilityPack;
 using System.IO;
 using System.Diagnostics;
@@ -207,6 +203,19 @@ namespace KonterbontLODConnector
                         {
                             if (Lang == "LU")
                             {
+
+                                /*
+                                 * 1 Meaning (kee Pluriel) ::html:: <span class=text_gen> ( <span class=info_plex>kee Pluriel</span>  ) </span>
+                                 * 
+                                 * 2 Meaning (Pluriel PlurielWuert) ::html:: <span class=text_gen> ( <span class=info_plex>Pluriel <span class=mentioun_adress> 
+                                 *      <span class=mentioun_adress> PlurielWuert </span> </span> </span>  ) </span>            
+                                 * 
+                                 * 3 Meaning SpecialWuert ::html:: <span class=polylex> SpecialWuert </span>
+                                 * 
+                                 * 4 Meaning DE Wuert ::html:: <span class=intro_et> ..... </span>
+                                 * 
+                                 */
+
                                 if (Meaning.SelectSingleNode(".//span[@class='text_gen']") != null)
                                 { // Meaning 1 or 2 or 4
                                     meaning.LU = wuert.WuertLu;
@@ -219,7 +228,13 @@ namespace KonterbontLODConnector
                                     }
                                     else
                                     {
-                                        if (Meaning.SelectSingleNode(".//span[@class='mentioun_adress']") != null)
+                                        if (Meaning.SelectSingleNode("span[@class='polylex']") != null)
+                                        { // -> Meaning 3
+                                            Console.WriteLine("Meaning 3");
+                                            meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText;
+                                            meaning.LUs = wuert.WuertLuS;
+                                        }
+                                        else if (Meaning.SelectSingleNode(".//span[@class='mentioun_adress']") != null)
                                         { // Meaning 2 or 4
                                             Console.WriteLine("Meaning 2, 4");
                                             if (Meaning.SelectSingleNode(".//span[@class='info_flex']") != null)
@@ -367,231 +382,13 @@ namespace KonterbontLODConnector
                         //TheResults.Wierder[TheResults.Selection].Selection = Int32.Parse(Selection);
                     }
                 }
-
                 reswuert.Wierder.Add(wuert);
                 _c++;
             }
             reswuert.Selection = acwuert.Selection;
             return reswuert;
         }
-
-        /*private async Task<AutoComplete> FetchWordsAsync(AutoComplete acwuert, string Lang)
-        {
-            Wuert wuert = acwuert.Wierder[acwuert.Selection - 1];
-            var httpClient = new HttpClient();
-            string LangURL;
-
-            if (Lang == "LU")
-            {
-                LangURL = "";
-            }
-            else
-            {
-                LangURL = Lang.ToLower();
-            }
-            var httpContent = new HttpRequestMessage
-            {
-                RequestUri = new Uri("https://www.lod.lu/php/getart" + LangURL + ".php?artid=" + wuert.XMLFile),
-                Method = HttpMethod.Get,
-                Headers =
-                           {
-                              { HttpRequestHeader.Host.ToString(), "www.lod.lu" },
-                              { HttpRequestHeader.Referer.ToString(), "https://www.lod.lu/" }
-                           }
-            };
-
-            var _response = await httpClient.SendAsync(httpContent);
-            _response.EnsureSuccessStatusCode();
-            string responseBody = await _response.Content.ReadAsStringAsync();
-            httpClient.Dispose();
-
-            HtmlAgilityPack.HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
-            htmlDocument.LoadHtml(responseBody);
-
-
-            // Meanings START
-            if (htmlDocument.DocumentNode.SelectNodes("//div[@class='uds_block']") != null)
-            {
-                int _i = 1;
-                string Selection = "";
-                string MeaningNr = "";
-
-
-
-                frmSelectMeaning frmSelectMeaning = new frmSelectMeaning();
-
-                HtmlNodeCollection htmlNodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='uds_block']");
-                foreach (HtmlNode Meaning in htmlNodes)
-                {
-                    string MeaningText = "";
-                    string MeaningTextAdd = "";
-                    string Pluriel;
-
-
-
-                    //HtmlNode[] MeaningArray;
-                    HtmlNode[] LUsArray = htmlDocument.DocumentNode.SelectNodes("//span[@class='mentioun_adress']").ToArray();
-
-                    if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']") != null) //has base pluriel
-                    {
-                        if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']") != null) //Failsafe pluriel
-                        {
-                            Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']").InnerText;
-                            Pluriel = Pluriel.Replace("&lt;", "<");
-                            Pluriel = Pluriel.Replace("&gt;", ">");
-                        }
-                        else
-                            Pluriel = null;
-                    }
-                    else
-                        Pluriel = null; // no base pluriel
-                    wuert.WuertLuS = Pluriel;
-
-
-
-                    /*
-                     * 1 Meaning (kee Pluriel) ::html:: <span class=text_gen> ( <span class=info_plex>kee Pluriel</span>  ) </span>
-                     * 
-                     * 2 Meaning (Pluriel PlurielWuert) ::html:: <span class=text_gen> ( <span class=info_plex>Pluriel <span class=mentioun_adress> 
-                     *      <span class=mentioun_adress> PlurielWuert </span> </span> </span>  ) </span>            
-                     * 
-                     * 3 Meaning SpecialWuert ::html:: <span class=polylex> SpecialWuert </span>
-                     * 
-                     * 4 Meaning DE Wuert ::html:: <span class=intro_et> ..... </span>
-                     * 
-                     *
-
-                    Meaning meaning = new Meaning();
-
-
-
-                    if (Meaning.SelectSingleNode(".//span[@class='text_gen']") != null)
-                    { // Meaning 1 or 2 or 4
-                        meaning.LU = wuert.WuertLu;
-                        meaning.LUs = Pluriel;
-                        Console.WriteLine("Meaning 1, 2, 4");
-                        if (Meaning.SelectSingleNode(".//span[@class='text_gen'][1]").ChildNodes.Count() == 3)
-                        { // -> Meaning 1
-                            Console.WriteLine("Meaning 1");
-                            meaning.LUs = null;
-                        }
-                        else if (Meaning.SelectSingleNode(".//span[@class='mentioun_adress']") != null)
-                        { // Meaning 2 or 4
-                            Console.WriteLine("Meaning 2, 4");
-                            if (Meaning.SelectSingleNode(".//span[@class='info_flex']") != null)
-                            { // -> Meaning 2
-                                Console.WriteLine("Meaning 2");
-                                meaning.LUs = Meaning.SelectSingleNode(".//span[@class='mentioun_adress']").InnerText;
-                            }
-                            else
-                            { // -> Meaning 4
-                                Console.WriteLine("Meaning 4");
-                            }
-                        }
-                        else
-                        { // -> Meaning 1
-                            Console.WriteLine("Meaning 1");
-                            meaning.LUs = null;
-                        }
-                    }
-                    else
-                    {
-                        if (Meaning.SelectSingleNode("span[@class='polylex']") != null)
-                        { // -> Meaning 3
-                            Console.WriteLine("Meaning 3");
-                            meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText;
-                            meaning.LUs = wuert.WuertLuS;
-                        }
-                        else
-                        { // -> Meaning 4 safe
-                            Console.WriteLine("Meaning 4 (safe)");
-                            meaning.LUs = wuert.WuertLuS;
-                            meaning.LU = wuert.WuertLu;
-                        }
-                    }
-                    if (Lang != "LU")
-                    {
-                        // var ModMean = Meaning;
-                        int i = 0;
-                        while (Meaning.InnerHtml.Contains("intro_et"))
-                        {
-                            Meaning.ChildNodes[i].Remove();
-                        }
-
-                        var RemoveNode = Meaning.SelectSingleNode("./div[@class='bspsblock']");
-                        if (RemoveNode != null)
-                            Meaning.RemoveChild(RemoveNode);
-                        RemoveNode = Meaning.SelectSingleNode("./div[@class='syn_block']");
-                        if (RemoveNode != null)
-                            Meaning.RemoveChild(RemoveNode);
-
-                        Console.Write(Meaning.InnerText);
-
-                        MeaningText = Meaning.InnerText;
-                    }
-
-                    switch (Lang)
-                    {
-                        case "LU":
-                            meaning.MP3 = wuert.MP3;
-                            HtmlNodeCollection htmlExamples = Meaning.SelectNodes(".//span[@class='beispill']");
-                            foreach (HtmlNode htmlexample in htmlExamples)
-                            {
-                                Example example = new Example(htmlexample.InnerText,"");
-                                meaning.Examples.Add(example);
-                            }
-                            break;
-                        case "DE":
-                            wuert.Meanings[_i - 1].DE = MeaningText + MeaningTextAdd;
-                            break;
-                        case "FR":
-                            wuert.Meanings[_i - 1].FR = MeaningText + MeaningTextAdd;
-                            break;
-                        case "EN":
-                            wuert.Meanings[_i - 1].EN = MeaningText + MeaningTextAdd;
-                            break;
-                        case "PT":
-                            wuert.Meanings[_i - 1].PT = MeaningText + MeaningTextAdd;
-                            break;
-                    }
-
-                    Selection = (_i + 1).ToString();
-                    RadioButton rb = new RadioButton
-                    {
-                        Name = _i.ToString(),
-                        Text = MeaningNr + " " + MeaningText + "" + MeaningTextAdd,
-
-                        Location = new Point(10, _i * 30),
-                        Width = 500
-                    };
-                    if (_i == 1)
-                    {
-                        rb.Checked = true;
-                    }
-                    frmSelectMeaning.gbMeanings.Text = "Bedeitung fir '" + wuert.WuertLu + "' auswielen:";
-                    frmSelectMeaning.gbMeanings.Controls.Add(rb);
-
-                    if (Lang == "LU")
-                    { wuert.Meanings.Add(meaning); }
-                    _i++;
-                }
-                if (htmlNodes.Count() > 1 && Lang == "DE")
-                {
-                    if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
-                    {
-                        RadioButton selectedMeaning = frmSelectMeaning.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
-                        Selection = selectedMeaning.Name;
-                        wuert.Selection = Int32.Parse(Selection);
-                        //TheResults.Wierder[TheResults.Selection].Selection = Int32.Parse(Selection);
-                    }
-                }
-            }
-
-            acwuert.Wierder[acwuert.Selection - 1] = wuert;
-            return acwuert;
-            //return wuert;
-        }*/
-
+        
         private async Task<string> FetchWordsTT(string XML, string Lang)
         {
             var httpClient = new HttpClient();
@@ -694,22 +491,7 @@ namespace KonterbontLODConnector
             }
             return null;
         }
-        /*
-        private async void BtnFetch_ClickAsync(object sender, EventArgs e)
-        {
-            Task<string> task = Task.Run(async () => await FetchXMLasync(edtWord.Text));
-            task.Wait();
-            string fetchedXml = task.Result;
 
-            AutoComplete acwuert = ParseXMLWords(fetchedXml);
-
-            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "LU"));
-            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "DE"));
-            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "FR"));
-            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
-            acwuert = await Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
-        }
-        */
         public bool ControlInvokeRequired(Control c, Action a)
         {
             if (c.InvokeRequired)
@@ -720,7 +502,6 @@ namespace KonterbontLODConnector
 
             return true;
         }
-
 
         private AutoComplete ParseXMLWords(string XML, bool onlycompare = false, string occurence = null)
         {
@@ -829,7 +610,8 @@ namespace KonterbontLODConnector
         {
             AutoComplete acresults = await Task.Run(async () => await GetFullTranslationsAsync(searchstring));
 
-            var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3) && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile) && (acx.Occurence == searchstring))));
+            var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3) 
+                && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile) && (acx.Occurence == searchstring))));
 
             if (tmp == null)
             {
@@ -837,46 +619,25 @@ namespace KonterbontLODConnector
             }
             else
             {
-                return false;
+                bool res = acresults.DeepCheck(tmp);
+                return res;
+                //return false;
             }
 
         }
 
-        /*private async Task<AutoComplete> GetWordAsync(string searchstring)
-         {
-             return await Task.Run(() => GetWord(searchstring));
-         }
-
-         private async Task<AutoComplete> GetWord(string searchstring)
-         {
-             string fetchedXml = await Task.Run(async () => await FetchXMLasync(searchstring));
-
-             AutoComplete acwuert = ParseXMLWords(fetchedXml, false, searchstring);
-             Task<AutoComplete> taskLU = Task.Run(async () => await FetchWordsAsync(acwuert, "LU"));
-             taskLU.Wait();
-             acwuert = taskLU.Result;
-             Task<AutoComplete> taskDE = Task.Run(async () => await FetchWordsAsync(acwuert, "DE"));
-             taskDE.Wait();
-             acwuert = taskDE.Result;
-             Task<AutoComplete> taskFR = Task.Run(async () => await FetchWordsAsync(acwuert, "FR"));
-             taskFR.Wait();
-             acwuert = taskFR.Result;
-             Task<AutoComplete> taskEN = Task.Run(async () => await FetchWordsAsync(acwuert, "EN"));
-             taskEN.Wait();
-             acwuert = taskEN.Result;
-             Task<AutoComplete> taskPT = Task.Run(async () => await FetchWordsAsync(acwuert, "PT"));
-             taskPT.Wait();
-             acwuert = taskPT.Result;
-
-             return acwuert;
-         }*/
-
         private async void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Add Progress Bar?
             //Menu -> Artikel Opmaachen
             if (folderBrowser.ShowDialog() == DialogResult.OK)
             {
+                string[] files = Directory.GetFiles(folderBrowser.SelectedPath, "*.words");
+                if (files.Length == 0)
+                {
+                        MessageBox.Show(this, "Keen Words Fichier an dësem Dossier!", "Upsi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                    
                 if (Directory.Exists(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources"))
                 {
                     try
@@ -889,7 +650,9 @@ namespace KonterbontLODConnector
                     }
                 }
                 Directory.CreateDirectory(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources");
-                string[] files = Directory.GetFiles(folderBrowser.SelectedPath, "*.words");
+
+                DataHandler dtt = new DataHandler();
+                int filec = 0;
                 foreach (var file in files)
                 {
                     string tmpfilename = Path.GetFileNameWithoutExtension(file) + ".wordslist";
@@ -906,16 +669,8 @@ namespace KonterbontLODConnector
                         dt = new DataHandler(tmpfilename, folderBrowser.SelectedPath + "\\");
                     }
 
-                    if (!(File.Exists(folderBrowser.SelectedPath + dt.QuickSelectFile)))
-                    {
-                        File.CreateText(folderBrowser.SelectedPath + dt.QuickSelectFile).Dispose();
-                    }
-                    else
-                    {
-                        string tmppath = folderBrowser.SelectedPath + dt.QuickSelectFile;
-                        dt.LoadQuickSelect(File.ReadLines(tmppath));
-                    }
-
+                    if (filec==0) dt.PrepareOutputFolder();
+                    filec++;
                     string tfile = new StreamReader(file).ReadToEnd();
                     string[] lines = tfile.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
                     int countlines = lines.GetLength(0);
@@ -930,7 +685,6 @@ namespace KonterbontLODConnector
                         Line3 = "Calculating Time Remaining..."
                     };
                     progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
-                    dt.PrepareOutputFolder();
                     foreach (string line in lines)
                     {
                         if (c == 0)
@@ -961,17 +715,14 @@ namespace KonterbontLODConnector
                             progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
                             progressDialog.Value = _currprog;
                             c++;
-                            //dt.OutputPopup(dt.WordList[c-1].Wierder[dt.WordList[c-1].Selection -1], line, "240,120,84");
                         }
                     }
                     progressDialog.CloseDialog();
-
                     dt.SaveToFile(dt);
 
                     lbWords.Items.Clear();
                     foreach (AutoComplete ac in dt.WordList) // Adds Words to lbWords on Main Form
                     {
-                        //lbWords.Items.Add(ac.Wierder[ac.Selection - 1].WuertLu);
                         lbWords.Items.Add(ac.Occurence);
                     }
                     globaldt = dt;
@@ -1172,7 +923,10 @@ namespace KonterbontLODConnector
         private void BtnCreatePopups_Click(object sender, EventArgs e)
         {
             //CreatePopups
-            globaldt.OutputPopups();
+            if (globaldt.OutputPopups())
+            {
+                MessageBox.Show(this,"Popups sinn erstallt!", "Okay", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void lbSelectWord_MouseDoubleClick(object sender, MouseEventArgs e)

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace KonterbontLODConnector
 {
@@ -46,7 +44,7 @@ namespace KonterbontLODConnector
                     }
                 }
                 Directory.CreateDirectory(adbscriptfolder + "KB4");
-                File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname, _filecontent);
+                File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname, _filecontent, new UTF8Encoding(true));
             }
         }
 
