@@ -372,7 +372,7 @@ namespace KonterbontLODConnector
                         _i++;
                     }
                 }
-                if (_MeaningsCount > 1 && Lang == "DE")
+                if (_MeaningsCount > 1 && Lang == "DE" && _c == acwuert.Selection)
                 {
                     if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
                     {
@@ -813,7 +813,7 @@ namespace KonterbontLODConnector
             rtbDetails.SelectionFont = Bold;
             if (SelWord.WuertForm.WuertForm == "Verb")
             {
-                rtbDetails.AppendText(Environment.NewLine + "participe passé: ");
+                rtbDetails.AppendText(Environment.NewLine + "Participe Passé: ");
 
                 if (SelMeaning.LUs != null)
                 {
@@ -853,6 +853,12 @@ namespace KonterbontLODConnector
                         rtbDetails.SelectionFont = Italic;
                         rtbDetails.AppendText("(Kee Pluriel)");
                     }
+                    rtbDetails.AppendText(Environment.NewLine);
+                }
+                else
+                {
+                    rtbDetails.AppendText(Environment.NewLine);
+                    rtbDetails.AppendText(Environment.NewLine);
                 }
             }
 
@@ -979,6 +985,12 @@ namespace KonterbontLODConnector
             }
             string[] Files = globaldt.InitCopyToMag();
 
+            if (Files == null)
+            {
+                MessageBox.Show("Kee Magazin gesat!");
+                return;
+            }
+
             Pietschsoft.NativeProgressDialog progressDialog = new Pietschsoft.NativeProgressDialog(this.Handle)
             {
                 Title = "Kopéieren vun den Popupen an den Magazin",
@@ -991,9 +1003,10 @@ namespace KonterbontLODConnector
             int c = 1;
             foreach (string _file in Files)
             {
-                progressDialog.Line1 = "Datei: " + _file;
+                progressDialog.Line1 = "Datei: " + Path.GetFileName(_file);
                 globaldt.CopyToMag(_file);
-
+                
+                System.Threading.Thread.Sleep(50);
                 double dbl = 100d / Files.Count() * c;
                 uint _currprog = Convert.ToUInt32(Math.Round(dbl));
                 progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
@@ -1001,30 +1014,8 @@ namespace KonterbontLODConnector
                 c++;
             }
             progressDialog.CloseDialog();
-
-            /*
-             *  INIT 
-             *  FOREACH
-             *      COPY
-             *  END
-             */
         }
 
-         /*   // copy generated Content to selected Magazine
-
-            //if check if targetMagazine = empty
-            if (targetMagazine == "")
-            {
-                string message = "Ups!\r\nEt ass nach keen Magazin ausgewielt!\r\nWiel fir 1. een aus.";
-                string caption = "Kee Magazinn ausgewielt!";
-                MessageBoxButtons buttons = MessageBoxButtons.OK;
-                MessageBox.Show(message, caption, buttons);
-            }
-            else
-            {
-                StartCopyToMagazine();
-            }
-        }*/
 
         private void StartCopyToMagazine()
         {

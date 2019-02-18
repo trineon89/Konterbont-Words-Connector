@@ -213,6 +213,8 @@ namespace KonterbontLODConnector
 
         public string[] InitCopyToMag()
         {
+            if (targetMag == null)
+                return null;
             string SourcePath = Filepath + "WebResources\\";
             var MagFiles = Directory.GetFiles(SourcePath, "*.*", SearchOption.AllDirectories);
             Console.WriteLine("Count: " + MagFiles.Length);
@@ -236,36 +238,6 @@ namespace KonterbontLODConnector
             });
         }
 
-        /*private async void CopyToMagazine()
-        {
-            await Task.Run(() =>
-            {
-
-                //Now Create all of the directories
-                foreach (string dirPath in Directory.GetDirectories(CurrentPath + "WebResources\\", "*",
-                    SearchOption.AllDirectories))
-                    Directory.CreateDirectory(dirPath.Replace(CurrentPath + "WebResources\\", MagazinePath + targetMagazine + "\\WebResources\\"));
-
-                //Copy all the files & Replaces any files with the same name
-                foreach (string newPath in Directory.GetFiles(CurrentPath + "WebResources\\", "*.*",
-                    SearchOption.AllDirectories))
-                {
-                    var _newFilePath = newPath.Replace(CurrentPath + "WebResources\\", MagazinePath + targetMagazine + "\\WebResources\\");
-                    if (File.Exists(_newFilePath))
-                    {
-                        File.Delete(_newFilePath);
-                    }
-                    //
-                    File.Copy(newPath, _newFilePath, true);
-                }
-                Debug.WriteLine(MagazinePath + targetMagazine);
-
-                UpdatebtnCopyToMag(true);
-                CopyClicked = true;
-
-            });
-
-        }*/
     }
 
     public partial class DataHandler
