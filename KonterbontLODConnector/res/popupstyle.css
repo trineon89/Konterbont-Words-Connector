@@ -21,7 +21,7 @@
 div { height:0; }
 body { margin:0; height:100%; }
 html,
-body { position: fixed; overflow: hidden; } /* iOS disable bounce */
+body { position: fixed; overflow: hidden; width:100% } /* iOS disable bounce */
 html { height:100%; }
 .i { font-style:italic; }
 .b { font-weight:bold; }
