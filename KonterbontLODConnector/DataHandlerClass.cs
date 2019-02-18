@@ -193,8 +193,9 @@ namespace KonterbontLODConnector
             {
                 try
                 {
-                    Directory.Move(Filepath + "WebResources\\popupbase-web-resources", Filepath + "WebResources\\popupbase-web-resources_x");
-                    Directory.Delete(Filepath + "WebResources\\popupbase-web-resources_x", true);
+                    Directory.Move(Filepath + "WebResources", Filepath + "WebResources_x");
+                    Directory.Delete(Filepath + "WebResources_x\\popupbase-web-resources", true);
+                    Directory.Move(Filepath + "WebResources_x", Filepath + "WebResources");
                 }
                 catch (Exception ea)
                 {
