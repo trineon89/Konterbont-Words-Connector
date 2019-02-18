@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -193,13 +193,15 @@ namespace KonterbontLODConnector
             {
                 try
                 {
-                    Directory.Delete(Filepath + "WebResources\\popupbase-web-resources", true);
+                    Directory.Move(Filepath + "WebResources\\popupbase-web-resources", Filepath + "WebResources\\popupbase-web-resources_x");
+                    Directory.Delete(Filepath + "WebResources\\popupbase-web-resources_x", true);
                 }
                 catch (Exception ea)
                 {
                     Console.WriteLine("{0} Exception caught.", ea);
                 }
             }
+
             Directory.CreateDirectory(Filepath + "WebResources\\popupbase-web-resources");
             Directory.CreateDirectory(Filepath + "WebResources\\popupbase-web-resources\\audio");
             File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-BookItalic.ttf", Properties.Resources.FreightSansCmpPro_BookItalic);
