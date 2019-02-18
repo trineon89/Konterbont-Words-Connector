@@ -210,18 +210,29 @@ namespace KonterbontLODConnector
             File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\popupstyle.css", Properties.Resources.popupstyle);
         }
 
-        public string InitCopyToMag()
+        public string[] InitCopyToMag()
         {
-            //IEnumerable<string> MagFiles = Directory.EnumerateFiles(@Filepath, " *.*", SearchOption.AllDirectories);
-            var MagFiles = Directory.EnumerateFiles(@"C:\dictionaries", " *.*", SearchOption.AllDirectories);
-            //foreach (var MagFile in  Directory.EnumerateFiles(@Filepath, " *.*", SearchOption.AllDirectories))
-            foreach (string MagFile in  MagFiles)
+            string SourcePath = Filepath + "WebResources\\";
+            var MagFiles = Directory.GetFiles(SourcePath, "*.*", SearchOption.AllDirectories);
+            Console.WriteLine("Count: " + MagFiles.Length);
+            foreach (string dirPath in Directory.GetDirectories(SourcePath, "*", SearchOption.AllDirectories))
+                    Directory.CreateDirectory(dirPath.Replace(SourcePath, MagazinePath + targetMag + "\\WebResources\\"));
+
+            return MagFiles;
+        }
+
+        public async void CopyToMag(string _file)
+        {
+            await Task.Run(() =>
             {
-                Console.WriteLine("Count: " + MagFile);           
-            }
-            //string[] MagFiles = Directory.GetFiles(Filepath + "WebResources\\", " *.*", SearchOption.AllDirectories);
-            return MagFiles.ToString();
-            ;
+                var _newFilePath = _file.Replace(Filepath + "WebResources\\", MagazinePath + targetMag + "\\WebResources\\");
+                if (File.Exists(_newFilePath))
+                {
+                    File.Delete(_newFilePath);
+                }
+                //
+                File.Copy(_file, _newFilePath, true);
+            });
         }
 
         /*private async void CopyToMagazine()

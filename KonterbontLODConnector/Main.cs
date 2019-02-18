@@ -977,8 +977,30 @@ namespace KonterbontLODConnector
             {
                 globaldt = new DataHandler();
             }
-            string itmnscount = globaldt.InitCopyToMag();
+            string[] Files = globaldt.InitCopyToMag();
 
+            Pietschsoft.NativeProgressDialog progressDialog = new Pietschsoft.NativeProgressDialog(this.Handle)
+            {
+                Title = "Kopéieren vun den Popupen an den Magazin",
+                CancelMessage = "Eieiei... Da wart elo...",
+                Maximum = 100,
+                Value = 0,
+                Line3 = "Calculating Time Remaining..."
+            };
+            progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
+            int c = 1;
+            foreach (string _file in Files)
+            {
+                progressDialog.Line1 = "Datei: " + _file;
+                globaldt.CopyToMag(_file);
+
+                double dbl = 100d / Files.Count() * c;
+                uint _currprog = Convert.ToUInt32(Math.Round(dbl));
+                progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
+                progressDialog.Value = _currprog;
+                c++;
+            }
+            progressDialog.CloseDialog();
 
             /*
              *  INIT 
