@@ -40,6 +40,7 @@
             this.rtbDetails = new System.Windows.Forms.RichTextBox();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCreatePopups = new System.Windows.Forms.Button();
+            this.btnCopyToMag = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -155,11 +156,22 @@
             this.btnCreatePopups.UseVisualStyleBackColor = true;
             this.btnCreatePopups.Click += new System.EventHandler(this.BtnCreatePopups_Click);
             // 
+            // btnCopyToMag
+            // 
+            this.btnCopyToMag.Location = new System.Drawing.Point(243, 28);
+            this.btnCopyToMag.Name = "btnCopyToMag";
+            this.btnCopyToMag.Size = new System.Drawing.Size(116, 23);
+            this.btnCopyToMag.TabIndex = 14;
+            this.btnCopyToMag.Text = "An de Magazin";
+            this.btnCopyToMag.UseVisualStyleBackColor = true;
+            this.btnCopyToMag.Click += new System.EventHandler(this.btnCopyMag_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(726, 524);
+            this.Controls.Add(this.btnCopyToMag);
             this.Controls.Add(this.btnCreatePopups);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.rtbDetails);
@@ -191,6 +203,7 @@
         private System.Windows.Forms.ToolStripMenuItem magazineSelectorToolStripMenuItem;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCreatePopups;
+        private System.Windows.Forms.Button btnCopyToMag;
     }
 }
 

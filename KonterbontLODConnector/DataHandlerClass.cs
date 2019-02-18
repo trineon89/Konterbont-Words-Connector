@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -206,6 +207,51 @@ namespace KonterbontLODConnector
             File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-Semi.ttf", Properties.Resources.FreightSansCmpPro_Semi);
             File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\popupstyle.css", Properties.Resources.popupstyle);
         }
+
+        public string InitCopyToMag()
+        {
+            //IEnumerable<string> MagFiles = Directory.EnumerateFiles(@Filepath, " *.*", SearchOption.AllDirectories);
+            var MagFiles = Directory.EnumerateFiles(@"C:\dictionaries", " *.*", SearchOption.AllDirectories);
+            //foreach (var MagFile in  Directory.EnumerateFiles(@Filepath, " *.*", SearchOption.AllDirectories))
+            foreach (string MagFile in  MagFiles)
+            {
+                Console.WriteLine("Count: " + MagFile);           
+            }
+            //string[] MagFiles = Directory.GetFiles(Filepath + "WebResources\\", " *.*", SearchOption.AllDirectories);
+            return MagFiles.ToString();
+            ;
+        }
+
+        /*private async void CopyToMagazine()
+        {
+            await Task.Run(() =>
+            {
+
+                //Now Create all of the directories
+                foreach (string dirPath in Directory.GetDirectories(CurrentPath + "WebResources\\", "*",
+                    SearchOption.AllDirectories))
+                    Directory.CreateDirectory(dirPath.Replace(CurrentPath + "WebResources\\", MagazinePath + targetMagazine + "\\WebResources\\"));
+
+                //Copy all the files & Replaces any files with the same name
+                foreach (string newPath in Directory.GetFiles(CurrentPath + "WebResources\\", "*.*",
+                    SearchOption.AllDirectories))
+                {
+                    var _newFilePath = newPath.Replace(CurrentPath + "WebResources\\", MagazinePath + targetMagazine + "\\WebResources\\");
+                    if (File.Exists(_newFilePath))
+                    {
+                        File.Delete(_newFilePath);
+                    }
+                    //
+                    File.Copy(newPath, _newFilePath, true);
+                }
+                Debug.WriteLine(MagazinePath + targetMagazine);
+
+                UpdatebtnCopyToMag(true);
+                CopyClicked = true;
+
+            });
+
+        }*/
     }
 
     public partial class DataHandler
@@ -230,4 +276,8 @@ namespace KonterbontLODConnector
             },
         };
     }
+
+
+
+   
 }

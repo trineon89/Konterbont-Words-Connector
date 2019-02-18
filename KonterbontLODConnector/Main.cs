@@ -970,5 +970,51 @@ namespace KonterbontLODConnector
             }
 
         }
+
+        private void btnCopyMag_Click(object sender, EventArgs e)
+        {
+            if (globaldt == null)
+            {
+                globaldt = new DataHandler();
+            }
+            string itmnscount = globaldt.InitCopyToMag();
+
+
+            /*
+             *  INIT 
+             *  FOREACH
+             *      COPY
+             *  END
+             */
+        }
+
+         /*   // copy generated Content to selected Magazine
+
+            //if check if targetMagazine = empty
+            if (targetMagazine == "")
+            {
+                string message = "Ups!\r\nEt ass nach keen Magazin ausgewielt!\r\nWiel fir 1. een aus.";
+                string caption = "Kee Magazinn ausgewielt!";
+                MessageBoxButtons buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
+            }
+            else
+            {
+                StartCopyToMagazine();
+            }
+        }*/
+
+        private void StartCopyToMagazine()
+        {
+            //CopyToMagazine();
+            UpdatebtnCopyToMag(false);
+        }
+
+        public void UpdatebtnCopyToMag(Boolean _bool)
+        {
+            if (ControlInvokeRequired(btnCopyToMag, () => UpdatebtnCopyToMag(_bool)))
+                return;
+            btnCopyToMag.Enabled = _bool;
+        }
     }
 }
