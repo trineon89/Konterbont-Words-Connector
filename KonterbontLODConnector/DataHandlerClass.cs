@@ -201,9 +201,9 @@ namespace KonterbontLODConnector
             }
             Directory.CreateDirectory(Filepath + "WebResources\\popupbase-web-resources");
             Directory.CreateDirectory(Filepath + "WebResources\\popupbase-web-resources\\audio");
-            File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro_BookItalic.ttf", Properties.Resources.FreightSansCmpPro_BookItalic);
-            File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro_Med.ttf", Properties.Resources.FreightSansCmpPro_Med);
-            File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro_Semi.ttf", Properties.Resources.FreightSansCmpPro_Semi);
+            File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-BookItalic.ttf", Properties.Resources.FreightSansCmpPro_BookItalic);
+            File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-Med.ttf", Properties.Resources.FreightSansCmpPro_Med);
+            File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-Semi.ttf", Properties.Resources.FreightSansCmpPro_Semi);
             File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\popupstyle.css", Properties.Resources.popupstyle);
         }
     }

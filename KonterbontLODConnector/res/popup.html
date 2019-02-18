@@ -39,7 +39,7 @@
             </div>
         </div>
 	</div>
-	<div id="audiocontainer" onClick="play()">
+	<div id="audiocontainer">
 		<svg id="soundimage" version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 425.2 425.2" xml:space="preserve">
 			<g>
 				<path d="M243.46,213.08c0,45.08,0,90.16,0,135.24c0,16.38-13.34,29.69-29.72,29.73c-8.1,0.02-15.61-1.63-21.43-7.73
@@ -58,9 +58,16 @@
 	</div>
 <audio id="audio" src="audio/aarbecht1.mp3"><source src="audio/aarbecht1.mp3" type="audio/mpeg"></audio>
 <script>
-	function play(){
+    document.getElementById("audio").load();
+
+    function play() {
 	   var audio = document.getElementById("audio");
-	   audio.currentTime=0; audio.load(); audio.play(); }
+        audio.currentTime = 0;
+        audio.play();
+    }
+
+    document.getElementById("audiocontainer").addEventListener("click", play);
+    //document.getElementById("soundimage").addEventListener("click", play);
 </script>
 </body>
 </html>
