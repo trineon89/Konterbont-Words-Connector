@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.mmMain = new System.Windows.Forms.MenuStrip();
             this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiNew = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiOpenArticle = new System.Windows.Forms.ToolStripMenuItem();
+            this.magazineOpmaachenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiSave = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
             this.astellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,7 +47,6 @@
             this.pnlDetails = new System.Windows.Forms.Panel();
             this.rtbDetails = new System.Windows.Forms.RichTextBox();
             this.magazineOpmaachenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.magazineOpmaachenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mmMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.pnlDetails.SuspendLayout();
@@ -86,6 +87,13 @@
             this.tsmiOpenArticle.Size = new System.Drawing.Size(200, 22);
             this.tsmiOpenArticle.Text = "Artikel opmaachen...";
             this.tsmiOpenArticle.Click += new System.EventHandler(this.ArtikelOpmaachenToolStripMenuItem_Click);
+            // 
+            // magazineOpmaachenToolStripMenuItem1
+            // 
+            this.magazineOpmaachenToolStripMenuItem1.Name = "magazineOpmaachenToolStripMenuItem1";
+            this.magazineOpmaachenToolStripMenuItem1.Size = new System.Drawing.Size(200, 22);
+            this.magazineOpmaachenToolStripMenuItem1.Text = "Magazine opmaachen...";
+            this.magazineOpmaachenToolStripMenuItem1.Click += new System.EventHandler(this.MagazineOpmaachenToolStripMenuItem1_Click);
             // 
             // tsmiSave
             // 
@@ -237,13 +245,6 @@
             this.magazineOpmaachenToolStripMenuItem.Name = "magazineOpmaachenToolStripMenuItem";
             this.magazineOpmaachenToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
             // 
-            // magazineOpmaachenToolStripMenuItem1
-            // 
-            this.magazineOpmaachenToolStripMenuItem1.Name = "magazineOpmaachenToolStripMenuItem1";
-            this.magazineOpmaachenToolStripMenuItem1.Size = new System.Drawing.Size(200, 22);
-            this.magazineOpmaachenToolStripMenuItem1.Text = "Magazine opmaachen...";
-            this.magazineOpmaachenToolStripMenuItem1.Click += new System.EventHandler(this.MagazineOpmaachenToolStripMenuItem1_Click);
-            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -252,6 +253,7 @@
             this.Controls.Add(this.tlpMain);
             this.Controls.Add(this.mmMain);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.mmMain;
             this.Name = "frmMain";
             this.Text = "Konterbont LOD Connector";
