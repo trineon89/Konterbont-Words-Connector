@@ -1,4 +1,4 @@
-﻿namespace KonterbontLODConnector
+namespace KonterbontLODConnector
 {
     partial class frmMain
     {
