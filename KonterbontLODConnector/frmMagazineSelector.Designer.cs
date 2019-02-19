@@ -68,9 +68,13 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lblMText);
             this.Controls.Add(this.cbMagazine);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmMagazineSelector";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "frmMagazineSelector";
+            this.Text = "Magasinn auswielen";
             this.ResumeLayout(false);
             this.PerformLayout();
 
