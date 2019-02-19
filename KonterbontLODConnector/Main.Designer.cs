@@ -80,6 +80,7 @@
             this.tsmiNew.Name = "tsmiNew";
             this.tsmiNew.Size = new System.Drawing.Size(200, 22);
             this.tsmiNew.Text = "Nei";
+            this.tsmiNew.Click += new System.EventHandler(this.tsmiNew_Click);
             // 
             // tsmiOpenArticle
             // 
@@ -121,7 +122,7 @@
             // magazineSelectorToolStripMenuItem
             // 
             this.magazineSelectorToolStripMenuItem.Name = "magazineSelectorToolStripMenuItem";
-            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
+            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.magazineSelectorToolStripMenuItem.Text = "Magazine Selector...";
             this.magazineSelectorToolStripMenuItem.Click += new System.EventHandler(this.MagazineSelectorToolStripMenuItem_Click);
             // 

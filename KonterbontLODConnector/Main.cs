@@ -323,8 +323,6 @@ namespace KonterbontLODConnector
                                     {
                                         htmlexample.RemoveChild(RemoveNode);
                                     }
-                                    Console.WriteLine(EGS);
-
                                     Example example = new Example(htmlexample.InnerText, EGS.Trim());
 
                                     meaning.Examples.Add(example);
@@ -1069,6 +1067,21 @@ namespace KonterbontLODConnector
             }
             if (!globaldt.InitParseMagazine())
                 MagazineSelectorToolStripMenuItem_Click(sender, e);
+        }
+
+        private void tsmiNew_Click(object sender, EventArgs e)
+        {
+            btnCreatePopups.Enabled = false;
+            btnCopyToMag.Enabled = false;
+            tsmiSave.Enabled = false;
+            lbSelectMeaning.Items.Clear();
+            lbSelectWord.Items.Clear();
+            lbWords.Items.Clear();
+            rtbDetails.Clear();
+
+            globaldt = null;
+
+
         }
     }
 }
