@@ -97,6 +97,16 @@ namespace KonterbontLODConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Exit_16x {
+            get {
+                object obj = ResourceManager.GetObject("Exit_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] FreightSansCmpPro_BookItalic {
@@ -127,16 +137,46 @@ namespace KonterbontLODConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap NewFile_16x {
+            get {
+                object obj = ResourceManager.GetObject("NewFile_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap OpenFile_16x {
+            get {
+                object obj = ResourceManager.GetObject("OpenFile_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap OpenFileFromProject_16x {
+            get {
+                object obj = ResourceManager.GetObject("OpenFileFromProject_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
         ///	&lt;head&gt;
         ///		&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0,user-scalable=no&quot;&gt;
         ///		&lt;title&gt;popup&lt;/title&gt;
+        ///        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;popupstyle.css&quot;/&gt;
         ///		&lt;style&gt;
         ///			.highlight, .marker-color { color: rgb(leColorCSScolor) !important; color:yellow; } 
         ///			p.Tab_Wuert {  color: rgb(leColorCSScolor) !important; }
-        ///			div.divTableBody { height:100%; width:100%; background-color:rgb(leColorCSScolor) !important;background-color:red;padding:2px; }
-        ///			.flex-c [rest of string was truncated]&quot;;.
+        ///			div.divTableBody { height:100%; width:100%; background-color:rgb(leC [rest of string was truncated]&quot;;.
         /// </summary>
         public static string popup {
             get {
@@ -145,26 +185,45 @@ namespace KonterbontLODConnector.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to @media screen and (orientation: portrait) {
+        ///   Looks up a localized string similar to @font-face {
+        ///  font-family: &apos;FreightSansCmpPro Med&apos;;
+        ///  src: url(&apos;FreightSansCmpPro-Med.ttf&apos;)  format(&apos;truetype&apos;);
+        ///}
+        ///@font-face {
+        ///  font-family: &apos;FreightSansCmpPro Semi&apos;;
+        ///  src: url(&apos;FreightSansCmpPro-Semi.ttf&apos;)  format(&apos;truetype&apos;);
+        ///}
+        ///@font-face {
+        ///  font-family: &apos;FreightSansCmpPro Book Italic&apos;;
+        ///  src: url(&apos;FreightSansCmpPro-BookItalic.ttf&apos;)  format(&apos;truetype&apos;);
+        ///}
+        ///@media screen and (orientation: portrait) {
         ///	/* phone-specific style */
-        ///	.flex-innercontainer { flex-direction: column;margin:5px 5px 0 5px; }
-        ///	.flex-1 { height:5px !important; }
-        ///}
-        ///@media screen and (orientation: landscape) {
-        ///	/* tablet-specific style */
-        ///}
-        ///div { height:0; }
-        ///body { margin:0; height:100%; }
-        ///html,
-        ///body { position: fixed; overflow: hidden; } /* iOS disable bounce */
-        ///html { height:100%; }
-        ///.i { font-style:italic; }
-        ///.b { font-weight:bold; }
-        ///div.divTable { font-family: &quot;FreightSansCm [rest of string was truncated]&quot;;.
+        ///	.flex-innercontainer { flex-direction: column;margin:5px 5px [rest of string was truncated]&quot;;.
         /// </summary>
         public static string popupstyle {
             get {
                 return ResourceManager.GetString("popupstyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap save_16xMD {
+            get {
+                object obj = ResourceManager.GetObject("save_16xMD", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap SelectFileGroup_16x {
+            get {
+                object obj = ResourceManager.GetObject("SelectFileGroup_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }

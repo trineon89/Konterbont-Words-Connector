@@ -19,22 +19,22 @@ namespace KonterbontLODConnector
         private string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
         private frmMagazineSelector theform;
         private string targetMag;
-        public bool HasPopups;
-        public bool IsInMag;
+        private bool hasPopups;
+        private bool isInMag;
 
         public string Filename { get; set; }
         [J("filepath", NullValueHandling = N.Ignore)] public string Filepath { get; set; }
         [J("wordlist", NullValueHandling = N.Ignore)] public List<AutoComplete> WordList { get; set; }
-        [J("globrgb", NullValueHandling = N.Ignore)] public string globrgb { get; set; }
+        [J("globrgb", NullValueHandling = N.Ignore)] public string Globrgb { get; set; }
 
         public DataHandler()
         {
             Filename = null;
             Filepath = null;
             WordList = new List<AutoComplete>();
-            frmMagazineSelectorInit();
-            HasPopups = false;
-            IsInMag = false;
+            FrmMagazineSelectorInit();
+            hasPopups = false;
+            isInMag = false;
         }
 
         public DataHandler(string _filename)
@@ -42,7 +42,9 @@ namespace KonterbontLODConnector
             Filename = _filename;
             Filepath = null;
             WordList = new List<AutoComplete>();
-            frmMagazineSelectorInit();
+            FrmMagazineSelectorInit();
+            hasPopups = false;
+            isInMag = false;
         }
 
         public DataHandler(string _filename, string _filepath)
@@ -50,10 +52,32 @@ namespace KonterbontLODConnector
             Filename = _filename;
             Filepath = _filepath;
             WordList = new List<AutoComplete>();
-            frmMagazineSelectorInit();
+            FrmMagazineSelectorInit();
+            hasPopups = false;
+            isInMag = false;
         }
 
-        public void frmMagazineSelectorInit()
+        public bool HasPopups()
+        {
+            return hasPopups;
+        }
+
+        public void HasPopups(bool setter)
+        {
+            hasPopups = setter;
+        }
+
+        public bool IsInMag()
+        {
+            return isInMag;
+        }
+
+        public void IsInMag(bool setter)
+        {
+            isInMag = setter;
+        }
+
+        public void FrmMagazineSelectorInit()
         {
             string[] _dirs = Directory.GetDirectories(MagazinePath);
             theform = new frmMagazineSelector();
@@ -70,7 +94,7 @@ namespace KonterbontLODConnector
 
         public void SetRGB(string input)
         {
-            globrgb = input;
+            Globrgb = input;
         }
 
         public bool InitParseMagazine()
@@ -132,7 +156,7 @@ namespace KonterbontLODConnector
         {
             foreach (AutoComplete ac in WordList)
             {
-                OutputPopup(ac.Wierder[ac.Selection - 1], ac.Occurence, globrgb);
+                OutputPopup(ac.Wierder[ac.Selection - 1], ac.Occurence, Globrgb);
             }
             return true;
         }

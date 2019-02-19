@@ -928,7 +928,7 @@ namespace KonterbontLODConnector
             {
                 MessageBox.Show(this, "Popups sinn erstallt!", "Okay", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            globaldt.HasPopups = true;
+            globaldt.HasPopups(true);
             btnCopyToMag.Enabled = true;
         }
 
@@ -1012,7 +1012,7 @@ namespace KonterbontLODConnector
             }
             progressDialog.CloseDialog();
 
-            globaldt.IsInMag = true;
+            globaldt.IsInMag(true);
         }
 
 
@@ -1029,16 +1029,16 @@ namespace KonterbontLODConnector
             btnCopyToMag.Enabled = _bool;
         }
 
-        private void tsmiExit_Click(object sender, EventArgs e)
+        private void TsmiExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (globaldt != null)
             {
-                if (!globaldt.HasPopups)
+                if (!globaldt.HasPopups())
                 {
                     if (MessageBox.Show("D'Popupen goufen nach net erstallt. Zoumaachen?", "Zoumaachen", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     { e.Cancel = false; }
@@ -1047,7 +1047,7 @@ namespace KonterbontLODConnector
                 }
                 else
                 {
-                    if (!globaldt.IsInMag)
+                    if (!globaldt.IsInMag())
                     {
                         if (MessageBox.Show("D'Popupen goufen nach net an den Magazin kopéiert. Zoumaachen?", "Zoumaachen", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         { e.Cancel = false; }
@@ -1064,12 +1064,31 @@ namespace KonterbontLODConnector
             if (globaldt == null)
             {
                 globaldt = new DataHandler();
+            } else
+            {
+                TsmiNew_Click(sender, e);
             }
             if (!globaldt.InitParseMagazine())
                 MagazineSelectorToolStripMenuItem_Click(sender, e);
         }
 
-        private void tsmiNew_Click(object sender, EventArgs e)
+        private void TsmiNew_Click(object sender, EventArgs e)
+        {
+            if (SafeToClear()) ResetInstance();
+        }
+
+        private bool SafeToClear()
+        {
+            if (globaldt != null)
+            {
+                if (MessageBox.Show(this, "Wëlls de wirklech resetten?", "Sëcher?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    return true;
+                else return false;
+            }
+            else return true;
+        }
+
+        private void ResetInstance()
         {
             btnCreatePopups.Enabled = false;
             btnCopyToMag.Enabled = false;
@@ -1080,8 +1099,6 @@ namespace KonterbontLODConnector
             rtbDetails.Clear();
 
             globaldt = null;
-
-
         }
     }
 }
