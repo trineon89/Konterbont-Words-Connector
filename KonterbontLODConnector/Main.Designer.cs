@@ -214,7 +214,7 @@
             this.magazineOpmaachenToolStripMenuItem.Name = "magazineOpmaachenToolStripMenuItem";
             this.magazineOpmaachenToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.magazineOpmaachenToolStripMenuItem.Text = "Magazine opmaachen...";
-            this.magazineOpmaachenToolStripMenuItem.Click += new System.EventHandler(this.magazineOpmaachenToolStripMenuItem_Click);
+            this.magazineOpmaachenToolStripMenuItem.Click += new System.EventHandler(this.MagazineOpmaachenToolStripMenuItem_Click);
             // 
             // frmMain
             // 

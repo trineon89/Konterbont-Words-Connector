@@ -69,6 +69,13 @@ namespace KonterbontLODConnector
             globrgb = input;
         }
 
+        public bool InitParseMagazine()
+        {
+            if (targetMag == null)
+            return false;
+            return true;
+        }
+
         public void ShowMagazineSelector()
         {
             theform.ShowDialog();
