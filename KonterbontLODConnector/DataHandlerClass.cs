@@ -173,37 +173,40 @@ namespace KonterbontLODConnector
 
         public void OutputPopup(Wuert wuert, string occurence, string rgbvalue)
         {
-            string _tmpfilecontent = Properties.Resources.popup;
-            _tmpfilecontent = _tmpfilecontent.Replace("leColorCSScolor", rgbvalue);
-            _tmpfilecontent = _tmpfilecontent.Replace("aarbecht1.mp3", wuert.MP3);
-            _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORD_", wuert.Meanings[wuert.Selection - 1].LU);
-
-            if (wuert.Meanings[wuert.Selection - 1].LUs == null)
+            if (wuert.Selection != 0)
             {
-                _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "");
-                _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", "");
-            }
-            else if (wuert.WuertForm.WuertForm == "Verb")
-            {
-                _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "(Participe Passé: ");
-                _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", ")");
-            }
-            else
-            {
-                _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "(Pluriel: ");
-                _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", ")");
-            }
+                string _tmpfilecontent = Properties.Resources.popup;
+                _tmpfilecontent = _tmpfilecontent.Replace("leColorCSScolor", rgbvalue);
+                _tmpfilecontent = _tmpfilecontent.Replace("aarbecht1.mp3", wuert.MP3);
+                _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORD_", wuert.Meanings[wuert.Selection - 1].LU);
 
-            _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORDPLURAL_", wuert.Meanings[wuert.Selection - 1].LUs);
+                if (wuert.Meanings[wuert.Selection - 1].LUs == null)
+                {
+                    _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "");
+                    _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", "");
+                }
+                else if (wuert.WuertForm.WuertForm == "Verb")
+                {
+                    _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "(Participe Passé: ");
+                    _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", ")");
+                }
+                else
+                {
+                    _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "(Pluriel: ");
+                    _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", ")");
+                }
 
-            _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORDFORM_", wuert.WuertForm.WuertForm);
-            _tmpfilecontent = _tmpfilecontent.Replace("_FRWORD_", wuert.Meanings[wuert.Selection - 1].FR);
-            _tmpfilecontent = _tmpfilecontent.Replace("_DEWORD_", wuert.Meanings[wuert.Selection - 1].DE);
-            _tmpfilecontent = _tmpfilecontent.Replace("_ENWORD_", wuert.Meanings[wuert.Selection - 1].EN);
-            _tmpfilecontent = _tmpfilecontent.Replace("_PTWORD_", wuert.Meanings[wuert.Selection - 1].PT);
-            GetMp3(wuert.MP3);
-            occurence = DeUmlaut(occurence);
-            File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\" + Path.GetFileNameWithoutExtension(Filename) + "popup_" +occurence + ".html", _tmpfilecontent);
+                _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORDPLURAL_", wuert.Meanings[wuert.Selection - 1].LUs);
+
+                _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORDFORM_", wuert.WuertForm.WuertForm);
+                _tmpfilecontent = _tmpfilecontent.Replace("_FRWORD_", wuert.Meanings[wuert.Selection - 1].FR);
+                _tmpfilecontent = _tmpfilecontent.Replace("_DEWORD_", wuert.Meanings[wuert.Selection - 1].DE);
+                _tmpfilecontent = _tmpfilecontent.Replace("_ENWORD_", wuert.Meanings[wuert.Selection - 1].EN);
+                _tmpfilecontent = _tmpfilecontent.Replace("_PTWORD_", wuert.Meanings[wuert.Selection - 1].PT);
+                GetMp3(wuert.MP3);
+                occurence = DeUmlaut(occurence);
+                File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\" + Path.GetFileNameWithoutExtension(Filename) + "popup_" + occurence + ".html", _tmpfilecontent);
+            }
         }
 
         public string DeUmlaut(string inp)
