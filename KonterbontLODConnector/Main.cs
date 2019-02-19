@@ -344,24 +344,27 @@ namespace KonterbontLODConnector
                         Selection = (_i + 1).ToString();
 
                         // Wuert wuert = acwuert.Wierder[acwuert.Selection - 1];
-                        if (showselection && acwuert.Selection == _c)
+                        if (Lang == "PT")
                         {
-                            string thename = _i.ToString();
-                            RadioButton rb = new RadioButton
+                            if (showselection && acwuert.Selection == _c)
                             {
-                                Name = thename,
-                                Text = thename + " " + MeaningText + "" + MeaningTextAdd,
+                                string thename = _i.ToString();
+                                RadioButton rb = new RadioButton
+                                {
+                                    Name = thename,
+                                    Text = thename + " DE: " + wuert.Meanings[_i - 1].DE + "; FR: " + wuert.Meanings[_i - 1].FR + "; EN:" + wuert.Meanings[_i - 1].EN + "; PT:" + wuert.Meanings[_i - 1].PT,
 
-                                Location = new Point(10, _i * 30),
-                                Width = 500
-                            };
-                            if (_i == 1)
-                            {
-                                rb.Checked = true;
+                                    Location = new Point(10, _i * 30),
+                                    Width = 500
+                                };
+                                if (_i == 1)
+                                {
+                                    rb.Checked = true;
+                                }
+                                frmSelectMeaning.gbMeanings.Text = "Bedeitung fir '" + wuert.WuertLu + "' auswielen:";
+                                frmSelectMeaning.gbMeanings.Controls.Add(rb);
+                                _MeaningsCount = htmlNodes.Count();
                             }
-                            frmSelectMeaning.gbMeanings.Text = "Bedeitung fir '" + wuert.WuertLu + "' auswielen:";
-                            frmSelectMeaning.gbMeanings.Controls.Add(rb);
-                            _MeaningsCount = htmlNodes.Count();
                         }
 
                         if (Lang == "LU")
@@ -380,7 +383,7 @@ namespace KonterbontLODConnector
                 };
                 frmSelectMeaning.gbMeanings.Controls.Add(rbtn);
 
-                if (_MeaningsCount > 1 && Lang == "DE" && _c == acwuert.Selection)
+                if (_MeaningsCount > 1 && Lang == "PT" && _c == acwuert.Selection)
                 {
                     if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
                     {
