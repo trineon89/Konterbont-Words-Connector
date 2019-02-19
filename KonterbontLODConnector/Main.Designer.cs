@@ -88,7 +88,7 @@ namespace KonterbontLODConnector
             this.tsmiNew.Image = global::KonterbontLODConnector.Properties.Resources.NewFile_16x;
             this.tsmiNew.Name = "tsmiNew";
             this.tsmiNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.tsmiNew.Size = new System.Drawing.Size(245, 22);
+            this.tsmiNew.Size = new System.Drawing.Size(246, 22);
             this.tsmiNew.Text = "Nei";
             this.tsmiNew.Click += new System.EventHandler(this.TsmiNew_Click);
             // 
@@ -98,21 +98,21 @@ namespace KonterbontLODConnector
             this.tsmiSave.Image = global::KonterbontLODConnector.Properties.Resources.save_16xMD;
             this.tsmiSave.Name = "tsmiSave";
             this.tsmiSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.tsmiSave.Size = new System.Drawing.Size(245, 22);
+            this.tsmiSave.Size = new System.Drawing.Size(246, 22);
             this.tsmiSave.Text = "Späicheren";
             this.tsmiSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(242, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(243, 6);
             // 
             // tsmiOpenArticle
             // 
             this.tsmiOpenArticle.Image = global::KonterbontLODConnector.Properties.Resources.OpenFile_16x;
             this.tsmiOpenArticle.Name = "tsmiOpenArticle";
             this.tsmiOpenArticle.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.tsmiOpenArticle.Size = new System.Drawing.Size(245, 22);
+            this.tsmiOpenArticle.Size = new System.Drawing.Size(246, 22);
             this.tsmiOpenArticle.Text = "Artikel opmaachen...";
             this.tsmiOpenArticle.Click += new System.EventHandler(this.ArtikelOpmaachenToolStripMenuItem_Click);
             // 
@@ -121,21 +121,21 @@ namespace KonterbontLODConnector
             this.magazineOpmaachenToolStripMenuItem.Image = global::KonterbontLODConnector.Properties.Resources.OpenFileFromProject_16x;
             this.magazineOpmaachenToolStripMenuItem.Name = "magazineOpmaachenToolStripMenuItem";
             this.magazineOpmaachenToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.magazineOpmaachenToolStripMenuItem.Size = new System.Drawing.Size(245, 22);
-            this.magazineOpmaachenToolStripMenuItem.Text = "Magazine opmaachen...";
+            this.magazineOpmaachenToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.magazineOpmaachenToolStripMenuItem.Text = "Magasinn opmaachen...";
             this.magazineOpmaachenToolStripMenuItem.Click += new System.EventHandler(this.MagazineOpmaachenToolStripMenuItem1_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(242, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(243, 6);
             // 
             // tsmiExit
             // 
             this.tsmiExit.Image = global::KonterbontLODConnector.Properties.Resources.Exit_16x;
             this.tsmiExit.Name = "tsmiExit";
             this.tsmiExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.tsmiExit.Size = new System.Drawing.Size(245, 22);
+            this.tsmiExit.Size = new System.Drawing.Size(246, 22);
             this.tsmiExit.Text = "Zoumaachen";
             this.tsmiExit.Click += new System.EventHandler(this.TsmiExit_Click);
             // 
@@ -151,8 +151,8 @@ namespace KonterbontLODConnector
             // 
             this.magazineSelectorToolStripMenuItem.Image = global::KonterbontLODConnector.Properties.Resources.SelectFileGroup_16x;
             this.magazineSelectorToolStripMenuItem.Name = "magazineSelectorToolStripMenuItem";
-            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
-            this.magazineSelectorToolStripMenuItem.Text = "Magazine Selector...";
+            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.magazineSelectorToolStripMenuItem.Text = "Magasinn auswielen...";
             this.magazineSelectorToolStripMenuItem.Click += new System.EventHandler(this.MagazineSelectorToolStripMenuItem_Click);
             // 
             // tlpMain
@@ -192,7 +192,7 @@ namespace KonterbontLODConnector
             this.btnCopyToMag.Name = "btnCopyToMag";
             this.btnCopyToMag.Size = new System.Drawing.Size(118, 24);
             this.btnCopyToMag.TabIndex = 15;
-            this.btnCopyToMag.Text = "An de Magazin";
+            this.btnCopyToMag.Text = "An de Magasinn";
             this.btnCopyToMag.UseVisualStyleBackColor = true;
             this.btnCopyToMag.Click += new System.EventHandler(this.btnCopyMag_Click);
             // 

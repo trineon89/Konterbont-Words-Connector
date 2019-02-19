@@ -6,3 +6,8 @@
 -- disable buttons
 -- clear listboxes
 -- set classes = null
+
+
+Beispill am Tooltip + FR,EN bei "Bedeitung auswielen" uweisen (Tabs)
+"Passt nët" Button/Radiobutton
+Bedeitung vun Basiswuert ënnerscheeden (Popup Fënster)

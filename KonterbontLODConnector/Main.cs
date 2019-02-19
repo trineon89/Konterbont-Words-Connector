@@ -989,13 +989,13 @@ namespace KonterbontLODConnector
 
             if (Files == null)
             {
-                MessageBox.Show("Kee Magazin gesat!");
+                MessageBox.Show("Kee Magasinn gesat!");
                 return;
             }
 
             Pietschsoft.NativeProgressDialog progressDialog = new Pietschsoft.NativeProgressDialog(this.Handle)
             {
-                Title = "Kopéieren vun den Popupen an den Magazin",
+                Title = "Kopéieren vun den Popupen an den Magasinn",
                 CancelMessage = "Eieiei... Da wart elo...",
                 Maximum = 100,
                 Value = 0,
@@ -1055,7 +1055,7 @@ namespace KonterbontLODConnector
                 {
                     if (!globaldt.IsInMag())
                     {
-                        if (MessageBox.Show("D'Popupen goufen nach net an den Magazin kopéiert. Zoumaachen?", "Zoumaachen", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        if (MessageBox.Show("D'Popupen goufen nach net an den Magasinn kopéiert. Zoumaachen?", "Zoumaachen", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         { e.Cancel = false; }
                         else
                         { e.Cancel = true; }
