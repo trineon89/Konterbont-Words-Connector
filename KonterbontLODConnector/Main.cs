@@ -103,7 +103,7 @@ namespace KonterbontLODConnector
                 }
             };
 
-            
+
             var _responseT = httpClient.SendAsync(httpContent, new HttpCompletionOption());
             /*
             var _response = await httpClient.SendAsync(httpContent, new HttpCompletionOption());
@@ -119,7 +119,7 @@ namespace KonterbontLODConnector
             string responseBody = await _response.Content.ReadAsStringAsync();
             httpClient.Dispose();
             return responseBody;
-            
+
         }
 
         private async Task<AutoComplete> FetchFullWordsAsync(AutoComplete acwuert, string Lang, bool showselection = false)
@@ -725,7 +725,10 @@ namespace KonterbontLODConnector
                     tsmiSave.Enabled = true;
                     btnCreatePopups.Enabled = true;
                 }
+                SetIsSaved(false);
+                tssMagazine.Text = globaldt.TargetMag();
             }
+            
         }
 
         private void LbWords_SelectedIndexChanged(object sender, EventArgs e)
@@ -913,12 +916,15 @@ namespace KonterbontLODConnector
                 globaldt = new DataHandler();
             }
             globaldt.ShowMagazineSelector();
+            tssMagazine.Text = globaldt.TargetMag();
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
             //Save
             globaldt.SaveToFile(globaldt);
+            SetIsSaved(true);
+            tsmiSave.Enabled = false;
         }
 
         private void BtnCreatePopups_Click(object sender, EventArgs e)
@@ -1064,7 +1070,8 @@ namespace KonterbontLODConnector
             if (globaldt == null)
             {
                 globaldt = new DataHandler();
-            } else
+            }
+            else
             {
                 TsmiNew_Click(sender, e);
             }
@@ -1099,6 +1106,17 @@ namespace KonterbontLODConnector
             rtbDetails.Clear();
 
             globaldt = null;
+        }
+
+        private void SetIsSaved(bool setter)
+        {
+            if (globaldt == null)
+            {
+                globaldt = new DataHandler();
+            }
+            globaldt.IsSaved(setter);
+            if (setter) tssNeedSave.Image = null;
+            else tssNeedSave.Image = Properties.Resources.SaveStatusBar8_16x;
         }
     }
 }

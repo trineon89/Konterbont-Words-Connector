@@ -220,6 +220,16 @@ namespace KonterbontLODConnector.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap SaveStatusBar8_16x {
+            get {
+                object obj = ResourceManager.GetObject("SaveStatusBar8_16x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap SelectFileGroup_16x {
             get {
                 object obj = ResourceManager.GetObject("SelectFileGroup_16x", resourceCulture);

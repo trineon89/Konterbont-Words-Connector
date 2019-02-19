@@ -195,6 +195,7 @@
   <ItemGroup>
     <Content Include="Icon.ico" />
     <Content Include="res\popupstyle.css" />
+    <None Include="res\VS2017\Save\SaveStatusBar8_16x.png" />
     <None Include="res\VS2017\SelectFileGroup\SelectFileGroup_16x.png" />
     <None Include="res\VS2017\Save\save_16xMD.png" />
     <None Include="res\VS2017\OpenFileFromProject\OpenFileFromProject_16x.png" />

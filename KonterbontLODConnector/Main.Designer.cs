@@ -49,9 +49,13 @@ namespace KonterbontLODConnector
             this.pnlDetails = new System.Windows.Forms.Panel();
             this.rtbDetails = new System.Windows.Forms.RichTextBox();
             this.ssStatus = new System.Windows.Forms.StatusStrip();
+            this.tssNeedSave = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tssMagazine = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tssArticle = new System.Windows.Forms.ToolStripStatusLabel();
             this.mmMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.pnlDetails.SuspendLayout();
+            this.ssStatus.SuspendLayout();
             this.SuspendLayout();
             // 
             // mmMain
@@ -147,7 +151,7 @@ namespace KonterbontLODConnector
             // 
             this.magazineSelectorToolStripMenuItem.Image = global::KonterbontLODConnector.Properties.Resources.SelectFileGroup_16x;
             this.magazineSelectorToolStripMenuItem.Name = "magazineSelectorToolStripMenuItem";
-            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.magazineSelectorToolStripMenuItem.Text = "Magazine Selector...";
             this.magazineSelectorToolStripMenuItem.Click += new System.EventHandler(this.MagazineSelectorToolStripMenuItem_Click);
             // 
@@ -273,10 +277,33 @@ namespace KonterbontLODConnector
             // 
             this.tlpMain.SetColumnSpan(this.ssStatus, 4);
             this.ssStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tssNeedSave,
+            this.tssMagazine,
+            this.tssArticle});
             this.ssStatus.Location = new System.Drawing.Point(0, 462);
             this.ssStatus.Name = "ssStatus";
             this.ssStatus.Size = new System.Drawing.Size(735, 21);
             this.ssStatus.TabIndex = 18;
+            // 
+            // tssNeedSave
+            // 
+            this.tssNeedSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tssNeedSave.Name = "tssNeedSave";
+            this.tssNeedSave.Size = new System.Drawing.Size(0, 16);
+            // 
+            // tssMagazine
+            // 
+            this.tssMagazine.Name = "tssMagazine";
+            this.tssMagazine.Size = new System.Drawing.Size(44, 16);
+            this.tssMagazine.Text = "_MAG_";
+            // 
+            // tssArticle
+            // 
+            this.tssArticle.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.tssArticle.Name = "tssArticle";
+            this.tssArticle.Size = new System.Drawing.Size(42, 16);
+            this.tssArticle.Text = "_ART_";
             // 
             // frmMain
             // 
@@ -296,6 +323,8 @@ namespace KonterbontLODConnector
             this.tlpMain.ResumeLayout(false);
             this.tlpMain.PerformLayout();
             this.pnlDetails.ResumeLayout(false);
+            this.ssStatus.ResumeLayout(false);
+            this.ssStatus.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -322,6 +351,9 @@ namespace KonterbontLODConnector
         private System.Windows.Forms.StatusStrip ssStatus;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripStatusLabel tssMagazine;
+        private System.Windows.Forms.ToolStripStatusLabel tssArticle;
+        private System.Windows.Forms.ToolStripStatusLabel tssNeedSave;
     }
 }
 

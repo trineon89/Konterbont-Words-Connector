@@ -19,8 +19,9 @@ namespace KonterbontLODConnector
         private string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
         private frmMagazineSelector theform;
         private string targetMag;
-        private bool hasPopups;
-        private bool isInMag;
+        private bool hasPopups = false;
+        private bool isInMag = false;
+        private bool isSaved = false;
 
         public string Filename { get; set; }
         [J("filepath", NullValueHandling = N.Ignore)] public string Filepath { get; set; }
@@ -33,8 +34,6 @@ namespace KonterbontLODConnector
             Filepath = null;
             WordList = new List<AutoComplete>();
             FrmMagazineSelectorInit();
-            hasPopups = false;
-            isInMag = false;
         }
 
         public DataHandler(string _filename)
@@ -43,8 +42,6 @@ namespace KonterbontLODConnector
             Filepath = null;
             WordList = new List<AutoComplete>();
             FrmMagazineSelectorInit();
-            hasPopups = false;
-            isInMag = false;
         }
 
         public DataHandler(string _filename, string _filepath)
@@ -53,8 +50,21 @@ namespace KonterbontLODConnector
             Filepath = _filepath;
             WordList = new List<AutoComplete>();
             FrmMagazineSelectorInit();
-            hasPopups = false;
-            isInMag = false;
+        }
+
+        public string TargetMag()
+        {
+            return targetMag;
+        }
+
+        public bool IsSaved()
+        {
+            return isSaved;
+        }
+
+        public void IsSaved(bool setter)
+        {
+            isSaved = setter;
         }
 
         public bool HasPopups()
