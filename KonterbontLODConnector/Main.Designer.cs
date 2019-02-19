@@ -42,6 +42,8 @@
             this.lbSelectWord = new System.Windows.Forms.ListBox();
             this.lbSelectMeaning = new System.Windows.Forms.ListBox();
             this.rtbDetails = new System.Windows.Forms.RichTextBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.magazineOpmaachenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -61,7 +63,9 @@
             // 
             this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.neiToolStripMenuItem,
-            this.artikelOpmaachenToolStripMenuItem});
+            this.toolStripSeparator1,
+            this.artikelOpmaachenToolStripMenuItem,
+            this.magazineOpmaachenToolStripMenuItem});
             this.dateiToolStripMenuItem.Name = "dateiToolStripMenuItem";
             this.dateiToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.dateiToolStripMenuItem.Text = "Datei";
@@ -69,13 +73,13 @@
             // neiToolStripMenuItem
             // 
             this.neiToolStripMenuItem.Name = "neiToolStripMenuItem";
-            this.neiToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.neiToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.neiToolStripMenuItem.Text = "Nei";
             // 
             // artikelOpmaachenToolStripMenuItem
             // 
             this.artikelOpmaachenToolStripMenuItem.Name = "artikelOpmaachenToolStripMenuItem";
-            this.artikelOpmaachenToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.artikelOpmaachenToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
             this.artikelOpmaachenToolStripMenuItem.Text = "Artikel opmaachen...";
             this.artikelOpmaachenToolStripMenuItem.Click += new System.EventHandler(this.ArtikelOpmaachenToolStripMenuItem_Click);
             // 
@@ -200,6 +204,18 @@
             this.rtbDetails.TabIndex = 11;
             this.rtbDetails.Text = "";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(197, 6);
+            // 
+            // magazineOpmaachenToolStripMenuItem
+            // 
+            this.magazineOpmaachenToolStripMenuItem.Name = "magazineOpmaachenToolStripMenuItem";
+            this.magazineOpmaachenToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.magazineOpmaachenToolStripMenuItem.Text = "Magazine opmaachen...";
+            this.magazineOpmaachenToolStripMenuItem.Click += new System.EventHandler(this.magazineOpmaachenToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -237,6 +253,8 @@
         private System.Windows.Forms.ListBox lbSelectWord;
         private System.Windows.Forms.ListBox lbSelectMeaning;
         private System.Windows.Forms.RichTextBox rtbDetails;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem magazineOpmaachenToolStripMenuItem;
     }
 }
 

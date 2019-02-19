@@ -1029,5 +1029,10 @@ namespace KonterbontLODConnector
                 return;
             btnCopyToMag.Enabled = _bool;
         }
+
+        private void magazineOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //
+        }
     }
 }
