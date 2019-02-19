@@ -47,6 +47,7 @@
             this.mmMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.pnlDetails.SuspendLayout();
+            this.magazineOpmaachenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SuspendLayout();
             // 
             // mmMain
@@ -67,6 +68,7 @@
             this.tsmiOpenArticle,
             this.tsmiSave,
             this.tsmiExit});
+            this.magazineOpmaachenToolStripMenuItem});
             this.dateiToolStripMenuItem.Name = "dateiToolStripMenuItem";
             this.dateiToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.dateiToolStripMenuItem.Text = "Datei";
@@ -229,6 +231,18 @@
             this.rtbDetails.TabIndex = 17;
             this.rtbDetails.Text = "";
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(197, 6);
+            // 
+            // magazineOpmaachenToolStripMenuItem
+            // 
+            this.magazineOpmaachenToolStripMenuItem.Name = "magazineOpmaachenToolStripMenuItem";
+            this.magazineOpmaachenToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
+            this.magazineOpmaachenToolStripMenuItem.Text = "Magazine opmaachen...";
+            this.magazineOpmaachenToolStripMenuItem.Click += new System.EventHandler(this.MagazineOpmaachenToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -267,6 +281,8 @@
         private System.Windows.Forms.Button btnCreatePopups;
         private System.Windows.Forms.Panel pnlDetails;
         private System.Windows.Forms.RichTextBox rtbDetails;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem magazineOpmaachenToolStripMenuItem;
     }
 }
 

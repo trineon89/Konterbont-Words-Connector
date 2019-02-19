@@ -64,22 +64,14 @@ namespace KonterbontLODConnector
 
             AutoComplete acwuert = ParseXMLWords(fetchedXml, compare, searchstring);
 
-            Task<AutoComplete> taskLU = Task.Run(async () => await FetchFullWordsAsync(acwuert, "LU", !compare));
-            taskLU.Wait();
-            acwuert = taskLU.Result;
-            Task<AutoComplete> taskDE = Task.Run(async () => await FetchFullWordsAsync(acwuert, "DE", !compare));
-            taskDE.Wait();
-            acwuert = taskDE.Result;
-            Task<AutoComplete> taskFR = Task.Run(async () => await FetchFullWordsAsync(acwuert, "FR", !compare));
-            taskFR.Wait();
-            acwuert = taskFR.Result;
-            Task<AutoComplete> taskEN = Task.Run(async () => await FetchFullWordsAsync(acwuert, "EN", !compare));
-            taskEN.Wait();
-            acwuert = taskEN.Result;
-            Task<AutoComplete> pttask = Task.Run(async () => await FetchFullWordsAsync(acwuert, "PT", !compare));
-            pttask.Wait();
-            AutoComplete res = pttask.Result;
-            return res;
+            Task<AutoComplete> taskLU = FetchFullWordsAsync(acwuert, "LU", !compare);
+            Task<AutoComplete> taskDE = FetchFullWordsAsync(acwuert, "DE", !compare);
+            Task<AutoComplete> taskFR = FetchFullWordsAsync(acwuert, "FR", !compare);
+            Task<AutoComplete> taskEN = FetchFullWordsAsync(acwuert, "EN", !compare);
+            Task<AutoComplete> taskPT = FetchFullWordsAsync(acwuert, "PT", !compare);
+
+            var ret = await Task.WhenAll(taskLU, taskDE, taskFR, taskEN, taskPT);
+            return ret.First();
         }
 
         private async Task<string> FetchXMLasync(string Word)
@@ -113,7 +105,13 @@ namespace KonterbontLODConnector
 
             var _responseT = httpClient.SendAsync(httpContent, new HttpCompletionOption());
 
-            // await Task.WhenAny(_responseT);
+            var _response = await httpClient.SendAsync(httpContent);
+            _response.EnsureSuccessStatusCode();
+            string responseBody = await _response.Content.ReadAsStringAsync();
+            httpClient.Dispose();
+            return  responseBody;
+            
+            /*  //Old Code
             _responseT.Wait();
             var _response = _responseT.Result;
             _response.EnsureSuccessStatusCode();
@@ -121,6 +119,7 @@ namespace KonterbontLODConnector
             string responseBody = await _response.Content.ReadAsStringAsync();
             httpClient.Dispose();
             return responseBody;
+            */
         }
 
         private async Task<AutoComplete> FetchFullWordsAsync(AutoComplete acwuert, string Lang, bool showselection = false)
@@ -532,8 +531,7 @@ namespace KonterbontLODConnector
                 Wuert wuert = new Wuert
                 {
                     WuertLu = htmlNode.InnerText.Trim(),
-                    //WuertForm = new WordForm(tmpWordForm),
-                    WuertForm = new WordForm(""),
+                    WuertForm = new WordForm(null),
                     Selection = 1,
                     XMLFile = tmpxml.Substring(0, tmpxml.IndexOf("'")),
                     MP3 = tmpmp3.Substring(0, tmpmp3.IndexOf("'"))
@@ -544,7 +542,6 @@ namespace KonterbontLODConnector
                 RadioButton rb = new RadioButton
                 {
                     Name = _i.ToString(),
-                    //Text = wuert.WuertLu + " (" + wuert.WuertForm.WuertForm + ")",
                     Text = wuert.WuertLu + " (" + tmpWordForm + ")",
                     Location = new Point(10, _i * 30),
                     Width = 500
@@ -621,7 +618,6 @@ namespace KonterbontLODConnector
             {
                 bool res = acresults.DeepCheck(tmp);
                 return res;
-                //return false;
             }
 
         }
@@ -1062,6 +1058,18 @@ namespace KonterbontLODConnector
                     }
                 }
             }
+        }
+
+        private void MagazineOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           
+            if (globaldt == null)
+            {
+                globaldt = new DataHandler();
+            }
+            if (!globaldt.InitParseMagazine()) MagazineSelectorToolStripMenuItem_Click(sender, e);
+
+            //
         }
     }
 }
