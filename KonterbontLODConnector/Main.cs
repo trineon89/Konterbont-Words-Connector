@@ -103,15 +103,15 @@ namespace KonterbontLODConnector
                 }
             };
 
+            
             var _responseT = httpClient.SendAsync(httpContent, new HttpCompletionOption());
-
-            var _response = await httpClient.SendAsync(httpContent);
+            /*
+            var _response = await httpClient.SendAsync(httpContent, new HttpCompletionOption());
             _response.EnsureSuccessStatusCode();
             string responseBody = await _response.Content.ReadAsStringAsync();
             httpClient.Dispose();
             return  responseBody;
-            
-            /*  //Old Code
+            */
             _responseT.Wait();
             var _response = _responseT.Result;
             _response.EnsureSuccessStatusCode();
@@ -119,7 +119,7 @@ namespace KonterbontLODConnector
             string responseBody = await _response.Content.ReadAsStringAsync();
             httpClient.Dispose();
             return responseBody;
-            */
+            
         }
 
         private async Task<AutoComplete> FetchFullWordsAsync(AutoComplete acwuert, string Lang, bool showselection = false)
@@ -1060,16 +1060,15 @@ namespace KonterbontLODConnector
             }
         }
 
-        private void MagazineOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MagazineOpmaachenToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-           
+            //
             if (globaldt == null)
             {
                 globaldt = new DataHandler();
             }
-            if (!globaldt.InitParseMagazine()) MagazineSelectorToolStripMenuItem_Click(sender, e);
-
-            //
+            if (!globaldt.InitParseMagazine())
+                MagazineSelectorToolStripMenuItem_Click(sender, e);
         }
     }
 }

@@ -32,22 +32,23 @@
             this.dateiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiNew = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiOpenArticle = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSave = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
             this.astellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.magazineSelectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
+            this.btnCopyToMag = new System.Windows.Forms.Button();
+            this.btnCreatePopups = new System.Windows.Forms.Button();
             this.lbWords = new System.Windows.Forms.ListBox();
             this.lbSelectWord = new System.Windows.Forms.ListBox();
             this.lbSelectMeaning = new System.Windows.Forms.ListBox();
-            this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsmiSave = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnCreatePopups = new System.Windows.Forms.Button();
-            this.btnCopyToMag = new System.Windows.Forms.Button();
             this.pnlDetails = new System.Windows.Forms.Panel();
             this.rtbDetails = new System.Windows.Forms.RichTextBox();
+            this.magazineOpmaachenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.magazineOpmaachenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mmMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.pnlDetails.SuspendLayout();
-            this.magazineOpmaachenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SuspendLayout();
             // 
             // mmMain
@@ -66,9 +67,9 @@
             this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiNew,
             this.tsmiOpenArticle,
+            this.magazineOpmaachenToolStripMenuItem1,
             this.tsmiSave,
             this.tsmiExit});
-            this.magazineOpmaachenToolStripMenuItem});
             this.dateiToolStripMenuItem.Name = "dateiToolStripMenuItem";
             this.dateiToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.dateiToolStripMenuItem.Text = "Datei";
@@ -76,15 +77,30 @@
             // tsmiNew
             // 
             this.tsmiNew.Name = "tsmiNew";
-            this.tsmiNew.Size = new System.Drawing.Size(183, 22);
+            this.tsmiNew.Size = new System.Drawing.Size(200, 22);
             this.tsmiNew.Text = "Nei";
             // 
             // tsmiOpenArticle
             // 
             this.tsmiOpenArticle.Name = "tsmiOpenArticle";
-            this.tsmiOpenArticle.Size = new System.Drawing.Size(183, 22);
+            this.tsmiOpenArticle.Size = new System.Drawing.Size(200, 22);
             this.tsmiOpenArticle.Text = "Artikel opmaachen...";
             this.tsmiOpenArticle.Click += new System.EventHandler(this.ArtikelOpmaachenToolStripMenuItem_Click);
+            // 
+            // tsmiSave
+            // 
+            this.tsmiSave.Enabled = false;
+            this.tsmiSave.Name = "tsmiSave";
+            this.tsmiSave.Size = new System.Drawing.Size(200, 22);
+            this.tsmiSave.Text = "Späicheren";
+            this.tsmiSave.Click += new System.EventHandler(this.BtnSave_Click);
+            // 
+            // tsmiExit
+            // 
+            this.tsmiExit.Name = "tsmiExit";
+            this.tsmiExit.Size = new System.Drawing.Size(200, 22);
+            this.tsmiExit.Text = "Zoumaachen";
+            this.tsmiExit.Click += new System.EventHandler(this.tsmiExit_Click);
             // 
             // astellungenToolStripMenuItem
             // 
@@ -97,7 +113,7 @@
             // magazineSelectorToolStripMenuItem
             // 
             this.magazineSelectorToolStripMenuItem.Name = "magazineSelectorToolStripMenuItem";
-            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
             this.magazineSelectorToolStripMenuItem.Text = "Magazine Selector...";
             this.magazineSelectorToolStripMenuItem.Click += new System.EventHandler(this.MagazineSelectorToolStripMenuItem_Click);
             // 
@@ -126,6 +142,30 @@
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.63158F));
             this.tlpMain.Size = new System.Drawing.Size(735, 439);
             this.tlpMain.TabIndex = 15;
+            // 
+            // btnCopyToMag
+            // 
+            this.btnCopyToMag.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnCopyToMag.Enabled = false;
+            this.btnCopyToMag.Location = new System.Drawing.Point(127, 3);
+            this.btnCopyToMag.Name = "btnCopyToMag";
+            this.btnCopyToMag.Size = new System.Drawing.Size(118, 24);
+            this.btnCopyToMag.TabIndex = 15;
+            this.btnCopyToMag.Text = "An de Magazin";
+            this.btnCopyToMag.UseVisualStyleBackColor = true;
+            this.btnCopyToMag.Click += new System.EventHandler(this.btnCopyMag_Click);
+            // 
+            // btnCreatePopups
+            // 
+            this.btnCreatePopups.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnCreatePopups.Enabled = false;
+            this.btnCreatePopups.Location = new System.Drawing.Point(3, 3);
+            this.btnCreatePopups.Name = "btnCreatePopups";
+            this.btnCreatePopups.Size = new System.Drawing.Size(118, 24);
+            this.btnCreatePopups.TabIndex = 14;
+            this.btnCreatePopups.Text = "Popups erstellen";
+            this.btnCreatePopups.UseVisualStyleBackColor = true;
+            this.btnCreatePopups.Click += new System.EventHandler(this.BtnCreatePopups_Click);
             // 
             // lbWords
             // 
@@ -165,45 +205,6 @@
             this.lbSelectMeaning.SelectedIndexChanged += new System.EventHandler(this.LbSelectMeaning_SelectedIndexChanged);
             this.lbSelectMeaning.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectMeaning_MouseDoubleClick);
             // 
-            // tsmiExit
-            // 
-            this.tsmiExit.Name = "tsmiExit";
-            this.tsmiExit.Size = new System.Drawing.Size(183, 22);
-            this.tsmiExit.Text = "Zoumaachen";
-            this.tsmiExit.Click += new System.EventHandler(this.tsmiExit_Click);
-            // 
-            // tsmiSave
-            // 
-            this.tsmiSave.Enabled = false;
-            this.tsmiSave.Name = "tsmiSave";
-            this.tsmiSave.Size = new System.Drawing.Size(183, 22);
-            this.tsmiSave.Text = "Späicheren";
-            this.tsmiSave.Click += new System.EventHandler(this.BtnSave_Click);
-            // 
-            // btnCreatePopups
-            // 
-            this.btnCreatePopups.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnCreatePopups.Enabled = false;
-            this.btnCreatePopups.Location = new System.Drawing.Point(3, 3);
-            this.btnCreatePopups.Name = "btnCreatePopups";
-            this.btnCreatePopups.Size = new System.Drawing.Size(118, 24);
-            this.btnCreatePopups.TabIndex = 14;
-            this.btnCreatePopups.Text = "Popups erstellen";
-            this.btnCreatePopups.UseVisualStyleBackColor = true;
-            this.btnCreatePopups.Click += new System.EventHandler(this.BtnCreatePopups_Click);
-            // 
-            // btnCopyToMag
-            // 
-            this.btnCopyToMag.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnCopyToMag.Enabled = false;
-            this.btnCopyToMag.Location = new System.Drawing.Point(127, 3);
-            this.btnCopyToMag.Name = "btnCopyToMag";
-            this.btnCopyToMag.Size = new System.Drawing.Size(118, 24);
-            this.btnCopyToMag.TabIndex = 15;
-            this.btnCopyToMag.Text = "An de Magazin";
-            this.btnCopyToMag.UseVisualStyleBackColor = true;
-            this.btnCopyToMag.Click += new System.EventHandler(this.btnCopyMag_Click);
-            // 
             // pnlDetails
             // 
             this.pnlDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -231,17 +232,17 @@
             this.rtbDetails.TabIndex = 17;
             this.rtbDetails.Text = "";
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(197, 6);
-            // 
             // magazineOpmaachenToolStripMenuItem
             // 
             this.magazineOpmaachenToolStripMenuItem.Name = "magazineOpmaachenToolStripMenuItem";
-            this.magazineOpmaachenToolStripMenuItem.Size = new System.Drawing.Size(200, 22);
-            this.magazineOpmaachenToolStripMenuItem.Text = "Magazine opmaachen...";
-            this.magazineOpmaachenToolStripMenuItem.Click += new System.EventHandler(this.MagazineOpmaachenToolStripMenuItem_Click);
+            this.magazineOpmaachenToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
+            // 
+            // magazineOpmaachenToolStripMenuItem1
+            // 
+            this.magazineOpmaachenToolStripMenuItem1.Name = "magazineOpmaachenToolStripMenuItem1";
+            this.magazineOpmaachenToolStripMenuItem1.Size = new System.Drawing.Size(200, 22);
+            this.magazineOpmaachenToolStripMenuItem1.Text = "Magazine opmaachen...";
+            this.magazineOpmaachenToolStripMenuItem1.Click += new System.EventHandler(this.MagazineOpmaachenToolStripMenuItem1_Click);
             // 
             // frmMain
             // 
@@ -283,6 +284,7 @@
         private System.Windows.Forms.RichTextBox rtbDetails;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem magazineOpmaachenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem magazineOpmaachenToolStripMenuItem1;
     }
 }
 
