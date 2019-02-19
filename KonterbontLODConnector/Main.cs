@@ -128,8 +128,8 @@ namespace KonterbontLODConnector
             reswuert.Occurence = acwuert.Occurence;
             int _c = 1;
             int _MeaningsCount = 0;
+            int _Total = 0;
             frmSelectMeaning frmSelectMeaning = new frmSelectMeaning();
-
 
             foreach (Wuert wuert in acwuert.Wierder)
             {
@@ -367,8 +367,19 @@ namespace KonterbontLODConnector
                         if (Lang == "LU")
                         { wuert.Meanings.Add(meaning); }
                         _i++;
+                        _Total = _i;
                     }
                 }
+
+                RadioButton rbtn = new RadioButton
+                {
+                    Name = "0",
+                    Text = "Passt nët",
+                    Location = new Point(10,  _Total * 30),
+                    Width = 500
+                };
+                frmSelectMeaning.gbMeanings.Controls.Add(rbtn);
+
                 if (_MeaningsCount > 1 && Lang == "DE" && _c == acwuert.Selection)
                 {
                     if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
