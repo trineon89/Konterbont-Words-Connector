@@ -12,10 +12,12 @@ namespace KonterbontLODConnector
         public List<Wuert> Wierder;
         public int Selection;
 
+
         public AutoComplete()
         {
             Wierder = new List<Wuert>();
             Selection = 0;
+
         }
 
         public bool Equals(AutoComplete other)
@@ -62,6 +64,7 @@ namespace KonterbontLODConnector
         public int Selection;
         public string MP3;
         public string XMLFile;
+
 
         public Wuert()
         {

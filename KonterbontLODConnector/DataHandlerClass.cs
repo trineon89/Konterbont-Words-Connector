@@ -19,6 +19,8 @@ namespace KonterbontLODConnector
         private string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
         private frmMagazineSelector theform;
         private string targetMag;
+        public bool HasPopups;
+        public bool IsInMag;
 
         public string Filename { get; set; }
         [J("filepath", NullValueHandling = N.Ignore)] public string Filepath { get; set; }
@@ -31,6 +33,8 @@ namespace KonterbontLODConnector
             Filepath = null;
             WordList = new List<AutoComplete>();
             frmMagazineSelectorInit();
+            HasPopups = false;
+            IsInMag = false;
         }
 
         public DataHandler(string _filename)

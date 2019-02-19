@@ -388,7 +388,7 @@ namespace KonterbontLODConnector
             reswuert.Selection = acwuert.Selection;
             return reswuert;
         }
-        
+
         private async Task<string> FetchWordsTT(string XML, string Lang)
         {
             var httpClient = new HttpClient();
@@ -610,7 +610,7 @@ namespace KonterbontLODConnector
         {
             AutoComplete acresults = await Task.Run(async () => await GetFullTranslationsAsync(searchstring));
 
-            var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3) 
+            var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3)
                 && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile) && (acx.Occurence == searchstring))));
 
             if (tmp == null)
@@ -634,10 +634,10 @@ namespace KonterbontLODConnector
                 string[] files = Directory.GetFiles(folderBrowser.SelectedPath, "*.words");
                 if (files.Length == 0)
                 {
-                        MessageBox.Show(this, "Keen Words Fichier an dësem Dossier!", "Upsi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(this, "Keen Words Fichier an dësem Dossier!", "Upsi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                    
+
                 if (Directory.Exists(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources"))
                 {
                     try
@@ -669,7 +669,8 @@ namespace KonterbontLODConnector
                         dt = new DataHandler(tmpfilename, folderBrowser.SelectedPath + "\\");
                     }
 
-                    if (filec==0) dt.PrepareOutputFolder();
+                    if (filec == 0)
+                        dt.PrepareOutputFolder();
                     filec++;
                     string tfile = new StreamReader(file).ReadToEnd();
                     string[] lines = tfile.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
@@ -727,7 +728,7 @@ namespace KonterbontLODConnector
                     }
                     globaldt = dt;
                     lbWords.SelectedIndex = 0;
-                    btnSave.Enabled = true;
+                    tsmiSave.Enabled = true;
                     btnCreatePopups.Enabled = true;
                 }
             }
@@ -931,8 +932,10 @@ namespace KonterbontLODConnector
             //CreatePopups
             if (globaldt.OutputPopups())
             {
-                MessageBox.Show(this,"Popups sinn erstallt!", "Okay", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(this, "Popups sinn erstallt!", "Okay", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            globaldt.HasPopups = true;
+            btnCopyToMag.Enabled = true;
         }
 
         private void lbSelectWord_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -974,7 +977,6 @@ namespace KonterbontLODConnector
                 // save
                 globaldt.SaveToFile(globaldt);
             }
-
         }
 
         private void btnCopyMag_Click(object sender, EventArgs e)
@@ -999,13 +1001,14 @@ namespace KonterbontLODConnector
                 Value = 0,
                 Line3 = "Calculating Time Remaining..."
             };
+
             progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
             int c = 1;
             foreach (string _file in Files)
             {
                 progressDialog.Line1 = "Datei: " + Path.GetFileName(_file);
                 globaldt.CopyToMag(_file);
-                
+
                 System.Threading.Thread.Sleep(50);
                 double dbl = 100d / Files.Count() * c;
                 uint _currprog = Convert.ToUInt32(Math.Round(dbl));
@@ -1014,6 +1017,8 @@ namespace KonterbontLODConnector
                 c++;
             }
             progressDialog.CloseDialog();
+
+            globaldt.IsInMag = true;
         }
 
 
@@ -1028,6 +1033,35 @@ namespace KonterbontLODConnector
             if (ControlInvokeRequired(btnCopyToMag, () => UpdatebtnCopyToMag(_bool)))
                 return;
             btnCopyToMag.Enabled = _bool;
+        }
+
+        private void tsmiExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (globaldt != null)
+            {
+                if (!globaldt.HasPopups)
+                {
+                    if (MessageBox.Show("D'Popupen goufen nach net erstallt. Zoumaachen?", "Zoumaachen", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    { e.Cancel = false; }
+                    else
+                    { e.Cancel = true; }
+                }
+                else
+                {
+                    if (!globaldt.IsInMag)
+                    {
+                        if (MessageBox.Show("D'Popupen goufen nach net an den Magazin kopéiert. Zoumaachen?", "Zoumaachen", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        { e.Cancel = false; }
+                        else
+                        { e.Cancel = true; }
+                    }
+                }
+            }
         }
     }
 }
