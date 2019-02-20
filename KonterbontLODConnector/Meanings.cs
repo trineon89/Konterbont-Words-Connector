@@ -32,11 +32,52 @@ namespace KonterbontLODConnector
         {
             RadioButton selectedMeaning = gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
             string Selection = selectedMeaning.Name;
+
+            rtbDE.SelectAll();
+            rtbDE.SelectionColor = Color.Black;
+            rtbDE.SelectionLength = 0;
             foreach (string line in rtbDE.Lines)
             {
                 if (Regex.IsMatch(line, Selection + ". "))
                 {
-                    Utility.HighlightText(rtbDE, line, Color.Blue);
+                    Color myRgbColor = Color.FromArgb(20, 118, 212);
+                    Utility.HighlightText(rtbDE, line, myRgbColor);
+                }
+            }
+
+            rtbFR.SelectAll();
+            rtbFR.SelectionColor = Color.Black;
+            rtbFR.SelectionLength = 0;
+            foreach (string line in rtbFR.Lines)
+            {
+                if (Regex.IsMatch(line, Selection + ". "))
+                {
+                    Color myRgbColor = Color.FromArgb(20, 118, 212);
+                    Utility.HighlightText(rtbFR, line, myRgbColor);
+                }
+            }
+
+            rtbEN.SelectAll();
+            rtbEN.SelectionColor = Color.Black;
+            rtbEN.SelectionLength = 0;
+            foreach (string line in rtbEN.Lines)
+            {
+                if (Regex.IsMatch(line, Selection + ". "))
+                {
+                    Color myRgbColor = Color.FromArgb(20, 118, 212);
+                    Utility.HighlightText(rtbEN, line, myRgbColor);
+                }
+            }
+
+            rtbPT.SelectAll();
+            rtbPT.SelectionColor = Color.Black;
+            rtbPT.SelectionLength = 0;
+            foreach (string line in rtbPT.Lines)
+            {
+                if (Regex.IsMatch(line, Selection + ". "))
+                {
+                    Color myRgbColor = Color.FromArgb(20, 118, 212);
+                    Utility.HighlightText(rtbPT, line, myRgbColor);
                 }
             }
         }

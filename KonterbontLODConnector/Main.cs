@@ -370,7 +370,6 @@ namespace KonterbontLODConnector
                                 Font Normal = new Font(currentFont, FontStyle.Regular);
                                 Font Italic = new Font(currentFont, FontStyle.Italic);
                                 Font Bold = new Font(currentFont.FontFamily,10, FontStyle.Bold);
-                                Color myRgbColor = Color.FromArgb(20,118,212);
                                 string examples = "";
                                 string egs = "";
                                 foreach (Example _ex in wuert.Meanings[_i - 1].Examples)
@@ -384,41 +383,32 @@ namespace KonterbontLODConnector
                                 }
 
                                 frmSelectMeaning.rtbDE.SelectionFont = Bold;
-                                frmSelectMeaning.rtbDE.SelectionColor = myRgbColor;
-                                //frmSelectMeaning.rtbDE.AppendText(thename + ". " + wuert.Meanings[_i - 1].DE);
                                 frmSelectMeaning.rtbDE.AppendText(thename + ". " + wuert.Meanings[_i - 1].DE + Environment.NewLine);
                                 frmSelectMeaning.rtbDE.SelectionFont = Normal;
-                                frmSelectMeaning.rtbDE.SelectionColor = Color.Black;
                                 frmSelectMeaning.rtbDE.AppendText(examples);
                                 frmSelectMeaning.rtbDE.SelectionFont = Italic;
                                 frmSelectMeaning.rtbDE.AppendText(egs);
                                 frmSelectMeaning.rtbDE.AppendText(Environment.NewLine);
 
                                 frmSelectMeaning.rtbFR.SelectionFont = Bold;
-                                frmSelectMeaning.rtbFR.SelectionColor = myRgbColor;
                                 frmSelectMeaning.rtbFR.AppendText(thename + ". " + wuert.Meanings[_i - 1].FR + Environment.NewLine);
                                 frmSelectMeaning.rtbFR.SelectionFont = Normal;
-                                frmSelectMeaning.rtbFR.SelectionColor = Color.Black;
                                 frmSelectMeaning.rtbFR.AppendText(examples);
                                 frmSelectMeaning.rtbFR.SelectionFont = Italic;
                                 frmSelectMeaning.rtbFR.AppendText(egs);
                                 frmSelectMeaning.rtbFR.AppendText(Environment.NewLine);
 
                                 frmSelectMeaning.rtbEN.SelectionFont = Bold;
-                                frmSelectMeaning.rtbEN.SelectionColor = myRgbColor;
                                 frmSelectMeaning.rtbEN.AppendText(thename + ". " + wuert.Meanings[_i - 1].EN + Environment.NewLine);
                                 frmSelectMeaning.rtbEN.SelectionFont = Normal;
-                                frmSelectMeaning.rtbEN.SelectionColor = Color.Black;
                                 frmSelectMeaning.rtbEN.AppendText(examples);
                                 frmSelectMeaning.rtbEN.SelectionFont = Italic;
                                 frmSelectMeaning.rtbEN.AppendText(egs);
                                 frmSelectMeaning.rtbEN.AppendText(Environment.NewLine);
 
                                 frmSelectMeaning.rtbPT.SelectionFont = Bold;
-                                frmSelectMeaning.rtbPT.SelectionColor = myRgbColor;
                                 frmSelectMeaning.rtbPT.AppendText(thename + ". " + wuert.Meanings[_i - 1].PT + Environment.NewLine);
                                 frmSelectMeaning.rtbPT.SelectionFont = Normal;
-                                frmSelectMeaning.rtbPT.SelectionColor = Color.Black;
                                 frmSelectMeaning.rtbPT.AppendText(examples);
                                 frmSelectMeaning.rtbPT.SelectionFont = Italic;
                                 frmSelectMeaning.rtbPT.AppendText(egs);
@@ -434,7 +424,7 @@ namespace KonterbontLODConnector
                         _Total = _i;
                     }
                 }
-
+                
                 RadioButton rbtn = new RadioButton
                 {
                     Name = "0",
@@ -447,6 +437,7 @@ namespace KonterbontLODConnector
 
                 if (_MeaningsCount > 1 && Lang == "PT" && _c == acwuert.Selection)
                 {
+                    frmSelectMeaning.gbMeanings_Click(this, null);
                     if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
                     {
                         RadioButton selectedMeaning = frmSelectMeaning.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
@@ -465,7 +456,10 @@ namespace KonterbontLODConnector
         private void rbClicked(object sender, EventArgs e)
         {
             //throw new NotImplementedException();
+            RadioButton rb = (RadioButton)sender;
+            frmSelectMeaning frmSelectMeaning = (frmSelectMeaning)rb.TopLevelControl;
             frmSelectMeaning.gbMeanings_Click(sender, e);
+            //frmSelectMeaning.gbMeanings_Click(sender, e);
         }
 
         private async Task<string> FetchWordsTT(string XML, string Lang)
