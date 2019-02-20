@@ -352,17 +352,75 @@ namespace KonterbontLODConnector
                                 RadioButton rb = new RadioButton
                                 {
                                     Name = thename,
-                                    Text = thename + " DE: " + wuert.Meanings[_i - 1].DE + "; FR: " + wuert.Meanings[_i - 1].FR + "; EN:" + wuert.Meanings[_i - 1].EN + "; PT:" + wuert.Meanings[_i - 1].PT,
+                                    Text = thename,// + " DE: " + wuert.Meanings[_i - 1].DE + "; FR: " + wuert.Meanings[_i - 1].FR + "; EN:" + wuert.Meanings[_i - 1].EN + "; PT:" + wuert.Meanings[_i - 1].PT,
 
                                     Location = new Point(10, _i * 30),
-                                    Width = 500
+                                    Width = 100
                                 };
                                 if (_i == 1)
                                 {
                                     rb.Checked = true;
                                 }
-                                frmSelectMeaning.gbMeanings.Text = "Bedeitung fir '" + wuert.WuertLu + "' auswielen:";
+                                frmSelectMeaning.gbMeanings.Text = "Fir '" + wuert.WuertLu + "':";
                                 frmSelectMeaning.gbMeanings.Controls.Add(rb);
+                                Font currentFont = frmSelectMeaning.rtbDE.SelectionFont;
+                                Font Normal = new Font(currentFont, FontStyle.Regular);
+                                Font Italic = new Font(currentFont, FontStyle.Italic);
+                                Font Bold = new Font(currentFont.FontFamily,10, FontStyle.Bold);
+                                Color myRgbColor = Color.FromArgb(20,118,212);
+                                string examples = "";
+                                string egs = "";
+                                foreach (Example _ex in wuert.Meanings[_i - 1].Examples)
+                                {
+                                    examples += _ex.ExampleText + Environment.NewLine;
+                                    if (_ex.EGS != "")
+                                    {
+                                        egs = _ex.EGS + Environment.NewLine;
+                                    }
+
+                                }
+
+                                frmSelectMeaning.rtbDE.SelectionFont = Bold;
+                                frmSelectMeaning.rtbDE.SelectionColor = myRgbColor;
+                                //frmSelectMeaning.rtbDE.AppendText(thename + ". " + wuert.Meanings[_i - 1].DE);
+                                frmSelectMeaning.rtbDE.AppendText(thename + ". " + wuert.Meanings[_i - 1].DE + Environment.NewLine);
+                                frmSelectMeaning.rtbDE.SelectionFont = Normal;
+                                frmSelectMeaning.rtbDE.SelectionColor = Color.Black;
+                                frmSelectMeaning.rtbDE.AppendText(examples);
+                                frmSelectMeaning.rtbDE.SelectionFont = Italic;
+                                frmSelectMeaning.rtbDE.AppendText(egs);
+                                frmSelectMeaning.rtbDE.AppendText(Environment.NewLine);
+
+                                frmSelectMeaning.rtbFR.SelectionFont = Bold;
+                                frmSelectMeaning.rtbFR.SelectionColor = myRgbColor;
+                                frmSelectMeaning.rtbFR.AppendText(thename + ". " + wuert.Meanings[_i - 1].FR + Environment.NewLine);
+                                frmSelectMeaning.rtbFR.SelectionFont = Normal;
+                                frmSelectMeaning.rtbFR.SelectionColor = Color.Black;
+                                frmSelectMeaning.rtbFR.AppendText(examples);
+                                frmSelectMeaning.rtbFR.SelectionFont = Italic;
+                                frmSelectMeaning.rtbFR.AppendText(egs);
+                                frmSelectMeaning.rtbFR.AppendText(Environment.NewLine);
+
+                                frmSelectMeaning.rtbEN.SelectionFont = Bold;
+                                frmSelectMeaning.rtbEN.SelectionColor = myRgbColor;
+                                frmSelectMeaning.rtbEN.AppendText(thename + ". " + wuert.Meanings[_i - 1].EN + Environment.NewLine);
+                                frmSelectMeaning.rtbEN.SelectionFont = Normal;
+                                frmSelectMeaning.rtbEN.SelectionColor = Color.Black;
+                                frmSelectMeaning.rtbEN.AppendText(examples);
+                                frmSelectMeaning.rtbEN.SelectionFont = Italic;
+                                frmSelectMeaning.rtbEN.AppendText(egs);
+                                frmSelectMeaning.rtbEN.AppendText(Environment.NewLine);
+
+                                frmSelectMeaning.rtbPT.SelectionFont = Bold;
+                                frmSelectMeaning.rtbPT.SelectionColor = myRgbColor;
+                                frmSelectMeaning.rtbPT.AppendText(thename + ". " + wuert.Meanings[_i - 1].PT + Environment.NewLine);
+                                frmSelectMeaning.rtbPT.SelectionFont = Normal;
+                                frmSelectMeaning.rtbPT.SelectionColor = Color.Black;
+                                frmSelectMeaning.rtbPT.AppendText(examples);
+                                frmSelectMeaning.rtbPT.SelectionFont = Italic;
+                                frmSelectMeaning.rtbPT.AppendText(egs);
+                                frmSelectMeaning.rtbPT.AppendText(Environment.NewLine);
+
                                 _MeaningsCount = htmlNodes.Count();
                             }
                         }
@@ -378,10 +436,11 @@ namespace KonterbontLODConnector
                 {
                     Name = "0",
                     Text = "Passt nët",
-                    Location = new Point(10,  _Total * 30),
-                    Width = 500
+                    Location = new Point(10, _Total * 30),
+                    Width = 100
                 };
                 frmSelectMeaning.gbMeanings.Controls.Add(rbtn);
+               
 
                 if (_MeaningsCount > 1 && Lang == "PT" && _c == acwuert.Selection)
                 {
@@ -564,7 +623,8 @@ namespace KonterbontLODConnector
                 Task<string> task = Task.Run(async () => await GetSelectionTooltipAsync(wuert.XMLFile));
                 task.Wait();
                 string tooltip = task.Result;
-
+                frm.gbMeanings.Dock = DockStyle.Fill;
+                frm.tcLang.Visible = false;
                 frm.gbMeanings.Controls.Add(rb);
                 frm.gbMeanings.Text = "Wuert auswielen:";
                 frm.Text = "Wuert auswielen";
@@ -742,7 +802,7 @@ namespace KonterbontLODConnector
                 SetIsSaved(false);
                 tssMagazine.Text = globaldt.TargetMag();
             }
-            
+
         }
 
         private void LbWords_SelectedIndexChanged(object sender, EventArgs e)
@@ -1095,7 +1155,8 @@ namespace KonterbontLODConnector
 
         private void TsmiNew_Click(object sender, EventArgs e)
         {
-            if (SafeToClear()) ResetInstance();
+            if (SafeToClear())
+                ResetInstance();
         }
 
         private bool SafeToClear()
@@ -1104,9 +1165,11 @@ namespace KonterbontLODConnector
             {
                 if (MessageBox.Show(this, "Wëlls de wirklech resetten?", "Sëcher?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     return true;
-                else return false;
+                else
+                    return false;
             }
-            else return true;
+            else
+                return true;
         }
 
         private void ResetInstance()
@@ -1129,8 +1192,10 @@ namespace KonterbontLODConnector
                 globaldt = new DataHandler();
             }
             globaldt.IsSaved(setter);
-            if (setter) tssNeedSave.Image = null;
-            else tssNeedSave.Image = Properties.Resources.SaveStatusBar8_16x;
+            if (setter)
+                tssNeedSave.Image = null;
+            else
+                tssNeedSave.Image = Properties.Resources.SaveStatusBar8_16x;
         }
     }
 }
