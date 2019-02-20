@@ -7,7 +7,14 @@
 -- clear listboxes
 -- set classes = null
 
+Text mat uweisen
+- Add Path to DataHandler Class > Public
+- Word / Meaning add "Show Non-Modal Popup" with text at position of word (wuert.Occurence)
 
-Beispill am Tooltip + FR,EN bei "Bedeitung auswielen" uweisen (Tabs)
-"Passt nët" Button/Radiobutton
-Bedeitung vun Basiswuert ënnerscheeden (Popup Fënster)
+
+
+___Open Article / Initialize Datahandler > Select Folder for DOCX/ODT
+
+TextDocument.AutimaticStyles.Styles[x].Name
+- BackgroundColor != null
+- Family == Text (Odf.Styles.StyleFamily)

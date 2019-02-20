@@ -10,6 +10,9 @@ using HtmlAgilityPack;
 using System.IO;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using Independentsoft.Office.Odf;
+using IStyles = Independentsoft.Office.Odf.Styles;
+using IParagraphs = Independentsoft.Office.Odf.Paragraph;
 
 namespace KonterbontLODConnector
 {
@@ -18,9 +21,14 @@ namespace KonterbontLODConnector
         public string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
         public string ArticlePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Artikelen\\";
         public Ookii.Dialogs.WinForms.VistaFolderBrowserDialog folderBrowser;
+        public Ookii.Dialogs.WinForms.VistaOpenFileDialog ArticleBrowser = new Ookii.Dialogs.WinForms.VistaOpenFileDialog
+        {
+            Filter = "Openoffice/LibreOffice (*.odt)|*.odt"
+        };
         public Ookii.Dialogs.WinForms.ProgressDialog progressDialog;
         private INDesignPlugin iNDesignPlugin;
         public DataHandler globaldt = null;
+        private Form TextForm;
 
         public frmMain()
         {
@@ -697,6 +705,74 @@ namespace KonterbontLODConnector
 
         }
 
+        private DataHandler OpenDocument(DataHandler dt)
+        {
+            TextDocument doc = new TextDocument(dt.DocPath);
+            TextForm = new Form()
+            {
+                Name = "frmTextForm",
+                Text = "Title",
+                Width = 500,
+                Height = 500
+            };
+            RichTextBox rtb = new RichTextBox()
+            {
+                Dock = DockStyle.Fill,
+                Name = "rtbDocument",
+                ReadOnly = true,
+                BackColor = SystemColors.Window
+            };
+            string HexColor;
+            foreach (var style in doc.AutomaticStyles.Styles)
+            {
+                if (style.GetType() == typeof(IStyles.TextStyle))
+                {
+                    IStyles.TextStyle textstyle = (IStyles.TextStyle)style;
+                    if (textstyle.BackgroundColor != null)
+                    {
+                        dt.StyleName = textstyle.Name;
+                        HexColor = textstyle.BackgroundColor;
+                    }
+                }
+            }
+
+            /*foreach (IParagraphs Paragraph in doc.Body.Content)
+            {
+                foreach (IParagraphContent TextElement in Paragraph.Content)
+                {
+                    if (typeof(Text) == TextElement.GetType())
+                    {
+                        Text txtvar = (Text)TextElement;
+                        rtb.AppendText(txtvar.Value);
+                    }
+                    else foreach(IParagraphContent attributedText in TextElement.GetContentElements())
+                    //foreach (AttributedText attributedText in TextElement.GetContentElements())
+                    {
+                            if (typeof(Text) == attributedText.GetType())
+                            {
+                                Text txtvari = (Text)attributedText;
+                                rtb.AppendText(txtvari.Value);
+                            }
+                            else foreach (Text txt in attributedText.GetContentElements())
+                        {
+                            rtb.AppendText(txt.Value);
+                        }
+                        //Independentsoft.Office.Odf.Text it = (Independentsoft.Office.Odf.Text)attributedText.Content[0];
+                        
+                    }
+                }
+                rtb.AppendText(Environment.NewLine);
+            }
+            http://www.independentsoft.de/odf/tutorial/wordcount.html
+             */
+
+
+            TextForm.Controls.Add(rtb);
+
+            TextForm.Show();
+            return dt;
+        }
+
         private async void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Menu -> Artikel Opmaachen
@@ -738,6 +814,16 @@ namespace KonterbontLODConnector
                     else
                     {
                         dt = new DataHandler(tmpfilename, folderBrowser.SelectedPath + "\\");
+                    }
+
+                    // add Function
+                    if (dt.DocPath == null)
+                    {
+                        if (ArticleBrowser.ShowDialog() == DialogResult.OK)
+                        {
+                            dt.DocPath = ArticleBrowser.FileName;
+                            dt = OpenDocument(dt);
+                        }
                     }
 
                     if (filec == 0)

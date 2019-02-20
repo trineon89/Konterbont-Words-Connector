@@ -6,6 +6,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Independentsoft.Office.Odf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using J = Newtonsoft.Json.JsonPropertyAttribute;
@@ -17,6 +18,9 @@ namespace KonterbontLODConnector
     {
         private string lodmp3path = "https://www.lod.lu/audio/";
         private string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
+        public string DocPath = null;
+        public TextDocument Article = null;
+        public string StyleName = null;
         private frmMagazineSelector theform;
         private string targetMag;
         private bool hasPopups = false;
