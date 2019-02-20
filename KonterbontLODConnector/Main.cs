@@ -361,6 +361,9 @@ namespace KonterbontLODConnector
                                 {
                                     rb.Checked = true;
                                 }
+
+                                rb.CheckedChanged += new EventHandler(rbClicked);
+
                                 frmSelectMeaning.gbMeanings.Text = "Fir '" + wuert.WuertLu + "':";
                                 frmSelectMeaning.gbMeanings.Controls.Add(rb);
                                 Font currentFont = frmSelectMeaning.rtbDE.SelectionFont;
@@ -457,6 +460,12 @@ namespace KonterbontLODConnector
             }
             reswuert.Selection = acwuert.Selection;
             return reswuert;
+        }
+
+        private void rbClicked(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+            frmSelectMeaning.gbMeanings_Click(sender, e);
         }
 
         private async Task<string> FetchWordsTT(string XML, string Lang)
