@@ -83,7 +83,8 @@ namespace KonterbontLODConnector
         }
     }
 
-    static class Utility { 
+    static class Utility
+    {
 
         public static void HighlightText(this RichTextBox myRtb, string word, Color color)
         {
@@ -104,6 +105,36 @@ namespace KonterbontLODConnector
             myRtb.SelectionStart = s_start;
             myRtb.SelectionLength = 0;
             myRtb.SelectionColor = Color.Black;
-    }
+        }
+
+        public static void HighlightSelText(this RichTextBox myRtb, string word)
+        {
+
+            if (word == string.Empty)
+                return;
+
+            int s_start = myRtb.SelectionStart, startIndex = 0, index;
+
+            while ((index = myRtb.Text.IndexOf(word, startIndex)) != -1)
+            {
+                myRtb.Select(index, word.Length);
+
+                if (myRtb.SelectionColor != Color.Black)
+                {
+                    myRtb.SelectionBackColor = Color.Yellow;
+                    return;
+                }
+
+                startIndex = index + word.Length;
+            }
+            myRtb.SelectionStart = s_start;
+            myRtb.SelectionLength = 0;
+        }
+
+        public static void UnSelText(this RichTextBox myRtb)
+        {
+            myRtb.SelectionBackColor = Color.Transparent;
+            myRtb.SelectionLength = 0;
+        }
     }
 }

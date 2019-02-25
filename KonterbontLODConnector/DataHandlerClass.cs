@@ -20,7 +20,7 @@ namespace KonterbontLODConnector
         private string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
         public string DocPath = null;
         public TextDocument Article = null;
-        public string StyleName = null;
+        public List<string> StyleName = null;
         private frmMagazineSelector theform;
         private string targetMag;
         private bool hasPopups = false;
