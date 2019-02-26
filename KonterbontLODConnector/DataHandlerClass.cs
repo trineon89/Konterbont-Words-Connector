@@ -216,7 +216,6 @@ namespace KonterbontLODConnector
                 _tmpfilecontent = _tmpfilecontent.Replace("_DEWORD_", wuert.Meanings[wuert.Selection - 1].DE);
                 _tmpfilecontent = _tmpfilecontent.Replace("_ENWORD_", wuert.Meanings[wuert.Selection - 1].EN);
                 _tmpfilecontent = _tmpfilecontent.Replace("_PTWORD_", wuert.Meanings[wuert.Selection - 1].PT);
-                //GetMp3(wuert.MP3);
                 occurence = DeUmlaut(occurence);
                 File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\" + Path.GetFileNameWithoutExtension(Filename) + "popup_" + occurence + ".html", _tmpfilecontent);
             }

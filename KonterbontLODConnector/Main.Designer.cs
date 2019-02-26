@@ -55,6 +55,7 @@ namespace KonterbontLODConnector
             this.btnCustomAudio = new System.Windows.Forms.Button();
             this.btnPlayAudio = new System.Windows.Forms.Button();
             this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
+            this.tsmiText = new System.Windows.Forms.ToolStripMenuItem();
             this.mmMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.pnlDetails.SuspendLayout();
@@ -146,7 +147,8 @@ namespace KonterbontLODConnector
             // astellungenToolStripMenuItem
             // 
             this.astellungenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.magazineSelectorToolStripMenuItem});
+            this.magazineSelectorToolStripMenuItem,
+            this.tsmiText});
             this.astellungenToolStripMenuItem.Name = "astellungenToolStripMenuItem";
             this.astellungenToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
             this.astellungenToolStripMenuItem.Text = "Astellungen";
@@ -349,6 +351,14 @@ namespace KonterbontLODConnector
             this.axWindowsMediaPlayer1.TabIndex = 21;
             this.axWindowsMediaPlayer1.Visible = false;
             // 
+            // tsmiText
+            // 
+            this.tsmiText.Enabled = false;
+            this.tsmiText.Name = "tsmiText";
+            this.tsmiText.Size = new System.Drawing.Size(190, 22);
+            this.tsmiText.Text = "Text uweisen...";
+            this.tsmiText.Click += new System.EventHandler(this.textUweisenToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -402,6 +412,7 @@ namespace KonterbontLODConnector
         private System.Windows.Forms.Button btnCustomAudio;
         private System.Windows.Forms.Button btnPlayAudio;
         private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
+        private System.Windows.Forms.ToolStripMenuItem tsmiText;
     }
 }
 
