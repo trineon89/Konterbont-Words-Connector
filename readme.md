@@ -17,3 +17,7 @@ added Input Boxes on DoubleClick Meaning
 added menu entry for displaying text when article is loaded on auto (.wordlist exists already)
 
 corrected some small details: return on dco opendialog 
+
+catch variante (exception on <span class="mentioun_adress"></span>)
+
+
