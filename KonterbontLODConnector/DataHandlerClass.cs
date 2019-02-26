@@ -18,6 +18,7 @@ namespace KonterbontLODConnector
     {
         private string lodmp3path = "https://www.lod.lu/audio/";
         private string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
+        private string CustomAudioPath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Audio\\";
         public string DocPath = null;
         public TextDocument Article = null;
         public List<string> StyleName = null;
@@ -26,6 +27,7 @@ namespace KonterbontLODConnector
         private bool hasPopups = false;
         private bool isInMag = false;
         private bool isSaved = false;
+        
 
         public string Filename { get; set; }
         [J("filepath", NullValueHandling = N.Ignore)] public string Filepath { get; set; }
@@ -158,11 +160,18 @@ namespace KonterbontLODConnector
             return dt;
         }
 
-        public void GetMp3(string mp3filename)
+        public void GetMp3(string mp3filename,bool hasCustomAudio)
         {
-            using (WebClient wc = new WebClient())
+            if (hasCustomAudio)
             {
-                wc.DownloadFileAsync(new Uri(lodmp3path + mp3filename), Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
+                File.Copy(CustomAudioPath + mp3filename, Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
+            }
+            else
+            {
+                using (WebClient wc = new WebClient())
+                {
+                    wc.DownloadFileAsync(new Uri(lodmp3path + mp3filename), Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
+                }
             }
         }
 
@@ -207,7 +216,7 @@ namespace KonterbontLODConnector
                 _tmpfilecontent = _tmpfilecontent.Replace("_DEWORD_", wuert.Meanings[wuert.Selection - 1].DE);
                 _tmpfilecontent = _tmpfilecontent.Replace("_ENWORD_", wuert.Meanings[wuert.Selection - 1].EN);
                 _tmpfilecontent = _tmpfilecontent.Replace("_PTWORD_", wuert.Meanings[wuert.Selection - 1].PT);
-                GetMp3(wuert.MP3);
+                //GetMp3(wuert.MP3);
                 occurence = DeUmlaut(occurence);
                 File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\" + Path.GetFileNameWithoutExtension(Filename) + "popup_" + occurence + ".html", _tmpfilecontent);
             }
@@ -289,7 +298,6 @@ namespace KonterbontLODConnector
                 File.Copy(_file, _newFilePath, true);
             });
         }
-
     }
 
     public partial class DataHandler
@@ -314,8 +322,4 @@ namespace KonterbontLODConnector
             },
         };
     }
-
-
-
-   
-}
+ }

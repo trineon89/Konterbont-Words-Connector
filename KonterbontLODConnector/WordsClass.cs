@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using J = Newtonsoft.Json.JsonPropertyAttribute;
+using N = Newtonsoft.Json.NullValueHandling;
 
 namespace KonterbontLODConnector
 {
@@ -123,6 +125,7 @@ namespace KonterbontLODConnector
         public string PT;
         public List<Example> Examples;
         public string MP3;
+        [J("hasCustomAudio", NullValueHandling = N.Ignore)]  public bool hasCustomAudio;
 
         public Meaning() // Constructor
         {
@@ -133,6 +136,7 @@ namespace KonterbontLODConnector
             FR = null;
             EN = null;
             PT = null;
+            hasCustomAudio = false;
             Examples = new List<Example>();
         }
     }

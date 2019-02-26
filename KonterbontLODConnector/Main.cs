@@ -10,9 +10,9 @@ using HtmlAgilityPack;
 using System.IO;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using WMPLib;
 using Independentsoft.Office.Odf;
 using IStyles = Independentsoft.Office.Odf.Styles;
-using Ookii.Dialogs;
 using Ookii.Dialogs.WinForms;
 using IParagraphs = Independentsoft.Office.Odf.Paragraph;
 
@@ -22,12 +22,20 @@ namespace KonterbontLODConnector
     {
         public string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
         public string ArticlePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Artikelen\\";
-
+        public string CustomAudioPath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Audio\\";
         public VistaFolderBrowserDialog folderBrowser;
         public VistaOpenFileDialog ArticleBrowser = new VistaOpenFileDialog
         {
-            Filter = "Openoffice/LibreOffice (*.odt)|*.odt"
+            Filter = "Openoffice/LibreOffice (*.odt)|*.odt",
+            Title = "Dokument fir den Artikel auswielen"
         };
+
+        public VistaOpenFileDialog CustomAudioBrowser = new VistaOpenFileDialog
+        {
+            Filter = "MP3 (*.mp3)|*.mp3",
+            InitialDirectory = "\\\\192.168.1.75\\Konterbont_Produktioun\\Audio\\",
+            Title = "Neien Toun fir den Popup auswielen"
+    };
         public ProgressDialog progressDialog;
         private INDesignPlugin iNDesignPlugin;
         public DataHandler globaldt = null;
@@ -496,6 +504,10 @@ namespace KonterbontLODConnector
                         PTid.Dispose();
                     }
                 }
+                if (globaldt == null)
+                {
+                    globaldt = new DataHandler();
+                }
                 reswuert.Wierder.Add(wuert);
                 _c++;
             }
@@ -884,7 +896,7 @@ namespace KonterbontLODConnector
                     {
                         dt = new DataHandler(tmpfilename, folderBrowser.SelectedPath + "\\");
                     }
-
+                    
                     // add Function
                     if (dt.DocPath == null)
                     {
@@ -941,8 +953,12 @@ namespace KonterbontLODConnector
                             uint _currprog = Convert.ToUInt32(Math.Round(dbl));
                             progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
                             progressDialog.Value = _currprog;
+                            dt.GetMp3(dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Selection].MP3, dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Selection].hasCustomAudio);
                             c++;
                         }
+                        //dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Selection].MP3;
+
+                        
                     }
                     progressDialog.CloseDialog();
                     dt.SaveToFile(dt);
@@ -956,6 +972,8 @@ namespace KonterbontLODConnector
                     lbWords.SelectedIndex = 0;
                     tsmiSave.Enabled = true;
                     btnCreatePopups.Enabled = true;
+                    btnCustomAudio.Enabled = true;
+                    btnPlayAudio.Enabled = true;
                 }
                 SetIsSaved(false);
                 tssMagazine.Text = globaldt.TargetMag();
@@ -1334,6 +1352,8 @@ namespace KonterbontLODConnector
         {
             btnCreatePopups.Enabled = false;
             btnCopyToMag.Enabled = false;
+            btnCustomAudio.Enabled = false;
+            btnPlayAudio.Enabled = true;
             tsmiSave.Enabled = false;
             lbSelectMeaning.Items.Clear();
             lbSelectWord.Items.Clear();
@@ -1354,6 +1374,26 @@ namespace KonterbontLODConnector
                 tssNeedSave.Image = null;
             else
                 tssNeedSave.Image = Properties.Resources.SaveStatusBar8_16x;
+        }
+
+        private void btnPlayAudio_Click(object sender, EventArgs e)
+        {
+            string mp3Path = globaldt.Filepath+"WebResources\\popupbase-web-resources\\audio\\";
+            string mp3File = mp3Path + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].MP3;
+
+            WindowsMediaPlayer wplayer = new WindowsMediaPlayer();
+
+            wplayer.URL = mp3File;
+            wplayer.controls.play();
+        }
+
+        private void btnCustomAudio_Click(object sender, EventArgs e)
+        {
+            if (CustomAudioBrowser.ShowDialog() == DialogResult.OK)
+            {
+                globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].MP3 = Path.GetFileName(CustomAudioBrowser.FileName);
+                globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].hasCustomAudio = true;
+            }
         }
     }
 }

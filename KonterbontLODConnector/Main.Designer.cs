@@ -52,10 +52,14 @@ namespace KonterbontLODConnector
             this.tssNeedSave = new System.Windows.Forms.ToolStripStatusLabel();
             this.tssMagazine = new System.Windows.Forms.ToolStripStatusLabel();
             this.tssArticle = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnCustomAudio = new System.Windows.Forms.Button();
+            this.btnPlayAudio = new System.Windows.Forms.Button();
+            this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
             this.mmMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.pnlDetails.SuspendLayout();
             this.ssStatus.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             this.SuspendLayout();
             // 
             // mmMain
@@ -159,12 +163,12 @@ namespace KonterbontLODConnector
             // 
             this.tlpMain.AutoSize = true;
             this.tlpMain.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tlpMain.ColumnCount = 4;
+            this.tlpMain.ColumnCount = 5;
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.88742F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.88742F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.11258F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.11258F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.32479F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.05698F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
             this.tlpMain.Controls.Add(this.btnCopyToMag, 1, 0);
             this.tlpMain.Controls.Add(this.btnCreatePopups, 0, 0);
             this.tlpMain.Controls.Add(this.lbWords, 0, 1);
@@ -172,6 +176,9 @@ namespace KonterbontLODConnector
             this.tlpMain.Controls.Add(this.lbSelectMeaning, 3, 1);
             this.tlpMain.Controls.Add(this.pnlDetails, 2, 2);
             this.tlpMain.Controls.Add(this.ssStatus, 0, 3);
+            this.tlpMain.Controls.Add(this.btnCustomAudio, 4, 0);
+            this.tlpMain.Controls.Add(this.btnPlayAudio, 3, 0);
+            this.tlpMain.Controls.Add(this.axWindowsMediaPlayer1, 2, 0);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
             this.tlpMain.Location = new System.Drawing.Point(0, 24);
@@ -188,9 +195,9 @@ namespace KonterbontLODConnector
             // 
             this.btnCopyToMag.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnCopyToMag.Enabled = false;
-            this.btnCopyToMag.Location = new System.Drawing.Point(127, 3);
+            this.btnCopyToMag.Location = new System.Drawing.Point(121, 3);
             this.btnCopyToMag.Name = "btnCopyToMag";
-            this.btnCopyToMag.Size = new System.Drawing.Size(118, 24);
+            this.btnCopyToMag.Size = new System.Drawing.Size(112, 24);
             this.btnCopyToMag.TabIndex = 15;
             this.btnCopyToMag.Text = "An de Magasinn";
             this.btnCopyToMag.UseVisualStyleBackColor = true;
@@ -202,7 +209,7 @@ namespace KonterbontLODConnector
             this.btnCreatePopups.Enabled = false;
             this.btnCreatePopups.Location = new System.Drawing.Point(3, 3);
             this.btnCreatePopups.Name = "btnCreatePopups";
-            this.btnCreatePopups.Size = new System.Drawing.Size(118, 24);
+            this.btnCreatePopups.Size = new System.Drawing.Size(112, 24);
             this.btnCreatePopups.TabIndex = 14;
             this.btnCreatePopups.Text = "Popups erstellen";
             this.btnCreatePopups.UseVisualStyleBackColor = true;
@@ -218,7 +225,7 @@ namespace KonterbontLODConnector
             this.lbWords.Margin = new System.Windows.Forms.Padding(5);
             this.lbWords.Name = "lbWords";
             this.tlpMain.SetRowSpan(this.lbWords, 2);
-            this.lbWords.Size = new System.Drawing.Size(238, 422);
+            this.lbWords.Size = new System.Drawing.Size(226, 422);
             this.lbWords.TabIndex = 8;
             this.lbWords.SelectedIndexChanged += new System.EventHandler(this.LbWords_SelectedIndexChanged);
             // 
@@ -226,22 +233,23 @@ namespace KonterbontLODConnector
             // 
             this.lbSelectWord.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSelectWord.FormattingEnabled = true;
-            this.lbSelectWord.Location = new System.Drawing.Point(253, 35);
+            this.lbSelectWord.Location = new System.Drawing.Point(241, 35);
             this.lbSelectWord.Margin = new System.Windows.Forms.Padding(5);
             this.lbSelectWord.Name = "lbSelectWord";
-            this.lbSelectWord.Size = new System.Drawing.Size(233, 195);
+            this.lbSelectWord.Size = new System.Drawing.Size(244, 195);
             this.lbSelectWord.TabIndex = 9;
             this.lbSelectWord.SelectedIndexChanged += new System.EventHandler(this.LbSelectWord_SelectedIndexChanged);
             this.lbSelectWord.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectWord_MouseDoubleClick);
             // 
             // lbSelectMeaning
             // 
+            this.tlpMain.SetColumnSpan(this.lbSelectMeaning, 2);
             this.lbSelectMeaning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSelectMeaning.FormattingEnabled = true;
-            this.lbSelectMeaning.Location = new System.Drawing.Point(496, 35);
+            this.lbSelectMeaning.Location = new System.Drawing.Point(495, 35);
             this.lbSelectMeaning.Margin = new System.Windows.Forms.Padding(5);
             this.lbSelectMeaning.Name = "lbSelectMeaning";
-            this.lbSelectMeaning.Size = new System.Drawing.Size(234, 195);
+            this.lbSelectMeaning.Size = new System.Drawing.Size(235, 195);
             this.lbSelectMeaning.TabIndex = 10;
             this.lbSelectMeaning.SelectedIndexChanged += new System.EventHandler(this.LbSelectMeaning_SelectedIndexChanged);
             this.lbSelectMeaning.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectMeaning_MouseDoubleClick);
@@ -249,14 +257,14 @@ namespace KonterbontLODConnector
             // pnlDetails
             // 
             this.pnlDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tlpMain.SetColumnSpan(this.pnlDetails, 2);
+            this.tlpMain.SetColumnSpan(this.pnlDetails, 3);
             this.pnlDetails.Controls.Add(this.rtbDetails);
             this.pnlDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlDetails.Location = new System.Drawing.Point(253, 240);
+            this.pnlDetails.Location = new System.Drawing.Point(241, 240);
             this.pnlDetails.Margin = new System.Windows.Forms.Padding(5);
             this.pnlDetails.Name = "pnlDetails";
             this.pnlDetails.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlDetails.Size = new System.Drawing.Size(477, 217);
+            this.pnlDetails.Size = new System.Drawing.Size(489, 217);
             this.pnlDetails.TabIndex = 17;
             // 
             // rtbDetails
@@ -269,13 +277,13 @@ namespace KonterbontLODConnector
             this.rtbDetails.Margin = new System.Windows.Forms.Padding(5);
             this.rtbDetails.Name = "rtbDetails";
             this.rtbDetails.ReadOnly = true;
-            this.rtbDetails.Size = new System.Drawing.Size(465, 205);
+            this.rtbDetails.Size = new System.Drawing.Size(477, 205);
             this.rtbDetails.TabIndex = 17;
             this.rtbDetails.Text = "";
             // 
             // ssStatus
             // 
-            this.tlpMain.SetColumnSpan(this.ssStatus, 4);
+            this.tlpMain.SetColumnSpan(this.ssStatus, 5);
             this.ssStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tssNeedSave,
@@ -305,6 +313,42 @@ namespace KonterbontLODConnector
             this.tssArticle.Size = new System.Drawing.Size(42, 16);
             this.tssArticle.Text = "_ART_";
             // 
+            // btnCustomAudio
+            // 
+            this.btnCustomAudio.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnCustomAudio.Enabled = false;
+            this.btnCustomAudio.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnCustomAudio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCustomAudio.Location = new System.Drawing.Point(707, 3);
+            this.btnCustomAudio.Name = "btnCustomAudio";
+            this.btnCustomAudio.Size = new System.Drawing.Size(25, 24);
+            this.btnCustomAudio.TabIndex = 19;
+            this.btnCustomAudio.Text = "♬";
+            this.btnCustomAudio.UseVisualStyleBackColor = true;
+            this.btnCustomAudio.Click += new System.EventHandler(this.btnCustomAudio_Click);
+            // 
+            // btnPlayAudio
+            // 
+            this.btnPlayAudio.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnPlayAudio.Enabled = false;
+            this.btnPlayAudio.Location = new System.Drawing.Point(673, 3);
+            this.btnPlayAudio.Name = "btnPlayAudio";
+            this.btnPlayAudio.Size = new System.Drawing.Size(24, 24);
+            this.btnPlayAudio.TabIndex = 20;
+            this.btnPlayAudio.Text = "▶";
+            this.btnPlayAudio.UseVisualStyleBackColor = true;
+            this.btnPlayAudio.Click += new System.EventHandler(this.btnPlayAudio_Click);
+            // 
+            // axWindowsMediaPlayer1
+            // 
+            this.axWindowsMediaPlayer1.Enabled = true;
+            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(239, 3);
+            this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
+            this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
+            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(75, 23);
+            this.axWindowsMediaPlayer1.TabIndex = 21;
+            this.axWindowsMediaPlayer1.Visible = false;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -325,6 +369,7 @@ namespace KonterbontLODConnector
             this.pnlDetails.ResumeLayout(false);
             this.ssStatus.ResumeLayout(false);
             this.ssStatus.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -354,6 +399,9 @@ namespace KonterbontLODConnector
         private System.Windows.Forms.ToolStripStatusLabel tssMagazine;
         private System.Windows.Forms.ToolStripStatusLabel tssArticle;
         private System.Windows.Forms.ToolStripStatusLabel tssNeedSave;
+        private System.Windows.Forms.Button btnCustomAudio;
+        private System.Windows.Forms.Button btnPlayAudio;
+        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
     }
 }
 
