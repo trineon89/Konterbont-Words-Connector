@@ -78,20 +78,29 @@ namespace KonterbontLODConnector
 
         private async Task<AutoComplete> GetFullTranslations(string searchstring, bool compare)
         {
-            Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
-            task.Wait();
-            string fetchedXml = task.Result;
+            try
+            {
 
-            AutoComplete acwuert = ParseXMLWords(fetchedXml, compare, searchstring);
+                Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
+                task.Wait();
+                string fetchedXml = task.Result;
 
-            Task<AutoComplete> taskLU = FetchFullWordsAsync(acwuert, "LU", !compare);
-            Task<AutoComplete> taskDE = FetchFullWordsAsync(acwuert, "DE", !compare);
-            Task<AutoComplete> taskFR = FetchFullWordsAsync(acwuert, "FR", !compare);
-            Task<AutoComplete> taskEN = FetchFullWordsAsync(acwuert, "EN", !compare);
-            Task<AutoComplete> taskPT = FetchFullWordsAsync(acwuert, "PT", !compare);
+                AutoComplete acwuert = ParseXMLWords(fetchedXml, compare, searchstring);
 
-            var ret = await Task.WhenAll(taskLU, taskDE, taskFR, taskEN, taskPT);
-            return ret.First();
+                Task<AutoComplete> taskLU = FetchFullWordsAsync(acwuert, "LU", !compare);
+                Task<AutoComplete> taskDE = FetchFullWordsAsync(acwuert, "DE", !compare);
+                Task<AutoComplete> taskFR = FetchFullWordsAsync(acwuert, "FR", !compare);
+                Task<AutoComplete> taskEN = FetchFullWordsAsync(acwuert, "EN", !compare);
+                Task<AutoComplete> taskPT = FetchFullWordsAsync(acwuert, "PT", !compare);
+
+                var ret = await Task.WhenAll(taskLU, taskDE, taskFR, taskEN, taskPT);
+                return ret.First();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("D'Wuert "+searchstring+" ass eng Variant oder existéiert net um LOD");
+                return null;
+            }
         }
 
         private async Task<string> FetchXMLasync(string Word)
@@ -1023,8 +1032,17 @@ namespace KonterbontLODConnector
 
                             if (dt.WordList.Count == 0)
                             {
+                                
                                 AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
-                                dt.AddWordToList(acword);
+                                if (acword != null)
+                                {
+                                    dt.AddWordToList(acword);
+                                }
+                                else
+                                {
+                                    progressDialog.CloseDialog();
+                                    return;
+                                }
                             }
                             else
                             {
@@ -1032,7 +1050,15 @@ namespace KonterbontLODConnector
                                 if (HasChanged)
                                 {
                                     AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
-                                    dt.AddWordToList(acword);
+                                    if (acword != null)
+                                    {
+                                        dt.AddWordToList(acword);
+                                    }
+                                    else
+                                    {
+                                        progressDialog.CloseDialog();
+                                        return;
+                                    }
                                 }
                             }
                             double dbl = 100d / countlines * c;
