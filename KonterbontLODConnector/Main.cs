@@ -514,7 +514,7 @@ namespace KonterbontLODConnector
                         return null;
                     }
 
-                    if (wuert.Meanings[wuert.Selection-1].EN == "")
+                    if (wuert.Meanings[wuert.Selection - 1].EN == "")
                     {
                         InputDialog ENid = new InputDialog()
                         {
@@ -524,12 +524,12 @@ namespace KonterbontLODConnector
                         };
                         if (ENid.ShowDialog() == DialogResult.OK)
                         {
-                            wuert.Meanings[wuert.Selection-1].EN = ENid.Input;
+                            wuert.Meanings[wuert.Selection - 1].EN = ENid.Input;
                         }
                         ENid.Dispose();
                     }
 
-                    if (wuert.Meanings[wuert.Selection-1].PT == "")
+                    if (wuert.Meanings[wuert.Selection - 1].PT == "")
                     {
                         InputDialog PTid = new InputDialog()
                         {
@@ -539,11 +539,46 @@ namespace KonterbontLODConnector
                         };
                         if (PTid.ShowDialog() == DialogResult.OK)
                         {
-                            wuert.Meanings[wuert.Selection-1].PT = PTid.Input;
+                            wuert.Meanings[wuert.Selection - 1].PT = PTid.Input;
                         }
                         PTid.Dispose();
                     }
                 }
+
+
+                if (_MeaningsCount <= 1 && Lang == "PT" && _c == acwuert.Selection)
+                {
+                    if (wuert.Meanings[wuert.Selection - 1].EN == "")
+                    {
+                        InputDialog ENid = new InputDialog()
+                        {
+                            MainInstruction = "Eng Bedeitung antippen:",
+                            Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR,
+                            WindowTitle = "Englesch Iwwersetzung"
+                        };
+                        if (ENid.ShowDialog() == DialogResult.OK)
+                        {
+                            wuert.Meanings[wuert.Selection - 1].EN = ENid.Input;
+                        }
+                        ENid.Dispose();
+                    }
+
+                    if (wuert.Meanings[wuert.Selection - 1].PT == "")
+                    {
+                        InputDialog PTid = new InputDialog()
+                        {
+                            MainInstruction = "Eng Bedeitung antippen:",
+                            Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR,
+                            WindowTitle = "Portugisesch Iwwersetzung"
+                        };
+                        if (PTid.ShowDialog() == DialogResult.OK)
+                        {
+                            wuert.Meanings[wuert.Selection - 1].PT = PTid.Input;
+                        }
+                        PTid.Dispose();
+                    }
+                }
+
                 if (globaldt == null)
                 {
                     globaldt = new DataHandler();
