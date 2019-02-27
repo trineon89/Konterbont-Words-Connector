@@ -27,7 +27,12 @@ body {
     width: 100%;
 } /* iOS disable bounce */
 html { height:100%; }
-.i { font-style:italic; }
+.bigtitle {
+    font-size: larger;
+}
+.i {
+    font-style: italic;
+}
 .b { font-weight:bold; }
 div.divTable { font-family: "FreightSansCmpPro Med", Gadget, sans-serif; background-color: #000; width: 100vw; height: 100vh; text-align: center; border-collapse: collapse; }
 div.innerTableBody {background-color:black; height:100%; }

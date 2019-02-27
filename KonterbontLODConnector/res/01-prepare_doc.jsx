@@ -344,7 +344,7 @@ function createbutton(GB, _theSpread, _theButtonName, _pageSel, _count)
               'woUrl':                  'webresource://popupbase-web-resources/'+theFileName+'popup_'+deUmlaut(_theButtonName)+'.html',
               'woAllowUserInteraction': true,
               'woWidth':                '500',
-              'woHeight':               '154',
+              'woHeight':               '200',
               'woShowScrollbars':       false,
               'woBackgroundColor':      '000000',
               'woBackgroundOpacity':    50,
