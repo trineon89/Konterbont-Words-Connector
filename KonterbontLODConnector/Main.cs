@@ -895,6 +895,8 @@ namespace KonterbontLODConnector
             {
                 var style = attTexts[_i].Style.ToString();
                 string text = attTexts[_i].Content[0].ToString();
+                text = text.Replace("&quot;", "\"");
+                text = text.Replace("&apos;", "'");
                 IContentElement tempparent = attTexts[_i].GetParent();
                 if (parent == null)
                 {
@@ -928,6 +930,7 @@ namespace KonterbontLODConnector
             TextForm.Controls.Add(rtb);
 
             //TextForm.Show();
+
             return dt;
         }
 
