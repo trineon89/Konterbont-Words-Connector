@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Http;
@@ -22,6 +23,7 @@ namespace KonterbontLODConnector
         public string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
         public string ArticlePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Artikelen\\";
         public string CustomAudioPath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Audio\\";
+        WindowsMediaPlayer wplayer;
         public VistaFolderBrowserDialog folderBrowser;
         public VistaOpenFileDialog ArticleBrowser = new VistaOpenFileDialog
         {
@@ -1203,7 +1205,22 @@ namespace KonterbontLODConnector
                 }
                 Ex++;
             }
-
+            // delete all mp3 of word meanings
+            foreach (Meaning Meaning in globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings)
+            {
+                if (File.Exists(globaldt.Filepath + "WebResources\\popupbase-web-resources\\audio\\" + Meaning.MP3))
+                {
+                    try
+                    {
+                        File.Delete(globaldt.Filepath + "WebResources\\popupbase-web-resources\\audio\\" + Meaning.MP3);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            // gets mp3 for new selected meaning
+            globaldt.GetMp3(globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3, globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].hasCustomAudio);
         }
 
         private void MagazineSelectorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1461,20 +1478,51 @@ namespace KonterbontLODConnector
         private void btnPlayAudio_Click(object sender, EventArgs e)
         {
             string mp3Path = globaldt.Filepath+"WebResources\\popupbase-web-resources\\audio\\";
-            string mp3File = mp3Path + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].MP3;
-
-            WindowsMediaPlayer wplayer = new WindowsMediaPlayer();
-
+            string mp3File = mp3Path + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3;
+            wplayer = new WindowsMediaPlayer();
+            wplayer.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wplayer_PlayStateChange);
             wplayer.URL = mp3File;
+            btnPlayAudio.Enabled = false;
             wplayer.controls.play();
+
+
+        }
+        // https://electronic-designer.net/c_sharp/audio/playing-audio-with-wmplib-windowsmediaplayer
+        //*************************************************
+        //*************************************************
+        //********** MP3 PLAYER FINISHED PLAYING **********
+        //*************************************************
+        //*************************************************
+        void wplayer_PlayStateChange(int NewState)
+        {
+            if (NewState == (int)WMPLib.WMPPlayState.wmppsMediaEnded)
+            {
+                wplayer.close();
+                btnPlayAudio.Enabled = true;
+                wplayer = null;
+
+                try
+                {
+                    System.Diagnostics.Process[] prc = System.Diagnostics.Process.GetProcessesByName("wmplayer");
+                    if (prc.Length > 0)
+                        prc[prc.Length - 1].Kill();
+                }
+                catch (Exception)
+                {
+                }
+            }
         }
 
         private void btnCustomAudio_Click(object sender, EventArgs e)
         {
+            File.Delete(globaldt.Filepath + "WebResources\\popupbase-web-resources\\audio\\" + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3);
             if (CustomAudioBrowser.ShowDialog() == DialogResult.OK)
             {
-                globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].MP3 = Path.GetFileName(CustomAudioBrowser.FileName);
+                globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3 = Path.GetFileName(CustomAudioBrowser.FileName);
                 globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].hasCustomAudio = true;
+                globaldt.GetMp3(globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3, globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].hasCustomAudio);
+
+                LbSelectMeaning_SelectedIndexChanged(sender, e);
             }
         }
 

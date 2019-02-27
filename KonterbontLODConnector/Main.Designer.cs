@@ -40,6 +40,7 @@ namespace KonterbontLODConnector
             this.tsmiExit = new System.Windows.Forms.ToolStripMenuItem();
             this.astellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.magazineSelectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiText = new System.Windows.Forms.ToolStripMenuItem();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.btnCopyToMag = new System.Windows.Forms.Button();
             this.btnCreatePopups = new System.Windows.Forms.Button();
@@ -55,7 +56,6 @@ namespace KonterbontLODConnector
             this.btnCustomAudio = new System.Windows.Forms.Button();
             this.btnPlayAudio = new System.Windows.Forms.Button();
             this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
-            this.tsmiText = new System.Windows.Forms.ToolStripMenuItem();
             this.mmMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.pnlDetails.SuspendLayout();
@@ -161,6 +161,14 @@ namespace KonterbontLODConnector
             this.magazineSelectorToolStripMenuItem.Text = "Magasinn auswielen...";
             this.magazineSelectorToolStripMenuItem.Click += new System.EventHandler(this.MagazineSelectorToolStripMenuItem_Click);
             // 
+            // tsmiText
+            // 
+            this.tsmiText.Enabled = false;
+            this.tsmiText.Name = "tsmiText";
+            this.tsmiText.Size = new System.Drawing.Size(190, 22);
+            this.tsmiText.Text = "Text uweisen...";
+            this.tsmiText.Click += new System.EventHandler(this.textUweisenToolStripMenuItem_Click);
+            // 
             // tlpMain
             // 
             this.tlpMain.AutoSize = true;
@@ -170,7 +178,7 @@ namespace KonterbontLODConnector
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.88742F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.32479F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.05698F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 33F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tlpMain.Controls.Add(this.btnCopyToMag, 1, 0);
             this.tlpMain.Controls.Add(this.btnCreatePopups, 0, 0);
             this.tlpMain.Controls.Add(this.lbWords, 0, 1);
@@ -238,7 +246,7 @@ namespace KonterbontLODConnector
             this.lbSelectWord.Location = new System.Drawing.Point(241, 35);
             this.lbSelectWord.Margin = new System.Windows.Forms.Padding(5);
             this.lbSelectWord.Name = "lbSelectWord";
-            this.lbSelectWord.Size = new System.Drawing.Size(244, 195);
+            this.lbSelectWord.Size = new System.Drawing.Size(243, 195);
             this.lbSelectWord.TabIndex = 9;
             this.lbSelectWord.SelectedIndexChanged += new System.EventHandler(this.LbSelectWord_SelectedIndexChanged);
             this.lbSelectWord.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectWord_MouseDoubleClick);
@@ -248,10 +256,10 @@ namespace KonterbontLODConnector
             this.tlpMain.SetColumnSpan(this.lbSelectMeaning, 2);
             this.lbSelectMeaning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSelectMeaning.FormattingEnabled = true;
-            this.lbSelectMeaning.Location = new System.Drawing.Point(495, 35);
+            this.lbSelectMeaning.Location = new System.Drawing.Point(494, 35);
             this.lbSelectMeaning.Margin = new System.Windows.Forms.Padding(5);
             this.lbSelectMeaning.Name = "lbSelectMeaning";
-            this.lbSelectMeaning.Size = new System.Drawing.Size(235, 195);
+            this.lbSelectMeaning.Size = new System.Drawing.Size(236, 195);
             this.lbSelectMeaning.TabIndex = 10;
             this.lbSelectMeaning.SelectedIndexChanged += new System.EventHandler(this.LbSelectMeaning_SelectedIndexChanged);
             this.lbSelectMeaning.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectMeaning_MouseDoubleClick);
@@ -333,7 +341,7 @@ namespace KonterbontLODConnector
             // 
             this.btnPlayAudio.Dock = System.Windows.Forms.DockStyle.Right;
             this.btnPlayAudio.Enabled = false;
-            this.btnPlayAudio.Location = new System.Drawing.Point(673, 3);
+            this.btnPlayAudio.Location = new System.Drawing.Point(672, 3);
             this.btnPlayAudio.Name = "btnPlayAudio";
             this.btnPlayAudio.Size = new System.Drawing.Size(24, 24);
             this.btnPlayAudio.TabIndex = 20;
@@ -347,17 +355,9 @@ namespace KonterbontLODConnector
             this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(239, 3);
             this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
             this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
-            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(75, 23);
+            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(245, 23);
             this.axWindowsMediaPlayer1.TabIndex = 21;
             this.axWindowsMediaPlayer1.Visible = false;
-            // 
-            // tsmiText
-            // 
-            this.tsmiText.Enabled = false;
-            this.tsmiText.Name = "tsmiText";
-            this.tsmiText.Size = new System.Drawing.Size(190, 22);
-            this.tsmiText.Text = "Text uweisen...";
-            this.tsmiText.Click += new System.EventHandler(this.textUweisenToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -411,8 +411,8 @@ namespace KonterbontLODConnector
         private System.Windows.Forms.ToolStripStatusLabel tssNeedSave;
         private System.Windows.Forms.Button btnCustomAudio;
         private System.Windows.Forms.Button btnPlayAudio;
-        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
         private System.Windows.Forms.ToolStripMenuItem tsmiText;
+        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
     }
 }
 

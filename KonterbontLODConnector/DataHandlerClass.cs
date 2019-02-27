@@ -164,7 +164,7 @@ namespace KonterbontLODConnector
         {
             if (hasCustomAudio)
             {
-                File.Copy(CustomAudioPath + mp3filename, Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
+                File.Copy(CustomAudioPath + mp3filename, Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename,true);
             }
             else
             {
