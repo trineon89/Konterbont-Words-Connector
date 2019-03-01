@@ -525,12 +525,10 @@ namespace KonterbontLODConnector
 
                     if (wuert.Meanings[wuert.Selection - 1].EN == "")
                     {
-                        InputDialog ENid = new InputDialog()
-                        {
-                            MainInstruction = "Eng Bedeitung antippen:",
-                            Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR,
-                            WindowTitle = "Englesch Iwwersetzung"
-                        };
+                        InputDialog ENid = new InputDialog();
+                        ENid.MainInstruction = "Eng Bedeitung antippen:";
+                        ENid.Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR;
+                        ENid.WindowTitle = "Englesch Iwwersetzung";
                         if (ENid.ShowDialog() == DialogResult.OK)
                         {
                             wuert.Meanings[wuert.Selection - 1].EN = ENid.Input;
@@ -540,12 +538,10 @@ namespace KonterbontLODConnector
 
                     if (wuert.Meanings[wuert.Selection - 1].PT == "")
                     {
-                        InputDialog PTid = new InputDialog()
-                        {
-                            MainInstruction = "Eng Bedeitung antippen:",
-                            Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR,
-                            WindowTitle = "Portugisesch Iwwersetzung"
-                        };
+                        InputDialog PTid = new InputDialog();
+                        PTid.MainInstruction = "Eng Bedeitung antippen:";
+                        PTid.Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR;
+                        PTid.WindowTitle = "Portugisesch Iwwersetzung";
                         if (PTid.ShowDialog() == DialogResult.OK)
                         {
                             wuert.Meanings[wuert.Selection - 1].PT = PTid.Input;
