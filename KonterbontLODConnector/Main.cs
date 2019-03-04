@@ -36,7 +36,7 @@ namespace KonterbontLODConnector
             Filter = "MP3 (*.mp3)|*.mp3",
             InitialDirectory = "\\\\192.168.1.75\\Konterbont_Produktioun\\Audio\\",
             Title = "Neien Toun fir den Popup auswielen"
-    };
+        };
         public ProgressDialog progressDialog;
         private INDesignPlugin iNDesignPlugin;
         public DataHandler globaldt = null;
@@ -78,29 +78,23 @@ namespace KonterbontLODConnector
 
         private async Task<AutoComplete> GetFullTranslations(string searchstring, bool compare)
         {
-            try
-            {
 
-                Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
-                task.Wait();
-                string fetchedXml = task.Result;
 
-                AutoComplete acwuert = ParseXMLWords(fetchedXml, compare, searchstring);
+            Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
+            task.Wait();
+            string fetchedXml = task.Result;
 
-                Task<AutoComplete> taskLU = FetchFullWordsAsync(acwuert, "LU", !compare);
-                Task<AutoComplete> taskDE = FetchFullWordsAsync(acwuert, "DE", !compare);
-                Task<AutoComplete> taskFR = FetchFullWordsAsync(acwuert, "FR", !compare);
-                Task<AutoComplete> taskEN = FetchFullWordsAsync(acwuert, "EN", !compare);
-                Task<AutoComplete> taskPT = FetchFullWordsAsync(acwuert, "PT", !compare);
+            AutoComplete acwuert = ParseXMLWords(fetchedXml, compare, searchstring);
 
-                var ret = await Task.WhenAll(taskLU, taskDE, taskFR, taskEN, taskPT);
-                return ret.First();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("D'Wuert "+searchstring+" ass eng Variant oder existéiert net um LOD");
-                return null;
-            }
+            Task<AutoComplete> taskLU = FetchFullWordsAsync(acwuert, "LU", !compare);
+            Task<AutoComplete> taskDE = FetchFullWordsAsync(acwuert, "DE", !compare);
+            Task<AutoComplete> taskFR = FetchFullWordsAsync(acwuert, "FR", !compare);
+            Task<AutoComplete> taskEN = FetchFullWordsAsync(acwuert, "EN", !compare);
+            Task<AutoComplete> taskPT = FetchFullWordsAsync(acwuert, "PT", !compare);
+
+            var ret = await Task.WhenAll(taskLU, taskDE, taskFR, taskEN, taskPT);
+            return ret.First();
+
         }
 
         private async Task<string> FetchXMLasync(string Word)
@@ -409,7 +403,7 @@ namespace KonterbontLODConnector
                                 Font BigBold = new Font(currentFont.FontFamily, 10, FontStyle.Bold);
                                 string examples = "";
                                 string egs = "";
-                                
+
                                 foreach (Example _ex in wuert.Meanings[_i - 1].Examples)
                                 {
                                     examples += _ex.ExampleText + Environment.NewLine;
@@ -527,7 +521,7 @@ namespace KonterbontLODConnector
                     {
                         InputDialog ENid = new InputDialog();
                         ENid.MainInstruction = "Eng Bedeitung antippen:";
-                        ENid.Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR;
+                        ENid.Content = "DE: " + wuert.Meanings[wuert.Selection - 1].DE + "; FR: " + wuert.Meanings[wuert.Selection - 1].FR;
                         ENid.WindowTitle = "Englesch Iwwersetzung";
                         if (ENid.ShowDialog() == DialogResult.OK)
                         {
@@ -540,7 +534,7 @@ namespace KonterbontLODConnector
                     {
                         InputDialog PTid = new InputDialog();
                         PTid.MainInstruction = "Eng Bedeitung antippen:";
-                        PTid.Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR;
+                        PTid.Content = "DE: " + wuert.Meanings[wuert.Selection - 1].DE + "; FR: " + wuert.Meanings[wuert.Selection - 1].FR;
                         PTid.WindowTitle = "Portugisesch Iwwersetzung";
                         if (PTid.ShowDialog() == DialogResult.OK)
                         {
@@ -968,6 +962,7 @@ namespace KonterbontLODConnector
                 int filec = 0;
                 foreach (var file in files)
                 {
+
                     string tmpfilename = Path.GetFileNameWithoutExtension(file) + ".wordslist";
 
                     DataHandler dt = new DataHandler();
@@ -981,7 +976,7 @@ namespace KonterbontLODConnector
                     {
                         dt = new DataHandler(tmpfilename, folderBrowser.SelectedPath + "\\");
                     }
-                    
+
                     // add Function
                     if (dt.DocPath == null)
                     {
@@ -1017,34 +1012,20 @@ namespace KonterbontLODConnector
                     progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
                     foreach (string line in lines)
                     {
-                        if (c == 0)
+                        try
                         {
-                            dt.SetRGB(line);
-                            c++;
-                        }
-                        else if (line != "")
-                        {
-                            progressDialog.Line1 = "Siche nom Wuert: " + line;
-
-                            if (dt.WordList.Count == 0)
+                            if (c == 0)
                             {
-                                
-                                AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
-                                if (acword != null)
-                                {
-                                    dt.AddWordToList(acword);
-                                }
-                                else
-                                {
-                                    progressDialog.CloseDialog();
-                                    return;
-                                }
+                                dt.SetRGB(line);
+                                c++;
                             }
-                            else
+                            else if (line != "")
                             {
-                                bool HasChanged = await Task.Run(async () => await CheckIfWordHasChangedAsync(line, dt.WordList));
-                                if (HasChanged)
+                                progressDialog.Line1 = "Siche nom Wuert: " + line;
+
+                                if (dt.WordList.Count == 0)
                                 {
+
                                     AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
                                     if (acword != null)
                                     {
@@ -1056,20 +1037,46 @@ namespace KonterbontLODConnector
                                         return;
                                     }
                                 }
-                            }
-                            double dbl = 100d / countlines * c;
-                            uint _currprog = Convert.ToUInt32(Math.Round(dbl));
-                            progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
-                            progressDialog.Value = _currprog;
-                            dt.GetMp3(dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Selection-1].MP3, dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Selection-1].hasCustomAudio);
-                            c++;
-                        }
-                        //dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Selection].MP3;
+                                else
+                                {
 
-                        
+                                    bool HasChanged = await Task.Run(async () => await CheckIfWordHasChangedAsync(line, dt.WordList));
+                                    if (HasChanged)
+                                    {
+
+                                        AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
+
+
+
+                                        if (acword != null)
+                                        {
+                                            dt.AddWordToList(acword);
+                                        }
+                                        else
+                                        {
+                                            progressDialog.CloseDialog();
+                                            return;
+                                        }
+                                    }
+                                }
+                                dt.GetMp3(dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Selection - 1].MP3, dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Selection - 1].hasCustomAudio);
+                                c++;
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("D'Wuert \"" + line + "\" ass eng Variant oder existéiert net um LOD!","Opgepasst",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                        }
+                        double dbl = 100d / (countlines - 1) * c;
+                        uint _currprog = Convert.ToUInt32(Math.Round(dbl));
+                        progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
+                        progressDialog.Value = _currprog;
+                       
                     }
+                    //dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Selection].MP3;
+
                     progressDialog.CloseDialog();
-                    
+
                     dt.SaveToFile(dt);
 
                     lbWords.Items.Clear();
@@ -1086,6 +1093,9 @@ namespace KonterbontLODConnector
                     tsmiText.Enabled = true;
                 }
                 SetIsSaved(false);
+
+                string lastFolderName = Path.GetFileName(Path.GetDirectoryName(folderBrowser.SelectedPath));
+                tssArticle.Text = lastFolderName;
                 tssMagazine.Text = globaldt.TargetMag();
             }
 
@@ -1355,7 +1365,7 @@ namespace KonterbontLODConnector
                     InputDialog ENid = new InputDialog()
                     {
                         MainInstruction = "Eng Bedeitung antippen:",
-                        Content = "DE: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection-1].DE + "; FR: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection-1].FR,
+                        Content = "DE: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].DE + "; FR: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].FR,
                         WindowTitle = "Englesch Iwwersetzung"
                     };
                     if (ENid.ShowDialog() == DialogResult.OK)
@@ -1371,7 +1381,7 @@ namespace KonterbontLODConnector
                     InputDialog PTid = new InputDialog()
                     {
                         MainInstruction = "Eng Bedeitung antippen:",
-                        Content = "DE: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection-1].DE + "; FR: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection-1].FR,
+                        Content = "DE: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].DE + "; FR: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].FR,
                         WindowTitle = "Portugisesch Iwwersetzung"
                     };
                     if (PTid.ShowDialog() == DialogResult.OK)
@@ -1537,7 +1547,7 @@ namespace KonterbontLODConnector
 
         private void btnPlayAudio_Click(object sender, EventArgs e)
         {
-            string mp3Path = globaldt.Filepath+"WebResources\\popupbase-web-resources\\audio\\";
+            string mp3Path = globaldt.Filepath + "WebResources\\popupbase-web-resources\\audio\\";
             string mp3File = mp3Path + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3;
             wplayer = new WindowsMediaPlayer();
             wplayer.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wplayer_PlayStateChange);
