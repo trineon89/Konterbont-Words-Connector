@@ -23,7 +23,7 @@ namespace KonterbontLODConnector
         public string MagazinePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Magazines\\";
         public string ArticlePath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Artikelen\\";
         public string CustomAudioPath = "\\\\192.168.1.75\\Konterbont_Produktioun\\Audio\\";
-        WindowsMediaPlayer wplayer;
+        WindowsMediaPlayer wplayer = null;
         public VistaFolderBrowserDialog folderBrowser;
         public VistaOpenFileDialog ArticleBrowser = new VistaOpenFileDialog
         {
@@ -40,7 +40,28 @@ namespace KonterbontLODConnector
         public ProgressDialog progressDialog;
         private INDesignPlugin iNDesignPlugin;
         public DataHandler globaldt = null;
-        private Form TextForm;
+        private Form TextForm = new Form()
+        {
+            Name = "frmTextForm",
+            Text = "Title",
+            Width = 500,
+            Height = 500,
+            Top = 0,
+            Left = 0,
+            MaximizeBox = false,
+            MinimizeBox = false,
+            FormBorderStyle = FormBorderStyle.FixedToolWindow
+        };
+
+        RichTextBox rtb = new RichTextBox()
+        {
+            Dock = DockStyle.Fill,
+            Name = "rtbDocument",
+            ReadOnly = true,
+            BackColor = SystemColors.Window,
+            Font = new Font("Arial", 12)
+
+        };
 
         public frmMain()
         {
@@ -50,6 +71,7 @@ namespace KonterbontLODConnector
                 SelectedPath = ArticlePath
             };
             iNDesignPlugin = new INDesignPlugin();
+            TextForm.Owner = this;
         }
 
         private async Task<string> FetchXML(string Word)
@@ -504,6 +526,8 @@ namespace KonterbontLODConnector
                     frmSelectMeaning.gbMeanings_Click(this, null);
                     ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.HighlightSelText(TextForm.Controls.OfType<RichTextBox>().First(), acwuert.Occurence));
                     ControlInvokeRequired(TextForm, () => TextForm.Activate());
+                    //if (frmSelectMeaning.ShowDialog(Application.OpenForms[0]) == DialogResult.OK)
+                   // ControlInvokeRequired(Application.OpenForms[0], () => frmSelectMeaning.ShowDialog(Application.OpenForms[0]));
                     if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
                     {
                         RadioButton selectedMeaning = frmSelectMeaning.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
@@ -523,7 +547,7 @@ namespace KonterbontLODConnector
                         ENid.MainInstruction = "Eng Bedeitung antippen:";
                         ENid.Content = "DE: " + wuert.Meanings[wuert.Selection - 1].DE + "; FR: " + wuert.Meanings[wuert.Selection - 1].FR;
                         ENid.WindowTitle = "Englesch Iwwersetzung";
-                        if (ENid.ShowDialog() == DialogResult.OK)
+                        if (ENid.ShowDialog(this) == DialogResult.OK)
                         {
                             wuert.Meanings[wuert.Selection - 1].EN = ENid.Input;
                         }
@@ -536,7 +560,7 @@ namespace KonterbontLODConnector
                         PTid.MainInstruction = "Eng Bedeitung antippen:";
                         PTid.Content = "DE: " + wuert.Meanings[wuert.Selection - 1].DE + "; FR: " + wuert.Meanings[wuert.Selection - 1].FR;
                         PTid.WindowTitle = "Portugisesch Iwwersetzung";
-                        if (PTid.ShowDialog() == DialogResult.OK)
+                        if (PTid.ShowDialog(this) == DialogResult.OK)
                         {
                             wuert.Meanings[wuert.Selection - 1].PT = PTid.Input;
                         }
@@ -555,7 +579,7 @@ namespace KonterbontLODConnector
                             Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR,
                             WindowTitle = "Englesch Iwwersetzung"
                         };
-                        if (ENid.ShowDialog() == DialogResult.OK)
+                        if (ENid.ShowDialog(this) == DialogResult.OK)
                         {
                             wuert.Meanings[wuert.Selection - 1].EN = ENid.Input;
                         }
@@ -570,7 +594,7 @@ namespace KonterbontLODConnector
                             Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR,
                             WindowTitle = "Portugisesch Iwwersetzung"
                         };
-                        if (PTid.ShowDialog() == DialogResult.OK)
+                        if (PTid.ShowDialog(this) == DialogResult.OK)
                         {
                             wuert.Meanings[wuert.Selection - 1].PT = PTid.Input;
                         }
@@ -776,7 +800,7 @@ namespace KonterbontLODConnector
             if (htmlNodes.Count() > 1)
             {
                 ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.HighlightSelText(TextForm.Controls.OfType<RichTextBox>().First(), ac.Occurence));
-                if (frm.ShowDialog() == DialogResult.OK)
+                if (frm.ShowDialog(this) == DialogResult.OK)
                 {
                     ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.UnSelText(TextForm.Controls.OfType<RichTextBox>().First()));
                     RadioButton radioButton = frm.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
@@ -850,34 +874,13 @@ namespace KonterbontLODConnector
                 return dt;
             }
 
-            TextForm = new Form()
-            {
-                Name = "frmTextForm",
-                Text = "Title",
-                Width = 500,
-                Height = 500,
-                Top = 0,
-                Left = 0,
-                MaximizeBox = false,
-                MinimizeBox = false,
-                FormBorderStyle = FormBorderStyle.FixedToolWindow
-            };
-            RichTextBox rtb = new RichTextBox()
-            {
-                Dock = DockStyle.Fill,
-                Name = "rtbDocument",
-                ReadOnly = true,
-                BackColor = SystemColors.Window,
-                Font = new Font("Arial", 12)
-
-            };
             dt.StyleName = new List<string>();
             foreach (var style in doc.AutomaticStyles.Styles)
             {
                 if (style.GetType() == typeof(IStyles.TextStyle))
                 {
                     IStyles.TextStyle textstyle = (IStyles.TextStyle)style;
-                    if (textstyle.BackgroundColor != null)
+                    if (textstyle.BackgroundColor != null && textstyle.BackgroundColor != "#ffffff" && textstyle.BackgroundColor != "transparent")
                     {
                         dt.StyleName.Add(textstyle.Name);
                     }
@@ -927,15 +930,16 @@ namespace KonterbontLODConnector
             }
 
             TextForm.Controls.Add(rtb);
-
-            //TextForm.Show();
-
             return dt;
         }
 
         private async void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Menu -> Artikel Opmaachen
+            if (TextForm.Visible)
+            {
+                TextForm.Close();
+            }
             if (folderBrowser.ShowDialog() == DialogResult.OK)
             {
                 string[] files = Directory.GetFiles(folderBrowser.SelectedPath, "*.words");
@@ -983,13 +987,33 @@ namespace KonterbontLODConnector
                         if (ArticleBrowser.ShowDialog() == DialogResult.OK)
                         {
                             dt.DocPath = ArticleBrowser.FileName;
-                            dt = OpenDocument(dt);
-                            TextForm.Show();
-                            tsmiText.Checked = true;
+                            try
+                            {
+                                dt = OpenDocument(dt);
+                                TextForm.Show();
+                                tsmiText.Checked = true;
+                            }
+                            catch (Exception ee)
+                            {
+                                MessageBox.Show(ee.ToString());
+                            }
                         }
                         else
                         {
                             return;
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            dt = OpenDocument(dt);
+                            TextForm.Show();
+                            tsmiText.Checked = true;
+                        }
+                        catch (Exception ee)
+                        {
+                            MessageBox.Show(ee.ToString());
                         }
                     }
 
@@ -1010,6 +1034,7 @@ namespace KonterbontLODConnector
                         Line3 = "Calculating Time Remaining..."
                     };
                     progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
+                    //TextForm.TopMost = true;
                     foreach (string line in lines)
                     {
                         try
@@ -1063,15 +1088,15 @@ namespace KonterbontLODConnector
                                 c++;
                             }
                         }
-                        catch
+                        catch (Exception ee)
                         {
-                            MessageBox.Show("D'Wuert \"" + line + "\" ass eng Variant oder existéiert net um LOD!","Opgepasst",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                            MessageBox.Show("D'Wuert \"" + line + "\" ass eng Variant oder existéiert net um LOD!" + " " + ee, "Opgepasst", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
                         double dbl = 100d / (countlines - 1) * c;
                         uint _currprog = Convert.ToUInt32(Math.Round(dbl));
                         progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
                         progressDialog.Value = _currprog;
-                       
+
                     }
                     //dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Selection].MP3;
 
@@ -1368,7 +1393,7 @@ namespace KonterbontLODConnector
                         Content = "DE: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].DE + "; FR: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].FR,
                         WindowTitle = "Englesch Iwwersetzung"
                     };
-                    if (ENid.ShowDialog() == DialogResult.OK)
+                    if (ENid.ShowDialog(this) == DialogResult.OK)
                     {
                         globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].EN = ENid.Input;
                     }
@@ -1384,7 +1409,7 @@ namespace KonterbontLODConnector
                         Content = "DE: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].DE + "; FR: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].FR,
                         WindowTitle = "Portugisesch Iwwersetzung"
                     };
-                    if (PTid.ShowDialog() == DialogResult.OK)
+                    if (PTid.ShowDialog(this) == DialogResult.OK)
                     {
                         globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].PT = PTid.Input;
                     }
@@ -1528,7 +1553,7 @@ namespace KonterbontLODConnector
             lbSelectWord.Items.Clear();
             lbWords.Items.Clear();
             rtbDetails.Clear();
-
+            TextForm.Close();
             globaldt = null;
         }
 
