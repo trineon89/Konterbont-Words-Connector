@@ -4,3 +4,5 @@ catch variante (exception on <span class="mentioun_adress"></span>)
 
 
 -> Word "Methode" -> returns Methode & Method. First is Varaint, second isn't. Can't choose!
+
+*if you change mp3 the change is not reflected in the HTML file (ex: oder1.mp3 stays oder1.mp3)
