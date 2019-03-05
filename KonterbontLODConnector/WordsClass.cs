@@ -66,6 +66,7 @@ namespace KonterbontLODConnector
         public int Selection;
         public string MP3;
         public string XMLFile;
+        public bool IsVariant;
 
 
         public Wuert()
@@ -76,6 +77,7 @@ namespace KonterbontLODConnector
             Selection = 0;
             MP3 = null;
             XMLFile = null;
+            IsVariant = false;
         }
 
         public bool Equals(Wuert other)

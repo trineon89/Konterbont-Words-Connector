@@ -526,8 +526,6 @@ namespace KonterbontLODConnector
                     frmSelectMeaning.gbMeanings_Click(this, null);
                     ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.HighlightSelText(TextForm.Controls.OfType<RichTextBox>().First(), acwuert.Occurence));
                     ControlInvokeRequired(TextForm, () => TextForm.Activate());
-                    //if (frmSelectMeaning.ShowDialog(Application.OpenForms[0]) == DialogResult.OK)
-                   // ControlInvokeRequired(Application.OpenForms[0], () => frmSelectMeaning.ShowDialog(Application.OpenForms[0]));
                     if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
                     {
                         RadioButton selectedMeaning = frmSelectMeaning.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
@@ -547,7 +545,7 @@ namespace KonterbontLODConnector
                         ENid.MainInstruction = "Eng Bedeitung antippen:";
                         ENid.Content = "DE: " + wuert.Meanings[wuert.Selection - 1].DE + "; FR: " + wuert.Meanings[wuert.Selection - 1].FR;
                         ENid.WindowTitle = "Englesch Iwwersetzung";
-                        if (ENid.ShowDialog(this) == DialogResult.OK)
+                        if (ENid.ShowDialog() == DialogResult.OK)
                         {
                             wuert.Meanings[wuert.Selection - 1].EN = ENid.Input;
                         }
@@ -560,7 +558,7 @@ namespace KonterbontLODConnector
                         PTid.MainInstruction = "Eng Bedeitung antippen:";
                         PTid.Content = "DE: " + wuert.Meanings[wuert.Selection - 1].DE + "; FR: " + wuert.Meanings[wuert.Selection - 1].FR;
                         PTid.WindowTitle = "Portugisesch Iwwersetzung";
-                        if (PTid.ShowDialog(this) == DialogResult.OK)
+                        if (PTid.ShowDialog() == DialogResult.OK)
                         {
                             wuert.Meanings[wuert.Selection - 1].PT = PTid.Input;
                         }
@@ -579,7 +577,7 @@ namespace KonterbontLODConnector
                             Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR,
                             WindowTitle = "Englesch Iwwersetzung"
                         };
-                        if (ENid.ShowDialog(this) == DialogResult.OK)
+                        if (ENid.ShowDialog() == DialogResult.OK)
                         {
                             wuert.Meanings[wuert.Selection - 1].EN = ENid.Input;
                         }
@@ -594,7 +592,7 @@ namespace KonterbontLODConnector
                             Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR,
                             WindowTitle = "Portugisesch Iwwersetzung"
                         };
-                        if (PTid.ShowDialog(this) == DialogResult.OK)
+                        if (PTid.ShowDialog() == DialogResult.OK)
                         {
                             wuert.Meanings[wuert.Selection - 1].PT = PTid.Input;
                         }
@@ -662,16 +660,27 @@ namespace KonterbontLODConnector
                 if (MeaningsDE == null) // keen normale Fall, Variant
                 {
                     HtmlNode Node = htmlDocument.DocumentNode.SelectSingleNode("//div[@class='artikel']");
-                    var RemoveNode = Node.SelectSingleNode("//span[@class='mentioun_adress']");
-                    if (RemoveNode != null)
-                        Node.RemoveChild(RemoveNode);
-                    RemoveNode = Node.SelectSingleNode("//span[@class='klass']");
-                    if (RemoveNode != null)
-                        Node.RemoveChild(RemoveNode);
-                    RemoveNode = Node.SelectSingleNode("//div[@class='lux.map']");
-                    if (RemoveNode != null)
-                        Node.RemoveChild(RemoveNode);
-
+                    HtmlNode RemoveNode = null;
+                    try
+                    {
+                        if (Node.SelectSingleNode("//span[@class='mentioun_adress']") != null)
+                        {
+                            RemoveNode = Node.SelectSingleNode("//span[@class='mentioun_adress']");
+                            if (RemoveNode != null)
+                                Node.RemoveChild(RemoveNode);
+                            RemoveNode = Node.SelectSingleNode("//span[@class='klass']");
+                            if (RemoveNode != null)
+                                Node.RemoveChild(RemoveNode);
+                            RemoveNode = Node.SelectSingleNode("//div[@class='lux.map']");
+                            if (RemoveNode != null)
+                                Node.RemoveChild(RemoveNode);
+                        }
+                    }
+                    catch
+                    {
+                        MeaningsTT = Node.InnerText;
+                        return MeaningsTT;
+                    }
                     //Meaning.RemoveChild(RemoveNode);
                     MeaningsTT = Node.InnerText;
                     return MeaningsTT;
@@ -769,7 +778,7 @@ namespace KonterbontLODConnector
                     MP3 = tmpmp3.Substring(0, tmpmp3.IndexOf("'"))
                 };
 
-                ac.Wierder.Add(wuert);
+                //ac.Wierder.Add(wuert);
 
                 RadioButton rb = new RadioButton
                 {
@@ -784,6 +793,14 @@ namespace KonterbontLODConnector
                 Task<string> task = Task.Run(async () => await GetSelectionTooltipAsync(wuert.XMLFile));
                 task.Wait();
                 string tooltip = task.Result;
+                if (tooltip.Contains("Variant"))
+                {
+                    rb.Enabled = false;
+                    var result = tooltip.Substring(tooltip.LastIndexOf(' ') + 1);
+                    rb.Text = rb.Text + " (Variant vun "+ result + ")";
+                    wuert.IsVariant = true;
+                }
+                ac.Wierder.Add(wuert);
                 frm.gbMeanings.Dock = DockStyle.Fill;
                 frm.tcLang.Visible = false;
                 frm.gbMeanings.Controls.Add(rb);
@@ -800,7 +817,7 @@ namespace KonterbontLODConnector
             if (htmlNodes.Count() > 1)
             {
                 ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.HighlightSelText(TextForm.Controls.OfType<RichTextBox>().First(), ac.Occurence));
-                if (frm.ShowDialog(this) == DialogResult.OK)
+                if (frm.ShowDialog() == DialogResult.OK)
                 {
                     ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.UnSelText(TextForm.Controls.OfType<RichTextBox>().First()));
                     RadioButton radioButton = frm.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
@@ -1133,19 +1150,32 @@ namespace KonterbontLODConnector
                 return;
             var _i = 0;
             lbSelectWord.Items.Clear();
-
             foreach (Wuert SelWuert in globaldt.WordList[lbWords.SelectedIndex].Wierder)
             {
                 if (globaldt.WordList[lbWords.SelectedIndex].Selection - 1 == _i)
-                //if (SelWuert.Selection - 1 == _i)
                 {
-                    lbSelectWord.Items.Add(SelWuert.WuertLu + " ✓");
-                    lbSelectWord.SelectedIndex = _i;
+                    if (SelWuert.Meanings.Count() > 0)
+                    {
+                        lbSelectWord.Items.Add(SelWuert.WuertLu + " ✓");
+                        lbSelectWord.SelectedIndex = _i;
+                    }
+                    else
+                    {
+                        lbSelectWord.Items.Add(SelWuert.WuertLu + " (Variant) ✓");
+                        lbSelectWord.SelectedIndex = _i;
+                    }
 
                 }
                 else
                 {
-                    lbSelectWord.Items.Add(SelWuert.WuertLu);
+                    if (SelWuert.Meanings.Count() > 0)
+                    {
+                        lbSelectWord.Items.Add(SelWuert.WuertLu);
+                    }
+                    else
+                    {
+                        lbSelectWord.Items.Add(SelWuert.WuertLu + " (Variant");
+                    }
                 }
                 _i++;
             }

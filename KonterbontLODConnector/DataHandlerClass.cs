@@ -190,7 +190,7 @@ namespace KonterbontLODConnector
             {
                 string _tmpfilecontent = Properties.Resources.popup;
                 _tmpfilecontent = _tmpfilecontent.Replace("leColorCSScolor", rgbvalue);
-                _tmpfilecontent = _tmpfilecontent.Replace("aarbecht1.mp3", wuert.MP3);
+                _tmpfilecontent = _tmpfilecontent.Replace("aarbecht1.mp3", wuert.Meanings[wuert.Selection - 1].MP3);
                 _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORD_", wuert.Meanings[wuert.Selection - 1].LU);
 
                 if (wuert.Meanings[wuert.Selection - 1].LUs == null)
