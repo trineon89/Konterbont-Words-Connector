@@ -12,8 +12,10 @@ using System.IO;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using WMPLib;
+/*
 using Independentsoft.Office.Odf;
 using IStyles = Independentsoft.Office.Odf.Styles;
+*/
 using Ookii.Dialogs.WinForms;
 
 namespace KonterbontLODConnector
@@ -27,7 +29,7 @@ namespace KonterbontLODConnector
         public VistaFolderBrowserDialog folderBrowser;
         public VistaOpenFileDialog ArticleBrowser = new VistaOpenFileDialog
         {
-            Filter = "Openoffice/LibreOffice (*.odt)|*.odt",
+            Filter = "RTF (*.rtf)|*.rtf",
             Title = "Dokument fir den Artikel auswielen"
         };
 
@@ -880,7 +882,7 @@ namespace KonterbontLODConnector
 
         private DataHandler OpenDocument(DataHandler dt)
         {
-            TextDocument doc = null;
+            /*TextDocument doc = null;
             try
             {
                 doc = new TextDocument(dt.DocPath);
@@ -907,13 +909,19 @@ namespace KonterbontLODConnector
             Color myRgbColor = Color.FromArgb(20, 118, 212);
 
             IList<AttributedText> attTexts = doc.GetAttributedTexts();
+            IList<Section> Texts = doc.GetSections();
+            string text = "";
             Font Bold = new Font(rtb.SelectionFont, FontStyle.Bold);
             Font Normal = new Font(rtb.SelectionFont, FontStyle.Regular);
             IContentElement parent = null;
             for (int _i = 0; _i < attTexts.Count; _i++)
             {
                 var style = attTexts[_i].Style.ToString();
-                string text = attTexts[_i].Content[0].ToString();
+
+                text = attTexts[_i].Content[0].ToString();
+
+
+                
                 text = text.Replace("&quot;", "\"");
                 text = text.Replace("&apos;", "'");
                 IContentElement tempparent = attTexts[_i].GetParent();
@@ -944,8 +952,10 @@ namespace KonterbontLODConnector
                     }
                 }
 
-            }
+            }*/
 
+            rtb.LoadFile(dt.DocPath);
+            
             TextForm.Controls.Add(rtb);
             return dt;
         }
@@ -1174,7 +1184,7 @@ namespace KonterbontLODConnector
                     }
                     else
                     {
-                        lbSelectWord.Items.Add(SelWuert.WuertLu + " (Variant");
+                        lbSelectWord.Items.Add(SelWuert.WuertLu + " (Variant)");
                     }
                 }
                 _i++;
@@ -1204,6 +1214,18 @@ namespace KonterbontLODConnector
                 }
                 _i++;
             }
+            // disables audio buttons on variant
+            if (globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].IsVariant)
+            {
+                btnCustomAudio.Enabled = false;
+                btnPlayAudio.Enabled = false;
+            }
+            else
+            {
+                btnCustomAudio.Enabled = true;
+                btnPlayAudio.Enabled = true;
+            }
+
         }
 
         private void LbSelectMeaning_SelectedIndexChanged(object sender, EventArgs e)

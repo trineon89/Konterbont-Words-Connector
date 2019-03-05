@@ -85,6 +85,7 @@ namespace KonterbontLODConnector
 
     static class Utility
     {
+        public static Color LastColor { get; set; }
 
         public static void HighlightText(this RichTextBox myRtb, string word, Color color)
         {
@@ -112,16 +113,17 @@ namespace KonterbontLODConnector
 
             if (word == string.Empty)
                 return;
-
+            Color myRgbColor = Color.FromArgb(20, 118, 212);
             int s_start = myRtb.SelectionStart, startIndex = 0, index;
 
             while ((index = myRtb.Text.IndexOf(word, startIndex)) != -1)
             {
                 myRtb.Select(index, word.Length);
 
-                if (myRtb.SelectionColor != Color.Black)
+                if (myRtb.SelectionBackColor != Color.FromArgb(255, 255, 255, 255))
                 {
-                    myRtb.SelectionBackColor = Color.Yellow;
+                    LastColor = myRtb.SelectionBackColor;
+                    myRtb.SelectionBackColor = myRgbColor;
                     return;
                 }
 
@@ -133,7 +135,7 @@ namespace KonterbontLODConnector
 
         public static void UnSelText(this RichTextBox myRtb)
         {
-            myRtb.SelectionBackColor = Color.Transparent;
+            myRtb.SelectionBackColor = LastColor;
             myRtb.SelectionLength = 0;
         }
     }
