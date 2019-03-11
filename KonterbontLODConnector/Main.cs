@@ -194,7 +194,14 @@ namespace KonterbontLODConnector
 
                     if (Lang == "LU")
                     {
-                        wuert.WuertForm.WuertForm = htmlDocument.DocumentNode.SelectSingleNode(".//span[@class='klass']").InnerText.Trim();
+                        if (htmlDocument.DocumentNode.SelectSingleNode(".//span[@class='klass']").InnerText.Trim() != "♦")
+                        {
+                            wuert.WuertForm.WuertForm = htmlDocument.DocumentNode.SelectSingleNode(".//span[@class='klass']").InnerText.Trim();
+                        }
+                        else
+                        {
+                            wuert.WuertForm.WuertForm = htmlDocument.DocumentNode.SelectSingleNode(".//span[@class='klass'][2]").InnerText.Trim();
+                        }
                     }
 
                     HtmlNodeCollection htmlNodes = htmlDocument.DocumentNode.SelectNodes("//div[@class='uds_block']");
@@ -204,22 +211,41 @@ namespace KonterbontLODConnector
                         string MeaningTextAdd = "";
                         string Pluriel;
 
-                        //HtmlNode[] MeaningArray;
                         HtmlNode[] LUsArray = htmlDocument.DocumentNode.SelectNodes("//span[@class='mentioun_adress']").ToArray();
 
-                        if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']") != null) //has base pluriel
+                        if (htmlDocument.DocumentNode.SelectSingleNode(".//span[@class='klass']").InnerText.Trim() != "♦")
                         {
-                            if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']") != null) //Failsafe pluriel
+                            //HtmlNode[] MeaningArray;
+                            if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']") != null) //has base pluriel
                             {
-                                Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']").InnerText;
-                                Pluriel = Pluriel.Replace("&lt;", "<");
-                                Pluriel = Pluriel.Replace("&gt;", ">");
+                                if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']") != null) //Failsafe pluriel
+                                {
+                                    Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']").InnerText;
+                                    Pluriel = Pluriel.Replace("&lt;", "<");
+                                    Pluriel = Pluriel.Replace("&gt;", ">");
+                                }
+                                else
+                                    Pluriel = null;
                             }
                             else
-                                Pluriel = null;
+                                Pluriel = null; // no base pluriel
                         }
                         else
-                            Pluriel = null; // no base pluriel
+                        {
+                            if (Meaning.SelectSingleNode("//div[@class='artikel']/div[@class='s20'][" + _i + "]/span[@class='text_gen']") != null) //has base pluriel
+                            {
+                                if (Meaning.SelectSingleNode("//div[@class='artikel']/div[@class='s20'][" + _i + "]/span[@class='text_gen']/span[@class='mentioun_adress']") != null) //Failsafe pluriel
+                                {
+                                    Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/div[@class='s20'][" + _i + "]/span[@class='text_gen']/span[@class='mentioun_adress']").InnerText;
+                                    Pluriel = Pluriel.Replace("&lt;", "<");
+                                    Pluriel = Pluriel.Replace("&gt;", ">");
+                                }
+                                else
+                                    Pluriel = null;
+                            }
+                            else
+                                Pluriel = null; // no base pluriel                       
+                        }
                         wuert.WuertLuS = Pluriel;
 
                         Meaning meaning = new Meaning();
@@ -229,20 +255,39 @@ namespace KonterbontLODConnector
                             meaning.LU = wuert.WuertLu;
                             meaning.HV = Pluriel; // writes "Hëllefsverb" to class
                                                   // write PP to LUs variable
-                            if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress']") != null)
+                            if (htmlDocument.DocumentNode.SelectSingleNode(".//span[@class='klass']").InnerText.Trim() != "♦")
                             {
-                                Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress']").InnerText;
-                                if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress'][2]") != null)
+                                if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress']") != null)
                                 {
-                                    string Pluriel2 = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress'][2]").InnerText;
-                                    Pluriel = Pluriel + " / " + Pluriel2;
+                                    Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress']").InnerText;
+                                    if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress'][2]") != null)
+                                    {
+                                        string Pluriel2 = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='mentioun_adress'][2]").InnerText;
+                                        Pluriel = Pluriel + " / " + Pluriel2;
+                                    }
+                                    Pluriel = Pluriel.Replace("&lt;", "<");
+                                    Pluriel = Pluriel.Replace("&gt;", ">");
                                 }
-                                Pluriel = Pluriel.Replace("&lt;", "<");
-                                Pluriel = Pluriel.Replace("&gt;", ">");
+                                else
+                                    Pluriel = null;
+
                             }
                             else
-                                Pluriel = null;
-
+                            {
+                                if (Meaning.SelectSingleNode("//div[@class='artikel']/div[@class='s20'][" + _i + "]/span[@class='mentioun_adress']") != null)
+                                {
+                                    Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/div[@class='s20'][" + _i + "]/span[@class='mentioun_adress']").InnerText;
+                                    if (Meaning.SelectSingleNode("//div[@class='artikel']/div[@class='s20'][" + _i + "]/span[@class='mentioun_adress'][2]") != null)
+                                    {
+                                        string Pluriel2 = Meaning.SelectSingleNode("//div[@class='artikel']/div[@class='s20'][" + _i + "]/span[@class='mentioun_adress'][2]").InnerText;
+                                        Pluriel = Pluriel + " / " + Pluriel2;
+                                    }
+                                    Pluriel = Pluriel.Replace("&lt;", "<");
+                                    Pluriel = Pluriel.Replace("&gt;", ">");
+                                }
+                                else
+                                    Pluriel = null;
+                            }
                             meaning.LUs = Pluriel;
                             wuert.WuertLuS = Pluriel;
                         }
@@ -271,14 +316,18 @@ namespace KonterbontLODConnector
                                     if (Meaning.SelectSingleNode(".//span[@class='text_gen'][1]").ChildNodes.Count() == 3)
                                     { // -> Meaning 1
                                         Console.WriteLine("Meaning 1");
+                                        if (Meaning.SelectSingleNode(".//span[@class='polylex']") != null)
+                                        {
+                                            meaning.LU = Meaning.SelectSingleNode(".//span[@class='polylex']").InnerText;
+                                        }
                                         //meaning.LUs = null;
                                     }
                                     else
                                     {
-                                        if (Meaning.SelectSingleNode("span[@class='polylex']") != null)
+                                        if (Meaning.SelectSingleNode(".//span[@class='polylex']") != null)
                                         { // -> Meaning 3
                                             Console.WriteLine("Meaning 3");
-                                            meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText;
+                                            meaning.LU = Meaning.SelectSingleNode(".//span[@class='polylex']").InnerText;
                                             meaning.LUs = wuert.WuertLuS;
                                         }
                                         else if (Meaning.SelectSingleNode(".//span[@class='mentioun_adress']") != null)
@@ -303,10 +352,10 @@ namespace KonterbontLODConnector
                                 }
                                 else
                                 {
-                                    if (Meaning.SelectSingleNode("span[@class='polylex']") != null)
+                                    if (Meaning.SelectSingleNode(".//span[@class='polylex']") != null)
                                     { // -> Meaning 3
                                         Console.WriteLine("Meaning 3");
-                                        meaning.LU = Meaning.SelectSingleNode("span[@class='polylex']").InnerText;
+                                        meaning.LU = Meaning.SelectSingleNode(".//span[@class='polylex']").InnerText;
                                         meaning.LUs = wuert.WuertLuS;
                                     }
                                     else
@@ -799,7 +848,7 @@ namespace KonterbontLODConnector
                 {
                     rb.Enabled = false;
                     var result = tooltip.Substring(tooltip.LastIndexOf(' ') + 1);
-                    rb.Text = rb.Text + " (Variant vun "+ result + ")";
+                    rb.Text = rb.Text + " (Variant vun " + result + ")";
                     wuert.IsVariant = true;
                 }
                 ac.Wierder.Add(wuert);
@@ -955,7 +1004,7 @@ namespace KonterbontLODConnector
             }*/
 
             rtb.LoadFile(dt.DocPath);
-            
+
             TextForm.Controls.Add(rtb);
             return dt;
         }
