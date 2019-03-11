@@ -37,9 +37,10 @@ namespace KonterbontLODConnector
         {
             Filter = "MP3 (*.mp3)|*.mp3",
             InitialDirectory = "\\\\192.168.1.75\\Konterbont_Produktioun\\Audio\\",
+            RestoreDirectory = true,
             Title = "Neien Toun fir den Popup auswielen"
         };
-        // RestoreDirectory = "true",
+        
         public ProgressDialog progressDialog;
         private INDesignPlugin iNDesignPlugin;
         public DataHandler globaldt = null;
