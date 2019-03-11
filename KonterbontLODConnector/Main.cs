@@ -39,6 +39,7 @@ namespace KonterbontLODConnector
             InitialDirectory = "\\\\192.168.1.75\\Konterbont_Produktioun\\Audio\\",
             Title = "Neien Toun fir den Popup auswielen"
         };
+        // RestoreDirectory = "true",
         public ProgressDialog progressDialog;
         private INDesignPlugin iNDesignPlugin;
         public DataHandler globaldt = null;
@@ -625,7 +626,7 @@ namespace KonterbontLODConnector
                         InputDialog ENid = new InputDialog()
                         {
                             MainInstruction = "Eng Bedeitung antippen:",
-                            Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR,
+                            Content = "DE: " + wuert.Meanings[wuert.Selection-1].DE + "; FR: " + wuert.Meanings[wuert.Selection-1].FR,
                             WindowTitle = "Englesch Iwwersetzung"
                         };
                         if (ENid.ShowDialog() == DialogResult.OK)
@@ -640,7 +641,7 @@ namespace KonterbontLODConnector
                         InputDialog PTid = new InputDialog()
                         {
                             MainInstruction = "Eng Bedeitung antippen:",
-                            Content = "DE: " + wuert.Meanings[wuert.Selection].DE + "; FR: " + wuert.Meanings[wuert.Selection].FR,
+                            Content = "DE: " + wuert.Meanings[wuert.Selection-1].DE + "; FR: " + wuert.Meanings[wuert.Selection-1].FR,
                             WindowTitle = "Portugisesch Iwwersetzung"
                         };
                         if (PTid.ShowDialog() == DialogResult.OK)
