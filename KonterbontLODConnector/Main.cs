@@ -45,7 +45,7 @@ namespace KonterbontLODConnector
         private Form TextForm = new Form()
         {
             Name = "frmTextForm",
-            Text = "Title",
+            Text = "Dokument",
             Width = 500,
             Height = 500,
             Top = 0,
