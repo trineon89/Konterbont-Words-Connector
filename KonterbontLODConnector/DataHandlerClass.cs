@@ -135,6 +135,12 @@ namespace KonterbontLODConnector
             WordList.Add(ac);
         }
 
+        public void ReplaceWordInList(AutoComplete ac,int internalId)
+        {
+            WordList.RemoveAt(internalId - 1);
+            WordList.Insert(internalId - 1, ac);
+        }
+
         public void SaveToFile(DataHandler dt)
         {
             JsonSerializer serializer = new JsonSerializer();

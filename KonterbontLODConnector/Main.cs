@@ -104,8 +104,6 @@ namespace KonterbontLODConnector
 
         private async Task<AutoComplete> GetFullTranslations(string searchstring, bool compare)
         {
-
-
             Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
             task.Wait();
             string fetchedXml = task.Result;
@@ -120,7 +118,6 @@ namespace KonterbontLODConnector
 
             var ret = await Task.WhenAll(taskLU, taskDE, taskFR, taskEN, taskPT);
             return ret.First();
-
         }
 
         private async Task<string> FetchXMLasync(string Word)
@@ -660,6 +657,7 @@ namespace KonterbontLODConnector
                 reswuert.Wierder.Add(wuert);
                 _c++;
             }
+            
             reswuert.Selection = acwuert.Selection;
             return reswuert;
         }
@@ -1016,7 +1014,7 @@ namespace KonterbontLODConnector
             //Menu -> Artikel Opmaachen
             if (TextForm.Visible)
             {
-                TextForm.Close();
+                TextForm.Hide();
             }
             if (folderBrowser.ShowDialog() == DialogResult.OK)
             {
@@ -1067,8 +1065,9 @@ namespace KonterbontLODConnector
                             dt.DocPath = ArticleBrowser.FileName;
                             try
                             {
-                                dt = OpenDocument(dt);
                                 TextForm.Show();
+                                dt = OpenDocument(dt);
+
                                 tsmiText.Checked = true;
                             }
                             catch (Exception ee)
@@ -1085,8 +1084,9 @@ namespace KonterbontLODConnector
                     {
                         try
                         {
-                            dt = OpenDocument(dt);
                             TextForm.Show();
+                            dt = OpenDocument(dt);
+
                             tsmiText.Checked = true;
                         }
                         catch (Exception ee)
@@ -1133,6 +1133,7 @@ namespace KonterbontLODConnector
                                     if (acword != null)
                                     {
                                         dt.AddWordToList(acword);
+                                        acword.internalId = c;
                                     }
                                     else
                                     {
@@ -1148,12 +1149,20 @@ namespace KonterbontLODConnector
                                     {
 
                                         AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
-
+                                        acword.internalId = c;
 
 
                                         if (acword != null)
                                         {
-                                            dt.AddWordToList(acword);
+
+                                            try
+                                            {
+                                                dt.ReplaceWordInList(acword, acword.internalId);
+                                            }
+                                            finally
+                                            {
+                                                dt.AddWordToList(acword);
+                                            }
                                         }
                                         else
                                         {
@@ -1179,6 +1188,27 @@ namespace KonterbontLODConnector
                     //dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Selection].MP3;
 
                     progressDialog.CloseDialog();
+                    bool deleted = false;
+                    if (dt.WordList.Count > lines.Length - 2)
+                    {   
+                       for (int counter = 0; counter < dt.WordList.Count; counter++)
+                        {
+                            if (!lines.Contains(dt.WordList[counter].Occurence))
+                            {
+                                dt.WordList.RemoveAt(dt.WordList[counter].internalId - 1);
+                                deleted = true;
+                            }
+
+                        }
+                    }
+
+                    if (deleted)
+                    {
+                        for (int counter = 0; counter < dt.WordList.Count; counter++)
+                        {
+                            dt.WordList[counter].internalId = counter + 1;
+                        }
+                    }
 
                     dt.SaveToFile(dt);
 
@@ -1187,6 +1217,7 @@ namespace KonterbontLODConnector
                     {
                         lbWords.Items.Add(ac.Occurence);
                     }
+
                     globaldt = dt;
                     lbWords.SelectedIndex = 0;
                     tsmiSave.Enabled = true;
