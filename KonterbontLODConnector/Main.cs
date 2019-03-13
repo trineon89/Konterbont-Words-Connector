@@ -1188,14 +1188,26 @@ namespace KonterbontLODConnector
                     //dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Selection].MP3;
 
                     progressDialog.CloseDialog();
+
+                    //Safecall if internalid==0
+                    if (dt.WordList.First().internalId==0)
+                    {
+                        for (int counter = 0; counter < dt.WordList.Count; counter++)
+                        {
+                            dt.WordList[counter].internalId = counter + 1;
+                        }
+                    }
+
                     bool deleted = false;
+                    int delcounter = 1;
                     if (dt.WordList.Count > lines.Length - 2)
                     {   
                        for (int counter = 0; counter < dt.WordList.Count; counter++)
                         {
                             if (!lines.Contains(dt.WordList[counter].Occurence))
                             {
-                                dt.WordList.RemoveAt(dt.WordList[counter].internalId - 1);
+                                dt.WordList.RemoveAt(dt.WordList[counter].internalId - delcounter);
+                                delcounter++;
                                 deleted = true;
                             }
 
