@@ -624,7 +624,7 @@ namespace KonterbontLODConnector
                         InputDialog ENid = new InputDialog()
                         {
                             MainInstruction = "Eng Bedeitung antippen:",
-                            Content = "DE: " + wuert.Meanings[wuert.Selection-1].DE + "; FR: " + wuert.Meanings[wuert.Selection-1].FR,
+                            Content = "DE: " + wuert.Meanings[wuert.Selection - 1].DE + "; FR: " + wuert.Meanings[wuert.Selection - 1].FR,
                             WindowTitle = "Englesch Iwwersetzung"
                         };
                         if (ENid.ShowDialog() == DialogResult.OK)
@@ -639,7 +639,7 @@ namespace KonterbontLODConnector
                         InputDialog PTid = new InputDialog()
                         {
                             MainInstruction = "Eng Bedeitung antippen:",
-                            Content = "DE: " + wuert.Meanings[wuert.Selection-1].DE + "; FR: " + wuert.Meanings[wuert.Selection-1].FR,
+                            Content = "DE: " + wuert.Meanings[wuert.Selection - 1].DE + "; FR: " + wuert.Meanings[wuert.Selection - 1].FR,
                             WindowTitle = "Portugisesch Iwwersetzung"
                         };
                         if (PTid.ShowDialog() == DialogResult.OK)
