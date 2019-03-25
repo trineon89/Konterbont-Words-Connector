@@ -914,6 +914,12 @@ namespace KonterbontLODConnector
         {
             AutoComplete acresults = await Task.Run(async () => await GetFullTranslationsAsync(searchstring));
 
+            var atmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu))));
+            var btmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.MP3 == x.MP3))));
+            var ctmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertForm.WuertForm == x.WuertForm.WuertForm))));
+            var dtmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.XMLFile == x.XMLFile))));
+            var etmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (acx.Occurence == searchstring))));
+
             var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3)
                 && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile) && (acx.Occurence == searchstring))));
 
@@ -1157,10 +1163,14 @@ namespace KonterbontLODConnector
 
                                             try
                                             {
-                                                dt.ReplaceWordInList(acword, acword.internalId);
+                                                if (dt.WordList.ElementAtOrDefault(acword.internalId - 1) == null)
+                                                {
+                                                    dt.ReplaceWordInList(acword, acword.internalId);
+                                                }
                                             }
                                             finally
                                             {
+                                                acword.internalId = dt.WordList.Count();
                                                 dt.AddWordToList(acword);
                                             }
                                         }
