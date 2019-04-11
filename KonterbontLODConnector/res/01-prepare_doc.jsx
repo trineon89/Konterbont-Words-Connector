@@ -294,7 +294,8 @@ for (var c=0; c < _docStories.length; c++)
 			{
 			   case 0: {  setPopup("V", _spread, _found); createbutton(myBounds,_spread,_textRange.contents,"V"); break;}
 			   case 1: {  setPopup("H", _spread, _found); createbutton(myBounds,_spread,_textRange.contents,"H"); break;}
-                case 2: { setPopup("P", _spread, _found); createbutton(myBounds, _spread, _textRange.contents, "P", _count); break;}
+                case 2: { setPopup("P", _spread, _found); createbutton(myBounds, _spread, _textRange.contents, "P", _count); break; }
+                case 3: { alert("D'Wuert " + _textRange.contents+" ass mei wi 3 mol markéiert!", "Ze oft markéiert",true); }
 			}
         }
     }
