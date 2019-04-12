@@ -204,7 +204,7 @@ namespace KonterbontLODConnector
                     _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "");
                     _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", "");
                 }
-                else if (wuert.WuertForm.WuertForm == "Verb")
+                else if (wuert.WuertForm.WuertForm == "Verb" || wuert.WuertForm.WuertForm == "Modalverb")
                 {
                     _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "(Participe Passé: ");
                     _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", ")");
