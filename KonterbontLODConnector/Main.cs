@@ -22,9 +22,9 @@ namespace KonterbontLODConnector
 {
     public partial class frmMain : Form
     {
-        public string MagazinePath = "\\\\192.168.11.75\\Konterbont_Produktioun\\Magazines\\";
-        public string ArticlePath = "\\\\192.168.11.75\\Konterbont_Produktioun\\Artikelen\\";
-        public string CustomAudioPath = "\\\\192.168.11.75\\Konterbont_Produktioun\\Audio\\";
+        public string MagazinePath = "\\\\cubecluster\\Konterbont_Produktioun\\Magazines\\";
+        public string ArticlePath = "\\\\cubecluster\\Konterbont_Produktioun\\Artikelen\\";
+        public string CustomAudioPath = "\\\\cubecluster\\Konterbont_Produktioun\\Audio\\";
         WindowsMediaPlayer wplayer = null;
         public VistaFolderBrowserDialog folderBrowser;
         public VistaOpenFileDialog ArticleBrowser = new VistaOpenFileDialog
@@ -36,7 +36,7 @@ namespace KonterbontLODConnector
         public VistaOpenFileDialog CustomAudioBrowser = new VistaOpenFileDialog
         {
             Filter = "MP3 (*.mp3)|*.mp3",
-            InitialDirectory = "\\\\192.168.11.75\\Konterbont_Produktioun\\Audio\\",
+            InitialDirectory = "\\\\cubecluster\\Konterbont_Produktioun\\Audio\\",
             RestoreDirectory = true,
             Title = "Neien Toun fir den Popup auswielen"
         };
@@ -249,7 +249,7 @@ namespace KonterbontLODConnector
 
                         Meaning meaning = new Meaning();
 
-                        if (wuert.WuertForm.WuertForm == "Verb")
+                        if (wuert.WuertForm.WuertForm == "Verb" || wuert.WuertForm.WuertForm == "Modalverb")
                         {
                             meaning.LU = wuert.WuertLu;
                             meaning.HV = Pluriel; // writes "Hëllefsverb" to class
@@ -1360,7 +1360,7 @@ namespace KonterbontLODConnector
             rtbDetails.AppendText(SelWord.WuertForm.WuertForm);
 
             rtbDetails.SelectionFont = Bold;
-            if (SelWord.WuertForm.WuertForm == "Verb")
+            if (SelWord.WuertForm.WuertForm == "Verb" || SelWord.WuertForm.WuertForm == "Modalverb")
             {
                 rtbDetails.AppendText(Environment.NewLine + "Participe Passé: ");
 
