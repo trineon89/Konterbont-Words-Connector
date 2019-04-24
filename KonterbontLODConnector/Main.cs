@@ -1163,15 +1163,16 @@ namespace KonterbontLODConnector
 
                                             try
                                             {
-                                                if (dt.WordList.ElementAtOrDefault(acword.internalId - 1) == null)
-                                                {
+                                                var abc = dt.WordList.ElementAtOrDefault(acword.internalId - 1);
+                                                //if (dt.WordList.ElementAtOrDefault(acword.internalId - 1) == null)
+                                                //{
                                                     dt.ReplaceWordInList(acword, acword.internalId);
-                                                }
+                                               // } 
                                             }
                                             finally
                                             {
-                                                acword.internalId = dt.WordList.Count();
-                                                dt.AddWordToList(acword);
+                                                /*acword.internalId = dt.WordList.Count();
+                                                dt.AddWordToList(acword);*/
                                             }
                                         }
                                         else

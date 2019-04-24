@@ -137,8 +137,18 @@ namespace KonterbontLODConnector
 
         public void ReplaceWordInList(AutoComplete ac,int internalId)
         {
-            WordList.RemoveAt(internalId - 1);
-            WordList.Insert(internalId - 1, ac);
+            if (WordList.Count > internalId -1)
+            { 
+               // WordList.RemoveAt(internalId - 1);
+                WordList.Insert(internalId - 1, ac);
+                for (int counter = 0; counter < WordList.Count; counter++)
+                {
+                    WordList[counter].internalId = counter + 1;
+                }
+            } else
+            {
+                AddWordToList(ac);
+            }
         }
 
         public void SaveToFile(DataHandler dt)
