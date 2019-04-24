@@ -1015,79 +1015,72 @@ namespace KonterbontLODConnector
             return dt;
         }
 
-        private async void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Menu -> Artikel Opmaachen
             if (TextForm.Visible)
             {
                 TextForm.Hide();
             }
+
             if (folderBrowser.ShowDialog() == DialogResult.OK)
             {
-                string[] files = Directory.GetFiles(folderBrowser.SelectedPath, "*.words");
-                if (files.Length == 0)
+                ArticleWorker();
+            }
+        }
+
+        private async void ArticleWorker(String DirectLoadPath = null)
+        {
+            if (DirectLoadPath != null)
+            {
+                folderBrowser.SelectedPath = DirectLoadPath;
+            }
+
+            string[] files = Directory.GetFiles(folderBrowser.SelectedPath, "*.words");
+            if (files.Length == 0)
+            {
+                MessageBox.Show(this, "Keen Words Fichier an dësem Dossier!", "Upsi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (Directory.Exists(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources"))
+            {
+                try
                 {
-                    MessageBox.Show(this, "Keen Words Fichier an dësem Dossier!", "Upsi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    Directory.Delete(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources", true);
+                }
+                catch (Exception ea)
+                {
+                    Debug.WriteLine("{0} Exception caught.", ea);
+                }
+            }
+            Directory.CreateDirectory(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources");
+
+            DataHandler dtt = new DataHandler();
+            int filec = 0;
+            foreach (var file in files)
+            {
+
+                string tmpfilename = Path.GetFileNameWithoutExtension(file) + ".wordslist";
+
+                DataHandler dt = new DataHandler();
+                ;
+
+                if (File.Exists(folderBrowser.SelectedPath + "\\" + tmpfilename))
+                {
+                    dt = dt.LoadFromFile(folderBrowser.SelectedPath, tmpfilename);
+                }
+                else
+                {
+                    dt = new DataHandler(tmpfilename, folderBrowser.SelectedPath + "\\");
                 }
 
-                if (Directory.Exists(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources"))
+                // add Function
+                if (dt.DocPath == null)
                 {
-                    try
+                    if (ArticleBrowser.ShowDialog() == DialogResult.OK)
                     {
-                        Directory.Delete(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources", true);
-                    }
-                    catch (Exception ea)
-                    {
-                        Debug.WriteLine("{0} Exception caught.", ea);
-                    }
-                }
-                Directory.CreateDirectory(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources");
-
-                DataHandler dtt = new DataHandler();
-                int filec = 0;
-                foreach (var file in files)
-                {
-
-                    string tmpfilename = Path.GetFileNameWithoutExtension(file) + ".wordslist";
-
-                    DataHandler dt = new DataHandler();
-                    ;
-
-                    if (File.Exists(folderBrowser.SelectedPath + "\\" + tmpfilename))
-                    {
-                        dt = dt.LoadFromFile(folderBrowser.SelectedPath, tmpfilename);
-                    }
-                    else
-                    {
-                        dt = new DataHandler(tmpfilename, folderBrowser.SelectedPath + "\\");
-                    }
-
-                    // add Function
-                    if (dt.DocPath == null)
-                    {
-                        if (ArticleBrowser.ShowDialog() == DialogResult.OK)
-                        {
-                            dt.DocPath = ArticleBrowser.FileName;
-                            try
-                            {
-                                TextForm.Show();
-                                dt = OpenDocument(dt);
-
-                                tsmiText.Checked = true;
-                            }
-                            catch (Exception ee)
-                            {
-                                MessageBox.Show(ee.ToString());
-                            }
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    else
-                    {
+                        dt.DocPath = ArticleBrowser.FileName;
                         try
                         {
                             TextForm.Show();
@@ -1100,46 +1093,99 @@ namespace KonterbontLODConnector
                             MessageBox.Show(ee.ToString());
                         }
                     }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        TextForm.Show();
+                        dt = OpenDocument(dt);
 
-                    if (filec == 0)
-                        dt.PrepareOutputFolder();
-                    filec++;
-                    string tfile = new StreamReader(file).ReadToEnd();
-                    string[] lines = tfile.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
-                    int countlines = lines.GetLength(0);
-                    // removes empty line at end
-                    int c = 0;
-                    Pietschsoft.NativeProgressDialog progressDialog = new Pietschsoft.NativeProgressDialog(this.Handle)
+                        tsmiText.Checked = true;
+                    }
+                    catch (Exception ee)
                     {
-                        Title = "Sichen Wierder um LOD...",
-                        CancelMessage = "Eieiei... Da wart elo...",
-                        Maximum = 100,
-                        Value = 0,
-                        Line3 = "Calculating Time Remaining..."
-                    };
-                    progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
-                    //TextForm.TopMost = true;
-                    foreach (string line in lines)
+                        MessageBox.Show(ee.ToString());
+                    }
+                }
+
+                if (filec == 0)
+                    dt.PrepareOutputFolder();
+                filec++;
+                string tfile = new StreamReader(file).ReadToEnd();
+                string[] lines = tfile.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                int countlines = lines.GetLength(0);
+                // removes empty line at end
+                int c = 0;
+                Pietschsoft.NativeProgressDialog progressDialog = new Pietschsoft.NativeProgressDialog(this.Handle)
+                {
+                    Title = "Sichen Wierder um LOD...",
+                    CancelMessage = "Eieiei... Da wart elo...",
+                    Maximum = 100,
+                    Value = 0,
+                    Line3 = "Calculating Time Remaining..."
+                };
+                progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
+                //TextForm.TopMost = true;
+                foreach (string line in lines)
+                {
+                    try
                     {
-                        try
+                        if (c == 0)
                         {
-                            if (c == 0)
-                            {
-                                dt.SetRGB(line);
-                                c++;
-                            }
-                            else if (line != "")
-                            {
-                                progressDialog.Line1 = "Siche nom Wuert: " + line;
+                            dt.SetRGB(line);
+                            c++;
+                        }
+                        else if (line != "")
+                        {
+                            progressDialog.Line1 = "Siche nom Wuert: " + line;
 
-                                if (dt.WordList.Count == 0)
+                            if (dt.WordList.Count == 0)
+                            {
+
+                                AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
+                                if (acword != null)
+                                {
+                                    dt.AddWordToList(acword);
+                                    acword.internalId = c;
+                                }
+                                else
+                                {
+                                    progressDialog.CloseDialog();
+                                    return;
+                                }
+                            }
+                            else
+                            {
+
+                                bool HasChanged = await Task.Run(async () => await CheckIfWordHasChangedAsync(line, dt.WordList));
+                                if (HasChanged)
                                 {
 
                                     AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
+                                    acword.internalId = c;
+
+
                                     if (acword != null)
                                     {
-                                        dt.AddWordToList(acword);
-                                        acword.internalId = c;
+
+                                        try
+                                        {
+                                            var abc = dt.WordList.ElementAtOrDefault(acword.internalId - 1);
+                                            //if (dt.WordList.ElementAtOrDefault(acword.internalId - 1) == null)
+                                            //{
+                                            dt.ReplaceWordInList(acword, acword.internalId);
+                                            // } 
+                                        }
+                                        finally
+                                        {
+                                            /*acword.internalId = dt.WordList.Count();
+                                            dt.AddWordToList(acword);*/
+                                        }
                                     }
                                     else
                                     {
@@ -1147,115 +1193,79 @@ namespace KonterbontLODConnector
                                         return;
                                     }
                                 }
-                                else
-                                {
-
-                                    bool HasChanged = await Task.Run(async () => await CheckIfWordHasChangedAsync(line, dt.WordList));
-                                    if (HasChanged)
-                                    {
-
-                                        AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
-                                        acword.internalId = c;
-
-
-                                        if (acword != null)
-                                        {
-
-                                            try
-                                            {
-                                                var abc = dt.WordList.ElementAtOrDefault(acword.internalId - 1);
-                                                //if (dt.WordList.ElementAtOrDefault(acword.internalId - 1) == null)
-                                                //{
-                                                    dt.ReplaceWordInList(acword, acword.internalId);
-                                               // } 
-                                            }
-                                            finally
-                                            {
-                                                /*acword.internalId = dt.WordList.Count();
-                                                dt.AddWordToList(acword);*/
-                                            }
-                                        }
-                                        else
-                                        {
-                                            progressDialog.CloseDialog();
-                                            return;
-                                        }
-                                    }
-                                }
-                                dt.GetMp3(dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Selection - 1].MP3, dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Selection - 1].hasCustomAudio);
-                                c++;
                             }
+                            dt.GetMp3(dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Selection - 1].MP3, dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection - 1].Selection - 1].hasCustomAudio);
+                            c++;
                         }
-                        catch (Exception ee)
-                        {
-                            MessageBox.Show("D'Wuert \"" + line + "\" ass eng Variant oder existéiert net um LOD!" + " " + ee, "Opgepasst", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                        double dbl = 100d / (countlines - 1) * c;
-                        uint _currprog = Convert.ToUInt32(Math.Round(dbl));
-                        progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
-                        progressDialog.Value = _currprog;
-
                     }
-                    //dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Selection].MP3;
-
-                    progressDialog.CloseDialog();
-
-                    //Safecall if internalid==0
-                    if (dt.WordList.First().internalId==0)
+                    catch (Exception ee)
                     {
-                        for (int counter = 0; counter < dt.WordList.Count; counter++)
-                        {
-                            dt.WordList[counter].internalId = counter + 1;
-                        }
+                        MessageBox.Show("D'Wuert \"" + line + "\" ass eng Variant oder existéiert net um LOD!" + " " + ee, "Opgepasst", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
+                    double dbl = 100d / (countlines - 1) * c;
+                    uint _currprog = Convert.ToUInt32(Math.Round(dbl));
+                    progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
+                    progressDialog.Value = _currprog;
 
-                    bool deleted = false;
-                    int delcounter = 1;
-                    if (dt.WordList.Count > lines.Length - 2)
-                    {   
-                       for (int counter = 0; counter < dt.WordList.Count; counter++)
-                        {
-                            if (!lines.Contains(dt.WordList[counter].Occurence))
-                            {
-                                dt.WordList.RemoveAt(dt.WordList[counter].internalId - delcounter);
-                                delcounter++;
-                                deleted = true;
-                            }
-
-                        }
-                    }
-
-                    if (deleted)
-                    {
-                        for (int counter = 0; counter < dt.WordList.Count; counter++)
-                        {
-                            dt.WordList[counter].internalId = counter + 1;
-                        }
-                    }
-
-                    dt.SaveToFile(dt);
-
-                    lbWords.Items.Clear();
-                    foreach (AutoComplete ac in dt.WordList) // Adds Words to lbWords on Main Form
-                    {
-                        lbWords.Items.Add(ac.Occurence);
-                    }
-
-                    globaldt = dt;
-                    lbWords.SelectedIndex = 0;
-                    tsmiSave.Enabled = true;
-                    btnCreatePopups.Enabled = true;
-                    btnCustomAudio.Enabled = true;
-                    btnPlayAudio.Enabled = true;
-                    tsmiText.Enabled = true;
                 }
-                SetIsSaved(false);
+                //dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Meanings[dt.WordList[c - 1].Wierder[dt.WordList[c - 1].Selection].Selection].MP3;
 
-                string lastFolderName = Path.GetFileName(Path.GetDirectoryName(folderBrowser.SelectedPath));
-                tssArticle.Text = lastFolderName;
-                tssMagazine.Text = globaldt.TargetMag();
+                progressDialog.CloseDialog();
+
+                //Safecall if internalid==0
+                if (dt.WordList.First().internalId == 0)
+                {
+                    for (int counter = 0; counter < dt.WordList.Count; counter++)
+                    {
+                        dt.WordList[counter].internalId = counter + 1;
+                    }
+                }
+
+                bool deleted = false;
+                int delcounter = 1;
+                if (dt.WordList.Count > lines.Length - 2)
+                {
+                    for (int counter = 0; counter < dt.WordList.Count; counter++)
+                    {
+                        if (!lines.Contains(dt.WordList[counter].Occurence))
+                        {
+                            dt.WordList.RemoveAt(dt.WordList[counter].internalId - delcounter);
+                            delcounter++;
+                            deleted = true;
+                        }
+
+                    }
+                }
+
+                if (deleted)
+                {
+                    for (int counter = 0; counter < dt.WordList.Count; counter++)
+                    {
+                        dt.WordList[counter].internalId = counter + 1;
+                    }
+                }
+
+                dt.SaveToFile(dt);
+
+                lbWords.Items.Clear();
+                foreach (AutoComplete ac in dt.WordList) // Adds Words to lbWords on Main Form
+                {
+                    lbWords.Items.Add(ac.Occurence);
+                }
+
+                globaldt = dt;
+                lbWords.SelectedIndex = 0;
+                tsmiSave.Enabled = true;
+                btnCreatePopups.Enabled = true;
+                btnCustomAudio.Enabled = true;
+                btnPlayAudio.Enabled = true;
+                tsmiText.Enabled = true;
             }
+            SetIsSaved(false);
 
+            string lastFolderName = Path.GetFileName(Path.GetDirectoryName(folderBrowser.SelectedPath));
+            tssArticle.Text = lastFolderName;
+            tssMagazine.Text = globaldt.TargetMag();
         }
 
         private void LbWords_SelectedIndexChanged(object sender, EventArgs e)
@@ -1807,6 +1817,45 @@ namespace KonterbontLODConnector
                     TextForm.Show();
                     tsmiText.Checked = true;
                 }
+            }
+        }
+
+        private void iNDesignConnectorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tssInDesign.Text = INDConnector.getBook() ? "Connected!" : "Connection failed";
+        }
+
+        private void bookContentToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            iNDesignConnectorToolStripMenuItem_Click(sender, e);
+            var list = INDConnector.getBookContent();
+            bookContentToolStripMenuItem.DropDownItems.Clear();
+            ToolStripMenuItem[] slist = new ToolStripMenuItem[list.Count];
+            for (int i = 0; i < list.Count; i++)
+            {
+                slist[i] = new ToolStripMenuItem();
+                slist[i].Name = i.ToString();
+                slist[i].Text = list[i];
+                slist[i].Click += new EventHandler(BookItemClickHandler);
+            }
+            bookContentToolStripMenuItem.DropDownItems.AddRange(slist);
+        }
+
+        private void tssExperimental_Click(object sender, EventArgs e)
+        {
+            bookContentToolStripMenuItem_Click(sender, e);
+        }
+
+        private void BookItemClickHandler(object sender, EventArgs e)
+        {
+            ToolStripMenuItem clickedItem = (ToolStripMenuItem)sender;
+            Console.WriteLine(clickedItem.ToString());
+            DialogResult dialogResult = MessageBox.Show("Wells de den Artikel " + clickedItem.ToString()+" lueden?", "Artikel "+clickedItem.ToString(), MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                String APath = INDConnector.getPathOfArticleInBook(clickedItem.ToString());
+                Console.WriteLine(APath);
+                ArticleWorker(APath);
             }
         }
     }

@@ -26,7 +26,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>http://www.autisme.lu/software/KWC/</UpdateUrl>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>8</ApplicationRevision>
+    <ApplicationRevision>9</ApplicationRevision>
     <ApplicationVersion>0.9.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -115,6 +115,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="INDConnector.cs" />
     <Compile Include="DataHandlerClass.cs" />
     <Compile Include="frmMagazineSelector.cs">
       <SubType>Form</SubType>
@@ -215,6 +216,15 @@
       <WrapperTool>aximp</WrapperTool>
       <Isolated>False</Isolated>
     </COMReference>
+    <COMReference Include="InDesign">
+      <Guid>{C12DDD4E-6CDC-4C7B-AE0E-A98E01E0FA59}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="WMPLib">
       <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -224,6 +234,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
