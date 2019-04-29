@@ -24,7 +24,7 @@ namespace KonterbontLODConnector
     {
         public string MagazinePath = "\\\\cubecluster\\Konterbont_Produktioun\\Magazines\\";
         public string ArticlePath = "\\\\cubecluster\\Konterbont_Produktioun\\Artikelen\\";
-        public string CustomAudioPath = "\\\\cubecluster\\Konterbont_Produktioun\\Audio\\";
+        public string CustomAudioPath = "\\\\cubecluster\\Konterbont_Audio\\";
         WindowsMediaPlayer wplayer = null;
         public VistaFolderBrowserDialog folderBrowser;
         public VistaOpenFileDialog ArticleBrowser = new VistaOpenFileDialog
@@ -36,7 +36,7 @@ namespace KonterbontLODConnector
         public VistaOpenFileDialog CustomAudioBrowser = new VistaOpenFileDialog
         {
             Filter = "MP3 (*.mp3)|*.mp3",
-            InitialDirectory = "\\\\cubecluster\\Konterbont_Produktioun\\Audio\\",
+            InitialDirectory = "\\\\cubecluster\\Konterbont_Audio\\",
             RestoreDirectory = true,
             Title = "Neien Toun fir den Popup auswielen"
         };

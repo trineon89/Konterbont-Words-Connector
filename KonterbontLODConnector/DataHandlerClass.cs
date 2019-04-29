@@ -18,7 +18,7 @@ namespace KonterbontLODConnector
     {
         private string lodmp3path = "https://www.lod.lu/audio/";
         private string MagazinePath = "\\\\cubecluster\\Konterbont_Produktioun\\Magazines\\";
-        private string CustomAudioPath = "\\\\cubecluster\\Konterbont_Produktioun\\Audio\\";
+        private string CustomAudioPath = "\\\\cubecluster\\Konterbont_Audio\\";
         public string DocPath = null;
         public TextDocument Article = null;
         public List<string> StyleName = null;
