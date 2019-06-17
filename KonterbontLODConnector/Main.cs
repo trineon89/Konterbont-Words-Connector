@@ -366,7 +366,8 @@ namespace KonterbontLODConnector
                                 }
                             }
                         }
-
+                        
+                        // Source: https://stackoverflow.com/questions/541954/how-would-you-count-occurrences-of-a-string-actually-a-char-within-a-string
                         // check expression
                         if (meaning.LU != null)
                         {
