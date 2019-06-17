@@ -18,7 +18,7 @@ namespace KonterbontLODConnector
     {
         private string lodmp3path = "https://www.lod.lu/audio/";
         private string MagazinePath = "\\\\cubecluster\\Konterbont_Produktioun\\Magazines\\";
-        private string CustomAudioPath = "\\\\cubecluster\\Konterbont_Produktioun\\Audio\\";
+        private string CustomAudioPath = "\\\\cubecluster\\Konterbont_Audio\\";
         public string DocPath = null;
         public TextDocument Article = null;
         public List<string> StyleName = null;
@@ -140,7 +140,7 @@ namespace KonterbontLODConnector
             if (WordList.Count > internalId -1)
             { 
                 WordList.RemoveAt(internalId - 1);
-                WordList.Insert(internalId - 1, ac);
+                WordList.Insert(internalId - 2, ac);
                 for (int counter = 0; counter < WordList.Count; counter++)
                 {
                     WordList[counter].internalId = counter + 1;
