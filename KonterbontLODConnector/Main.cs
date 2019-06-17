@@ -367,8 +367,16 @@ namespace KonterbontLODConnector
                             }
                         }
 
-
-
+                        // check expression
+                        if (meaning.LU != null)
+                        {
+                            int count = meaning.LU.Count(f => f == ' ');
+                            if (count > 1)
+                            {
+                                meaning.LUs = null;
+                            }
+                        }
+                        //
                         if (Lang != "LU")
                         {
                             // var ModMean = Meaning;
@@ -485,6 +493,12 @@ namespace KonterbontLODConnector
                                     }
 
                                 }
+
+                                if (Int32.Parse(thename) < 10)
+                                {
+                                    thename = "0" + thename;
+                                }
+
 
                                 frmSelectMeaning.rtbDE.SelectionFont = BigBold;
                                 frmSelectMeaning.rtbDE.AppendText(thename + ". " + wuert.Meanings[_i - 1].DE + Environment.NewLine);
