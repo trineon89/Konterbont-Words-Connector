@@ -934,7 +934,7 @@ namespace KonterbontLODConnector
             var ctmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertForm.WuertForm == x.WuertForm.WuertForm))));
             var dtmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.XMLFile == x.XMLFile))));
             var etmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (acx.Occurence == searchstring))));
-
+                                                                                                                                                //&& (b.WuertLuS == x.WuertLuS)
             var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3)
                 && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile) && (acx.Occurence == searchstring))));
 
@@ -944,10 +944,9 @@ namespace KonterbontLODConnector
             }
             else
             {
-                bool res = acresults.DeepCheck(tmp);
+                bool res = acresults.DeepCheck(acresults, tmp);
                 return res;
             }
-
         }
 
         private DataHandler OpenDocument(DataHandler dt)

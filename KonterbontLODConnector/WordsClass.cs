@@ -41,12 +41,28 @@ namespace KonterbontLODConnector
             else return false;
         }
 
-        public bool DeepCheck(AutoComplete ac)
+        public bool NotSoDeepCheck(AutoComplete ac)
         {
             foreach (Wuert word in ac.Wierder)
             {
                 foreach (Meaning mean in word.Meanings)
                 {
+                    var tmp = ac.Wierder.FirstOrDefault(acx => acx.Meanings.Any(x => (x.LUs == mean.LUs)));
+                    if (tmp == null) return true;
+                }
+            }
+            return false;
+        }
+
+        public bool DeepCheck(AutoComplete acresults, AutoComplete ac)
+        {
+            foreach (Wuert word in acresults.Wierder)
+            {
+                foreach (Meaning mean in word.Meanings)
+                {
+                    //acresults.Wierder
+        // var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu)
+
                     var tmp = ac.Wierder.FirstOrDefault(acx => acx.Meanings.Any(x => (x.LU == mean.LU) && (x.LUs == mean.LUs)
                     && (x.DE == mean.DE) && (x.FR == mean.FR) && (x.EN == mean.EN) && (x.PT == mean.PT) ));
                     if (tmp == null) return true;
