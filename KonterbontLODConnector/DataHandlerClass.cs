@@ -139,8 +139,8 @@ namespace KonterbontLODConnector
         {
             if (WordList.Count > internalId -1)
             { 
-               // WordList.RemoveAt(internalId - 1);
-                WordList.Insert(internalId - 1, ac);
+                WordList.RemoveAt(internalId - 1);
+                WordList.Insert(internalId - 2, ac);
                 for (int counter = 0; counter < WordList.Count; counter++)
                 {
                     WordList[counter].internalId = counter + 1;

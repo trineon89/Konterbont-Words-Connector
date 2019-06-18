@@ -36,6 +36,10 @@ namespace KonterbontLODConnector
             rtbDE.SelectAll();
             rtbDE.SelectionColor = Color.Black;
             rtbDE.SelectionLength = 0;
+            if (Int32.Parse(Selection) < 10)
+            {
+                Selection = "0" + Selection;
+            }
             foreach (string line in rtbDE.Lines)
             {
                 if (Regex.IsMatch(line, Selection + ". "))

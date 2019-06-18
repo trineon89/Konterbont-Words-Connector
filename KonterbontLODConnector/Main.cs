@@ -366,9 +366,18 @@ namespace KonterbontLODConnector
                                 }
                             }
                         }
-
-
-
+                        
+                        // Source: https://stackoverflow.com/questions/541954/how-would-you-count-occurrences-of-a-string-actually-a-char-within-a-string
+                        // check expression
+                        if (meaning.LU != null)
+                        {
+                            int count = meaning.LU.Count(f => f == ' ');
+                            if (count > 1)
+                            {
+                                meaning.LUs = null;
+                            }
+                        }
+                        //
                         if (Lang != "LU")
                         {
                             // var ModMean = Meaning;
@@ -485,6 +494,12 @@ namespace KonterbontLODConnector
                                     }
 
                                 }
+
+                                if (Int32.Parse(thename) < 10)
+                                {
+                                    thename = "0" + thename;
+                                }
+
 
                                 frmSelectMeaning.rtbDE.SelectionFont = BigBold;
                                 frmSelectMeaning.rtbDE.AppendText(thename + ". " + wuert.Meanings[_i - 1].DE + Environment.NewLine);
@@ -919,7 +934,7 @@ namespace KonterbontLODConnector
             var ctmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertForm.WuertForm == x.WuertForm.WuertForm))));
             var dtmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.XMLFile == x.XMLFile))));
             var etmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (acx.Occurence == searchstring))));
-
+                                                                                                                                                //&& (b.WuertLuS == x.WuertLuS)
             var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3)
                 && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile) && (acx.Occurence == searchstring))));
 
@@ -929,10 +944,9 @@ namespace KonterbontLODConnector
             }
             else
             {
-                bool res = acresults.DeepCheck(tmp);
+                bool res = acresults.DeepCheck(acresults, tmp);
                 return res;
             }
-
         }
 
         private DataHandler OpenDocument(DataHandler dt)
