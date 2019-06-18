@@ -372,7 +372,7 @@ namespace KonterbontLODConnector
                         if (meaning.LU != null)
                         {
                             int count = meaning.LU.Count(f => f == ' ');
-                            if (count > 1)
+                            if (count > 0)
                             {
                                 meaning.LUs = null;
                             }
