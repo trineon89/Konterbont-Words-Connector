@@ -6,7 +6,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Independentsoft.Office.Odf;
+//using Independentsoft.Office.Odf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using J = Newtonsoft.Json.JsonPropertyAttribute;
@@ -20,7 +20,7 @@ namespace KonterbontLODConnector
         private string MagazinePath = "\\\\cubecluster\\Konterbont_Produktioun\\Magazines\\";
         private string CustomAudioPath = "\\\\cubecluster\\Konterbont_Audio\\";
         public string DocPath = null;
-        public TextDocument Article = null;
+        //public TextDocument Article = null;
         public List<string> StyleName = null;
         private frmMagazineSelector theform;
         private string targetMag;
