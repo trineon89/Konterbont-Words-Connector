@@ -83,7 +83,7 @@ namespace KonterbontLODConnector
             var httpClient = new HttpClient();
             var httpContent = new HttpRequestMessage
             {
-                RequestUri = new Uri("https://www.lod.lu/php/lod-search.php?v=H&s=lu&w=" + Word),
+                RequestUri = new Uri("https://www.lod.lu/php/lod-search.php?v=H&s=lu&w=" + Word.ToLower() ), //Word has to be Lowercase
                 Method = HttpMethod.Get,
                 Headers =
                            {
