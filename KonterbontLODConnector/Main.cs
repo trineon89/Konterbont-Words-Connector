@@ -1827,7 +1827,7 @@ namespace KonterbontLODConnector
                 }
                 else
                 {
-                    globaldt = OpenDocument(globaldt);
+                    // globaldt = OpenDocument(globaldt);
                     TextForm.Show();
                     tsmiText.Checked = true;
                 }
