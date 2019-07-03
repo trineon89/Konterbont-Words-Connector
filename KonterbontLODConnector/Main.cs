@@ -77,7 +77,8 @@ namespace KonterbontLODConnector
             iNDesignPlugin = new INDesignPlugin();
             TextForm.Owner = this;
         }
-
+        
+        /*
         private async Task<string> FetchXML(string Word)
         {
             var httpClient = new HttpClient();
@@ -97,11 +98,14 @@ namespace KonterbontLODConnector
             httpClient.Dispose();
             return responseBody;
         }
+        */
+        /*
         private async Task<AutoComplete> GetFullTranslationsAsync(string searchstring, bool compare = true)
         {
             return await Task.Run(() => GetFullTranslations(searchstring, compare));
-        }
+        }*/
 
+        /*
         private async Task<AutoComplete> GetFullTranslations(string searchstring, bool compare)
         {
             Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
@@ -119,12 +123,15 @@ namespace KonterbontLODConnector
             var ret = await Task.WhenAll(taskLU, taskDE, taskFR, taskEN, taskPT);
             return ret.First();
         }
+        */
 
+        /*
         private async Task<string> FetchXMLasync(string Word)
         {
             return await Task.Run(() => FetchXML(Word));
         }
-
+        */
+        /*
         private async Task<string> HttpRequest(string Lang, string XML)
         {
             HttpClient httpClient = new HttpClient();
@@ -157,7 +164,7 @@ namespace KonterbontLODConnector
             string responseBody = await _response.Content.ReadAsStringAsync();
             httpClient.Dispose();
             return  responseBody;
-            */
+            *
             _responseT.Wait();
             var _response = _responseT.Result;
             _response.EnsureSuccessStatusCode();
@@ -167,7 +174,9 @@ namespace KonterbontLODConnector
             return responseBody;
 
         }
+        */
 
+        /*
         private async Task<AutoComplete> FetchFullWordsAsync(AutoComplete acwuert, string Lang, bool showselection = false)
         {
             AutoComplete reswuert = new AutoComplete();
@@ -305,7 +314,7 @@ namespace KonterbontLODConnector
                                  * 
                                  * 4 Meaning DE Wuert ::html:: <span class=intro_et> ..... </span>
                                  * 
-                                 */
+                                 *
 
                                 if (Meaning.SelectSingleNode(".//span[@class='text_gen']") != null)
                                 { // Meaning 1 or 2 or 4
@@ -575,6 +584,7 @@ namespace KonterbontLODConnector
                         _Total = _i;
                     }
                 }
+                
 
                 RadioButton rbtn = new RadioButton
                 {
@@ -676,14 +686,16 @@ namespace KonterbontLODConnector
             reswuert.Selection = acwuert.Selection;
             return reswuert;
         }
-
+        */
+        /*
         private void rbClicked(object sender, EventArgs e)
         {
             RadioButton rb = (RadioButton)sender;
             frmSelectMeaning frmSelectMeaning = (frmSelectMeaning)rb.TopLevelControl;
             frmSelectMeaning.gbMeanings_Click(sender, e);
         }
-
+        */
+        /*
         private async Task<string> FetchWordsTT(string XML, string Lang)
         {
             var httpClient = new HttpClient();
@@ -797,6 +809,7 @@ namespace KonterbontLODConnector
             }
             return null;
         }
+        */
 
         public bool ControlInvokeRequired(Control c, Action a)
         {
@@ -808,7 +821,8 @@ namespace KonterbontLODConnector
 
             return true;
         }
-
+        
+        /*
         private AutoComplete ParseXMLWords(string XML, bool onlycompare = false, string occurence = null)
         {
             AutoComplete ac = new AutoComplete();
@@ -900,13 +914,15 @@ namespace KonterbontLODConnector
             }
             return ac;
         }
+        */
 
-
+            /*
         private async Task<string> GetSelectionTooltipAsync(string XMLTT)
         {
             return await Task.Run(() => GetSelectionTooltip(XMLTT));
         }
-
+        */
+        /*
         private async Task<string> GetSelectionTooltip(string XMLTT)
         {
             string tooltip = null;
@@ -919,12 +935,14 @@ namespace KonterbontLODConnector
 
             return tooltip;
         }
-
+        */
+        /*
         private async Task<Boolean> CheckIfWordHasChangedAsync(string searchstring, List<AutoComplete> ac)
         {
             return await Task.Run(() => CheckIfWordHasChanged(searchstring, ac));
-        }
+        }*/
 
+        /*
         private async Task<Boolean> CheckIfWordHasChanged(string searchstring, List<AutoComplete> ac)
         {
             AutoComplete acresults = await Task.Run(async () => await GetFullTranslationsAsync(searchstring));
@@ -947,7 +965,7 @@ namespace KonterbontLODConnector
                 bool res = acresults.DeepCheck(acresults, tmp);
                 return res;
             }
-        }
+        }*/
 
         private DataHandler OpenDocument(DataHandler dt)
         {
@@ -1031,6 +1049,7 @@ namespace KonterbontLODConnector
 
         private void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             //Menu -> Artikel Opmaachen
             if (TextForm.Visible)
             {
@@ -1056,7 +1075,7 @@ namespace KonterbontLODConnector
                 MessageBox.Show(this, "Keen Words Fichier an dësem Dossier!", "Upsi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            /*
             if (Directory.Exists(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources"))
             {
                 try
@@ -1069,13 +1088,14 @@ namespace KonterbontLODConnector
                 }
             }
             Directory.CreateDirectory(folderBrowser.SelectedPath + "\\WebResources\\popupbase-web-resources");
-
+            */
             DataHandler dtt = new DataHandler();
             int filec = 0;
             foreach (var file in files)
             {
 
                 string tmpfilename = Path.GetFileNameWithoutExtension(file) + ".wordslist";
+
 
                 DataHandler dt = new DataHandler();
                 ;
@@ -1088,7 +1108,7 @@ namespace KonterbontLODConnector
                 {
                     dt = new DataHandler(tmpfilename, folderBrowser.SelectedPath + "\\");
                 }
-
+                /*
                 // add Function
                 if (dt.DocPath == null)
                 {
@@ -1198,7 +1218,7 @@ namespace KonterbontLODConnector
                                         finally
                                         {
                                             /*acword.internalId = dt.WordList.Count();
-                                            dt.AddWordToList(acword);*/
+                                            dt.AddWordToList(acword);*//*
                                         }
                                     }
                                     else
@@ -1258,7 +1278,7 @@ namespace KonterbontLODConnector
                         dt.WordList[counter].internalId = counter + 1;
                     }
                 }
-
+                */
                 dt.SaveToFile(dt);
 
                 lbWords.Items.Clear();
@@ -1266,7 +1286,7 @@ namespace KonterbontLODConnector
                 {
                     lbWords.Items.Add(ac.Occurence);
                 }
-
+                
                 globaldt = dt;
                 lbWords.SelectedIndex = 0;
                 tsmiSave.Enabled = true;
@@ -1869,7 +1889,7 @@ namespace KonterbontLODConnector
             {
                 String APath = INDConnector.getPathOfArticleInBook(clickedItem.ToString());
                 Console.WriteLine(APath);
-                ArticleWorker(APath);
+                //ArticleWorker(APath);
             }
         }
     }

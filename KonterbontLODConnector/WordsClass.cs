@@ -144,6 +144,8 @@ namespace KonterbontLODConnector
         public List<Example> Examples;
         public string MP3;
         [J("hasCustomAudio", NullValueHandling = N.Ignore)]  public bool hasCustomAudio;
+        [J("hasCustomEN", NullValueHandling = N.Ignore)]  public bool hasCustomEN;
+        [J("hasCustomPT", NullValueHandling = N.Ignore)]  public bool hasCustomPT;
 
         public Meaning() // Constructor
         {
@@ -155,6 +157,8 @@ namespace KonterbontLODConnector
             EN = null;
             PT = null;
             hasCustomAudio = false;
+            hasCustomEN = false;
+            hasCustomPT = false;
             Examples = new List<Example>();
         }
     }
