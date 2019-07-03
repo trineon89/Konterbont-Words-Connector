@@ -7,7 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Http;
-using HtmlAgilityPack;
+// using HtmlAgilityPack;
 using System.IO;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
@@ -67,6 +67,9 @@ namespace KonterbontLODConnector
 
         };
 
+        /// <summary>
+        /// Init frmMain (Main Form)
+        /// </summary>
         public frmMain()
         {
             InitializeComponent();
