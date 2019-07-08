@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -11,6 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using J = Newtonsoft.Json.JsonPropertyAttribute;
 using N = Newtonsoft.Json.NullValueHandling;
+using NIL = Newtonsoft.Json.DefaultValueHandling;
 
 namespace KonterbontLODConnector
 {
@@ -33,6 +35,7 @@ namespace KonterbontLODConnector
         [J("filepath", NullValueHandling = N.Ignore)] public string Filepath { get; set; }
         [J("wordlist", NullValueHandling = N.Ignore)] public List<AutoComplete> WordList { get; set; }
         [J("globrgb", NullValueHandling = N.Ignore)] public string Globrgb { get; set; }
+        [DefaultValue(false)][J("customcolor", DefaultValueHandling = NIL.Populate)] public Boolean CustomColor { get; set; }
 
         public DataHandler()
         {
@@ -110,7 +113,7 @@ namespace KonterbontLODConnector
 
         public void SetRGB(string input)
         {
-            Globrgb = input;
+            if (!CustomColor) Globrgb = input;
         }
 
         public bool InitParseMagazine()
@@ -285,6 +288,11 @@ namespace KonterbontLODConnector
             File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-Med.ttf", Properties.Resources.FreightSansCmpPro_Med);
             File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-Semi.ttf", Properties.Resources.FreightSansCmpPro_Semi);
             File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\popupstyle.css", Properties.Resources.popupstyle);
+        }
+
+        public void PrepareOutputTmpFolder()
+        {
+
         }
 
         public string[] InitCopyToMag()

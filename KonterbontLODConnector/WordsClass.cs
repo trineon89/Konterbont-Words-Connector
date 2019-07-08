@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using J = Newtonsoft.Json.JsonPropertyAttribute;
 using N = Newtonsoft.Json.NullValueHandling;
+using NIL = Newtonsoft.Json.DefaultValueHandling;
 
 namespace KonterbontLODConnector
 {
@@ -140,7 +142,9 @@ namespace KonterbontLODConnector
         public string DE;
         public string FR;
         public string EN;
+        [DefaultValue(false)] [J("hasCustomEnglish", NullValueHandling = N.Ignore, DefaultValueHandling = NIL.Populate)] public bool hasCustomEnglish;
         public string PT;
+        [DefaultValue(false)] [J("hasCustomPortugese", NullValueHandling = N.Ignore, DefaultValueHandling = NIL.Populate)] public bool hasCustomPortugese;
         public List<Example> Examples;
         public string MP3;
         [J("hasCustomAudio", NullValueHandling = N.Ignore)]  public bool hasCustomAudio;

@@ -93,6 +93,9 @@
     <Reference Include="HtmlAgilityPack, Version=1.11.8.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.11.8\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="Independentsoft.Office.Odf, Version=2.0.520.1, Culture=neutral, PublicKeyToken=76be97fe952f1ec7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Independentsoft.Office.Odf.2.0.530\lib\net45\Independentsoft.Office.Odf.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
