@@ -30,13 +30,13 @@ namespace KonterbontLODConnector
         private bool isInMag = false;
         private bool isSaved = false;
 
-        private string Temppath = Path.GetTempPath() + "\\_KBLODCONN";
+        private string Temppath = Path.GetTempPath() + "_KBLODCONN\\";
 
         public string Filename { get; set; }
         [J("filepath", NullValueHandling = N.Ignore)] public string Filepath { get; set; }
         [J("wordlist", NullValueHandling = N.Ignore)] public List<AutoComplete> WordList { get; set; }
         [J("globrgb", NullValueHandling = N.Ignore)] public string Globrgb { get; set; }
-        [DefaultValue(false)][J("customcolor", DefaultValueHandling = NIL.Populate)] public Boolean CustomColor { get; set; }
+        [DefaultValue(false)] [J("customcolor", DefaultValueHandling = NIL.Populate)] public Boolean CustomColor { get; set; }
 
         public DataHandler()
         {
@@ -120,7 +120,7 @@ namespace KonterbontLODConnector
         public bool InitParseMagazine()
         {
             if (targetMag == null)
-            return false;
+                return false;
             return true;
         }
 
@@ -139,17 +139,18 @@ namespace KonterbontLODConnector
             WordList.Add(ac);
         }
 
-        public void ReplaceWordInList(AutoComplete ac,int internalId)
+        public void ReplaceWordInList(AutoComplete ac, int internalId)
         {
-            if (WordList.Count > internalId -1)
-            { 
+            if (WordList.Count > internalId - 1)
+            {
                 WordList.RemoveAt(internalId - 1);
                 WordList.Insert(internalId - 2, ac);
                 for (int counter = 0; counter < WordList.Count; counter++)
                 {
                     WordList[counter].internalId = counter + 1;
                 }
-            } else
+            }
+            else
             {
                 AddWordToList(ac);
             }
@@ -180,11 +181,11 @@ namespace KonterbontLODConnector
             return dt;
         }
 
-        public void GetMp3(string mp3filename,bool hasCustomAudio)
+        public void GetMp3(string mp3filename, bool hasCustomAudio)
         {
             if (hasCustomAudio)
             {
-                File.Copy(CustomAudioPath + mp3filename, Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename,true);
+                File.Copy(CustomAudioPath + mp3filename, Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename, true);
             }
             else
             {
@@ -237,8 +238,23 @@ namespace KonterbontLODConnector
                 _tmpfilecontent = _tmpfilecontent.Replace("_ENWORD_", wuert.Meanings[wuert.Selection - 1].EN);
                 _tmpfilecontent = _tmpfilecontent.Replace("_PTWORD_", wuert.Meanings[wuert.Selection - 1].PT);
                 occurence = DeUmlaut(occurence);
-                File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\" + Path.GetFileNameWithoutExtension(Filename) + "popup_" + occurence + ".html", _tmpfilecontent);
+                File.WriteAllText(Temppath + "WebResources\\popupbase-web-resources\\" + Path.GetFileNameWithoutExtension(Filename) + "popup_" + occurence + ".html", _tmpfilecontent);
             }
+        }
+
+        public void CopyTmpToArt()
+        {
+            PrepareOutputFolder();
+            // https://stackoverflow.com/questions/58744/copy-the-entire-contents-of-a-directory-in-c-sharp
+            //Now Create all of the directories
+            foreach (string dirPath in Directory.GetDirectories(Temppath, "*",
+                SearchOption.AllDirectories))
+                Directory.CreateDirectory(dirPath.Replace(Temppath, Filepath));
+
+            //Copy all the files & Replaces any files with the same name
+            foreach (string newPath in Directory.GetFiles(Temppath, "*.*",
+                SearchOption.AllDirectories))
+                File.Copy(newPath, newPath.Replace(Temppath, Filepath), true);
         }
 
         public string DeUmlaut(string inp)
@@ -271,24 +287,18 @@ namespace KonterbontLODConnector
         {
             if (Directory.Exists(Filepath + "WebResources\\popupbase-web-resources"))
             {
-                try
+                System.IO.DirectoryInfo di = new DirectoryInfo(Filepath + "WebResources");
+                foreach (FileInfo file in di.EnumerateFiles())
                 {
-                    Directory.Move(Filepath + "WebResources", Filepath + "WebResources_x");
-                    Directory.Delete(Filepath + "WebResources_x\\popupbase-web-resources", true);
-                    Directory.Move(Filepath + "WebResources_x", Filepath + "WebResources");
+                    file.Delete();
                 }
-                catch (Exception ea)
+                foreach (DirectoryInfo dir in di.EnumerateDirectories())
                 {
-                    Console.WriteLine("{0} Exception caught.", ea);
+                    dir.Delete(true);
                 }
             }
 
-            Directory.CreateDirectory(Filepath + "WebResources\\popupbase-web-resources");
-            Directory.CreateDirectory(Filepath + "WebResources\\popupbase-web-resources\\audio");
-            File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-BookItalic.ttf", Properties.Resources.FreightSansCmpPro_BookItalic);
-            File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-Med.ttf", Properties.Resources.FreightSansCmpPro_Med);
-            File.WriteAllBytes(Filepath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-Semi.ttf", Properties.Resources.FreightSansCmpPro_Semi);
-            File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\popupstyle.css", Properties.Resources.popupstyle);
+
         }
 
         /// <summary>
@@ -299,11 +309,29 @@ namespace KonterbontLODConnector
             if (!Directory.Exists(Temppath))
             {
                 Directory.CreateDirectory(Temppath);
-            } else
-            {
-                //Cleanup
             }
+            else
+            {
 
+                //Cleanup
+                //https://stackoverflow.com/questions/1288718/how-to-delete-all-files-and-folders-in-a-directory
+
+                System.IO.DirectoryInfo di = new DirectoryInfo(Temppath);
+                foreach (FileInfo file in di.EnumerateFiles())
+                {
+                    file.Delete();
+                }
+                foreach (DirectoryInfo dir in di.EnumerateDirectories())
+                {
+                    dir.Delete(true);
+                }
+            }
+            Directory.CreateDirectory(Temppath + "WebResources\\popupbase-web-resources");
+            Directory.CreateDirectory(Temppath + "WebResources\\popupbase-web-resources\\audio");
+            File.WriteAllBytes(Temppath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-BookItalic.ttf", Properties.Resources.FreightSansCmpPro_BookItalic);
+            File.WriteAllBytes(Temppath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-Med.ttf", Properties.Resources.FreightSansCmpPro_Med);
+            File.WriteAllBytes(Temppath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-Semi.ttf", Properties.Resources.FreightSansCmpPro_Semi);
+            File.WriteAllText(Temppath + "WebResources\\popupbase-web-resources\\popupstyle.css", Properties.Resources.popupstyle);
         }
 
         public string[] InitCopyToMag()
@@ -314,7 +342,7 @@ namespace KonterbontLODConnector
             var MagFiles = Directory.GetFiles(SourcePath, "*.*", SearchOption.AllDirectories);
             Console.WriteLine("Count: " + MagFiles.Length);
             foreach (string dirPath in Directory.GetDirectories(SourcePath, "*", SearchOption.AllDirectories))
-                    Directory.CreateDirectory(dirPath.Replace(SourcePath, MagazinePath + targetMag + "\\WebResources\\"));
+                Directory.CreateDirectory(dirPath.Replace(SourcePath, MagazinePath + targetMag + "\\WebResources\\"));
 
             return MagFiles;
         }
@@ -356,4 +384,4 @@ namespace KonterbontLODConnector
             },
         };
     }
- }
+}

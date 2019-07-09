@@ -1415,6 +1415,7 @@ namespace KonterbontLODConnector
             //CreatePopups
             if (globaldt.OutputPopups())
             {
+                globaldt.CopyTmpToArt();
                 MessageBox.Show(this, "Popups sinn erstallt!", "Okay", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             globaldt.HasPopups(true);
