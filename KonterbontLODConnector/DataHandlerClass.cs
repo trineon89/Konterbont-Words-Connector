@@ -191,6 +191,7 @@ namespace KonterbontLODConnector
             {
                 using (WebClient wc = new WebClient())
                 {
+                    //wc.DownloadFile(new Uri(lodmp3path + mp3filename), Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
                     wc.DownloadFileAsync(new Uri(lodmp3path + mp3filename), Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
                 }
             }
@@ -238,6 +239,7 @@ namespace KonterbontLODConnector
                 _tmpfilecontent = _tmpfilecontent.Replace("_ENWORD_", wuert.Meanings[wuert.Selection - 1].EN);
                 _tmpfilecontent = _tmpfilecontent.Replace("_PTWORD_", wuert.Meanings[wuert.Selection - 1].PT);
                 occurence = DeUmlaut(occurence);
+                GetMp3(wuert.Meanings[wuert.Selection - 1].MP3, wuert.Meanings[wuert.Selection - 1].hasCustomAudio);
                 File.WriteAllText(Temppath + "WebResources\\popupbase-web-resources\\" + Path.GetFileNameWithoutExtension(Filename) + "popup_" + occurence + ".html", _tmpfilecontent);
             }
         }
