@@ -181,22 +181,31 @@ namespace KonterbontLODConnector
             return dt;
         }
 
+        /// <summary>
+        /// Downloads MP3-File from LOD.lu and copy to Tempfolder.
+        /// If "hasCustomAudio" is set to true, copys the file from LocalServer to the Tempfolder
+        /// </summary>
+        /// <param name="mp3filename"></param>
+        /// <param name="hasCustomAudio"></param>
         public void GetMp3(string mp3filename, bool hasCustomAudio)
         {
             if (hasCustomAudio)
             {
-                File.Copy(CustomAudioPath + mp3filename, Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename, true);
+                File.Copy(CustomAudioPath + mp3filename, Temppath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename, true);
             }
             else
             {
                 using (WebClient wc = new WebClient())
                 {
-                    //wc.DownloadFile(new Uri(lodmp3path + mp3filename), Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
-                    wc.DownloadFileAsync(new Uri(lodmp3path + mp3filename), Filepath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
+                    wc.DownloadFile(new Uri(lodmp3path + mp3filename), Temppath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
                 }
             }
         }
 
+        /// <summary>
+        /// Generate Popups (HTML Files) for all Items in the Wordlist
+        /// </summary>
+        /// <returns></returns>
         public bool OutputPopups()
         {
             foreach (AutoComplete ac in WordList)

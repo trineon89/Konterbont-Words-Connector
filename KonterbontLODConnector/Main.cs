@@ -1410,6 +1410,12 @@ namespace KonterbontLODConnector
             //tsmiSave.Enabled = false;
         }
 
+        /// <summary>
+        /// Button <Create Popups> Action.
+        /// Generates Popups and copy to OutputFolder
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnCreatePopups_Click(object sender, EventArgs e)
         {
             //CreatePopups
