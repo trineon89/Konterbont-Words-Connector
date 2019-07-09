@@ -142,14 +142,12 @@ namespace KonterbontLODConnector
         public string DE;
         public string FR;
         public string EN;
-        [DefaultValue(false)] [J("hasCustomEnglish", NullValueHandling = N.Ignore, DefaultValueHandling = NIL.Populate)] public bool hasCustomEnglish;
         public string PT;
-        [DefaultValue(false)] [J("hasCustomPortugese", NullValueHandling = N.Ignore, DefaultValueHandling = NIL.Populate)] public bool hasCustomPortugese;
         public List<Example> Examples;
         public string MP3;
         [J("hasCustomAudio", NullValueHandling = N.Ignore)]  public bool hasCustomAudio;
-        [J("hasCustomEN", NullValueHandling = N.Ignore)]  public bool hasCustomEN;
-        [J("hasCustomPT", NullValueHandling = N.Ignore)]  public bool hasCustomPT;
+        [DefaultValue(false)] [J("hasCustomEN", NullValueHandling = N.Ignore, DefaultValueHandling = NIL.Populate)]  public bool hasCustomEN;
+        [DefaultValue(false)] [J("hasCustomPT", NullValueHandling = N.Ignore, DefaultValueHandling = NIL.Populate)]  public bool hasCustomPT;
 
         public Meaning() // Constructor
         {

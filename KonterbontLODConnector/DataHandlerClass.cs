@@ -29,7 +29,8 @@ namespace KonterbontLODConnector
         private bool hasPopups = false;
         private bool isInMag = false;
         private bool isSaved = false;
-        
+
+        private string Temppath = Path.GetTempPath() + "\\_KBLODCONN";
 
         public string Filename { get; set; }
         [J("filepath", NullValueHandling = N.Ignore)] public string Filepath { get; set; }
@@ -290,8 +291,18 @@ namespace KonterbontLODConnector
             File.WriteAllText(Filepath + "WebResources\\popupbase-web-resources\\popupstyle.css", Properties.Resources.popupstyle);
         }
 
+        /// <summary>
+        /// Erstellt den TempFolder an preparéiert d'Basisfichieren
+        /// </summary>
         public void PrepareOutputTmpFolder()
         {
+            if (!Directory.Exists(Temppath))
+            {
+                Directory.CreateDirectory(Temppath);
+            } else
+            {
+                //Cleanup
+            }
 
         }
 

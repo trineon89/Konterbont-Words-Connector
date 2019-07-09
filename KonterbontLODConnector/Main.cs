@@ -922,7 +922,7 @@ namespace KonterbontLODConnector
     /// <summary>
     /// Calls the functions for the Tooltip(s) of the Selection Form
     /// </summary>
-    /// <param name="XMLTT"></param>
+    /// <param name="XMLTT">Den LOD XML-Fichiersnumm</param>
     /// <returns></returns>
     private async Task<string> GetSelectionTooltip(string XMLTT)
     {
@@ -1157,14 +1157,14 @@ namespace KonterbontLODConnector
                 }  
 
                 lbWords.Items.Clear();
-                foreach (AutoComplete ac in dt.WordList) // Adds Words to lbWords on Main Form
+                foreach (AutoComplete ac in dtt.WordList) // Adds Words to lbWords on Main Form
                 {
                     lbWords.Items.Add(ac.Occurence);
                 }
 
                 globaldt = dtt;
 
-                if (dt.WordList.Count() > 0)
+                if (dtt.WordList.Count() > 0)
                 { lbWords.SelectedIndex = 0; }
                 tsmiSave.Enabled = true;
                 btnCreatePopups.Enabled = true;
