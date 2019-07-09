@@ -909,11 +909,21 @@ namespace KonterbontLODConnector
             return ac;
         }
 
+    /// <summary>
+    /// Calls the Async Function GetSelectionTooltip
+    /// </summary>
+    /// <param name="XMLTT"></param>
+    /// <returns></returns>
     private async Task<string> GetSelectionTooltipAsync(string XMLTT)
     {
         return await Task.Run(() => GetSelectionTooltip(XMLTT));
     }
    
+    /// <summary>
+    /// Calls the functions for the Tooltip(s) of the Selection Form
+    /// </summary>
+    /// <param name="XMLTT"></param>
+    /// <returns></returns>
     private async Task<string> GetSelectionTooltip(string XMLTT)
     {
         string tooltip = null;
@@ -1120,7 +1130,6 @@ namespace KonterbontLODConnector
                     Globrgb = dt.Globrgb,
                     DocPath = dt.DocPath
                 };
-                //dtt = dt;
 
                 foreach (string line in lines)
                 {
@@ -1398,7 +1407,7 @@ namespace KonterbontLODConnector
             //Save
             globaldt.SaveToFile(globaldt);
             SetIsSaved(true);
-            tsmiSave.Enabled = false;
+            //tsmiSave.Enabled = false;
         }
 
         private void BtnCreatePopups_Click(object sender, EventArgs e)
