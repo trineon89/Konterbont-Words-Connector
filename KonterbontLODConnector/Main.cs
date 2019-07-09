@@ -25,6 +25,8 @@ namespace KonterbontLODConnector
         public string MagazinePath = "\\\\cubecluster\\Konterbont_Produktioun\\Magazines\\";
         public string ArticlePath = "\\\\cubecluster\\Konterbont_Produktioun\\Artikelen\\";
         public string CustomAudioPath = "\\\\cubecluster\\Konterbont_Audio\\";
+        public Color OArticleColor = Color.Black;
+        public Color ArticleColor = Color.Black;
         WindowsMediaPlayer wplayer = null;
         public VistaFolderBrowserDialog folderBrowser;
         public VistaOpenFileDialog ArticleBrowser = new VistaOpenFileDialog
@@ -81,7 +83,21 @@ namespace KonterbontLODConnector
             iNDesignPlugin = new INDesignPlugin();
             TextForm.Owner = this;
         }
-      
+
+        // https://stackoverflow.com/questions/20433937/casting-a-rgb-string-to-a-color-type
+        public Color convertToColorArray(string getcolor)
+        {
+                //This gives us an array of 3 strings each representing a number in text form.
+                var splitString = getcolor.Split(',');
+
+                //converts the array of 3 strings in to an array of 3 ints.
+                var splitInts = splitString.Select(item => int.Parse(item)).ToArray();
+
+                //takes each element of the array of 3 and passes it in to the correct slot
+                Color setcolor = System.Drawing.Color.FromArgb(splitInts[0], splitInts[1], splitInts[2]);
+            return setcolor;
+        }
+
         private async Task<AutoComplete> GetFullTranslationsAsync(string searchstring, bool compare = true)
         {
             return await Task.Run(() => GetFullTranslations(searchstring, compare));
@@ -1133,7 +1149,13 @@ namespace KonterbontLODConnector
 
                 foreach (string line in lines)
                 {
-                    if (c == 0) { dt.SetRGB(line); }
+                    if (c == 0)
+                    {
+                        dt.SetRGB(line);
+                        ArticleColor = convertToColorArray(dt.Globrgb);
+                        OArticleColor = convertToColorArray(line);
+                        tssCustomColor.BackColor = ArticleColor;
+                    }
                     else if (line != "")
                     {
                         //Find Occurence line in dt.Wordlist
@@ -1171,6 +1193,7 @@ namespace KonterbontLODConnector
                 btnCustomAudio.Enabled = true;
                 btnPlayAudio.Enabled = true;
                 tsmiText.Enabled = true;
+                tsmiColor.Enabled = true;
             }
 
             SetIsSaved(true);
@@ -1652,7 +1675,7 @@ namespace KonterbontLODConnector
 
         private void btnPlayAudio_Click(object sender, EventArgs e)
         {
-            string mp3Path = globaldt.Filepath + "WebResources\\popupbase-web-resources\\audio\\";
+            string mp3Path = globaldt.Temppath + "WebResources\\popupbase-web-resources\\audio\\";
             string mp3File = mp3Path + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3;
             wplayer = new WindowsMediaPlayer();
             wplayer.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wplayer_PlayStateChange);
@@ -1769,6 +1792,35 @@ namespace KonterbontLODConnector
                 String APath = INDConnector.getPathOfArticleInBook(clickedItem.ToString());
                 Console.WriteLine(APath);
                 //ArticleWorker(APath);
+            }
+        }
+
+        private void ToolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EegenFaarfSetzenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmColor frmColor = new frmColor();
+            frmColor.pnlColor.BackColor = ArticleColor;
+            frmColor.ArticleColor = ArticleColor;
+            frmColor.OArticleColor = OArticleColor;
+
+            if (globaldt.CustomColor == true)
+            {
+                frmColor.rbEegen.Checked = true;
+            }
+            if (frmColor.ShowDialog() == DialogResult.OK)
+            {
+                ArticleColor = frmColor.pnlColor.BackColor;
+                tssCustomColor.BackColor = ArticleColor;
+                globaldt.CustomColor = true;
+                globaldt.Globrgb = ArticleColor.R + "," + ArticleColor.G + "," + ArticleColor.B;
+            }
+            else
+            {
+
             }
         }
     }

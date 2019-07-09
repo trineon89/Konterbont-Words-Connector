@@ -61,7 +61,8 @@ namespace KonterbontLODConnector
             this.btnPlayAudio = new System.Windows.Forms.Button();
             this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
             this.btnFetch = new System.Windows.Forms.Button();
-            this.eegenFaarfSetzenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiColor = new System.Windows.Forms.ToolStripMenuItem();
+            this.tssCustomColor = new System.Windows.Forms.ToolStripStatusLabel();
             this.mmMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.pnlDetails.SuspendLayout();
@@ -157,7 +158,7 @@ namespace KonterbontLODConnector
             this.astellungenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.magazineSelectorToolStripMenuItem,
             this.tsmiText,
-            this.eegenFaarfSetzenToolStripMenuItem});
+            this.tsmiColor});
             this.astellungenToolStripMenuItem.Name = "astellungenToolStripMenuItem";
             this.astellungenToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
             this.astellungenToolStripMenuItem.Text = "Astellungen";
@@ -329,16 +330,17 @@ namespace KonterbontLODConnector
             // 
             // ssStatus
             // 
-            this.tlpMain.SetColumnSpan(this.ssStatus, 5);
+            this.tlpMain.SetColumnSpan(this.ssStatus, 6);
             this.ssStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tssNeedSave,
             this.tssMagazine,
             this.tssArticle,
-            this.tssInDesign});
+            this.tssInDesign,
+            this.tssCustomColor});
             this.ssStatus.Location = new System.Drawing.Point(0, 462);
             this.ssStatus.Name = "ssStatus";
-            this.ssStatus.Size = new System.Drawing.Size(690, 21);
+            this.ssStatus.Size = new System.Drawing.Size(735, 21);
             this.ssStatus.TabIndex = 18;
             // 
             // tssNeedSave
@@ -406,6 +408,8 @@ namespace KonterbontLODConnector
             // btnFetch
             // 
             this.btnFetch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnFetch.Enabled = false;
+            this.btnFetch.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFetch.Location = new System.Drawing.Point(3, 3);
             this.btnFetch.Name = "btnFetch";
             this.btnFetch.Size = new System.Drawing.Size(107, 24);
@@ -413,11 +417,21 @@ namespace KonterbontLODConnector
             this.btnFetch.Text = "Sync LOD";
             this.btnFetch.UseVisualStyleBackColor = true;
             // 
-            // eegenFaarfSetzenToolStripMenuItem
+            // tsmiColor
             // 
-            this.eegenFaarfSetzenToolStripMenuItem.Name = "eegenFaarfSetzenToolStripMenuItem";
-            this.eegenFaarfSetzenToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
-            this.eegenFaarfSetzenToolStripMenuItem.Text = "Faarf setzen...";
+            this.tsmiColor.Enabled = false;
+            this.tsmiColor.Name = "tsmiColor";
+            this.tsmiColor.Size = new System.Drawing.Size(190, 22);
+            this.tsmiColor.Text = "Faarf setzen...";
+            this.tsmiColor.Click += new System.EventHandler(this.EegenFaarfSetzenToolStripMenuItem_Click);
+            // 
+            // tssCustomColor
+            // 
+            this.tssCustomColor.BackColor = System.Drawing.SystemColors.Control;
+            this.tssCustomColor.Name = "tssCustomColor";
+            this.tssCustomColor.Size = new System.Drawing.Size(88, 16);
+            this.tssCustomColor.Text = "Gewielten Faarf";
+            this.tssCustomColor.Click += new System.EventHandler(this.ToolStripStatusLabel1_Click);
             // 
             // frmMain
             // 
@@ -478,7 +492,8 @@ namespace KonterbontLODConnector
         private System.Windows.Forms.ToolStripStatusLabel tssInDesign;
         private System.Windows.Forms.ToolStripMenuItem bookContentToolStripMenuItem;
         private System.Windows.Forms.Button btnFetch;
-        private System.Windows.Forms.ToolStripMenuItem eegenFaarfSetzenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmiColor;
+        private System.Windows.Forms.ToolStripStatusLabel tssCustomColor;
     }
 }
 

@@ -30,7 +30,7 @@ namespace KonterbontLODConnector
         private bool isInMag = false;
         private bool isSaved = false;
 
-        private string Temppath = Path.GetTempPath() + "_KBLODCONN\\";
+        public string Temppath = Path.GetTempPath() + "_KBLODCONN\\";
 
         public string Filename { get; set; }
         [J("filepath", NullValueHandling = N.Ignore)] public string Filepath { get; set; }

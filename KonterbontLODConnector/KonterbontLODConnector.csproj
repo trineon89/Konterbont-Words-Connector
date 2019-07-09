@@ -59,7 +59,7 @@
     </StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>1DA609DCC124D30B1227D689FD8A489A33959FD2</ManifestCertificateThumbprint>
@@ -114,6 +114,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Color.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Color.Designer.cs">
+      <DependentUpon>Color.cs</DependentUpon>
+    </Compile>
     <Compile Include="INDConnector.cs" />
     <Compile Include="DataHandlerClass.cs" />
     <Compile Include="frmMagazineSelector.cs">
@@ -139,6 +145,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WordsClass.cs" />
+    <EmbeddedResource Include="Color.resx">
+      <DependentUpon>Color.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMagazineSelector.resx">
       <DependentUpon>frmMagazineSelector.cs</DependentUpon>
     </EmbeddedResource>
