@@ -13,8 +13,8 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using WMPLib;
 
-using Independentsoft.Office.Odf;
-using IStyles = Independentsoft.Office.Odf.Styles;
+//using Independentsoft.Office.Odf;
+//using IStyles = Independentsoft.Office.Odf.Styles;
 
 using Ookii.Dialogs.WinForms;
 
