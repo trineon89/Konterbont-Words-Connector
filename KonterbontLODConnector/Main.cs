@@ -1675,7 +1675,7 @@ namespace KonterbontLODConnector
 
         private void btnPlayAudio_Click(object sender, EventArgs e)
         {
-            string mp3Path = globaldt.Temppath + "WebResources\\popupbase-web-resources\\audio\\";
+            string mp3Path = globaldt.getTemppath() + "WebResources\\popupbase-web-resources\\audio\\";
             string mp3File = mp3Path + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3;
             wplayer = new WindowsMediaPlayer();
             wplayer.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wplayer_PlayStateChange);

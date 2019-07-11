@@ -30,7 +30,7 @@ namespace KonterbontLODConnector
         private bool isInMag = false;
         private bool isSaved = false;
 
-        public string Temppath = Path.GetTempPath() + "_KBLODCONN\\";
+        private string Temppath = Path.GetTempPath() + "_KBLODCONN\\";
 
         public string Filename { get; set; }
         [J("filepath", NullValueHandling = N.Ignore)] public string Filepath { get; set; }
@@ -60,6 +60,11 @@ namespace KonterbontLODConnector
             Filepath = _filepath;
             WordList = new List<AutoComplete>();
             FrmMagazineSelectorInit();
+        }
+
+        public string getTemppath()
+        {
+            return Temppath;
         }
 
         public string TargetMag()
