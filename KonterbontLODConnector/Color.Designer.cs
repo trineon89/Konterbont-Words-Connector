@@ -124,6 +124,7 @@
             this.Controls.Add(this.pnlColor);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "frmColor";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Faarf auswielen";
             this.Load += new System.EventHandler(this.FrmColor_Load);
             this.ResumeLayout(false);
