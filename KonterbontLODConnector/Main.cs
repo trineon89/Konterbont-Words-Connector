@@ -241,6 +241,9 @@ namespace KonterbontLODConnector
                                 if (Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']") != null) //Failsafe pluriel
                                 {
                                     Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']").InnerText;
+                                    //trim ouni -n
+                                        int posi = Pluriel.IndexOf("ouni -n");
+                                        if (posi>0) { Pluriel=Pluriel.Remove(posi, Pluriel.Length - posi); }
                                     Pluriel = Pluriel.Replace("&lt;", "<");
                                     Pluriel = Pluriel.Replace("&gt;", ">");
                                 }
@@ -357,6 +360,10 @@ namespace KonterbontLODConnector
                                             { // -> Meaning 2
                                                 Console.WriteLine("Meaning 2");
                                                 meaning.LUs = Meaning.SelectSingleNode(".//span[@class='mentioun_adress']").InnerText;
+                                                //trim ouni -n
+                                                int posi = meaning.LUs.IndexOf("ouni -n");
+                                                if (posi > 0) { meaning.LUs = meaning.LUs.Remove(posi, meaning.LUs.Length - posi); }
+
                                             }
                                             else
                                             { // -> Meaning 4
@@ -694,6 +701,8 @@ namespace KonterbontLODConnector
                 reswuert.Wierder.Add(wuert);
                 _c++;
             }
+
+            //passt net
             
             reswuert.Selection = acwuert.Selection;
             return reswuert;
@@ -1441,6 +1450,7 @@ namespace KonterbontLODConnector
         /// <param name="e"></param>
         private void BtnCreatePopups_Click(object sender, EventArgs e)
         {
+            globaldt.SaveToFile(globaldt);
             //CreatePopups
             if (globaldt.OutputPopups())
             {
