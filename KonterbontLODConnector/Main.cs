@@ -112,22 +112,32 @@ namespace KonterbontLODConnector
             var splitInts = splitString.Select(item => int.Parse(item)).ToArray();
 
             //takes each element of the array of 3 and passes it in to the correct slot
-            Color setcolor = System.Drawing.Color.FromArgb(splitInts[0], splitInts[1], splitInts[2]);
+            Color setcolor = Color.FromArgb(splitInts[0], splitInts[1], splitInts[2]);
             return setcolor;
         }
 
+        /*
         private async Task<AutoComplete> GetFullTranslationsAsync(string searchstring, bool compare = true)
         {
             return await Task.Run(() => GetFullTranslations(searchstring, compare));
         }
-
-        private async Task<AutoComplete> ReturnFullAutoComplete(string seachstring)
+        */
+        private async Task<AutoComplete> ReturnFullAutoComplete(string searchstring)
         {
             AutoComplete ac = new AutoComplete();
             //Yolo & Lolo
-            return ac;
+            Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
+            task.Wait();
+            string fetchedXml = task.Result;
+
+            Task<AutoComplete> act = Task.Run(async () => await ac.GetFullAutoComplete(searchstring, fetchedXml));
+            act.Wait();
+            AutoComplete actemp = new AutoComplete();
+            actemp = act.Result;
+            return actemp;
         }
 
+        /*
         private async Task<AutoComplete> GetFullTranslations(string searchstring, bool compare)
         {
             Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
@@ -145,6 +155,7 @@ namespace KonterbontLODConnector
             var ret = await Task.WhenAll(taskLU, taskDE, taskFR, taskEN, taskPT);
             return ret.First();
         }
+        */
 
         private async Task<string> FetchXMLasync(string Word)
         {
@@ -171,49 +182,7 @@ namespace KonterbontLODConnector
             return responseBody;
         }
 
-        private async Task<string> HttpRequest(string Lang, string XML)
-        {
-            HttpClient httpClient = new HttpClient();
-            string LangURL;
-
-            if (Lang == "LU")
-            {
-                LangURL = "";
-            }
-            else
-            {
-                LangURL = Lang.ToLower();
-            }
-            var httpContent = new HttpRequestMessage
-            {
-                RequestUri = new Uri("https://www.lod.lu/php/getart" + LangURL + ".php?artid=" + XML),
-                Method = HttpMethod.Get,
-                Headers =
-                {
-                    { HttpRequestHeader.Host.ToString(), "www.lod.lu" },
-                    { HttpRequestHeader.Referer.ToString(), "https://www.lod.lu/" }
-                }
-            };
-
-
-            var _responseT = httpClient.SendAsync(httpContent, new HttpCompletionOption());
-            /*
-            var _response = await httpClient.SendAsync(httpContent, new HttpCompletionOption());
-            _response.EnsureSuccessStatusCode();
-            string responseBody = await _response.Content.ReadAsStringAsync();
-            httpClient.Dispose();
-            return  responseBody;
-            */
-            _responseT.Wait();
-            var _response = _responseT.Result;
-            _response.EnsureSuccessStatusCode();
-
-            string responseBody = await _response.Content.ReadAsStringAsync();
-            httpClient.Dispose();
-            return responseBody;
-
-        }
-
+        /*
         private async Task<AutoComplete> FetchFullWordsAsync(AutoComplete acwuert, string Lang, bool showselection = false)
         {
             AutoComplete reswuert = new AutoComplete();
@@ -226,7 +195,7 @@ namespace KonterbontLODConnector
 
             foreach (Wuert wuert in acwuert.Wierder)
             {
-                string responseBody = await HttpRequest(Lang, wuert.XMLFile);
+                //string responseBody = await HttpRequest(Lang, wuert.XMLFile);
 
                 HtmlAgilityPack.HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
                 htmlDocument.LoadHtml(responseBody);
@@ -344,17 +313,17 @@ namespace KonterbontLODConnector
                             if (Lang == "LU")
                             {
 
-                                /*
-                                 * 1 Meaning (kee Pluriel) ::html:: <span class=text_gen> ( <span class=info_plex>kee Pluriel</span>  ) </span>
-                                 * 
-                                 * 2 Meaning (Pluriel PlurielWuert) ::html:: <span class=text_gen> ( <span class=info_plex>Pluriel <span class=mentioun_adress> 
-                                 *      <span class=mentioun_adress> PlurielWuert </span> </span> </span>  ) </span>            
-                                 * 
-                                 * 3 Meaning SpecialWuert ::html:: <span class=polylex> SpecialWuert </span>
-                                 * 
-                                 * 4 Meaning DE Wuert ::html:: <span class=intro_et> ..... </span>
-                                 * 
-                                 */
+                                //
+                                // 1 Meaning (kee Pluriel) ::html:: <span class=text_gen> ( <span class=info_plex>kee Pluriel</span>  ) </span>
+                                // 
+                                //2 Meaning (Pluriel PlurielWuert) ::html:: <span class=text_gen> ( <span class=info_plex>Pluriel <span class=mentioun_adress> 
+                                //      < span class=mentioun_adress> PlurielWuert </span> </span> </span>  ) </span>            
+                                //
+                                //3 Meaning SpecialWuert ::html:: <span class=polylex> SpecialWuert </span>
+                                //
+                                //4 Meaning DE Wuert ::html:: <span class=intro_et> ..... </span>
+                                //
+                                //
 
                                 if (Meaning.SelectSingleNode(".//span[@class='text_gen']") != null)
                                 { // Meaning 1 or 2 or 4
@@ -734,7 +703,7 @@ namespace KonterbontLODConnector
             reswuert.Selection = acwuert.Selection;
             return reswuert;
         }
-
+        */
 
         private void rbClicked(object sender, EventArgs e)
         {
@@ -1205,7 +1174,7 @@ namespace KonterbontLODConnector
                         {
                             // New Word here
                             Console.WriteLine("New Word: " + line);
-                            AutoComplete acword = await Task.Run(async () => await GetFullTranslationsAsync(line, false));
+                            AutoComplete acword = await Task.Run(async () => await ReturnFullAutoComplete(line));
                             if (acword != null)
                             {
                                 dtt.AddWordToList(acword);
@@ -1791,11 +1760,12 @@ namespace KonterbontLODConnector
             try
             {
                 File.Delete(globaldt.Filepath + "WebResources\\popupbase-web-resources\\audio\\" + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3);
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
-           
+
             if (CustomAudioBrowser.ShowDialog() == DialogResult.OK)
             {
                 globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3 = Path.GetFileName(CustomAudioBrowser.FileName);
