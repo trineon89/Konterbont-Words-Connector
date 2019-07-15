@@ -121,6 +121,13 @@ namespace KonterbontLODConnector
             return await Task.Run(() => GetFullTranslations(searchstring, compare));
         }
 
+        private async Task<AutoComplete> ReturnFullAutoComplete(string seachstring)
+        {
+            AutoComplete ac = new AutoComplete();
+            //Yolo & Lolo
+            return ac;
+        }
+
         private async Task<AutoComplete> GetFullTranslations(string searchstring, bool compare)
         {
             Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
