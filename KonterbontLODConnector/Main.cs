@@ -40,7 +40,7 @@ namespace KonterbontLODConnector
         {
             Filter = "MP3 (*.mp3)|*.mp3",
             InitialDirectory = "\\\\cubecluster\\Konterbont_Audio\\",
-            RestoreDirectory = true,
+            //RestoreDirectory = true,
             Title = "Neien Toun fir den Popup auswielen"
         };
 
@@ -1781,7 +1781,14 @@ namespace KonterbontLODConnector
 
         private void btnCustomAudio_Click(object sender, EventArgs e)
         {
-            File.Delete(globaldt.Filepath + "WebResources\\popupbase-web-resources\\audio\\" + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3);
+            try
+            {
+                File.Delete(globaldt.Filepath + "WebResources\\popupbase-web-resources\\audio\\" + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3);
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+           
             if (CustomAudioBrowser.ShowDialog() == DialogResult.OK)
             {
                 globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3 = Path.GetFileName(CustomAudioBrowser.FileName);
