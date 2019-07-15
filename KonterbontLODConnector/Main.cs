@@ -27,6 +27,7 @@ namespace KonterbontLODConnector
         public string CustomAudioPath = "\\\\cubecluster\\Konterbont_Audio\\";
         public Color OArticleColor = Color.Black;
         public Color ArticleColor = Color.Black;
+        public bool TextFormClosed = true;
         WindowsMediaPlayer wplayer = null;
         public VistaFolderBrowserDialog folderBrowser;
         public VistaOpenFileDialog ArticleBrowser = new VistaOpenFileDialog
@@ -47,28 +48,44 @@ namespace KonterbontLODConnector
         private INDesignPlugin iNDesignPlugin;
         public DataHandler globaldt = null;
 
-        private Form TextForm = new Form()
-        {
-            Name = "frmTextForm",
-            Text = "Dokument",
-            Width = 500,
-            Height = 500,
-            Top = 0,
-            Left = 0,
-            MaximizeBox = false,
-            MinimizeBox = false,
-            FormBorderStyle = FormBorderStyle.FixedToolWindow
-        };
+        private Form TextForm;
+        private RichTextBox rtb;
 
-        RichTextBox rtb = new RichTextBox()
+        void generateTextForm()
         {
-            Dock = DockStyle.Fill,
-            Name = "rtbDocument",
-            ReadOnly = true,
-            BackColor = SystemColors.Window,
-            Font = new Font("Arial", 12)
+            TextForm = new Form()
+            {
+                Name = "frmTextForm",
+                Text = "Dokument",
+                Width = 500,
+                Height = 500,
+                Top = 0,
+                Left = 0,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                FormBorderStyle = FormBorderStyle.FixedToolWindow
+            };
+            generateRichTextBox();
+        }
 
-        };
+        void TextForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Do something
+            TextFormClosed = true;
+        }
+
+        void generateRichTextBox()
+        {
+            rtb = new RichTextBox()
+            {
+                Dock = DockStyle.Fill,
+                Name = "rtbDocument",
+                ReadOnly = true,
+                BackColor = SystemColors.Window,
+                Font = new Font("Arial", 12)
+
+            };
+        }
 
         /// <summary>
         /// Init frmMain (Main Form)
@@ -81,20 +98,21 @@ namespace KonterbontLODConnector
                 SelectedPath = ArticlePath
             };
             iNDesignPlugin = new INDesignPlugin();
-            TextForm.Owner = this;
+            //
+            ResetInstance();
         }
 
         // https://stackoverflow.com/questions/20433937/casting-a-rgb-string-to-a-color-type
         public Color convertToColorArray(string getcolor)
         {
-                //This gives us an array of 3 strings each representing a number in text form.
-                var splitString = getcolor.Split(',');
+            //This gives us an array of 3 strings each representing a number in text form.
+            var splitString = getcolor.Split(',');
 
-                //converts the array of 3 strings in to an array of 3 ints.
-                var splitInts = splitString.Select(item => int.Parse(item)).ToArray();
+            //converts the array of 3 strings in to an array of 3 ints.
+            var splitInts = splitString.Select(item => int.Parse(item)).ToArray();
 
-                //takes each element of the array of 3 and passes it in to the correct slot
-                Color setcolor = System.Drawing.Color.FromArgb(splitInts[0], splitInts[1], splitInts[2]);
+            //takes each element of the array of 3 and passes it in to the correct slot
+            Color setcolor = System.Drawing.Color.FromArgb(splitInts[0], splitInts[1], splitInts[2]);
             return setcolor;
         }
 
@@ -102,7 +120,7 @@ namespace KonterbontLODConnector
         {
             return await Task.Run(() => GetFullTranslations(searchstring, compare));
         }
-        
+
         private async Task<AutoComplete> GetFullTranslations(string searchstring, bool compare)
         {
             Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
@@ -145,7 +163,7 @@ namespace KonterbontLODConnector
             httpClient.Dispose();
             return responseBody;
         }
-        
+
         private async Task<string> HttpRequest(string Lang, string XML)
         {
             HttpClient httpClient = new HttpClient();
@@ -188,7 +206,7 @@ namespace KonterbontLODConnector
             return responseBody;
 
         }
-        
+
         private async Task<AutoComplete> FetchFullWordsAsync(AutoComplete acwuert, string Lang, bool showselection = false)
         {
             AutoComplete reswuert = new AutoComplete();
@@ -242,8 +260,8 @@ namespace KonterbontLODConnector
                                 {
                                     Pluriel = Meaning.SelectSingleNode("//div[@class='artikel']/span[@class='text_gen']/span[@class='mentioun_adress']").InnerText;
                                     //trim ouni -n
-                                        int posi = Pluriel.IndexOf("ouni -n");
-                                        if (posi>0) { Pluriel=Pluriel.Remove(posi, Pluriel.Length - posi); }
+                                    int posi = Pluriel.IndexOf("ouni -n");
+                                    if (posi > 0) { Pluriel = Pluriel.Remove(posi, Pluriel.Length - posi); }
                                     Pluriel = Pluriel.Replace("&lt;", "<");
                                     Pluriel = Pluriel.Replace("&gt;", ">");
                                 }
@@ -394,7 +412,7 @@ namespace KonterbontLODConnector
                                 }
                             }
                         }
-                        
+
                         // Source: https://stackoverflow.com/questions/541954/how-would-you-count-occurrences-of-a-string-actually-a-char-within-a-string
                         // check expression
                         if (meaning.LU != null)
@@ -603,7 +621,7 @@ namespace KonterbontLODConnector
                         _Total = _i;
                     }
                 }
-                
+
 
                 RadioButton rbtn = new RadioButton
                 {
@@ -642,6 +660,7 @@ namespace KonterbontLODConnector
                         if (ENid.ShowDialog() == DialogResult.OK)
                         {
                             wuert.Meanings[wuert.Selection - 1].EN = ENid.Input;
+                            wuert.Meanings[wuert.Selection - 1].hasCustomEN = true;
                         }
                         ENid.Dispose();
                     }
@@ -655,6 +674,7 @@ namespace KonterbontLODConnector
                         if (PTid.ShowDialog() == DialogResult.OK)
                         {
                             wuert.Meanings[wuert.Selection - 1].PT = PTid.Input;
+                            wuert.Meanings[wuert.Selection - 1].hasCustomPT = true;
                         }
                         PTid.Dispose();
                     }
@@ -703,19 +723,19 @@ namespace KonterbontLODConnector
             }
 
             //passt net
-            
+
             reswuert.Selection = acwuert.Selection;
             return reswuert;
         }
 
-        
+
         private void rbClicked(object sender, EventArgs e)
         {
             RadioButton rb = (RadioButton)sender;
             frmSelectMeaning frmSelectMeaning = (frmSelectMeaning)rb.TopLevelControl;
             frmSelectMeaning.gbMeanings_Click(sender, e);
         }
-        
+
         private async Task<string> FetchWordsTT(string XML, string Lang)
         {
             var httpClient = new HttpClient();
@@ -841,7 +861,7 @@ namespace KonterbontLODConnector
             return true;
         }
 
-        
+
         private AutoComplete ParseXMLWords(string XML, bool onlycompare = false, string occurence = null)
         {
             AutoComplete ac = new AutoComplete();
@@ -934,33 +954,33 @@ namespace KonterbontLODConnector
             return ac;
         }
 
-    /// <summary>
-    /// Calls the Async Function GetSelectionTooltip
-    /// </summary>
-    /// <param name="XMLTT"></param>
-    /// <returns></returns>
-    private async Task<string> GetSelectionTooltipAsync(string XMLTT)
-    {
-        return await Task.Run(() => GetSelectionTooltip(XMLTT));
-    }
-   
-    /// <summary>
-    /// Calls the functions for the Tooltip(s) of the Selection Form
-    /// </summary>
-    /// <param name="XMLTT">Den LOD XML-Fichiersnumm</param>
-    /// <returns></returns>
-    private async Task<string> GetSelectionTooltip(string XMLTT)
-    {
-        string tooltip = null;
+        /// <summary>
+        /// Calls the Async Function GetSelectionTooltip
+        /// </summary>
+        /// <param name="XMLTT"></param>
+        /// <returns></returns>
+        private async Task<string> GetSelectionTooltipAsync(string XMLTT)
+        {
+            return await Task.Run(() => GetSelectionTooltip(XMLTT));
+        }
 
-        string tooltipLU = await Task.Run(() => FetchWordsTT(XMLTT, "LU"));
-        string tooltipDE = await Task.Run(() => FetchWordsTT(XMLTT, "DE"));
-        string tooltipFR = await Task.Run(() => FetchWordsTT(XMLTT, "FR"));
+        /// <summary>
+        /// Calls the functions for the Tooltip(s) of the Selection Form
+        /// </summary>
+        /// <param name="XMLTT">Den LOD XML-Fichiersnumm</param>
+        /// <returns></returns>
+        private async Task<string> GetSelectionTooltip(string XMLTT)
+        {
+            string tooltip = null;
 
-        tooltip = tooltipLU + tooltipDE + tooltipFR;
+            string tooltipLU = await Task.Run(() => FetchWordsTT(XMLTT, "LU"));
+            string tooltipDE = await Task.Run(() => FetchWordsTT(XMLTT, "DE"));
+            string tooltipFR = await Task.Run(() => FetchWordsTT(XMLTT, "FR"));
 
-        return tooltip;
-    }
+            tooltip = tooltipLU + tooltipDE + tooltipFR;
+
+            return tooltip;
+        }
 
         /*
         private async Task<Boolean> CheckIfWordHasChangedAsync(string searchstring, List<AutoComplete> ac)
@@ -1080,8 +1100,9 @@ namespace KonterbontLODConnector
         /// <param name="e"></param>
         private void ArtikelOpmaachenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (TextForm.Visible) { TextForm.Hide(); }
-            if (folderBrowser.ShowDialog() == DialogResult.OK) { ArticleWorker();  }
+            //if (TextForm.Visible) { TextForm.Hide(); }
+            ResetInstance();
+            if (folderBrowser.ShowDialog() == DialogResult.OK) { ArticleWorker(); }
         }
 
         /// <summary>
@@ -1168,11 +1189,12 @@ namespace KonterbontLODConnector
                     else if (line != "")
                     {
                         //Find Occurence line in dt.Wordlist
-                       var tmp = dt.WordList.FirstOrDefault(occ => occ.Occurence == line);
-                       if (tmp != null)
+                        var tmp = dt.WordList.FirstOrDefault(occ => occ.Occurence == line);
+                        if (tmp != null)
                         {
                             dtt.WordList.Add(tmp);
-                        } else
+                        }
+                        else
                         {
                             // New Word here
                             Console.WriteLine("New Word: " + line);
@@ -1185,7 +1207,7 @@ namespace KonterbontLODConnector
                         }
                     }
                     c++;
-                }  
+                }
 
                 lbWords.Items.Clear();
                 foreach (AutoComplete ac in dtt.WordList) // Adds Words to lbWords on Main Form
@@ -1199,8 +1221,8 @@ namespace KonterbontLODConnector
                 { lbWords.SelectedIndex = 0; }
                 tsmiSave.Enabled = true;
                 btnCreatePopups.Enabled = true;
-                btnCustomAudio.Enabled = true;
-                btnPlayAudio.Enabled = true;
+                tsbCustomAudio.Enabled = true;
+                tsbPlayAudio.Enabled = true;
                 tsmiText.Enabled = true;
                 tsmiColor.Enabled = true;
             }
@@ -1270,13 +1292,13 @@ namespace KonterbontLODConnector
             // disables audio buttons on variant
             if (globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].IsVariant)
             {
-                btnCustomAudio.Enabled = false;
-                btnPlayAudio.Enabled = false;
+                tsbCustomAudio.Enabled = false;
+                tsbPlayAudio.Enabled = false;
             }
             else
             {
-                btnCustomAudio.Enabled = true;
-                btnPlayAudio.Enabled = true;
+                tsbCustomAudio.Enabled = true;
+                tsbPlayAudio.Enabled = true;
             }
 
         }
@@ -1297,6 +1319,7 @@ namespace KonterbontLODConnector
             Font Bold = new Font(rtbDetails.SelectionFont, FontStyle.Bold);
             Font Normal = new Font(rtbDetails.SelectionFont, FontStyle.Regular);
             Font Italic = new Font(rtbDetails.SelectionFont, FontStyle.Italic);
+            Font BoldItalic = new Font(rtbDetails.SelectionFont, FontStyle.Bold | FontStyle.Italic);
 
             rtbDetails.SelectionFont = Bold;
             rtbDetails.AppendText("LU: ");
@@ -1374,17 +1397,42 @@ namespace KonterbontLODConnector
 
             rtbDetails.SelectionFont = Bold;
             rtbDetails.AppendText(Environment.NewLine + "EN: ");
-            rtbDetails.SelectionFont = Normal;
+            if (SelMeaning.hasCustomEN)
+            {
+                rtbDetails.SelectionFont = BoldItalic;
+                tsbCustomEN.Enabled = true;
+            }
+            else
+            {
+                rtbDetails.SelectionFont = Normal;
+                tsbCustomEN.Enabled = false;
+            }
             rtbDetails.AppendText(SelMeaning.EN);
 
             rtbDetails.SelectionFont = Bold;
             rtbDetails.AppendText(Environment.NewLine + "PT: ");
-            rtbDetails.SelectionFont = Normal;
+            if (SelMeaning.hasCustomPT)
+            {
+                rtbDetails.SelectionFont = BoldItalic;
+                tsbCustomPT.Enabled = true;
+            }
+            else
+            {
+                rtbDetails.SelectionFont = Normal;
+                tsbCustomPT.Enabled = false;
+            }
             rtbDetails.AppendText(SelMeaning.PT);
 
             rtbDetails.SelectionFont = Bold;
             rtbDetails.AppendText(Environment.NewLine + "MP3: ");
-            rtbDetails.SelectionFont = Normal;
+            if (SelMeaning.hasCustomAudio)
+            {
+                rtbDetails.SelectionFont = BoldItalic;
+            }
+            else
+            {
+                rtbDetails.SelectionFont = Normal;
+            }
             rtbDetails.AppendText(SelMeaning.MP3);
 
 
@@ -1498,7 +1546,7 @@ namespace KonterbontLODConnector
                 lbSelectMeaning.Items[lbSelectMeaning.SelectedIndex] = lbSelectMeaning.Items[lbSelectMeaning.SelectedIndex] + " ✓";
                 globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection = lbSelectMeaning.SelectedIndex + 1;
                 // if EN & PT are empty (no meaning on LOD (coming soon))
-                if (globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].EN == "")
+                if (globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].EN == "" || globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].hasCustomEN)
                 {
                     InputDialog ENid = new InputDialog()
                     {
@@ -1509,12 +1557,15 @@ namespace KonterbontLODConnector
                     if (ENid.ShowDialog(this) == DialogResult.OK)
                     {
                         globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].EN = ENid.Input;
+                        globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].hasCustomEN = true;
                     }
                     ENid.Dispose();
+
+
                     LbSelectMeaning_SelectedIndexChanged(sender, e);
                 }
 
-                if (globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].PT == "")
+                if (globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].PT == "" || globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].hasCustomPT)
                 {
                     InputDialog PTid = new InputDialog()
                     {
@@ -1525,8 +1576,10 @@ namespace KonterbontLODConnector
                     if (PTid.ShowDialog(this) == DialogResult.OK)
                     {
                         globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].PT = PTid.Input;
+                        globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].hasCustomPT = true;
                     }
                     PTid.Dispose();
+
                     LbSelectMeaning_SelectedIndexChanged(sender, e);
                 }
 
@@ -1658,15 +1711,20 @@ namespace KonterbontLODConnector
         {
             btnCreatePopups.Enabled = false;
             btnCopyToMag.Enabled = false;
-            btnCustomAudio.Enabled = false;
-            btnPlayAudio.Enabled = false;
+            tsbCustomAudio.Enabled = false;
+            tsbPlayAudio.Enabled = false;
             tsmiSave.Enabled = false;
             tsmiText.Enabled = false;
             lbSelectMeaning.Items.Clear();
             lbSelectWord.Items.Clear();
             lbWords.Items.Clear();
             rtbDetails.Clear();
-            TextForm.Close();
+            generateTextForm();
+            TextForm.Owner = this;
+            if (TextForm.Visible)
+            {
+                TextForm.Hide();
+            }
             globaldt = null;
         }
 
@@ -1690,7 +1748,7 @@ namespace KonterbontLODConnector
             wplayer = new WindowsMediaPlayer();
             wplayer.PlayStateChange += new WMPLib._WMPOCXEvents_PlayStateChangeEventHandler(wplayer_PlayStateChange);
             wplayer.URL = mp3File;
-            btnPlayAudio.Enabled = false;
+            tsbPlayAudio.Enabled = false;
             wplayer.controls.play();
 
 
@@ -1706,7 +1764,7 @@ namespace KonterbontLODConnector
             if (NewState == (int)WMPLib.WMPPlayState.wmppsMediaEnded)
             {
                 wplayer.close();
-                btnPlayAudio.Enabled = true;
+                tsbPlayAudio.Enabled = true;
                 wplayer = null;
 
                 try
@@ -1738,7 +1796,7 @@ namespace KonterbontLODConnector
         {
             if (tsmiText.Checked)
             {
-                TextForm.Close();
+                TextForm.Hide();
                 tsmiText.Checked = false;
             }
             else
@@ -1832,6 +1890,49 @@ namespace KonterbontLODConnector
             {
 
             }
+        }
+
+        private void ToolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void TsbCustomPT_Click(object sender, EventArgs e)
+        {
+            InputDialog PTid = new InputDialog()
+            {
+                MainInstruction = "Eng Bedeitung antippen:",
+                Content = "DE: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].DE + "; FR: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].FR,
+                WindowTitle = "Portugisesch Iwwersetzung",
+                Input = globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].PT
+            };
+            if (PTid.ShowDialog(this) == DialogResult.OK)
+            {
+                globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].PT = PTid.Input;
+                globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].hasCustomPT = true;
+            }
+            PTid.Dispose();
+            LbSelectMeaning_SelectedIndexChanged(sender, e);
+        }
+
+        private void TlbCustomEN_Click(object sender, EventArgs e)
+        {
+            InputDialog ENid = new InputDialog()
+            {
+                MainInstruction = "Eng Bedeitung antippen:",
+                Content = "DE: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].DE + "; FR: " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].FR,
+                WindowTitle = "Englesch Iwwersetzung",
+                Input = globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].EN
+
+            };
+            if (ENid.ShowDialog(this) == DialogResult.OK)
+            {
+                globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].EN = ENid.Input;
+                globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].hasCustomEN = true;
+            }
+            ENid.Dispose();
+
+            LbSelectMeaning_SelectedIndexChanged(sender, e);
         }
     }
 }
