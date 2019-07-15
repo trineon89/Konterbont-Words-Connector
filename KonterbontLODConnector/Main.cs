@@ -1069,6 +1069,74 @@ namespace KonterbontLODConnector
             return dt;
         }
 
+        private AutoComplete ShowSelections(AutoComplete ac)
+        {
+            if (ac.Wierder.Count() > 1)
+            {
+                frmSelectMeaning frm = new frmSelectMeaning();
+                int _i = 0;
+                foreach (Wuert wuert in ac.Wierder)
+                {
+                    RadioButton rb = new RadioButton
+                    {
+                        Name = _i.ToString(),
+                        Text = wuert.WuertLu + " (" + wuert.WuertForm + ")",
+                        Location = new Point(10, _i * 30),
+                        Width = 500
+                    };
+
+                    if (_i == 1)
+                    {
+                        rb.Checked = true;
+                    }
+
+                    Task<string> task = Task.Run(async () => await GetSelectionTooltipAsync(wuert.XMLFile));
+                    task.Wait();
+                    string tooltip = task.Result;
+                    if (tooltip.Contains("Variant"))
+                    {
+                        rb.Enabled = false;
+                        var result = tooltip.Substring(tooltip.LastIndexOf(' ') + 1);
+                        rb.Text = rb.Text + " (Variant vun " + result + ")";
+                        wuert.IsVariant = true;
+                    }
+
+                    ac.Wierder.Add(wuert);
+                    frm.gbMeanings.Dock = DockStyle.Fill;
+                    frm.tcLang.Visible = false;
+                    frm.gbMeanings.Controls.Add(rb);
+                    frm.gbMeanings.Text = "Wuert auswielen:";
+                    frm.Text = "Wuert auswielen";
+                    frm.tpInfo.SetToolTip(rb, tooltip);
+                    _i++;
+
+                    ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.HighlightSelText(TextForm.Controls.OfType<RichTextBox>().First(), ac.Occurence));
+                    if (frm.ShowDialog() == DialogResult.OK)
+                    {
+                        ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.UnSelText(TextForm.Controls.OfType<RichTextBox>().First()));
+                        RadioButton radioButton = frm.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+                        ac.Selection = Int32.Parse(radioButton.Name);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                    if (wuert.Meanings.Count() > 1)
+                    {
+                        frmSelectMeaning frmSelectMeaning = new frmSelectMeaning();
+                    }
+                }
+            }
+            else
+            {
+                ac.Selection = 1;
+                // meanings
+            }
+            return ac;
+        }
+
+
         /// <summary>
         /// Menu -> Artikel Opmaachen click
         /// </summary>
@@ -1177,6 +1245,8 @@ namespace KonterbontLODConnector
                             AutoComplete acword = await Task.Run(async () => await ReturnFullAutoComplete(line));
                             if (acword != null)
                             {
+                                //
+
                                 dtt.AddWordToList(acword);
                                 acword.internalId = c;
                             }
