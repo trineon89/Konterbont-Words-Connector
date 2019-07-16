@@ -1217,7 +1217,7 @@ namespace KonterbontLODConnector
                 ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.UnSelText(TextForm.Controls.OfType<RichTextBox>().First()));
                 string Selection = selectedMeaning.Name;
                 wuert.Selection = Int32.Parse(Selection);
-                Log.WriteToLog("Meaning \"" + wuert.Meanings[wuert.Selection].DE + "\"(" + Selection + ") for \"" + wuert.WuertLu + "\" selected");
+                Log.WriteToLog("Meaning \"" + wuert.Meanings[wuert.Selection-1].DE + "\"(" + Selection + ") for \"" + wuert.WuertLu + "\" selected");
             }
             else
             {
@@ -1827,12 +1827,15 @@ namespace KonterbontLODConnector
                     lbSelectMeaning.Items[Item] = Regex.Replace(lbSelectMeaning.Items[Item].ToString(), @"( ✓)", "");
                 }
                 lbSelectMeaning.Items[0] = lbSelectMeaning.Items[0] + " ✓";
+
+                Log.WriteToLog("Changed Word \"" + globaldt.WordList[lbWords.SelectedIndex].Occurence + "\" (" + globaldt.WordList[lbWords.SelectedIndex].Selection + ") to ", false);
+                
                 globaldt.WordList[lbWords.SelectedIndex].Selection = lbSelectWord.SelectedIndex + 1;
                 globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection = 1;
                 lbSelectMeaning.SelectedIndex = 0;
                 // save
                 globaldt.SaveToFile(globaldt);
-                Log.WriteToLog("Changed Word to \"" + lbSelectWord.Items[lbSelectWord.SelectedIndex] + "\" for \"" + lbWords.Items[lbWords.SelectedIndex]+ "\"");
+                Log.WriteToLog(" \"" + lbSelectWord.Items[lbSelectWord.SelectedIndex] + "\" for \"" + lbWords.Items[lbWords.SelectedIndex]+ "\"",true,true);
             }
         }
 
@@ -1847,6 +1850,9 @@ namespace KonterbontLODConnector
             if (!lbSelectMeaning.Items[lbSelectMeaning.SelectedIndex].ToString().Contains("✓"))
             {
                 lbSelectMeaning.Items[lbSelectMeaning.SelectedIndex] = lbSelectMeaning.Items[lbSelectMeaning.SelectedIndex] + " ✓";
+
+                // globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection
+                Log.WriteToLog("Changed Meaning \"" + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].WuertLu + "\" (" + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection + ") to ",false);
                 globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection = lbSelectMeaning.SelectedIndex + 1;
                 // if EN & PT are empty (no meaning on LOD (coming soon))
                 if (globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].EN == "" || globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].hasCustomEN)
@@ -1868,7 +1874,10 @@ namespace KonterbontLODConnector
                     LbSelectMeaning_SelectedIndexChanged(sender, e);
                 }
 
-                if (globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].PT == "" || globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].hasCustomPT)
+                if (globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex]
+                    .Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex]
+                    .Selection - 1].PT == "" || globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex]
+                    .Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].hasCustomPT)
                 {
                     InputDialog PTid = new InputDialog()
                     {
@@ -1888,7 +1897,7 @@ namespace KonterbontLODConnector
 
                 // save
                 globaldt.SaveToFile(globaldt);
-                Log.WriteToLog("Changed Meaning to \"" + lbSelectMeaning.Items[lbSelectMeaning.SelectedIndex] + "\" for \"" + lbSelectWord.Items[lbSelectWord.SelectedIndex] + "\" in \"" + lbWords.Items[lbWords.SelectedIndex]+ "\"");
+                Log.WriteToLog(" \"" + lbSelectMeaning.Items[lbSelectMeaning.SelectedIndex] + "\" for \"" + lbSelectWord.Items[lbSelectWord.SelectedIndex] + "\" in \"" + lbWords.Items[lbWords.SelectedIndex]+ "\"",true,true);
             }
         }
 

@@ -32,11 +32,23 @@ namespace KonterbontLODConnector
             Log.Close();
         }
 
-        public void WriteToLog(string CustomText)
+        public void WriteToLog(string CustomText, bool newLine = true, bool append = false)
         {
-            if (!CustomText.Contains("_ART_"))
+            if (newLine == false)
             {
                 Log.WriteLine("[" + DateTime.Now.ToString() + "] " + CustomText);
+
+            }
+            else
+            {
+                if (append)
+                {
+                    Log.WriteLine(CustomText);
+                }
+                else
+                {
+                    Log.WriteLine("[" + DateTime.Now.ToString() + "] " + CustomText);
+                }
             }
         }
     }
