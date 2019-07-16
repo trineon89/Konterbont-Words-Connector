@@ -175,8 +175,6 @@
     <None Include="docfx.json" />
     <None Include="index.md" />
     <None Include="KonterbontLODConnector.snk" />
-    <None Include="KonterbontLODConnector_1_TemporaryKey.pfx" />
-    <None Include="KonterbontLODConnector_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
