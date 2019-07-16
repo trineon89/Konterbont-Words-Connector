@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -29,7 +30,7 @@ namespace KonterbontLODConnector
 
         }
 
-        public async Task<AutoComplete> GetFullAutoComplete(string searchstring, string fetchedXml)
+        public async Task<AutoComplete> GetFullAutoComplete(string searchstring, string fetchedXml, LogClass Log)
         {
             this.Occurence = searchstring;
 

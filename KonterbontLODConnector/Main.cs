@@ -48,6 +48,8 @@ namespace KonterbontLODConnector
         private INDesignPlugin iNDesignPlugin;
         public DataHandler globaldt = null;
 
+        public LogClass Log = new LogClass();
+
         private Form TextForm;
         private RichTextBox rtb;
 
@@ -129,8 +131,9 @@ namespace KonterbontLODConnector
             Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
             task.Wait();
             string fetchedXml = task.Result;
+            Log.WriteToLog("XML fetched");
 
-            Task<AutoComplete> act = Task.Run(async () => await ac.GetFullAutoComplete(searchstring, fetchedXml));
+            Task<AutoComplete> act = Task.Run(async () => await ac.GetFullAutoComplete(searchstring, fetchedXml, Log));
             act.Wait();
             AutoComplete actemp = new AutoComplete();
             actemp = act.Result;
@@ -1214,7 +1217,7 @@ namespace KonterbontLODConnector
                 ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.UnSelText(TextForm.Controls.OfType<RichTextBox>().First()));
                 string Selection = selectedMeaning.Name;
                 wuert.Selection = Int32.Parse(Selection);
-                //TheResults.Wierder[TheResults.Selection].Selection = Int32.Parse(Selection);
+                Log.WriteToLog("Meaning \"" + wuert.Meanings[wuert.Selection].DE + "\"(" + Selection + ") for \"" + wuert.WuertLu + "\" selected");
             }
             else
             {
@@ -1242,6 +1245,7 @@ namespace KonterbontLODConnector
                 {
                     wuert.Meanings[wuert.Selection - 1].EN = ENid.Input;
                     wuert.Meanings[wuert.Selection - 1].hasCustomEN = true;
+                    Log.WriteToLog("EN  " + ENid.Input + " for " + wuert.Meanings[wuert.Selection - 1].LU + ") entered");
                 }
                 ENid.Dispose();
             }
@@ -1256,6 +1260,7 @@ namespace KonterbontLODConnector
                 {
                     wuert.Meanings[wuert.Selection - 1].PT = PTid.Input;
                     wuert.Meanings[wuert.Selection - 1].hasCustomPT = true;
+                    Log.WriteToLog("PT  " + PTid.Input + " for " + wuert.Meanings[wuert.Selection - 1].LU + ") entered");
                 }
                 PTid.Dispose();
             }
@@ -1330,7 +1335,7 @@ namespace KonterbontLODConnector
                         SelWuert = MissingENPT(SelWuert);
                     }
                     ac.Wierder[ac.Selection - 1] = SelWuert;
-
+                    Log.WriteToLog("Word \"" + SelWuert.WuertLu + "\"(" + ac.Selection +") selected");
                 }
                 else
                 {
@@ -1368,7 +1373,11 @@ namespace KonterbontLODConnector
         {
             //if (TextForm.Visible) { TextForm.Hide(); }
             ResetInstance();
-            if (folderBrowser.ShowDialog() == DialogResult.OK) { ArticleWorker(); }
+
+            if (folderBrowser.ShowDialog() == DialogResult.OK)
+            {
+                ArticleWorker();
+            }
         }
 
         /// <summary>
@@ -1377,6 +1386,8 @@ namespace KonterbontLODConnector
         /// <param name="DirectLoadPath"></param>
         private async void ArticleWorker(String DirectLoadPath = null)
         {
+            string lastFolderName = Path.GetFileName(Path.GetDirectoryName(folderBrowser.SelectedPath));
+            Log.CreateLog(folderBrowser.SelectedPath, lastFolderName);
             if (DirectLoadPath != null)
             { folderBrowser.SelectedPath = DirectLoadPath; }
 
@@ -1514,10 +1525,11 @@ namespace KonterbontLODConnector
                 tsmiText.Enabled = true;
                 tsmiColor.Enabled = true;
             }
-
+            globaldt.SaveToFile(globaldt);
             SetIsSaved(true);
 
-            string lastFolderName = Path.GetFileName(Path.GetDirectoryName(folderBrowser.SelectedPath));
+            
+            Log.WriteToLog("Article " + lastFolderName + " opened");
             tssArticle.Text = lastFolderName;
             tssMagazine.Text = globaldt.TargetMag();
         }
@@ -1775,6 +1787,7 @@ namespace KonterbontLODConnector
             //Save
             globaldt.SaveToFile(globaldt);
             SetIsSaved(true);
+            Log.WriteToLog("Saved");
             //tsmiSave.Enabled = false;
         }
 
@@ -1795,6 +1808,7 @@ namespace KonterbontLODConnector
             }
             globaldt.HasPopups(true);
             btnCopyToMag.Enabled = true;
+            Log.WriteToLog("Popups created");
         }
 
         private void lbSelectWord_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -1818,6 +1832,7 @@ namespace KonterbontLODConnector
                 lbSelectMeaning.SelectedIndex = 0;
                 // save
                 globaldt.SaveToFile(globaldt);
+                Log.WriteToLog("Changed Word to \"" + lbSelectWord.Items[lbSelectWord.SelectedIndex] + "\" for \"" + lbWords.Items[lbWords.SelectedIndex]+ "\"");
             }
         }
 
@@ -1873,6 +1888,7 @@ namespace KonterbontLODConnector
 
                 // save
                 globaldt.SaveToFile(globaldt);
+                Log.WriteToLog("Changed Meaning to \"" + lbSelectMeaning.Items[lbSelectMeaning.SelectedIndex] + "\" for \"" + lbSelectWord.Items[lbSelectWord.SelectedIndex] + "\" in \"" + lbWords.Items[lbWords.SelectedIndex]+ "\"");
             }
         }
 
@@ -1997,12 +2013,22 @@ namespace KonterbontLODConnector
 
         private void ResetInstance()
         {
+            if (tssArticle.Text != "_ART_")
+            {
+                Log.WriteToLog(tssArticle.Text + " closed");
+                Log.CloseLog();
+            }
             btnCreatePopups.Enabled = false;
             btnCopyToMag.Enabled = false;
             tsbCustomAudio.Enabled = false;
             tsbPlayAudio.Enabled = false;
+            tsbCustomEN.Enabled = false;
+            tsbCustomPT.Enabled = false;
             tsmiSave.Enabled = false;
             tsmiText.Enabled = false;
+            tssArticle.Text = "_ART_";
+            tssMagazine.Text = "_MAG_";
+            tssCustomColor.BackColor = SystemColors.Control;
             lbSelectMeaning.Items.Clear();
             lbSelectWord.Items.Clear();
             lbWords.Items.Clear();
@@ -2085,6 +2111,7 @@ namespace KonterbontLODConnector
                 globaldt.GetMp3(globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3, globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].hasCustomAudio);
 
                 LbSelectMeaning_SelectedIndexChanged(sender, e);
+                Log.WriteToLog("Audio for " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].LU + " changed");
             }
         }
 
@@ -2181,6 +2208,7 @@ namespace KonterbontLODConnector
                 tssCustomColor.BackColor = ArticleColor;
                 globaldt.CustomColor = true;
                 globaldt.Globrgb = ArticleColor.R + "," + ArticleColor.G + "," + ArticleColor.B;
+                Log.WriteToLog("Color changed to " + globaldt.Globrgb);
             }
             else
             {
@@ -2209,6 +2237,7 @@ namespace KonterbontLODConnector
             }
             PTid.Dispose();
             LbSelectMeaning_SelectedIndexChanged(sender, e);
+            Log.WriteToLog("PT for " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].LU + " changed");
         }
 
         private void TlbCustomEN_Click(object sender, EventArgs e)
@@ -2227,8 +2256,14 @@ namespace KonterbontLODConnector
                 globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Selection - 1].hasCustomEN = true;
             }
             ENid.Dispose();
-
             LbSelectMeaning_SelectedIndexChanged(sender, e);
+            Log.WriteToLog("EN for " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].LU + " changed");
+
+        }
+
+        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Log.CloseLog();
         }
     }
 }

@@ -62,11 +62,11 @@ namespace KonterbontLODConnector
             this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
             this.btnFetch = new System.Windows.Forms.Button();
             this.tsMain = new System.Windows.Forms.ToolStrip();
-            this.tsbPlayAudio = new System.Windows.Forms.ToolStripButton();
             this.tsbCustomAudio = new System.Windows.Forms.ToolStripButton();
-            this.tsbCustomEN = new System.Windows.Forms.ToolStripButton();
-            this.tsbCustomPT = new System.Windows.Forms.ToolStripButton();
+            this.tsbPlayAudio = new System.Windows.Forms.ToolStripButton();
             this.tss1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbCustomPT = new System.Windows.Forms.ToolStripButton();
+            this.tsbCustomEN = new System.Windows.Forms.ToolStripButton();
             this.mmMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.pnlDetails.SuspendLayout();
@@ -226,7 +226,7 @@ namespace KonterbontLODConnector
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.76829F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.18411F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.29148F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
             this.tlpMain.Controls.Add(this.btnCopyToMag, 2, 0);
             this.tlpMain.Controls.Add(this.btnCreatePopups, 1, 0);
             this.tlpMain.Controls.Add(this.lbWords, 0, 1);
@@ -254,7 +254,7 @@ namespace KonterbontLODConnector
             this.btnCopyToMag.Enabled = false;
             this.btnCopyToMag.Location = new System.Drawing.Point(254, 3);
             this.btnCopyToMag.Name = "btnCopyToMag";
-            this.btnCopyToMag.Size = new System.Drawing.Size(130, 24);
+            this.btnCopyToMag.Size = new System.Drawing.Size(129, 24);
             this.btnCopyToMag.TabIndex = 15;
             this.btnCopyToMag.Text = "An de Magasinn";
             this.btnCopyToMag.UseVisualStyleBackColor = true;
@@ -294,7 +294,7 @@ namespace KonterbontLODConnector
             this.lbSelectWord.Location = new System.Drawing.Point(256, 35);
             this.lbSelectWord.Margin = new System.Windows.Forms.Padding(5);
             this.lbSelectWord.Name = "lbSelectWord";
-            this.lbSelectWord.Size = new System.Drawing.Size(229, 210);
+            this.lbSelectWord.Size = new System.Drawing.Size(227, 210);
             this.lbSelectWord.TabIndex = 9;
             this.lbSelectWord.SelectedIndexChanged += new System.EventHandler(this.LbSelectWord_SelectedIndexChanged);
             this.lbSelectWord.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectWord_MouseDoubleClick);
@@ -304,10 +304,10 @@ namespace KonterbontLODConnector
             this.tlpMain.SetColumnSpan(this.lbSelectMeaning, 2);
             this.lbSelectMeaning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSelectMeaning.FormattingEnabled = true;
-            this.lbSelectMeaning.Location = new System.Drawing.Point(495, 35);
+            this.lbSelectMeaning.Location = new System.Drawing.Point(493, 35);
             this.lbSelectMeaning.Margin = new System.Windows.Forms.Padding(5);
             this.lbSelectMeaning.Name = "lbSelectMeaning";
-            this.lbSelectMeaning.Size = new System.Drawing.Size(272, 210);
+            this.lbSelectMeaning.Size = new System.Drawing.Size(274, 210);
             this.lbSelectMeaning.TabIndex = 10;
             this.lbSelectMeaning.SelectedIndexChanged += new System.EventHandler(this.LbSelectMeaning_SelectedIndexChanged);
             this.lbSelectMeaning.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectMeaning_MouseDoubleClick);
@@ -391,7 +391,7 @@ namespace KonterbontLODConnector
             // axWindowsMediaPlayer1
             // 
             this.axWindowsMediaPlayer1.Enabled = true;
-            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(390, 3);
+            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(389, 3);
             this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
             this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
             this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(83, 23);
@@ -424,19 +424,6 @@ namespace KonterbontLODConnector
             this.tsMain.Size = new System.Drawing.Size(772, 25);
             this.tsMain.TabIndex = 16;
             this.tsMain.Text = "toolStrip1";
-            this.tsMain.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.ToolStrip1_ItemClicked);
-            // 
-            // tsbPlayAudio
-            // 
-            this.tsbPlayAudio.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbPlayAudio.Enabled = false;
-            this.tsbPlayAudio.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.tsbPlayAudio.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbPlayAudio.Name = "tsbPlayAudio";
-            this.tsbPlayAudio.Size = new System.Drawing.Size(23, 22);
-            this.tsbPlayAudio.Text = "▶";
-            this.tsbPlayAudio.ToolTipText = "Custom Audio ofspillen";
-            this.tsbPlayAudio.Click += new System.EventHandler(this.btnPlayAudio_Click);
             // 
             // tsbCustomAudio
             // 
@@ -450,16 +437,22 @@ namespace KonterbontLODConnector
             this.tsbCustomAudio.ToolTipText = "Custom Audio setzen";
             this.tsbCustomAudio.Click += new System.EventHandler(this.btnCustomAudio_Click);
             // 
-            // tsbCustomEN
+            // tsbPlayAudio
             // 
-            this.tsbCustomEN.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.tsbCustomEN.Enabled = false;
-            this.tsbCustomEN.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.tsbCustomEN.Name = "tsbCustomEN";
-            this.tsbCustomEN.Size = new System.Drawing.Size(26, 22);
-            this.tsbCustomEN.Text = "EN";
-            this.tsbCustomEN.ToolTipText = "Englesch Iwwersetzung setzen";
-            this.tsbCustomEN.Click += new System.EventHandler(this.TlbCustomEN_Click);
+            this.tsbPlayAudio.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbPlayAudio.Enabled = false;
+            this.tsbPlayAudio.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.tsbPlayAudio.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbPlayAudio.Name = "tsbPlayAudio";
+            this.tsbPlayAudio.Size = new System.Drawing.Size(23, 22);
+            this.tsbPlayAudio.Text = "▶";
+            this.tsbPlayAudio.ToolTipText = "Custom Audio ofspillen";
+            this.tsbPlayAudio.Click += new System.EventHandler(this.btnPlayAudio_Click);
+            // 
+            // tss1
+            // 
+            this.tss1.Name = "tss1";
+            this.tss1.Size = new System.Drawing.Size(6, 25);
             // 
             // tsbCustomPT
             // 
@@ -472,10 +465,16 @@ namespace KonterbontLODConnector
             this.tsbCustomPT.ToolTipText = "Portugisesch Iwwersetzung setzen";
             this.tsbCustomPT.Click += new System.EventHandler(this.TsbCustomPT_Click);
             // 
-            // tss1
+            // tsbCustomEN
             // 
-            this.tss1.Name = "tss1";
-            this.tss1.Size = new System.Drawing.Size(6, 25);
+            this.tsbCustomEN.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbCustomEN.Enabled = false;
+            this.tsbCustomEN.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCustomEN.Name = "tsbCustomEN";
+            this.tsbCustomEN.Size = new System.Drawing.Size(26, 22);
+            this.tsbCustomEN.Text = "EN";
+            this.tsbCustomEN.ToolTipText = "Englesch Iwwersetzung setzen";
+            this.tsbCustomEN.Click += new System.EventHandler(this.TlbCustomEN_Click);
             // 
             // frmMain
             // 
@@ -491,6 +490,7 @@ namespace KonterbontLODConnector
             this.Name = "frmMain";
             this.Text = "Konterbont LOD Connector";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMain_FormClosed);
             this.mmMain.ResumeLayout(false);
             this.mmMain.PerformLayout();
             this.tlpMain.ResumeLayout(false);

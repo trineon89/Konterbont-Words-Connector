@@ -9,64 +9,35 @@ namespace KonterbontLODConnector
 {
     public class LogClass
     {
-        public string FileName = @"";
-        public string ArticlePath = "";
+        public string FileName = "";
+        StreamWriter Log = null;
 
-        public void CreateLog(string ArticlePath, string Article)
+        public void CreateLog(string ArtPath, string Art)
         {
-            FileName = ArticlePath + Article + ".log";
-            StreamWriter Log = null;
+            FileName = ArtPath +"\\"+ Art + ".log";
             if (File.Exists(FileName))
             {
                 Log = File.AppendText(FileName);
-            }    
+            }
             else
             {
                 Log = File.CreateText(FileName);
             }
-           
+            Log.WriteLine("[" + DateTime.Now.ToString() + "] Begin Log");
         }
 
         public void CloseLog()
         {
-
+            Log.WriteLine("[" + DateTime.Now.ToString() + "] Close Log");
+            Log.Close();
         }
 
-
-        public void WriteToLog(string LogEvent, string Word = "",string SelWord = "", string Meaning = "")
+        public void WriteToLog(string CustomText)
         {
-            switch (LogEvent)
+            if (!CustomText.Contains("_ART_"))
             {
-
-                case "new":
-                    {
-                        break;
-                    }
-                case "add":
-                    {
-                        Console.Write("test");
-                        break;
-                    }
-
-                case "changeMeaning":
-                    {
-                        break;
-                    }
-                case "changeWord":
-                    {
-                        break;
-                    }
-                case "createPopup":
-                    {
-                        break;
-                    }
-
-                case "addToMag":
-                    {
-                        break;
-                    }
+                Log.WriteLine("[" + DateTime.Now.ToString() + "] " + CustomText);
             }
-
         }
     }
 }
