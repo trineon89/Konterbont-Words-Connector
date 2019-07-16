@@ -837,7 +837,7 @@ namespace KonterbontLODConnector
             return true;
         }
 
-
+        /*
         private AutoComplete ParseXMLWords(string XML, bool onlycompare = false, string occurence = null)
         {
             AutoComplete ac = new AutoComplete();
@@ -929,17 +929,20 @@ namespace KonterbontLODConnector
             }
             return ac;
         }
-
+        */
         /// <summary>
-        /// Calls the Async Function GetSelectionTooltip
+        /// Lies den Tooltip aus dem Wuert
         /// </summary>
-        /// <param name="XMLTT"></param>
+        /// <param name="wuert"></param>
         /// <returns></returns>
-        private async Task<string> GetSelectionTooltipAsync(string XMLTT)
+        private string GetSelectionTooltip(Wuert wuert)
         {
-            return await Task.Run(() => GetSelectionTooltip(XMLTT));
+            string tempstring = "";
+            tempstring += "DE: " + wuert.Meanings[0].DE + " | FR: " + wuert.Meanings[0].FR;
+            return tempstring;
         }
 
+        /*
         /// <summary>
         /// Calls the functions for the Tooltip(s) of the Selection Form
         /// </summary>
@@ -957,7 +960,7 @@ namespace KonterbontLODConnector
 
             return tooltip;
         }
-
+        */
         /*
         private async Task<Boolean> CheckIfWordHasChangedAsync(string searchstring, List<AutoComplete> ac)
         {
@@ -1284,9 +1287,15 @@ namespace KonterbontLODConnector
                         rb.Checked = true;
                     }
 
+                    /*
+                     * Beise Yannick, mir hunn eis Informatiounen dach schonn alleguerte virleien?
                     Task<string> task = Task.Run(async () => await GetSelectionTooltipAsync(tmpwuert.XMLFile));
                     task.Wait();
                     string tooltip = task.Result;
+                    */
+
+                    string tooltip = GetSelectionTooltip(tmpwuert);
+
                     if (tooltip.Contains("Variant"))
                     {
                         rb.Enabled = false;
