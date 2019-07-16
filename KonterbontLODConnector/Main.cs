@@ -1069,18 +1069,212 @@ namespace KonterbontLODConnector
             return dt;
         }
 
+        /// <summary>
+        /// Weist all Bedeitungen zu engem Wuert un (Gëtt als Parameter uginn)
+        /// </summary>
+        /// <param name="wuert"></param>
+        /// <returns></returns>
+        private Wuert SelectMeaning(Wuert wuert)
+        {
+            frmSelectMeaning frmSelectMeaning = new frmSelectMeaning();
+            int _m = 1;
+            int _Total = 0;
+            foreach (Meaning meaning in wuert.Meanings)
+            {
+                string thename = _m.ToString();
+                RadioButton rb = new RadioButton
+                {
+                    Name = thename,
+                    Text = thename,
+
+                    Location = new Point(10, _m * 30),
+                    Width = 100
+                };
+                if (_m == 1)
+                {
+                    rb.Checked = true;
+                }
+                rb.CheckedChanged += new EventHandler(rbClicked);
+
+                frmSelectMeaning.gbMeanings.Text = "Fir '" + wuert.WuertLu + "':";
+                frmSelectMeaning.gbMeanings.Controls.Add(rb);
+                Font currentFont = frmSelectMeaning.rtbDE.SelectionFont;
+                Font Normal = new Font(currentFont, FontStyle.Regular);
+                Font Italic = new Font(currentFont, FontStyle.Italic);
+                Font Bold = new Font(currentFont, FontStyle.Bold);
+                Font BoldItalic = new Font(currentFont, FontStyle.Bold | FontStyle.Italic);
+                Font BigBold = new Font(currentFont.FontFamily, 10, FontStyle.Bold);
+                string examples = "";
+                string egs = "";
+
+                foreach (Example _ex in wuert.Meanings[_m - 1].Examples)
+                {
+                    examples += _ex.ExampleText + Environment.NewLine;
+                    if (_ex.EGS != "")
+                    {
+                        egs = _ex.EGS + Environment.NewLine;
+                    }
+
+                }
+
+                if (Int32.Parse(thename) < 10)
+                {
+                    thename = "0" + thename;
+                }
+
+
+                frmSelectMeaning.rtbDE.SelectionFont = BigBold;
+                frmSelectMeaning.rtbDE.AppendText(thename + ". " + wuert.Meanings[_m - 1].DE + Environment.NewLine);
+                frmSelectMeaning.rtbDE.SelectionFont = Bold;
+                frmSelectMeaning.rtbDE.AppendText("Beispiele:" + Environment.NewLine);
+                frmSelectMeaning.rtbDE.SelectionFont = Normal;
+                frmSelectMeaning.rtbDE.AppendText(examples);
+                frmSelectMeaning.rtbDE.SelectionFont = Italic;
+                if (egs != "")
+                {
+                    frmSelectMeaning.rtbDE.SelectionFont = BoldItalic;
+                    frmSelectMeaning.rtbDE.AppendText("umgangssprachlich: ");
+                    frmSelectMeaning.rtbDE.SelectionFont = Italic;
+                    frmSelectMeaning.rtbDE.AppendText(egs);
+                }
+                frmSelectMeaning.rtbDE.AppendText(Environment.NewLine);
+
+                frmSelectMeaning.rtbFR.SelectionFont = BigBold;
+                frmSelectMeaning.rtbFR.AppendText(thename + ". " + wuert.Meanings[_m - 1].FR + Environment.NewLine);
+                frmSelectMeaning.rtbFR.SelectionFont = Bold;
+                frmSelectMeaning.rtbFR.AppendText("exemples:" + Environment.NewLine);
+                frmSelectMeaning.rtbFR.SelectionFont = Normal;
+                frmSelectMeaning.rtbFR.AppendText(examples);
+                frmSelectMeaning.rtbFR.SelectionFont = Italic;
+                if (egs != "")
+                {
+                    frmSelectMeaning.rtbFR.SelectionFont = BoldItalic;
+                    frmSelectMeaning.rtbFR.AppendText("familier: ");
+                    frmSelectMeaning.rtbFR.SelectionFont = Italic;
+                    frmSelectMeaning.rtbFR.AppendText(egs);
+                }
+                frmSelectMeaning.rtbFR.AppendText(Environment.NewLine);
+
+                frmSelectMeaning.rtbEN.SelectionFont = BigBold;
+                frmSelectMeaning.rtbEN.AppendText(thename + ". " + wuert.Meanings[_m - 1].EN + Environment.NewLine);
+                frmSelectMeaning.rtbEN.SelectionFont = Bold;
+                frmSelectMeaning.rtbEN.AppendText("examples:" + Environment.NewLine);
+                frmSelectMeaning.rtbEN.SelectionFont = Normal;
+                frmSelectMeaning.rtbEN.AppendText(examples);
+                frmSelectMeaning.rtbEN.SelectionFont = Italic;
+                if (egs != "")
+                {
+                    frmSelectMeaning.rtbEN.SelectionFont = BoldItalic;
+                    frmSelectMeaning.rtbEN.AppendText("colloquial: ");
+                    frmSelectMeaning.rtbEN.SelectionFont = Italic;
+                    frmSelectMeaning.rtbEN.AppendText(egs);
+                }
+                frmSelectMeaning.rtbEN.AppendText(Environment.NewLine);
+
+                frmSelectMeaning.rtbPT.SelectionFont = BigBold;
+                frmSelectMeaning.rtbPT.AppendText(thename + ". " + wuert.Meanings[_m - 1].PT + Environment.NewLine);
+                frmSelectMeaning.rtbPT.SelectionFont = Bold;
+                frmSelectMeaning.rtbPT.AppendText("exemplos:" + Environment.NewLine);
+                frmSelectMeaning.rtbPT.SelectionFont = Normal;
+                frmSelectMeaning.rtbPT.AppendText(examples);
+                frmSelectMeaning.rtbPT.SelectionFont = Italic;
+                if (egs != "")
+                {
+                    frmSelectMeaning.rtbPT.SelectionFont = BoldItalic;
+                    frmSelectMeaning.rtbPT.AppendText("coloquial: ");
+                    frmSelectMeaning.rtbPT.SelectionFont = Italic;
+                    frmSelectMeaning.rtbPT.AppendText(egs);
+                }
+                frmSelectMeaning.rtbPT.AppendText(Environment.NewLine);
+
+                int _MeaningsCount = wuert.Meanings.Count();
+
+                _m++;
+                _Total = _m;          
+            }
+
+            RadioButton rbtn = new RadioButton
+            {
+                Name = "0",
+                Text = "Passt nët",
+                Location = new Point(10, _Total * 30),
+                Width = 100
+            };
+            frmSelectMeaning.gbMeanings.Controls.Add(rbtn);
+
+            frmSelectMeaning.gbMeanings_Click(this, null);
+            ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.HighlightSelText(TextForm.Controls.OfType<RichTextBox>().First(), wuert.WuertLu));
+            ControlInvokeRequired(TextForm, () => TextForm.Activate());
+            if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
+            {
+                RadioButton selectedMeaning = frmSelectMeaning.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+                ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.UnSelText(TextForm.Controls.OfType<RichTextBox>().First()));
+                string Selection = selectedMeaning.Name;
+                wuert.Selection = Int32.Parse(Selection);
+                //TheResults.Wierder[TheResults.Selection].Selection = Int32.Parse(Selection);
+            }
+            else
+            {
+                return null;
+            }
+            wuert = MissingENPT(wuert);
+
+            return wuert;
+        }
+
+        /// <summary>
+        /// Weist en dialog in wann di englesch bzw. portugiesech Iwwersetzung eiden ass (Meaning[x].EN = null / Meaning[x].PT = null)
+        /// </summary>
+        /// <param name="wuert"></param>
+        /// <returns></returns>
+        private Wuert MissingENPT (Wuert wuert)
+        {
+            if (wuert.Meanings[wuert.Selection - 1].EN == "")
+            {
+                InputDialog ENid = new InputDialog();
+                ENid.MainInstruction = "Eng Bedeitung antippen:";
+                ENid.Content = "DE: " + wuert.Meanings[wuert.Selection - 1].DE + "; FR: " + wuert.Meanings[wuert.Selection - 1].FR;
+                ENid.WindowTitle = "Englesch Iwwersetzung";
+                if (ENid.ShowDialog() == DialogResult.OK)
+                {
+                    wuert.Meanings[wuert.Selection - 1].EN = ENid.Input;
+                    wuert.Meanings[wuert.Selection - 1].hasCustomEN = true;
+                }
+                ENid.Dispose();
+            }
+
+            if (wuert.Meanings[wuert.Selection - 1].PT == "")
+            {
+                InputDialog PTid = new InputDialog();
+                PTid.MainInstruction = "Eng Bedeitung antippen:";
+                PTid.Content = "DE: " + wuert.Meanings[wuert.Selection - 1].DE + "; FR: " + wuert.Meanings[wuert.Selection - 1].FR;
+                PTid.WindowTitle = "Portugisesch Iwwersetzung";
+                if (PTid.ShowDialog() == DialogResult.OK)
+                {
+                    wuert.Meanings[wuert.Selection - 1].PT = PTid.Input;
+                    wuert.Meanings[wuert.Selection - 1].hasCustomPT = true;
+                }
+                PTid.Dispose();
+            }
+            return wuert;
+        }
+
+
         private AutoComplete ShowSelections(AutoComplete ac)
         {
+            Wuert tmpwuert = null;
             if (ac.Wierder.Count() > 1)
             {
                 frmSelectMeaning frm = new frmSelectMeaning();
-                int _i = 0;
+                int _i = 1;
+
                 foreach (Wuert wuert in ac.Wierder)
                 {
+                    tmpwuert = wuert;
                     RadioButton rb = new RadioButton
                     {
                         Name = _i.ToString(),
-                        Text = wuert.WuertLu + " (" + wuert.WuertForm + ")",
+                        Text = tmpwuert.WuertLu + " (" + tmpwuert.WuertForm.WuertForm + ")",
                         Location = new Point(10, _i * 30),
                         Width = 500
                     };
@@ -1090,7 +1284,7 @@ namespace KonterbontLODConnector
                         rb.Checked = true;
                     }
 
-                    Task<string> task = Task.Run(async () => await GetSelectionTooltipAsync(wuert.XMLFile));
+                    Task<string> task = Task.Run(async () => await GetSelectionTooltipAsync(tmpwuert.XMLFile));
                     task.Wait();
                     string tooltip = task.Result;
                     if (tooltip.Contains("Variant"))
@@ -1098,10 +1292,10 @@ namespace KonterbontLODConnector
                         rb.Enabled = false;
                         var result = tooltip.Substring(tooltip.LastIndexOf(' ') + 1);
                         rb.Text = rb.Text + " (Variant vun " + result + ")";
-                        wuert.IsVariant = true;
+                        tmpwuert.IsVariant = true;
                     }
 
-                    ac.Wierder.Add(wuert);
+                    //ac.Wierder.Add(wuert);
                     frm.gbMeanings.Dock = DockStyle.Fill;
                     frm.tcLang.Visible = false;
                     frm.gbMeanings.Controls.Add(rb);
@@ -1109,29 +1303,48 @@ namespace KonterbontLODConnector
                     frm.Text = "Wuert auswielen";
                     frm.tpInfo.SetToolTip(rb, tooltip);
                     _i++;
+                }
 
-                    ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.HighlightSelText(TextForm.Controls.OfType<RichTextBox>().First(), ac.Occurence));
-                    if (frm.ShowDialog() == DialogResult.OK)
+                ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.HighlightSelText(TextForm.Controls.OfType<RichTextBox>().First(), ac.Occurence));
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.UnSelText(TextForm.Controls.OfType<RichTextBox>().First()));
+                    RadioButton radioButton = frm.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+                    ac.Selection = Int32.Parse(radioButton.Name);
+                    Wuert SelWuert = ac.Wierder[ac.Selection - 1];
+                    if (SelWuert.Meanings.Count() > 1)
                     {
-                        ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.UnSelText(TextForm.Controls.OfType<RichTextBox>().First()));
-                        RadioButton radioButton = frm.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
-                        ac.Selection = Int32.Parse(radioButton.Name);
+                        SelWuert = SelectMeaning(SelWuert);
                     }
                     else
                     {
-                        return null;
+                        SelWuert = MissingENPT(SelWuert);
                     }
+                    ac.Wierder[ac.Selection - 1] = SelWuert;
 
-                    if (wuert.Meanings.Count() > 1)
-                    {
-                        frmSelectMeaning frmSelectMeaning = new frmSelectMeaning();
-                    }
                 }
+                else
+                {
+                    return null;
+                }
+
+
             }
             else
             {
                 ac.Selection = 1;
                 // meanings
+                Wuert wuert = ac.Wierder[0];
+                wuert.Selection = 1;
+                if (wuert.Meanings.Count() > 1)
+                {
+                    wuert = SelectMeaning(wuert);
+                }
+                else
+                {
+                    wuert = MissingENPT(wuert);
+                }
+                ac.Wierder[0] = wuert;
             }
             return ac;
         }
@@ -1210,6 +1423,7 @@ namespace KonterbontLODConnector
                 string tfile = new StreamReader(file).ReadToEnd();
                 string[] lines = tfile.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
                 int countlines = lines.GetLength(0);
+                lines = lines.Take(lines.Count() - 1).ToArray();
                 int c = 0;
 
                 DataHandler dtt = new DataHandler
@@ -1221,8 +1435,20 @@ namespace KonterbontLODConnector
                     DocPath = dt.DocPath
                 };
 
+                Pietschsoft.NativeProgressDialog progressDialog = new Pietschsoft.NativeProgressDialog(this.Handle)
+                {
+                    Title = "Wierder sichen",
+                    CancelMessage = "Eieiei... Da wart elo...",
+                    Maximum = 100,
+                    Value = 0,
+                    Line3 = "Calculating Time Remaining..."
+                };
+
+                progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
+
                 foreach (string line in lines)
                 {
+                    progressDialog.Line1 = "Wuert: " + line;
                     if (c == 0)
                     {
                         dt.SetRGB(line);
@@ -1246,14 +1472,21 @@ namespace KonterbontLODConnector
                             if (acword != null)
                             {
                                 //
-
+                                acword = ShowSelections(acword);
                                 dtt.AddWordToList(acword);
                                 acword.internalId = c;
                             }
                         }
                     }
+                    
+                    double dbl = 100d / countlines * c;
+                    uint _currprog = Convert.ToUInt32(Math.Round(dbl));
+                    progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
+                    progressDialog.Value = _currprog;
                     c++;
                 }
+
+                progressDialog.CloseDialog();
 
                 lbWords.Items.Clear();
                 foreach (AutoComplete ac in dtt.WordList) // Adds Words to lbWords on Main Form
