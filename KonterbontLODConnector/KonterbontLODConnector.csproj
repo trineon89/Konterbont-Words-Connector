@@ -28,7 +28,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>http://www.autisme.lu/software/KWC/</UpdateUrl>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>8</ApplicationRevision>
+    <ApplicationRevision>9</ApplicationRevision>
     <ApplicationVersion>0.10.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -168,13 +168,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include=".gitignore" />
-    <None Include="api\.gitignore" />
-    <None Include="api\index.md" />
-    <None Include="articles\intro.md" />
-    <None Include="articles\toc.md" />
-    <None Include="docfx.json" />
-    <None Include="index.md" />
     <None Include="KonterbontLODConnector.snk" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
@@ -190,7 +183,6 @@
     <None Include="res\FreightSansCmpPro-BookItalic.ttf" />
     <None Include="res\FreightSansCmpPro-Med.ttf" />
     <None Include="res\FreightSansCmpPro-Semi.ttf" />
-    <None Include="toc.yml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -256,11 +248,4 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\docfx.console.2.43.2\build\docfx.console.targets" Condition="Exists('..\packages\docfx.console.2.43.2\build\docfx.console.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\docfx.console.2.43.2\build\docfx.console.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\docfx.console.2.43.2\build\docfx.console.targets'))" />
-  </Target>
 </Project>

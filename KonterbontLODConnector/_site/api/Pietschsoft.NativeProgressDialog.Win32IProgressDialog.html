@@ -1,0 +1,540 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Interface NativeProgressDialog.Win32IProgressDialog
+   </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Interface NativeProgressDialog.Win32IProgressDialog
+   ">
+    <meta name="generator" content="docfx 2.43.2.0">
+    
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../styles/docfx.css">
+    <link rel="stylesheet" href="../styles/main.css">
+    <meta property="docfx:navrel" content="../toc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog">
+  
+  
+  <h1 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog" class="text-break">Interface NativeProgressDialog.Win32IProgressDialog
+  </h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="Pietschsoft.html">Pietschsoft</a></h6>
+  <h6><strong>Assembly</strong>: Konterbont LOD Connector.dll</h6>
+  <h5 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[Guid(&quot;EBBC7C04-315E-11d2-B62F-006097DF5BD4&quot;)]
+[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+public interface Win32IProgressDialog</code></pre>
+  </div>
+  <h3 id="methods">Methods
+  </h3>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/new/V2/apiSpec/new?filename=Pietschsoft_NativeProgressDialog_Win32IProgressDialog_HasUserCancelled.md&amp;value=---%0Auid%3A%20Pietschsoft.NativeProgressDialog.Win32IProgressDialog.HasUserCancelled%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/blob/V2/KonterbontLODConnector/Pietschoft.cs/#L247">View Source</a>
+  </span>
+  <a id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_HasUserCancelled_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.HasUserCancelled*"></a>
+  <h4 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_HasUserCancelled" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.HasUserCancelled">HasUserCancelled()</h4>
+  <div class="markdown level1 summary"><p>Checks whether the user has canceled the operation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">bool HasUserCancelled()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><p>TRUE if the user has cancelled the operation; otherwise, FALSE.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_HasUserCancelled_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The system does not send a message to the application when the user clicks the Cancel button.
+You must periodically use this function to poll the progress dialog box object to determine
+whether the operation has been canceled.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/new/V2/apiSpec/new?filename=Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetAnimation_System_IntPtr_System_UInt16_.md&amp;value=---%0Auid%3A%20Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetAnimation(System.IntPtr%2CSystem.UInt16)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/blob/V2/KonterbontLODConnector/Pietschoft.cs/#L233">View Source</a>
+  </span>
+  <a id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetAnimation_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetAnimation*"></a>
+  <h4 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetAnimation_System_IntPtr_System_UInt16_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetAnimation(System.IntPtr,System.UInt16)">SetAnimation(IntPtr, UInt16)</h4>
+  <div class="markdown level1 summary"><p>Specifies an Audio-Video Interleaved (AVI) clip that runs in the dialog box. Note: Note  This method is not supported in Windows Vista or later versions.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void SetAnimation(IntPtr hInstAnimation, ushort idAnimation)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">hInstAnimation</span></td>
+        <td><p>An instance handle to the module from which the AVI resource should be loaded.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt16</span></td>
+        <td><span class="parametername">idAnimation</span></td>
+        <td><p>An AVI resource identifier. To create this value, use the MAKEINTRESOURCE macro. The control loads the AVI resource from the module specified by hInstAnimation.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/new/V2/apiSpec/new?filename=Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetCancelMsg_System_String_System_Object_.md&amp;value=---%0Auid%3A%20Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetCancelMsg(System.String%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/blob/V2/KonterbontLODConnector/Pietschoft.cs/#L299">View Source</a>
+  </span>
+  <a id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetCancelMsg_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetCancelMsg*"></a>
+  <h4 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetCancelMsg_System_String_System_Object_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetCancelMsg(System.String,System.Object)">SetCancelMsg(String, Object)</h4>
+  <div class="markdown level1 summary"><p>Sets a message to be displayed if the user cancels the operation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void SetCancelMsg(string pwzCancelMsg, object pvResevered)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">pwzCancelMsg</span></td>
+        <td><p>A pointer to a null-terminated Unicode string that contains the message to be displayed.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">pvResevered</span></td>
+        <td><p>Reserved. Set to NULL.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetCancelMsg_System_String_System_Object__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>Even though the user clicks Cancel, the application cannot immediately call
+IProgressDialog::StopProgressDialog to close the dialog box. The application must wait until the
+next time it calls IProgressDialog::HasUserCancelled to discover that the user has canceled the
+operation. Since this delay might be significant, the progress dialog box provides the user with
+immediate feedback by clearing text lines 1 and 2 and displaying the cancel message on line 3.
+The message is intended to let the user know that the delay is normal and that the progress dialog
+box will be closed shortly.
+It is typically is set to something like &quot;Please wait while ...&quot;. </p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/new/V2/apiSpec/new?filename=Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetLine_System_UInt32_System_String_System_Boolean_System_IntPtr_.md&amp;value=---%0Auid%3A%20Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetLine(System.UInt32%2CSystem.String%2CSystem.Boolean%2CSystem.IntPtr)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/blob/V2/KonterbontLODConnector/Pietschoft.cs/#L279">View Source</a>
+  </span>
+  <a id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetLine_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetLine*"></a>
+  <h4 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetLine_System_UInt32_System_String_System_Boolean_System_IntPtr_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetLine(System.UInt32,System.String,System.Boolean,System.IntPtr)">SetLine(UInt32, String, Boolean, IntPtr)</h4>
+  <div class="markdown level1 summary"><p>Displays a message in the progress dialog.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void SetLine(uint dwLineNum, string pwzString, bool fCompactPath, IntPtr pvResevered)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="parametername">dwLineNum</span></td>
+        <td><p>The line number on which the text is to be displayed. Currently there are three lines—1, 2, and 3. If the PROGDLG_AUTOTIME flag was included in the dwFlags parameter when IProgressDialog::StartProgressDialog was called, only lines 1 and 2 can be used. The estimated time will be displayed on line 3.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">pwzString</span></td>
+        <td><p>A null-terminated Unicode string that contains the text.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Boolean</span></td>
+        <td><span class="parametername">fCompactPath</span></td>
+        <td><p>TRUE to have path strings compacted if they are too large to fit on a line. The paths are compacted with PathCompactPath.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">pvResevered</span></td>
+        <td><p>Reserved. Set to IntPtr.Zero.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetLine_System_UInt32_System_String_System_Boolean_System_IntPtr__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>This function is typically used to display a message such as &quot;Item XXX is now being processed.&quot; typically, messages are displayed on lines 1 and 2, with line 3 reserved for the estimated time.</p>
+</div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/new/V2/apiSpec/new?filename=Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetProgress_System_UInt32_System_UInt32_.md&amp;value=---%0Auid%3A%20Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetProgress(System.UInt32%2CSystem.UInt32)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/blob/V2/KonterbontLODConnector/Pietschoft.cs/#L256">View Source</a>
+  </span>
+  <a id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetProgress_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetProgress*"></a>
+  <h4 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetProgress_System_UInt32_System_UInt32_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetProgress(System.UInt32,System.UInt32)">SetProgress(UInt32, UInt32)</h4>
+  <div class="markdown level1 summary"><p>Updates the progress dialog box with the current state of the operation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void SetProgress(uint dwCompleted, uint dwTotal)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="parametername">dwCompleted</span></td>
+        <td><p>An application-defined value that indicates what proportion of the operation has been completed at the time the method was called.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt32</span></td>
+        <td><span class="parametername">dwTotal</span></td>
+        <td><p>An application-defined value that specifies what value dwCompleted will have when the operation is complete.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/new/V2/apiSpec/new?filename=Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetProgress64_System_UInt64_System_UInt64_.md&amp;value=---%0Auid%3A%20Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetProgress64(System.UInt64%2CSystem.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/blob/V2/KonterbontLODConnector/Pietschoft.cs/#L266">View Source</a>
+  </span>
+  <a id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetProgress64_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetProgress64*"></a>
+  <h4 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetProgress64_System_UInt64_System_UInt64_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetProgress64(System.UInt64,System.UInt64)">SetProgress64(UInt64, UInt64)</h4>
+  <div class="markdown level1 summary"><p>Updates the progress dialog box with the current state of the operation.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void SetProgress64(ulong ullCompleted, ulong ullTotal)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.UInt64</span></td>
+        <td><span class="parametername">ullCompleted</span></td>
+        <td><p>An application-defined value that indicates what proportion of the operation has been completed at the time the method was called.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.UInt64</span></td>
+        <td><span class="parametername">ullTotal</span></td>
+        <td><p>An application-defined value that specifies what value ullCompleted will have when the operation is complete.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/new/V2/apiSpec/new?filename=Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetTitle_System_String_.md&amp;value=---%0Auid%3A%20Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetTitle(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/blob/V2/KonterbontLODConnector/Pietschoft.cs/#L224">View Source</a>
+  </span>
+  <a id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetTitle_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetTitle*"></a>
+  <h4 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_SetTitle_System_String_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.SetTitle(System.String)">SetTitle(String)</h4>
+  <div class="markdown level1 summary"><p>Sets the title of the progress dialog box.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void SetTitle(string pwzTitle)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.String</span></td>
+        <td><span class="parametername">pwzTitle</span></td>
+        <td><p>A pointer to a null-terminated Unicode string that contains the dialog box title.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/new/V2/apiSpec/new?filename=Pietschsoft_NativeProgressDialog_Win32IProgressDialog_StartProgressDialog_System_IntPtr_System_Object_Pietschsoft_NativeProgressDialog_PROGDLG_System_IntPtr_.md&amp;value=---%0Auid%3A%20Pietschsoft.NativeProgressDialog.Win32IProgressDialog.StartProgressDialog(System.IntPtr%2CSystem.Object%2CPietschsoft.NativeProgressDialog.PROGDLG%2CSystem.IntPtr)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/blob/V2/KonterbontLODConnector/Pietschoft.cs/#L208">View Source</a>
+  </span>
+  <a id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_StartProgressDialog_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.StartProgressDialog*"></a>
+  <h4 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_StartProgressDialog_System_IntPtr_System_Object_Pietschsoft_NativeProgressDialog_PROGDLG_System_IntPtr_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.StartProgressDialog(System.IntPtr,System.Object,Pietschsoft.NativeProgressDialog.PROGDLG,System.IntPtr)">StartProgressDialog(IntPtr, Object, NativeProgressDialog.PROGDLG, IntPtr)</h4>
+  <div class="markdown level1 summary"><p>Starts the progress dialog box.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void StartProgressDialog(IntPtr hwndParent, object punkEnableModless, NativeProgressDialog.PROGDLG dwFlags, IntPtr pvResevered)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">hwndParent</span></td>
+        <td><p>A handle to the dialog box&apos;s parent window.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">punkEnableModless</span></td>
+        <td><p>Reserved. Set to null.</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Pietschsoft.NativeProgressDialog.PROGDLG.html">NativeProgressDialog.PROGDLG</a></td>
+        <td><span class="parametername">dwFlags</span></td>
+        <td><p>Flags that control the operation of the progress dialog box. </p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.IntPtr</span></td>
+        <td><span class="parametername">pvResevered</span></td>
+        <td><p>Reserved. Set to IntPtr.Zero</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/new/V2/apiSpec/new?filename=Pietschsoft_NativeProgressDialog_Win32IProgressDialog_StopProgressDialog.md&amp;value=---%0Auid%3A%20Pietschsoft.NativeProgressDialog.Win32IProgressDialog.StopProgressDialog%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/blob/V2/KonterbontLODConnector/Pietschoft.cs/#L218">View Source</a>
+  </span>
+  <a id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_StopProgressDialog_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.StopProgressDialog*"></a>
+  <h4 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_StopProgressDialog" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.StopProgressDialog">StopProgressDialog()</h4>
+  <div class="markdown level1 summary"><p>Stops the progress dialog box and removes it from the screen.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void StopProgressDialog()</code></pre>
+  </div>
+  <span class="small pull-right mobile-hide">
+    <span class="divider">|</span>
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/new/V2/apiSpec/new?filename=Pietschsoft_NativeProgressDialog_Win32IProgressDialog_Timer_Pietschsoft_NativeProgressDialog_PDTIMER_System_Object_.md&amp;value=---%0Auid%3A%20Pietschsoft.NativeProgressDialog.Win32IProgressDialog.Timer(Pietschsoft.NativeProgressDialog.PDTIMER%2CSystem.Object)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Improve this Doc</a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/trineon89/Konterbont-Words-Connector/blob/V2/KonterbontLODConnector/Pietschoft.cs/#L315">View Source</a>
+  </span>
+  <a id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_Timer_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.Timer*"></a>
+  <h4 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_Timer_Pietschsoft_NativeProgressDialog_PDTIMER_System_Object_" data-uid="Pietschsoft.NativeProgressDialog.Win32IProgressDialog.Timer(Pietschsoft.NativeProgressDialog.PDTIMER,System.Object)">Timer(NativeProgressDialog.PDTIMER, Object)</h4>
+  <div class="markdown level1 summary"><p>Resets the progress dialog box timer to zero.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">void Timer(NativeProgressDialog.PDTIMER dwTimerAction, object pvResevered)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="Pietschsoft.NativeProgressDialog.PDTIMER.html">NativeProgressDialog.PDTIMER</a></td>
+        <td><span class="parametername">dwTimerAction</span></td>
+        <td><p>Flags that indicate the action to be taken by the timer.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">System.Object</span></td>
+        <td><span class="parametername">pvResevered</span></td>
+        <td><p>Reserved. Set to NULL.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="Pietschsoft_NativeProgressDialog_Win32IProgressDialog_Timer_Pietschsoft_NativeProgressDialog_PDTIMER_System_Object__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>The timer is used to estimate the remaining time. It is started when your application
+calls IProgressDialog::StartProgressDialog. Unless your application will start immediately,
+it should call Timer just before starting the operation.
+This practice ensures that the time estimates will be as accurate as possible. This method
+should not be called after the first call to IProgressDialog::SetProgress.</p>
+</div>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/trineon89/Konterbont-Words-Connector/new/V2/apiSpec/new?filename=Pietschsoft_NativeProgressDialog_Win32IProgressDialog.md&amp;value=---%0Auid%3A%20Pietschsoft.NativeProgressDialog.Win32IProgressDialog%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" class="contribution-link">Improve this Doc</a>
+                  </li>
+                  <li>
+                    <a href="https://github.com/trineon89/Konterbont-Words-Connector/blob/V2/KonterbontLODConnector/Pietschoft.cs/#L196" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            
+            <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

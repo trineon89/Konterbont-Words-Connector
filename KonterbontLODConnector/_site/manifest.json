@@ -1,0 +1,390 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/Users/jill/Documents/Git/Konterbont-Words-Connector/KonterbontLODConnector",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "emzFPSe4LPNk5u2dlVC6fQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "articles/intro.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/intro.html",
+          "hash": "sERzkMewWoJ3TwHk6aBtIw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.md",
+      "output": {
+        ".html": {
+          "relative_path": "articles/toc.html",
+          "hash": "t7iiFrmuYmrKWisdq+lN6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "tZg+gWiN/xhzt2dVQQXraA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.AutoComplete.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.AutoComplete.html",
+          "hash": "mIfQ9/TQKNxJ3O8MA7QzEA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.DataHandler.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.DataHandler.html",
+          "hash": "UM4VsRDAQd8Gv2wttT7z9w=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.Example.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.Example.html",
+          "hash": "hLVvcFIA4ujcQH6iYsAgFg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.INDesignPlugin.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.INDesignPlugin.html",
+          "hash": "qDkCKoB4/69+aLuxda98dw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.Meaning.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.Meaning.html",
+          "hash": "o1sqFfAFmS5hDKJqrX7XaA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.Properties.Resources.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.Properties.Resources.html",
+          "hash": "fGBrGBa4r9erKs2FPcrjSA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.Properties.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.Properties.html",
+          "hash": "oAZp/Q2rRr9YFsCASIsSEw=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.Serialize.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.Serialize.html",
+          "hash": "eq0KJLJbpEbXKDKYUyVDwQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.WordForm.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.WordForm.html",
+          "hash": "L+XcJuGJSkXYODMfsuvowg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.Wuert.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.Wuert.html",
+          "hash": "NgpUzpnj7F/FGDQv5TYYew=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.frmColor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.frmColor.html",
+          "hash": "B26qCgLy+KtzTmVC5gRDgQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.frmMagazineSelector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.frmMagazineSelector.html",
+          "hash": "ouJIdihLbHtIPZ/Ge8nI8Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.frmMain.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.frmMain.html",
+          "hash": "OOs5YR9qLRGfmifzzxsrQg=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.frmSelectMeaning.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.frmSelectMeaning.html",
+          "hash": "Af52RcnhmnLUld8J4VPvzQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/KonterbontLODConnector.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/KonterbontLODConnector.html",
+          "hash": "Ph9Eg8vYiZl5crwAGf8yCQ=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Pietschsoft.NativeProgressDialog.PDTIMER.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pietschsoft.NativeProgressDialog.PDTIMER.html",
+          "hash": "I3T7ESuRKS8HqqCG0TH3pA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Pietschsoft.NativeProgressDialog.PROGDLG.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pietschsoft.NativeProgressDialog.PROGDLG.html",
+          "hash": "CisyUUfBqPbI0XxwyidH9A=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Pietschsoft.NativeProgressDialog.Win32IProgressDialog.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pietschsoft.NativeProgressDialog.Win32IProgressDialog.html",
+          "hash": "L98gncoo2aTB6RVoMDbENA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Pietschsoft.NativeProgressDialog.Win32ProgressDialog.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pietschsoft.NativeProgressDialog.Win32ProgressDialog.html",
+          "hash": "B1J2irzxi0cIwHFgpY8NxA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Pietschsoft.NativeProgressDialog.shlwapi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pietschsoft.NativeProgressDialog.shlwapi.html",
+          "hash": "BbGFi0vDEkWPZkI1LAlGPA=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Pietschsoft.NativeProgressDialog.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pietschsoft.NativeProgressDialog.html",
+          "hash": "0sNw1aIdRzNG71foveXkow=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "obj/api/Pietschsoft.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Pietschsoft.html",
+          "hash": "tH+KYuU/QAi14usvDGpc8Q=="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "obj/api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "KQY3yW2FdesU4sJWq6u+Zw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "Sg+nKmnHP++YKMT39ruhpw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 3,
+          "skipped_file_count": 3
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 22,
+          "skipped_file_count": 22
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

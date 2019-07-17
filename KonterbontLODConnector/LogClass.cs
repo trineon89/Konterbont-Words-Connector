@@ -28,8 +28,11 @@ namespace KonterbontLODConnector
 
         public void CloseLog()
         {
-            Log.WriteLine("[" + DateTime.Now.ToString() + "] Close Log");
-            Log.Close();
+           if (Log != null)
+            {
+                Log.WriteLine("[" + DateTime.Now.ToString() + "] Close Log");
+                Log.Close();
+            }
         }
 
         public void WriteToLog(string CustomText, bool newLine = true, bool append = false)
