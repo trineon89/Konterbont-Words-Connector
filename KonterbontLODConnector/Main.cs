@@ -941,7 +941,15 @@ namespace KonterbontLODConnector
         private string GetSelectionTooltip(Wuert wuert)
         {
             string tempstring = "";
-            tempstring += "DE: " + wuert.Meanings[0].DE + " | FR: " + wuert.Meanings[0].FR;
+            try
+            {
+                tempstring += "DE: " + wuert.Meanings[0].DE + " | FR: " + wuert.Meanings[0].FR;
+            }
+            catch
+            {
+                tempstring = "";
+            }
+
             return tempstring;
         }
 
@@ -1301,11 +1309,12 @@ namespace KonterbontLODConnector
 
                     string tooltip = GetSelectionTooltip(tmpwuert);
 
-                    if (tooltip.Contains("Variant"))
+                    if (tooltip.Contains("Variant") || tooltip == "")
                     {
                         rb.Enabled = false;
                         var result = tooltip.Substring(tooltip.LastIndexOf(' ') + 1);
-                        rb.Text = rb.Text + " (Variant vun " + result + ")";
+                        //rb.Text = rb.Text + " (Variant vun " + result + ")";
+                        rb.Text = rb.Text + " (Variant)";
                         tmpwuert.IsVariant = true;
                     }
 
