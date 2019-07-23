@@ -1480,10 +1480,11 @@ namespace KonterbontLODConnector
                     progressDialog.Line1 = "Wuert: " + line;
                     if (c == 0)
                     {
-                        dt.SetRGB(line);
-                        ArticleColor = convertToColorArray(dt.Globrgb);
+                        dtt.SetRGB(line);
+                        ArticleColor = convertToColorArray(dtt.Globrgb);
                         OArticleColor = convertToColorArray(line);
                         tssCustomColor.BackColor = ArticleColor;
+
                     }
                     else if (line != "")
                     {
