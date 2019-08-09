@@ -19,7 +19,7 @@ namespace KonterbontLODConnector.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -93,6 +93,47 @@ namespace KonterbontLODConnector.Properties {
         public static string _01_prepare_doc {
             get {
                 return ResourceManager.GetString("_01_prepare_doc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #target &quot;indesign&quot;
+        ///#targetengine &quot;com.twixlmedia.publisher.idserver&quot;
+        ///#include &quot;zz_twixlForServer.jsx&quot;;
+        ///
+        ///var magazineFolderPath = &quot;K:\\Magazines\\&quot;;
+        ///
+        ///var myBookContents = TMUtilities.collectionToArray(app.activeBook.bookContents);
+        ///var myBookContentsCount = myBookContents.length;
+        ///for (var ii = 0; ii &lt; myBookContentsCount; ii++) {
+        ///    var myFile = myBookContents[ii];
+        ///    var exportFileNamePath = myFile.fullName.name.split(&apos;.&apos;)[0];
+        ///    $.writeln(exportFileNamePath);
+        ///    if (ii == 0) {
+        ///        //Cov [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string _02_Export_Articles_From_Book {
+            get {
+                return ResourceManager.GetString("_02_Export_Articles_From_Book", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #target &quot;indesign&quot;
+        ///#targetengine &quot;com.twixlmedia.publisher.idserver&quot;
+        ///#include &quot;zz_twixlForServer.jsx&quot;;
+        ///
+        ///var magazineFolderPath = &quot;K:\\Magazines\\&quot;;
+        ///var destinationPath = magazineFolderPath + app.activeBook.name.substr(0, 7) + &quot;\\export\\&quot; + app.activeBook.name.substr(0, 7) + &quot;.publication&quot;;
+        ///var myFile = app.activeBook.fullName.fsName;
+        ///
+        ///TwixlPublisherPluginAPI.exportPublication(app.activeBook, destinationPath);
+        ///
+        ///.
+        /// </summary>
+        public static string _02_Export_Book {
+            get {
+                return ResourceManager.GetString("_02_Export_Book", resourceCulture);
             }
         }
         
@@ -234,6 +275,25 @@ namespace KonterbontLODConnector.Properties {
             get {
                 object obj = ResourceManager.GetObject("SelectFileGroup_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to /**
+        /// * ------------------------------------------------------------------------
+        /// * Twixl media Confidential
+        /// * ------------------------------------------------------------------------
+        /// *
+        /// * (c) 2010-2016 Twixl media, http://twixlmedia.com
+        /// *
+        /// * NOTICE: All information contained herein is, and remains the property of
+        /// * Twixl media and its suppliers, if any. The intellectual and technical
+        /// * concepts contained herein are proprietary to Twixl media and its
+        /// * suppliers and may be covered by U.S. and [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string zz_twixlForServer {
+            get {
+                return ResourceManager.GetString("zz_twixlForServer", resourceCulture);
             }
         }
     }

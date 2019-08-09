@@ -67,6 +67,8 @@ namespace KonterbontLODConnector
             this.tss1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbCustomPT = new System.Windows.Forms.ToolStripButton();
             this.tsbCustomEN = new System.Windows.Forms.ToolStripButton();
+            this.twixlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getIssueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mmMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.pnlDetails.SuspendLayout();
@@ -80,7 +82,8 @@ namespace KonterbontLODConnector
             this.mmMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dateiToolStripMenuItem,
             this.astellungenToolStripMenuItem,
-            this.tssExperimental});
+            this.tssExperimental,
+            this.twixlToolStripMenuItem});
             this.mmMain.Location = new System.Drawing.Point(0, 0);
             this.mmMain.Name = "mmMain";
             this.mmMain.Size = new System.Drawing.Size(772, 24);
@@ -226,7 +229,7 @@ namespace KonterbontLODConnector
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.76829F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.18411F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.29148F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 48F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.tlpMain.Controls.Add(this.btnCopyToMag, 2, 0);
             this.tlpMain.Controls.Add(this.btnCreatePopups, 1, 0);
             this.tlpMain.Controls.Add(this.lbWords, 0, 1);
@@ -252,9 +255,9 @@ namespace KonterbontLODConnector
             // 
             this.btnCopyToMag.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnCopyToMag.Enabled = false;
-            this.btnCopyToMag.Location = new System.Drawing.Point(254, 3);
+            this.btnCopyToMag.Location = new System.Drawing.Point(251, 3);
             this.btnCopyToMag.Name = "btnCopyToMag";
-            this.btnCopyToMag.Size = new System.Drawing.Size(129, 24);
+            this.btnCopyToMag.Size = new System.Drawing.Size(128, 24);
             this.btnCopyToMag.TabIndex = 15;
             this.btnCopyToMag.Text = "An de Magasinn";
             this.btnCopyToMag.UseVisualStyleBackColor = true;
@@ -264,9 +267,9 @@ namespace KonterbontLODConnector
             // 
             this.btnCreatePopups.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnCreatePopups.Enabled = false;
-            this.btnCreatePopups.Location = new System.Drawing.Point(121, 3);
+            this.btnCreatePopups.Location = new System.Drawing.Point(120, 3);
             this.btnCreatePopups.Name = "btnCreatePopups";
-            this.btnCreatePopups.Size = new System.Drawing.Size(127, 24);
+            this.btnCreatePopups.Size = new System.Drawing.Size(125, 24);
             this.btnCreatePopups.TabIndex = 14;
             this.btnCreatePopups.Text = "Popups erstellen";
             this.btnCreatePopups.UseVisualStyleBackColor = true;
@@ -282,7 +285,7 @@ namespace KonterbontLODConnector
             this.lbWords.Margin = new System.Windows.Forms.Padding(5);
             this.lbWords.Name = "lbWords";
             this.tlpMain.SetRowSpan(this.lbWords, 2);
-            this.lbWords.Size = new System.Drawing.Size(241, 454);
+            this.lbWords.Size = new System.Drawing.Size(238, 454);
             this.lbWords.TabIndex = 8;
             this.lbWords.SelectedIndexChanged += new System.EventHandler(this.LbWords_SelectedIndexChanged);
             // 
@@ -291,10 +294,10 @@ namespace KonterbontLODConnector
             this.tlpMain.SetColumnSpan(this.lbSelectWord, 2);
             this.lbSelectWord.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSelectWord.FormattingEnabled = true;
-            this.lbSelectWord.Location = new System.Drawing.Point(256, 35);
+            this.lbSelectWord.Location = new System.Drawing.Point(253, 35);
             this.lbSelectWord.Margin = new System.Windows.Forms.Padding(5);
             this.lbSelectWord.Name = "lbSelectWord";
-            this.lbSelectWord.Size = new System.Drawing.Size(227, 210);
+            this.lbSelectWord.Size = new System.Drawing.Size(225, 210);
             this.lbSelectWord.TabIndex = 9;
             this.lbSelectWord.SelectedIndexChanged += new System.EventHandler(this.LbSelectWord_SelectedIndexChanged);
             this.lbSelectWord.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectWord_MouseDoubleClick);
@@ -304,10 +307,10 @@ namespace KonterbontLODConnector
             this.tlpMain.SetColumnSpan(this.lbSelectMeaning, 2);
             this.lbSelectMeaning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSelectMeaning.FormattingEnabled = true;
-            this.lbSelectMeaning.Location = new System.Drawing.Point(493, 35);
+            this.lbSelectMeaning.Location = new System.Drawing.Point(488, 35);
             this.lbSelectMeaning.Margin = new System.Windows.Forms.Padding(5);
             this.lbSelectMeaning.Name = "lbSelectMeaning";
-            this.lbSelectMeaning.Size = new System.Drawing.Size(274, 210);
+            this.lbSelectMeaning.Size = new System.Drawing.Size(279, 210);
             this.lbSelectMeaning.TabIndex = 10;
             this.lbSelectMeaning.SelectedIndexChanged += new System.EventHandler(this.LbSelectMeaning_SelectedIndexChanged);
             this.lbSelectMeaning.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectMeaning_MouseDoubleClick);
@@ -318,11 +321,11 @@ namespace KonterbontLODConnector
             this.tlpMain.SetColumnSpan(this.pnlDetails, 4);
             this.pnlDetails.Controls.Add(this.rtbDetails);
             this.pnlDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlDetails.Location = new System.Drawing.Point(256, 255);
+            this.pnlDetails.Location = new System.Drawing.Point(253, 255);
             this.pnlDetails.Margin = new System.Windows.Forms.Padding(5);
             this.pnlDetails.Name = "pnlDetails";
             this.pnlDetails.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlDetails.Size = new System.Drawing.Size(511, 234);
+            this.pnlDetails.Size = new System.Drawing.Size(514, 234);
             this.pnlDetails.TabIndex = 17;
             // 
             // rtbDetails
@@ -335,7 +338,7 @@ namespace KonterbontLODConnector
             this.rtbDetails.Margin = new System.Windows.Forms.Padding(5);
             this.rtbDetails.Name = "rtbDetails";
             this.rtbDetails.ReadOnly = true;
-            this.rtbDetails.Size = new System.Drawing.Size(499, 222);
+            this.rtbDetails.Size = new System.Drawing.Size(502, 222);
             this.rtbDetails.TabIndex = 17;
             this.rtbDetails.Text = "";
             // 
@@ -391,7 +394,7 @@ namespace KonterbontLODConnector
             // axWindowsMediaPlayer1
             // 
             this.axWindowsMediaPlayer1.Enabled = true;
-            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(389, 3);
+            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(385, 3);
             this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
             this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
             this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(83, 23);
@@ -405,7 +408,7 @@ namespace KonterbontLODConnector
             this.btnFetch.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFetch.Location = new System.Drawing.Point(3, 3);
             this.btnFetch.Name = "btnFetch";
-            this.btnFetch.Size = new System.Drawing.Size(112, 24);
+            this.btnFetch.Size = new System.Drawing.Size(111, 24);
             this.btnFetch.TabIndex = 22;
             this.btnFetch.Text = "Sync LOD";
             this.btnFetch.UseVisualStyleBackColor = true;
@@ -476,6 +479,21 @@ namespace KonterbontLODConnector
             this.tsbCustomEN.ToolTipText = "Englesch Iwwersetzung setzen";
             this.tsbCustomEN.Click += new System.EventHandler(this.TlbCustomEN_Click);
             // 
+            // twixlToolStripMenuItem
+            // 
+            this.twixlToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.getIssueToolStripMenuItem});
+            this.twixlToolStripMenuItem.Name = "twixlToolStripMenuItem";
+            this.twixlToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.twixlToolStripMenuItem.Text = "Twixl";
+            // 
+            // getIssueToolStripMenuItem
+            // 
+            this.getIssueToolStripMenuItem.Name = "getIssueToolStripMenuItem";
+            this.getIssueToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getIssueToolStripMenuItem.Text = "Get_Issue";
+            this.getIssueToolStripMenuItem.Click += new System.EventHandler(this.GetIssueToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -545,6 +563,8 @@ namespace KonterbontLODConnector
         private System.Windows.Forms.ToolStripButton tsbCustomEN;
         private System.Windows.Forms.ToolStripButton tsbCustomPT;
         private System.Windows.Forms.ToolStripSeparator tss1;
+        private System.Windows.Forms.ToolStripMenuItem twixlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem getIssueToolStripMenuItem;
     }
 }
 

@@ -22,6 +22,8 @@ namespace KonterbontLODConnector
 {
     public partial class frmMain : Form
     {
+        private TwixlAPI twixlAPI;
+
         public string MagazinePath = "\\\\cubecluster\\Konterbont_Produktioun\\Magazines\\";
         public string ArticlePath = "\\\\cubecluster\\Konterbont_Produktioun\\Artikelen\\";
         public string CustomAudioPath = "\\\\cubecluster\\Konterbont_Audio\\";
@@ -2283,6 +2285,15 @@ namespace KonterbontLODConnector
         private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             Log.CloseLog();
+        }
+
+        private void GetIssueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (twixlAPI==null) { twixlAPI = new TwixlAPI(); }
+
+            var ggtask = twixlAPI.uploadIssue(@"K:\Magazines\2019_05\export\2019_05_cover.article");
+            var gg = ggtask.Result;
+            Console.WriteLine();
         }
     }
 }
