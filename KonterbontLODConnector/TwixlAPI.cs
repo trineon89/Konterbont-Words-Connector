@@ -1,6 +1,9 @@
-﻿using RestSharp;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -66,6 +69,24 @@ namespace KonterbontLODConnector
             return resp.Data;
         }
 
+        public async Task<TwixlAPIJsonCategorie[]> getCategories()
+        {
+            var client = new RestClient("https://platform.twixlmedia.com/admin-api/1");
+            var request = new RestRequest("categories/all", Method.POST);
+            request.AddParameter("admin_api_key", KB_API_KEY);
+            request.AddParameter("app_key", KB_APP_KEY_SANDBOX);
+
+            IRestResponse resp = client.Execute(request);
+
+            JsonTextReader _reader = new JsonTextReader(new StringReader(resp.Content));
+            JsonSerializer serializer = new JsonSerializer();
+            TwixlAPIJsonCategorie[] cats = serializer.Deserialize<TwixlAPIJsonCategorie[]>(_reader);
+
+            //TwixlAPIJsonCategorie[] cats = JsonConverter.DeserializeObject(resp.Content);
+
+            return cats;
+        }
+
         private string ZipContent(string filepath)
         {
             string newfilename = Path.GetFullPath(filepath) + ".zip";
@@ -83,14 +104,29 @@ namespace KonterbontLODConnector
         public string issue_file; //Should be a file, can't declare static <File>
     }
 
-    class TwixlAPIJsonResponse
+    partial class TwixlAPIJsonResponse
     {
         public string result;
         public TwixlAPIJsonIssue issue;
         public string error;
     }
 
-    class TwixlAPIJsonIssue
+    partial class TwixlAPIJsonResponse
+    {
+        public TwixlAPIJsonResponse[] twixlAPIJsonResponses;
+    }
+
+   
+
+    class TwixlAPIJsonCategorie
+    {
+        public int id;
+        public string name;
+        public int sort_order;
+        public List<TwixlAPIJsonIssue> issues;
+    }
+
+class TwixlAPIJsonIssue
     {
         public int content_size_android10;
         public int content_size_android7;
@@ -108,6 +144,5 @@ namespace KonterbontLODConnector
         public string status;
         public string uuid;
         public string description;
-
     }
 }

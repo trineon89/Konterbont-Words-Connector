@@ -25,7 +25,7 @@ namespace KonterbontLODConnector
         //public TextDocument Article = null;
         public List<string> StyleName = null;
         private frmMagazineSelector theform;
-        private string targetMag;
+        [J("targetMag", NullValueHandling = N.Ignore)] public string targetMag { get; set; }
         private bool hasPopups = false;
         private bool isInMag = false;
         private bool isSaved = false;
@@ -62,14 +62,18 @@ namespace KonterbontLODConnector
             FrmMagazineSelectorInit();
         }
 
+        public DataHandler(string _filename, string _filepath, string _targetMag)
+        {
+            Filename = _filename;
+            Filepath = _filepath;
+            targetMag = _targetMag;
+            WordList = new List<AutoComplete>();
+            FrmMagazineSelectorInit();
+        }
+
         public string getTemppath()
         {
             return Temppath;
-        }
-
-        public string TargetMag()
-        {
-            return targetMag;
         }
 
         public bool IsSaved()
@@ -114,6 +118,11 @@ namespace KonterbontLODConnector
                 {
                     theCombo.Items.Add(dirName);
                 }
+            }
+
+            if (targetMag != null)
+            {
+                theCombo.SelectedIndex = theCombo.FindString(targetMag);
             }
         }
 

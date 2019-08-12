@@ -28,7 +28,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>http://www.autisme.lu/software/KWC/</UpdateUrl>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>11</ApplicationRevision>
+    <ApplicationRevision>14</ApplicationRevision>
     <ApplicationVersion>0.10.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -151,6 +151,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TwixlAPI.cs" />
+    <Compile Include="TwixlAPIForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TwixlAPIForm.Designer.cs">
+      <DependentUpon>TwixlAPIForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="WordsClass.cs" />
     <EmbeddedResource Include="Color.resx">
       <DependentUpon>Color.cs</DependentUpon>
@@ -174,6 +180,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TwixlAPIForm.resx">
+      <DependentUpon>TwixlAPIForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="KonterbontLODConnector.snk" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
@@ -214,6 +223,7 @@
   <ItemGroup>
     <Content Include="Icon.ico" />
     <None Include="res\02_Export_Book.jsx" />
+    <Content Include="res\02_export_article.jsx" />
     <Content Include="res\02_Export_Articles_From_Book.jsx" />
     <Content Include="res\popupstyle.css" />
     <None Include="res\zz_twixlForServer.jsx" />

@@ -103,6 +103,23 @@ namespace KonterbontLODConnector.Properties {
         ///
         ///var magazineFolderPath = &quot;K:\\Magazines\\&quot;;
         ///
+        ///var firstArg = arguments[0];
+        ///
+        ///alert(&quot;Arguments: &quot; + firstArg);.
+        /// </summary>
+        public static string _02_export_article {
+            get {
+                return ResourceManager.GetString("_02_export_article", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #target &quot;indesign&quot;
+        ///#targetengine &quot;com.twixlmedia.publisher.idserver&quot;
+        ///#include &quot;zz_twixlForServer.jsx&quot;;
+        ///
+        ///var magazineFolderPath = &quot;K:\\Magazines\\&quot;;
+        ///
         ///var myBookContents = TMUtilities.collectionToArray(app.activeBook.bookContents);
         ///var myBookContentsCount = myBookContents.length;
         ///for (var ii = 0; ii &lt; myBookContentsCount; ii++) {

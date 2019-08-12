@@ -5,6 +5,6 @@
 var magazineFolderPath = "K:\\Magazines\\";
 var destinationPath = magazineFolderPath + app.activeBook.name.substr(0, 7) + "\\export\\" + app.activeBook.name.substr(0, 7) + ".publication";
 var myFile = app.activeBook.fullName.fsName;
-
+TwixlPublisherPluginAPI.setExportFormat("pdf");
 TwixlPublisherPluginAPI.exportPublication(app.activeBook, destinationPath);
 

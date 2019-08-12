@@ -11,6 +11,7 @@ namespace KonterbontLODConnector
         public string scriptname2 = "02_Export_Articles_From_Book.jsx";
         public string scriptname3 = "02_Export_Book.jsx";
         public string scriptname4 = "zz_twixlForServer.jsx";
+        public string scriptname5 = "02_export_article.jsx";
         public string AppDataPath;
         public List<string> AdobeScriptsSubFolders = new List<string>();
 
@@ -35,6 +36,7 @@ namespace KonterbontLODConnector
             string _filecontent2 = Properties.Resources._02_Export_Articles_From_Book;
             string _filecontent3 = Properties.Resources._02_Export_Book;
             string _filecontent4 = Properties.Resources.zz_twixlForServer;
+            string _filecontent5 = Properties.Resources._02_export_article;
 
             foreach (string adbscriptfolder in AdobeScriptsSubFolders)
             {
@@ -54,6 +56,7 @@ namespace KonterbontLODConnector
                 File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname2, _filecontent2, new UTF8Encoding(true));
                 File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname3, _filecontent3, new UTF8Encoding(true));
                 File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname4, _filecontent4, new UTF8Encoding(true));
+                File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname5, _filecontent5, new UTF8Encoding(true));
             }
         }
 

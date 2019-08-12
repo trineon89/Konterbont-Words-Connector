@@ -1463,7 +1463,8 @@ namespace KonterbontLODConnector
                     Filename = dt.Filename,
                     Filepath = dt.Filepath,
                     Globrgb = dt.Globrgb,
-                    DocPath = dt.DocPath
+                    DocPath = dt.DocPath,
+                    targetMag = dt.targetMag
                 };
 
                 Pietschsoft.NativeProgressDialog progressDialog = new Pietschsoft.NativeProgressDialog(this.Handle)
@@ -1543,7 +1544,7 @@ namespace KonterbontLODConnector
             
             Log.WriteToLog("Article " + lastFolderName + " opened");
             tssArticle.Text = lastFolderName;
-            tssMagazine.Text = globaldt.TargetMag();
+            tssMagazine.Text = globaldt.targetMag;
         }
 
         private void LbWords_SelectedIndexChanged(object sender, EventArgs e)
@@ -1791,7 +1792,7 @@ namespace KonterbontLODConnector
                 globaldt = new DataHandler();
             }
             globaldt.ShowMagazineSelector();
-            tssMagazine.Text = globaldt.TargetMag();
+            tssMagazine.Text = globaldt.targetMag;
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -2289,11 +2290,65 @@ namespace KonterbontLODConnector
 
         private void GetIssueToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (twixlAPI==null) { twixlAPI = new TwixlAPI(); }
+            //Get Indesign File and open it
+            string tempstring = globaldt.Filename.Replace("_.wordslist", "");
+            
+            string[] filePaths = Directory.GetFiles(globaldt.Filepath, tempstring+"*.indd");
+            if (filePaths.Length > 0) //Has found the Indesign File
+            {
 
-            var ggtask = twixlAPI.uploadIssue(@"K:\Magazines\2019_05\export\2019_05_cover.article");
-            var gg = ggtask.Result;
-            Console.WriteLine();
+                Pietschsoft.NativeProgressDialog progressDialog = new Pietschsoft.NativeProgressDialog(this.Handle)
+                {
+                    Title = "Article exportéieren....",
+                    CancelMessage = "D'Fënster get nom Export vum selwen zou....",
+                    Maximum = 2,
+                    Value = 0,
+                    Line1 = "Den Artikel gëtt exportéiert...",
+                    Line2 = "Artikel " +globaldt.Filename.Substring(0, 4),
+                    Line3 = "D'Fënster get nom Export vum selwen zou"
+                };
+
+                progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
+
+                string indesignfilepath = filePaths[0];
+
+                Type oType = Type.GetTypeFromProgID("InDesign.Application");
+                dynamic oIndesign = Activator.CreateInstance(oType);
+                dynamic oDocument = oIndesign.open(indesignfilepath);
+                
+                string scriptpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Adobe\InDesign\Version 14.0\en_US\Scripts\Scripts Panel\KB4\02_export_article.jsx";
+
+                string[] myParams = { globaldt.targetMag };
+
+                oIndesign.DoScript(@scriptpath, InDesign.idScriptLanguage.idJavascript, myParams);
+                oDocument.Save();
+                oDocument.Close();
+
+                if (twixlAPI == null) { twixlAPI = new TwixlAPI(); }
+
+                progressDialog.Value=1;
+                progressDialog.Line1 = "Den Artikel gëtt eropgelueden...";
+
+                string Result = Path.GetFileNameWithoutExtension(indesignfilepath);
+
+                string temppath = @"K:\Magazines\" + globaldt.targetMag + @"\export\articles\" + Result + ".article";
+
+                var ggtask = twixlAPI.uploadIssue(temppath);
+                var gg = ggtask.Result;
+                Console.WriteLine();
+
+                progressDialog.CloseDialog();
+
+            }
+
+           
+            //Show ModalWindow, so the User has a Chance to export using the InDesign Twixl export engine
+        }
+
+        private void TwixlAPIToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TwixlAPIForm twixlAPIForm = new TwixlAPIForm();
+            twixlAPIForm.ShowDialog();
         }
     }
 }
