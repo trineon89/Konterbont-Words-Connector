@@ -17,11 +17,17 @@ namespace KonterbontLODConnector
             InitializeComponent();
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        private void btnGetCategories_Click(object sender, EventArgs e)
         {
             TwixlAPI twixlAPI = new TwixlAPI();
             twixlAPI.getCategories();
             Console.WriteLine("");
+        }
+
+        private void btnGetIssues_Click(object sender, EventArgs e)
+        {
+            TwixlAPI twixlAPI = new TwixlAPI();
+            twixlAPI.getIssues();
         }
     }
 }

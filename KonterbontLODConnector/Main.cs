@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Threading;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Http;
 using HtmlAgilityPack;
 using System.IO;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using WMPLib;
-
-//using Independentsoft.Office.Odf;
-//using IStyles = Independentsoft.Office.Odf.Styles;
-
 using Ookii.Dialogs.WinForms;
 
 namespace KonterbontLODConnector
@@ -169,21 +162,57 @@ namespace KonterbontLODConnector
 
         private async Task<string> FetchXML(string Word)
         {
-            var httpClient = new HttpClient();
-            var httpContent = new HttpRequestMessage
+            bool blocked = true;
+            string responseBody = null;
+            int i = 0;
+            while (blocked)
             {
-                RequestUri = new Uri("https://www.lod.lu/php/lod-search.php?v=H&s=lu&w=" + Word.ToLower()), //Word has to be Lowercase
-                Method = HttpMethod.Get,
-                Headers =
-                           {
-                              { HttpRequestHeader.Host.ToString(), "www.lod.lu" },
-                              { HttpRequestHeader.Referer.ToString(), "https://www.lod.lu/" }
-                           }
-            };
-            var _response = await httpClient.SendAsync(httpContent);
-            _response.EnsureSuccessStatusCode();
-            string responseBody = await _response.Content.ReadAsStringAsync();
-            httpClient.Dispose();
+                HttpClient httpClient;
+                //if more than 30 connections => Exception
+                if (i >= 30) { throw new Exception("More than 30 connections, proxy not working!"); }
+                if (_Globals.useProxy && i > 0)
+                {
+                    //get random Proxy & setup Proxy
+                    AutoComplete _ac = new AutoComplete();
+                    string _proxy = _ac.GetProxie();
+                    string proxyHost = _proxy.Substring(0, _proxy.IndexOf(":"));
+                    string proxyPort = _proxy.Substring(_proxy.IndexOf(":") + 1);
+                    var proxy = new WebProxy
+                    {
+                        Address = new Uri($"http://{proxyHost}:{proxyPort}"),
+                        UseDefaultCredentials = true
+                    };
+
+                    HttpClientHandler handler = new HttpClientHandler() { Proxy = proxy };
+                    handler.DefaultProxyCredentials = CredentialCache.DefaultCredentials;
+                    httpClient = new HttpClient(handler);
+                }
+                else
+                {
+                    httpClient = new HttpClient();
+                }
+            
+                var httpContent = new HttpRequestMessage
+                {
+                    RequestUri = new Uri("https://www.lod.lu/php/lod-search.php?v=H&s=lu&w=" + Word.ToLower()), //Word has to be Lowercase
+                    Method = HttpMethod.Get,
+                    Headers =
+                               {
+                                  { HttpRequestHeader.Host.ToString(), "www.lod.lu" },
+                                  { HttpRequestHeader.Referer.ToString(), "https://www.lod.lu/" }
+                               }
+                };
+                try { 
+                    var _response = await httpClient.SendAsync(httpContent);
+                    blocked = !_response.IsSuccessStatusCode;
+                    responseBody = await _response.Content.ReadAsStringAsync();
+                } catch (Exception e)
+                {
+                    Log.WriteToLog(e.ToString());
+                }
+                httpClient.Dispose();
+                i++;
+            }
             return responseBody;
         }
 
@@ -842,99 +871,6 @@ namespace KonterbontLODConnector
             return true;
         }
 
-        /*
-        private AutoComplete ParseXMLWords(string XML, bool onlycompare = false, string occurence = null)
-        {
-            AutoComplete ac = new AutoComplete();
-            ac.Occurence = occurence;
-
-            HtmlAgilityPack.HtmlDocument htmlDocument = new HtmlAgilityPack.HtmlDocument();
-            HtmlNode[] htmlNodes;
-
-            htmlDocument.LoadHtml(XML);
-            htmlNodes = htmlDocument.DocumentNode.SelectNodes("//a[@onclick]").ToArray();
-
-            frmSelectMeaning frm = new frmSelectMeaning();
-
-            int _i = 1;
-            string attrib = null;
-
-            foreach (HtmlNode htmlNode in htmlNodes)
-            {
-                attrib = htmlDocument.DocumentNode.SelectNodes("//a[@onclick]")[_i - 1].GetAttributeValue("onclick", "default");
-                string tmpxml = attrib.Remove(0, attrib.IndexOf("'") + 1); // result: PERSOUN1.xml','persoun1.mp3')
-                string tmpmp3 = tmpxml.Remove(0, tmpxml.IndexOf("'") + 1); // result: ,'persoun1.mp3')
-                tmpmp3 = tmpmp3.Remove(0, tmpmp3.IndexOf("'") + 1);
-
-                string tmpWordForm = htmlDocument.DocumentNode.SelectSingleNode("//span[@class='s4']").InnerText.Trim();
-                htmlNode.RemoveChild(htmlDocument.DocumentNode.SelectNodes("//span[@class='s4']").First());
-
-                Wuert wuert = new Wuert
-                {
-                    WuertLu = htmlNode.InnerText.Trim(),
-                    WuertForm = new WordForm(null),
-                    Selection = 1,
-                    XMLFile = tmpxml.Substring(0, tmpxml.IndexOf("'")),
-                    MP3 = tmpmp3.Substring(0, tmpmp3.IndexOf("'"))
-                };
-
-                //ac.Wierder.Add(wuert);
-
-                RadioButton rb = new RadioButton
-                {
-                    Name = _i.ToString(),
-                    Text = wuert.WuertLu + " (" + tmpWordForm + ")",
-                    Location = new Point(10, _i * 30),
-                    Width = 500
-                };
-                if (_i == 1)
-                { rb.Checked = true; }
-
-                Task<string> task = Task.Run(async () => await GetSelectionTooltipAsync(wuert.XMLFile));
-                task.Wait();
-                string tooltip = task.Result;
-                if (tooltip.Contains("Variant"))
-                {
-                    rb.Enabled = false;
-                    var result = tooltip.Substring(tooltip.LastIndexOf(' ') + 1);
-                    rb.Text = rb.Text + " (Variant vun " + result + ")";
-                    wuert.IsVariant = true;
-                }
-                ac.Wierder.Add(wuert);
-                frm.gbMeanings.Dock = DockStyle.Fill;
-                frm.tcLang.Visible = false;
-                frm.gbMeanings.Controls.Add(rb);
-                frm.gbMeanings.Text = "Wuert auswielen:";
-                frm.Text = "Wuert auswielen";
-                frm.tpInfo.SetToolTip(rb, tooltip);
-
-                _i++;
-            }
-
-            if (onlycompare)
-                return ac;
-
-            if (htmlNodes.Count() > 1)
-            {
-                ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.HighlightSelText(TextForm.Controls.OfType<RichTextBox>().First(), ac.Occurence));
-                if (frm.ShowDialog() == DialogResult.OK)
-                {
-                    ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.UnSelText(TextForm.Controls.OfType<RichTextBox>().First()));
-                    RadioButton radioButton = frm.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
-                    ac.Selection = Int32.Parse(radioButton.Name);
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                ac.Selection = 1;
-            }
-            return ac;
-        }
-        */
         /// <summary>
         /// Lies den Tooltip aus dem Wuert
         /// </summary>
@@ -955,130 +891,8 @@ namespace KonterbontLODConnector
             return tempstring;
         }
 
-        /*
-        /// <summary>
-        /// Calls the functions for the Tooltip(s) of the Selection Form
-        /// </summary>
-        /// <param name="XMLTT">Den LOD XML-Fichiersnumm</param>
-        /// <returns></returns>
-        private async Task<string> GetSelectionTooltip(string XMLTT)
-        {
-            string tooltip = null;
-
-            string tooltipLU = await Task.Run(() => FetchWordsTT(XMLTT, "LU"));
-            string tooltipDE = await Task.Run(() => FetchWordsTT(XMLTT, "DE"));
-            string tooltipFR = await Task.Run(() => FetchWordsTT(XMLTT, "FR"));
-
-            tooltip = tooltipLU + tooltipDE + tooltipFR;
-
-            return tooltip;
-        }
-        */
-        /*
-        private async Task<Boolean> CheckIfWordHasChangedAsync(string searchstring, List<AutoComplete> ac)
-        {
-            return await Task.Run(() => CheckIfWordHasChanged(searchstring, ac));
-        }*/
-
-        /*
-        private async Task<Boolean> CheckIfWordHasChanged(string searchstring, List<AutoComplete> ac)
-        {
-            AutoComplete acresults = await Task.Run(async () => await GetFullTranslationsAsync(searchstring));
-
-            var atmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu))));
-            var btmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.MP3 == x.MP3))));
-            var ctmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertForm.WuertForm == x.WuertForm.WuertForm))));
-            var dtmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.XMLFile == x.XMLFile))));
-            var etmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (acx.Occurence == searchstring))));
-                                                                                                                                                //&& (b.WuertLuS == x.WuertLuS)
-            var tmp = ac.FirstOrDefault(acx => acx.Wierder.Any(x => acresults.Wierder.Any(b => (b.WuertLu == x.WuertLu) && (b.MP3 == x.MP3)
-                && (b.WuertForm.WuertForm == x.WuertForm.WuertForm) && (b.XMLFile == x.XMLFile) && (acx.Occurence == searchstring))));
-
-            if (tmp == null)
-            {
-                return true;
-            }
-            else
-            {
-                bool res = acresults.DeepCheck(acresults, tmp);
-                return res;
-            }
-        }*/
-
         private DataHandler OpenDocument(DataHandler dt)
         {
-            /*TextDocument doc = null;
-            try
-            {
-                doc = new TextDocument(dt.DocPath);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-                return dt;
-            }
-
-            dt.StyleName = new List<string>();
-            foreach (var style in doc.AutomaticStyles.Styles)
-            {
-                if (style.GetType() == typeof(IStyles.TextStyle))
-                {
-                    IStyles.TextStyle textstyle = (IStyles.TextStyle)style;
-                    if (textstyle.BackgroundColor != null && textstyle.BackgroundColor != "#ffffff" && textstyle.BackgroundColor != "transparent")
-                    {
-                        dt.StyleName.Add(textstyle.Name);
-                    }
-                }
-            }
-
-            Color myRgbColor = Color.FromArgb(20, 118, 212);
-
-            IList<AttributedText> attTexts = doc.GetAttributedTexts();
-            IList<Section> Texts = doc.GetSections();
-            string text = "";
-            Font Bold = new Font(rtb.SelectionFont, FontStyle.Bold);
-            Font Normal = new Font(rtb.SelectionFont, FontStyle.Regular);
-            IContentElement parent = null;
-            for (int _i = 0; _i < attTexts.Count; _i++)
-            {
-                var style = attTexts[_i].Style.ToString();
-
-                text = attTexts[_i].Content[0].ToString();
-
-
-                
-                text = text.Replace("&quot;", "\"");
-                text = text.Replace("&apos;", "'");
-                IContentElement tempparent = attTexts[_i].GetParent();
-                if (parent == null)
-                {
-                    parent = tempparent;
-                }
-
-                if (tempparent != parent && parent.GetType() == typeof(Independentsoft.Office.Odf.Paragraph) && tempparent.GetType() == typeof(Independentsoft.Office.Odf.Paragraph))
-                {
-                    rtb.AppendText(Environment.NewLine + Environment.NewLine);
-                    parent = tempparent;
-                }
-
-                if (dt.StyleName.Contains(style))
-                {
-                    rtb.SelectionColor = myRgbColor;
-                    rtb.SelectionFont = Bold;
-                    rtb.AppendText(text);
-                    rtb.SelectionColor = Color.Black;
-                    rtb.SelectionFont = Normal;
-                }
-                else
-                {
-                    if (!text.Contains("<"))
-                    {
-                        rtb.AppendText(text);
-                    }
-                }
-
-            }*/
-
             rtb.LoadFile(dt.DocPath);
 
             TextForm.Controls.Add(rtb);
@@ -2288,7 +2102,7 @@ namespace KonterbontLODConnector
             Log.CloseLog();
         }
 
-        private void GetIssueToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PublishStripMenuItem_Click(object sender, EventArgs e)
         {
             //Get Indesign File and open it
             string tempstring = globaldt.Filename.Replace("_.wordslist", "");
@@ -2350,5 +2164,17 @@ namespace KonterbontLODConnector
             TwixlAPIForm twixlAPIForm = new TwixlAPIForm();
             twixlAPIForm.ShowDialog();
         }
+
+        private void TsmUseProxy_Click(object sender, EventArgs e)
+        {
+            _Globals.useProxy = !_Globals.useProxy;
+            tsmUseProxy.Checked = _Globals.useProxy;
+        }
+    }
+
+
+    public static class _Globals
+    {
+        public static bool useProxy = true;
     }
 }

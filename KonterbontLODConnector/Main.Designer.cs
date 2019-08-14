@@ -42,11 +42,15 @@ namespace KonterbontLODConnector
             this.magazineSelectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiText = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiColor = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmUseProxy = new System.Windows.Forms.ToolStripMenuItem();
             this.tssExperimental = new System.Windows.Forms.ToolStripMenuItem();
             this.iNDesignConnectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bookContentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.twixlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getIssueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.twixlAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.btnCopyToMag = new System.Windows.Forms.Button();
             this.btnCreatePopups = new System.Windows.Forms.Button();
@@ -69,8 +73,6 @@ namespace KonterbontLODConnector
             this.tss1 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbCustomPT = new System.Windows.Forms.ToolStripButton();
             this.tsbCustomEN = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.twixlAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mmMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.pnlDetails.SuspendLayout();
@@ -168,7 +170,9 @@ namespace KonterbontLODConnector
             this.astellungenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.magazineSelectorToolStripMenuItem,
             this.tsmiText,
-            this.tsmiColor});
+            this.tsmiColor,
+            this.toolStripSeparator4,
+            this.tsmUseProxy});
             this.astellungenToolStripMenuItem.Name = "astellungenToolStripMenuItem";
             this.astellungenToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
             this.astellungenToolStripMenuItem.Text = "Astellungen";
@@ -177,7 +181,7 @@ namespace KonterbontLODConnector
             // 
             this.magazineSelectorToolStripMenuItem.Image = global::KonterbontLODConnector.Properties.Resources.SelectFileGroup_16x;
             this.magazineSelectorToolStripMenuItem.Name = "magazineSelectorToolStripMenuItem";
-            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.magazineSelectorToolStripMenuItem.Text = "Magasinn auswielen...";
             this.magazineSelectorToolStripMenuItem.Click += new System.EventHandler(this.MagazineSelectorToolStripMenuItem_Click);
             // 
@@ -185,7 +189,7 @@ namespace KonterbontLODConnector
             // 
             this.tsmiText.Enabled = false;
             this.tsmiText.Name = "tsmiText";
-            this.tsmiText.Size = new System.Drawing.Size(190, 22);
+            this.tsmiText.Size = new System.Drawing.Size(205, 22);
             this.tsmiText.Text = "Text uweisen...";
             this.tsmiText.Click += new System.EventHandler(this.textUweisenToolStripMenuItem_Click);
             // 
@@ -193,9 +197,23 @@ namespace KonterbontLODConnector
             // 
             this.tsmiColor.Enabled = false;
             this.tsmiColor.Name = "tsmiColor";
-            this.tsmiColor.Size = new System.Drawing.Size(190, 22);
+            this.tsmiColor.Size = new System.Drawing.Size(205, 22);
             this.tsmiColor.Text = "Faarf setzen...";
             this.tsmiColor.Click += new System.EventHandler(this.EegenFaarfSetzenToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(202, 6);
+            // 
+            // tsmUseProxy
+            // 
+            this.tsmUseProxy.Checked = true;
+            this.tsmUseProxy.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tsmUseProxy.Name = "tsmUseProxy";
+            this.tsmUseProxy.Size = new System.Drawing.Size(205, 22);
+            this.tsmUseProxy.Text = "fallback Proxy benotzen?";
+            this.tsmUseProxy.Click += new System.EventHandler(this.TsmUseProxy_Click);
             // 
             // tssExperimental
             // 
@@ -236,7 +254,19 @@ namespace KonterbontLODConnector
             this.getIssueToolStripMenuItem.Name = "getIssueToolStripMenuItem";
             this.getIssueToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
             this.getIssueToolStripMenuItem.Text = "Export & Publish (Sandbox)";
-            this.getIssueToolStripMenuItem.Click += new System.EventHandler(this.GetIssueToolStripMenuItem_Click);
+            this.getIssueToolStripMenuItem.Click += new System.EventHandler(this.PublishStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(207, 6);
+            // 
+            // twixlAPIToolStripMenuItem
+            // 
+            this.twixlAPIToolStripMenuItem.Name = "twixlAPIToolStripMenuItem";
+            this.twixlAPIToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.twixlAPIToolStripMenuItem.Text = "Twixl API...";
+            this.twixlAPIToolStripMenuItem.Click += new System.EventHandler(this.TwixlAPIToolStripMenuItem_Click);
             // 
             // tlpMain
             // 
@@ -248,7 +278,7 @@ namespace KonterbontLODConnector
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.76829F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.18411F));
             this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.29148F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
             this.tlpMain.Controls.Add(this.btnCopyToMag, 2, 0);
             this.tlpMain.Controls.Add(this.btnCreatePopups, 1, 0);
             this.tlpMain.Controls.Add(this.lbWords, 0, 1);
@@ -274,9 +304,9 @@ namespace KonterbontLODConnector
             // 
             this.btnCopyToMag.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnCopyToMag.Enabled = false;
-            this.btnCopyToMag.Location = new System.Drawing.Point(249, 3);
+            this.btnCopyToMag.Location = new System.Drawing.Point(245, 3);
             this.btnCopyToMag.Name = "btnCopyToMag";
-            this.btnCopyToMag.Size = new System.Drawing.Size(127, 24);
+            this.btnCopyToMag.Size = new System.Drawing.Size(125, 24);
             this.btnCopyToMag.TabIndex = 15;
             this.btnCopyToMag.Text = "An de Magasinn";
             this.btnCopyToMag.UseVisualStyleBackColor = true;
@@ -286,9 +316,9 @@ namespace KonterbontLODConnector
             // 
             this.btnCreatePopups.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnCreatePopups.Enabled = false;
-            this.btnCreatePopups.Location = new System.Drawing.Point(119, 3);
+            this.btnCreatePopups.Location = new System.Drawing.Point(117, 3);
             this.btnCreatePopups.Name = "btnCreatePopups";
-            this.btnCreatePopups.Size = new System.Drawing.Size(124, 24);
+            this.btnCreatePopups.Size = new System.Drawing.Size(122, 24);
             this.btnCreatePopups.TabIndex = 14;
             this.btnCreatePopups.Text = "Popups erstellen";
             this.btnCreatePopups.UseVisualStyleBackColor = true;
@@ -304,7 +334,7 @@ namespace KonterbontLODConnector
             this.lbWords.Margin = new System.Windows.Forms.Padding(5);
             this.lbWords.Name = "lbWords";
             this.tlpMain.SetRowSpan(this.lbWords, 2);
-            this.lbWords.Size = new System.Drawing.Size(236, 454);
+            this.lbWords.Size = new System.Drawing.Size(232, 454);
             this.lbWords.TabIndex = 8;
             this.lbWords.SelectedIndexChanged += new System.EventHandler(this.LbWords_SelectedIndexChanged);
             // 
@@ -313,10 +343,10 @@ namespace KonterbontLODConnector
             this.tlpMain.SetColumnSpan(this.lbSelectWord, 2);
             this.lbSelectWord.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSelectWord.FormattingEnabled = true;
-            this.lbSelectWord.Location = new System.Drawing.Point(251, 35);
+            this.lbSelectWord.Location = new System.Drawing.Point(247, 35);
             this.lbSelectWord.Margin = new System.Windows.Forms.Padding(5);
             this.lbSelectWord.Name = "lbSelectWord";
-            this.lbSelectWord.Size = new System.Drawing.Size(224, 210);
+            this.lbSelectWord.Size = new System.Drawing.Size(220, 210);
             this.lbSelectWord.TabIndex = 9;
             this.lbSelectWord.SelectedIndexChanged += new System.EventHandler(this.LbSelectWord_SelectedIndexChanged);
             this.lbSelectWord.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectWord_MouseDoubleClick);
@@ -326,10 +356,10 @@ namespace KonterbontLODConnector
             this.tlpMain.SetColumnSpan(this.lbSelectMeaning, 2);
             this.lbSelectMeaning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSelectMeaning.FormattingEnabled = true;
-            this.lbSelectMeaning.Location = new System.Drawing.Point(485, 35);
+            this.lbSelectMeaning.Location = new System.Drawing.Point(477, 35);
             this.lbSelectMeaning.Margin = new System.Windows.Forms.Padding(5);
             this.lbSelectMeaning.Name = "lbSelectMeaning";
-            this.lbSelectMeaning.Size = new System.Drawing.Size(282, 210);
+            this.lbSelectMeaning.Size = new System.Drawing.Size(290, 210);
             this.lbSelectMeaning.TabIndex = 10;
             this.lbSelectMeaning.SelectedIndexChanged += new System.EventHandler(this.LbSelectMeaning_SelectedIndexChanged);
             this.lbSelectMeaning.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectMeaning_MouseDoubleClick);
@@ -340,11 +370,11 @@ namespace KonterbontLODConnector
             this.tlpMain.SetColumnSpan(this.pnlDetails, 4);
             this.pnlDetails.Controls.Add(this.rtbDetails);
             this.pnlDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlDetails.Location = new System.Drawing.Point(251, 255);
+            this.pnlDetails.Location = new System.Drawing.Point(247, 255);
             this.pnlDetails.Margin = new System.Windows.Forms.Padding(5);
             this.pnlDetails.Name = "pnlDetails";
             this.pnlDetails.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlDetails.Size = new System.Drawing.Size(516, 234);
+            this.pnlDetails.Size = new System.Drawing.Size(520, 234);
             this.pnlDetails.TabIndex = 17;
             // 
             // rtbDetails
@@ -357,7 +387,7 @@ namespace KonterbontLODConnector
             this.rtbDetails.Margin = new System.Windows.Forms.Padding(5);
             this.rtbDetails.Name = "rtbDetails";
             this.rtbDetails.ReadOnly = true;
-            this.rtbDetails.Size = new System.Drawing.Size(504, 222);
+            this.rtbDetails.Size = new System.Drawing.Size(508, 222);
             this.rtbDetails.TabIndex = 17;
             this.rtbDetails.Text = "";
             // 
@@ -413,7 +443,7 @@ namespace KonterbontLODConnector
             // axWindowsMediaPlayer1
             // 
             this.axWindowsMediaPlayer1.Enabled = true;
-            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(382, 3);
+            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(376, 3);
             this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
             this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
             this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(83, 23);
@@ -427,7 +457,7 @@ namespace KonterbontLODConnector
             this.btnFetch.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFetch.Location = new System.Drawing.Point(3, 3);
             this.btnFetch.Name = "btnFetch";
-            this.btnFetch.Size = new System.Drawing.Size(110, 24);
+            this.btnFetch.Size = new System.Drawing.Size(108, 24);
             this.btnFetch.TabIndex = 22;
             this.btnFetch.Text = "Sync LOD";
             this.btnFetch.UseVisualStyleBackColor = true;
@@ -497,18 +527,6 @@ namespace KonterbontLODConnector
             this.tsbCustomEN.Text = "EN";
             this.tsbCustomEN.ToolTipText = "Englesch Iwwersetzung setzen";
             this.tsbCustomEN.Click += new System.EventHandler(this.TlbCustomEN_Click);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(207, 6);
-            // 
-            // twixlAPIToolStripMenuItem
-            // 
-            this.twixlAPIToolStripMenuItem.Name = "twixlAPIToolStripMenuItem";
-            this.twixlAPIToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
-            this.twixlAPIToolStripMenuItem.Text = "Twixl API...";
-            this.twixlAPIToolStripMenuItem.Click += new System.EventHandler(this.TwixlAPIToolStripMenuItem_Click);
             // 
             // frmMain
             // 
@@ -583,6 +601,8 @@ namespace KonterbontLODConnector
         private System.Windows.Forms.ToolStripMenuItem getIssueToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem twixlAPIToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem tsmUseProxy;
     }
 }
 

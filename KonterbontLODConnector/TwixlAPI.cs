@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace KonterbontLODConnector
@@ -59,7 +60,9 @@ namespace KonterbontLODConnector
 
             request.AddParameter("admin_api_key", KB_API_KEY);
             request.AddParameter("app_key", KB_APP_KEY_SANDBOX);
-            request.AddParameter("issue_identifier", 12345);
+            string IssueIdent = SanitizeIdentifier(Path.GetFileNameWithoutExtension(filepath));
+            IssueIdent = "com.konterbont.sandboxmagazine." + IssueIdent;
+            request.AddParameter("issue_identifier", IssueIdent);
             request.AddParameter("issue_publish_on", unixTimestamp);
 
             request.AddFile("issue_file", filepath);
@@ -67,6 +70,15 @@ namespace KonterbontLODConnector
             IRestResponse<TwixlAPIJsonResponse> resp = client.Execute<TwixlAPIJsonResponse>(request);
 
             return resp.Data;
+        }
+
+        private string SanitizeIdentifier(string inp)
+        {
+            string _out = "";
+            _out = inp.ToLower();
+            _out = _out.Replace(" ", "_");
+            _out = Regex.Replace(_out, "[^a-z0-9_]+", "", RegexOptions.Compiled);
+            return _out;
         }
 
         public async Task<TwixlAPIJsonCategorie[]> getCategories()
@@ -85,6 +97,27 @@ namespace KonterbontLODConnector
             //TwixlAPIJsonCategorie[] cats = JsonConverter.DeserializeObject(resp.Content);
 
             return cats;
+        }
+
+        private async Task<TwixlAPIJsonResponse> getAppData()
+        {
+            var client = new RestClient("https://platform.twixlmedia.com/admin-api/1");
+            var request = new RestRequest("app", Method.POST);
+            request.AddParameter("admin_api_key", KB_API_KEY);
+            request.AddParameter("app_key", KB_APP_KEY_SANDBOX);
+
+            IRestResponse resp = client.Execute(request);
+            JsonTextReader _reader = new JsonTextReader(new StringReader(resp.Content));
+            JsonSerializer serializer = new JsonSerializer();
+            TwixlAPIJsonResponse res = serializer.Deserialize<TwixlAPIJsonResponse>(_reader);
+
+            return res;
+        }
+
+        public async Task<TwixlAPIJsonIssue[]> getIssues()
+        {
+            TwixlAPIJsonResponse tmp = await this.getAppData();
+            return tmp.issues;
         }
 
         private string ZipContent(string filepath)
@@ -108,16 +141,10 @@ namespace KonterbontLODConnector
     {
         public string result;
         public TwixlAPIJsonIssue issue;
+        public TwixlAPIJsonIssue[] issues;
         public string error;
     }
-
-    partial class TwixlAPIJsonResponse
-    {
-        public TwixlAPIJsonResponse[] twixlAPIJsonResponses;
-    }
-
-   
-
+  
     class TwixlAPIJsonCategorie
     {
         public int id;

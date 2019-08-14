@@ -374,37 +374,108 @@ namespace KonterbontLODConnector
 
         private async Task<string> HttpRequest(string Lang, string XML)
         {
-            HttpClient httpClient = new HttpClient();
-            string LangURL;
-
-            if (Lang == "LU")
+            bool blocked = true;
+            string responseBody = null;
+            int i = 0;
+            while (blocked)
             {
-                LangURL = "";
-            }
-            else
-            {
-                LangURL = Lang.ToLower();
-            }
-            var httpContent = new HttpRequestMessage
-            {
-                RequestUri = new Uri("https://www.lod.lu/php/getart" + LangURL + ".php?artid=" + XML),
-                Method = HttpMethod.Get,
-                Headers =
+                HttpClient httpClient;
+                //if more than 30 connections => Exception
+                if (i >= 30) { throw new Exception("More than 30 connections, proxy not working!"); }
+                if (_Globals.useProxy && i>0)
                 {
-                    { HttpRequestHeader.Host.ToString(), "www.lod.lu" },
-                    { HttpRequestHeader.Referer.ToString(), "https://www.lod.lu/" }
+                    //get random Proxy & setup Proxy
+                    string _proxy = GetProxie();
+                    string proxyHost = _proxy.Substring(0, _proxy.IndexOf(":"));
+                    string proxyPort = _proxy.Substring(_proxy.IndexOf(":") + 1);
+                    var proxy = new WebProxy
+                    {
+                        Address = new Uri($"http://{proxyHost}:{proxyPort}"),
+                        UseDefaultCredentials = true
+                    };
+
+                    HttpClientHandler handler = new HttpClientHandler() { Proxy = proxy };
+                    handler.DefaultProxyCredentials = CredentialCache.DefaultCredentials;
+                    httpClient = new HttpClient(handler);
+                } else
+                {
+                    httpClient = new HttpClient();
                 }
-            };
+                string LangURL;
 
-
-            var _responseT = httpClient.SendAsync(httpContent, new HttpCompletionOption());
-            _responseT.Wait();
-            var _response = _responseT.Result;
-            _response.EnsureSuccessStatusCode();
-
-            string responseBody = await _response.Content.ReadAsStringAsync();
-            httpClient.Dispose();
+                if (Lang == "LU") { LangURL = ""; }
+                else
+                { LangURL = Lang.ToLower(); }
+                var httpContent = new HttpRequestMessage
+                {
+                    RequestUri = new Uri("https://www.lod.lu/php/getart" + LangURL + ".php?artid=" + XML),
+                    Method = HttpMethod.Get,
+                    Headers =
+                    {
+                        { HttpRequestHeader.Host.ToString(), "www.lod.lu" },
+                        { HttpRequestHeader.Referer.ToString(), "https://www.lod.lu/" }
+                    }
+                };
+                try
+                {
+                    var _responseT = httpClient.SendAsync(httpContent, new HttpCompletionOption());
+                    _responseT.Wait();
+                    var _response = _responseT.Result;
+                    blocked = !_response.IsSuccessStatusCode;
+                    responseBody = await _response.Content.ReadAsStringAsync();
+                } catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+                httpClient.Dispose();
+                i++;
+            }
             return responseBody;
+        }
+
+        private List<string> GetProxies()
+        {
+            List<string> _proxies = new List<string>();
+            _proxies.Add("87.249.205.157:8080");
+            _proxies.Add("159.224.73.208:23500");
+            _proxies.Add("195.9.188.78:53281");
+            _proxies.Add("110.232.74.233:30739");
+            _proxies.Add("211.252.169.8:80");
+            _proxies.Add("158.69.138.15:8080");
+            _proxies.Add("3.8.134.151:80");
+            _proxies.Add("138.197.157.32:8080");
+            _proxies.Add("212.34.254.34:48477");
+            _proxies.Add("37.77.135.126:44497");
+            _proxies.Add("54.38.110.35:47640");
+            _proxies.Add("36.66.151.29:60279");
+            _proxies.Add("118.172.51.110:36552");
+            _proxies.Add("185.57.228.61:53281");
+            _proxies.Add("36.89.194.113:47254");
+            _proxies.Add("103.107.133.25:43683");
+            /*_proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");
+            _proxies.Add("222.331.444.555:80");*/
+            return _proxies;
+        }
+
+        public string GetProxie()
+        {
+            List<string> _proxies = GetProxies();
+            string proxy = _proxies[new Random().Next(_proxies.Count)];
+            return proxy;
         }
 
         public bool Equals(AutoComplete other)
