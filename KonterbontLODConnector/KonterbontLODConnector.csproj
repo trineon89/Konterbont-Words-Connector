@@ -28,7 +28,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>http://www.autisme.lu/software/KWC/</UpdateUrl>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>14</ApplicationRevision>
+    <ApplicationRevision>15</ApplicationRevision>
     <ApplicationVersion>0.10.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -119,6 +119,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmTwixlCategorySelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTwixlCategorySelector.Designer.cs">
+      <DependentUpon>frmTwixlCategorySelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="LogClass.cs" />
     <Compile Include="Color.cs">
       <SubType>Form</SubType>
@@ -163,6 +169,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMagazineSelector.resx">
       <DependentUpon>frmMagazineSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTwixlCategorySelector.resx">
+      <DependentUpon>frmTwixlCategorySelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Meanings.resx">
       <DependentUpon>Meanings.cs</DependentUpon>

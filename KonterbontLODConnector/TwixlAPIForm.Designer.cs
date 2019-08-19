@@ -30,14 +30,15 @@
         {
             this.btnLoadCategories = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.btnLoadIssues = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.btnLoadAppData = new System.Windows.Forms.Button();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnLoadCategories
             // 
-            this.btnLoadCategories.Location = new System.Drawing.Point(84, 3);
+            this.btnLoadCategories.Location = new System.Drawing.Point(165, 3);
             this.btnLoadCategories.Name = "btnLoadCategories";
             this.btnLoadCategories.Size = new System.Drawing.Size(105, 23);
             this.btnLoadCategories.TabIndex = 0;
@@ -48,6 +49,7 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.Controls.Add(this.btnLoadAppData);
             this.flowLayoutPanel1.Controls.Add(this.btnLoadIssues);
             this.flowLayoutPanel1.Controls.Add(this.btnLoadCategories);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -55,6 +57,16 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(472, 29);
             this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // btnLoadIssues
+            // 
+            this.btnLoadIssues.Location = new System.Drawing.Point(84, 3);
+            this.btnLoadIssues.Name = "btnLoadIssues";
+            this.btnLoadIssues.Size = new System.Drawing.Size(75, 23);
+            this.btnLoadIssues.TabIndex = 1;
+            this.btnLoadIssues.Text = "Load Issues";
+            this.btnLoadIssues.UseVisualStyleBackColor = true;
+            this.btnLoadIssues.Click += new System.EventHandler(this.btnGetIssues_Click);
             // 
             // panel1
             // 
@@ -65,15 +77,15 @@
             this.panel1.Size = new System.Drawing.Size(472, 321);
             this.panel1.TabIndex = 2;
             // 
-            // btnLoadIssues
+            // btnLoadAppData
             // 
-            this.btnLoadIssues.Location = new System.Drawing.Point(3, 3);
-            this.btnLoadIssues.Name = "btnLoadIssues";
-            this.btnLoadIssues.Size = new System.Drawing.Size(75, 23);
-            this.btnLoadIssues.TabIndex = 1;
-            this.btnLoadIssues.Text = "Load Issues";
-            this.btnLoadIssues.UseVisualStyleBackColor = true;
-            this.btnLoadIssues.Click += new System.EventHandler(this.btnGetIssues_Click);
+            this.btnLoadAppData.Location = new System.Drawing.Point(3, 3);
+            this.btnLoadAppData.Name = "btnLoadAppData";
+            this.btnLoadAppData.Size = new System.Drawing.Size(75, 23);
+            this.btnLoadAppData.TabIndex = 2;
+            this.btnLoadAppData.Text = "Load App Data";
+            this.btnLoadAppData.UseVisualStyleBackColor = true;
+            this.btnLoadAppData.Click += new System.EventHandler(this.BtnLoadAppData_Click);
             // 
             // TwixlAPIForm
             // 
@@ -83,6 +95,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "TwixlAPIForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "TwixlAPIForm";
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -96,5 +109,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnLoadIssues;
+        private System.Windows.Forms.Button btnLoadAppData;
     }
 }

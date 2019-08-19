@@ -2052,11 +2052,6 @@ namespace KonterbontLODConnector
             }
         }
 
-        private void ToolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
         private void TsbCustomPT_Click(object sender, EventArgs e)
         {
             InputDialog PTid = new InputDialog()
@@ -2149,6 +2144,24 @@ namespace KonterbontLODConnector
 
                 var ggtask = twixlAPI.uploadIssue(temppath);
                 var gg = ggtask.Result;
+
+                frmTwixlCategorySelector _frmTwixlCategorySelector = new frmTwixlCategorySelector();
+
+                int _issueid = gg.issue.id;
+
+                _frmTwixlCategorySelector.cbCategories.Items.Clear();
+                foreach (TwixlCategory cat in twixlAPI._twixlCategories.categories)
+                {
+
+                    _frmTwixlCategorySelector.cbCategories.Items.Add(cat.name, twixlAPI.IsInCategory(_issueid, cat.id));
+                }
+
+                if (_frmTwixlCategorySelector.ShowDialog() == DialogResult.OK)
+                {
+                    var sel = _frmTwixlCategorySelector.cbCategories.CheckedIndices.Cast<int>().ToArray();
+                    twixlAPI.pushIssueToCategory(_issueid, sel);
+                }
+
                 Console.WriteLine();
 
                 progressDialog.CloseDialog();
@@ -2175,6 +2188,6 @@ namespace KonterbontLODConnector
 
     public static class _Globals
     {
-        public static bool useProxy = true;
+        public static bool useProxy = false;
     }
 }

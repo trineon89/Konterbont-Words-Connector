@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Converters;
 using RestSharp;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -16,10 +17,13 @@ using System.Threading.Tasks;
 
 namespace KonterbontLODConnector
 {
-    class TwixlAPI
+    public class TwixlAPI
     {
         private string KB_API_KEY = "1fe3c54f57f1abe4e1851dafbf5b1dd4";
         private string KB_APP_KEY_SANDBOX = "6f257e03bf92e48472a6a01bc80defec";
+
+        public TwixlAPIAppData _twixlAPIAppData;
+        public TwixlCategories _twixlCategories;
 
         private static readonly HttpClient client = new HttpClient();
 
@@ -30,23 +34,29 @@ namespace KonterbontLODConnector
 
         public void Init()
         {
-
+            this.getAppData();
+            this.getCategories();
         }
 
-        public async Task<string> GetIssueAsync()
+        public bool IsInCategory(int _issueid, int _catid)
         {
-            var values = new Dictionary<string, string>
-            {
-                { "admin_api_key", KB_API_KEY },
-                { "app_key", KB_APP_KEY_SANDBOX },
-                { "id", "54767" }
-            };
+            if (this._twixlCategories.IsIssueInCategory(_issueid, _catid)) return true;
+            else return false;
+        }
 
-            var content = new FormUrlEncodedContent(values);
-            var response = await client.PostAsync("https://platform.twixlmedia.com/admin-api/1/issue", content);
-            response.EnsureSuccessStatusCode();
-            string responseString = await response.Content.ReadAsStringAsync();
-            return responseString;
+        private TwixlAPIJsonCategorie[] GetAllCategories()
+        {
+            var client = new RestClient("https://platform.twixlmedia.com/admin-api/1/categories");
+            var request = new RestRequest("all", Method.POST);
+            request.AddParameter("admin_api_key", KB_API_KEY);
+            request.AddParameter("app_key", KB_APP_KEY_SANDBOX);
+
+            IRestResponse resp = client.Execute(request);
+            JsonTextReader _reader = new JsonTextReader(new StringReader(resp.Content));
+            JsonSerializer serializer = new JsonSerializer();
+            TwixlAPIJsonCategorie[] res = serializer.Deserialize<TwixlAPIJsonCategorie[]>(_reader);
+
+            return res;
         }
 
         public async Task<TwixlAPIJsonResponse> uploadIssue(string filepath)
@@ -67,9 +77,42 @@ namespace KonterbontLODConnector
 
             request.AddFile("issue_file", filepath);
 
-            IRestResponse<TwixlAPIJsonResponse> resp = client.Execute<TwixlAPIJsonResponse>(request);
+            IRestResponse resp = client.Execute(request);
+            JsonTextReader _reader = new JsonTextReader(new StringReader(resp.Content));
+            JsonSerializer serializer = new JsonSerializer();
+            TwixlAPIJsonResponse res = serializer.Deserialize<TwixlAPIJsonResponse>(_reader);
 
-            return resp.Data;
+            return res;
+        }
+
+        public void pushIssueToCategory(int issueId, int[] selectedCats)
+        {
+            foreach (int a in selectedCats)
+            {
+                _twixlCategories.AddIssueToCategory(issueId, _twixlCategories.categories[a].id);
+
+                var client = new RestClient("https://platform.twixlmedia.com/admin-api/1/categories");
+                var request = new RestRequest("update", Method.POST);
+                request.AddParameter("admin_api_key", KB_API_KEY);
+                request.AddParameter("app_key", KB_APP_KEY_SANDBOX);
+                request.AddParameter("category_id", _twixlCategories.categories[a].id);
+                request.AddParameter("category_name", _twixlCategories.categories[a].name);
+                //request.AddParameter("category_issue_ids", _twixlCategories.categories[a].issue_ids.Cast<int>().ToArray());
+                //request.AddParameter("category_issue_ids", Newtonsoft.Json.JsonConvert.SerializeObject( _twixlCategories.categories[a].issue_ids.ToArray<int>()));
+
+                var arr = _twixlCategories.categories[a].issue_ids.ToArray<int>();
+                string issue_ids = string.Join(",", arr);
+                request.AddParameter("category_issue_ids", issue_ids);
+
+                IRestResponse resp = client.Execute(request);
+
+                JsonTextReader _reader = new JsonTextReader(new StringReader(resp.Content));
+                JsonSerializer serializer = new JsonSerializer();
+                TwixlAPIJsonResponse res = serializer.Deserialize<TwixlAPIJsonResponse>(_reader);
+
+                var l = res;
+            }
+
         }
 
         private string SanitizeIdentifier(string inp)
@@ -77,29 +120,28 @@ namespace KonterbontLODConnector
             string _out = "";
             _out = inp.ToLower();
             _out = _out.Replace(" ", "_");
+            _out = _out.Replace(".article", "");
             _out = Regex.Replace(_out, "[^a-z0-9_]+", "", RegexOptions.Compiled);
             return _out;
         }
 
-        public async Task<TwixlAPIJsonCategorie[]> getCategories()
+        private void getCategories()
         {
-            var client = new RestClient("https://platform.twixlmedia.com/admin-api/1");
-            var request = new RestRequest("categories/all", Method.POST);
-            request.AddParameter("admin_api_key", KB_API_KEY);
-            request.AddParameter("app_key", KB_APP_KEY_SANDBOX);
+            TwixlCategories _categories = new TwixlCategories(GetAllCategories());
 
-            IRestResponse resp = client.Execute(request);
-
-            JsonTextReader _reader = new JsonTextReader(new StringReader(resp.Content));
-            JsonSerializer serializer = new JsonSerializer();
-            TwixlAPIJsonCategorie[] cats = serializer.Deserialize<TwixlAPIJsonCategorie[]>(_reader);
-
-            //TwixlAPIJsonCategorie[] cats = JsonConverter.DeserializeObject(resp.Content);
-
-            return cats;
+            foreach (TwixlAPIJsonIssue _issue in _twixlAPIAppData.issues)
+            {
+                foreach (TwixlAPIJsonCategorie _cat in _issue.categories)
+                {
+                    _categories.AddCategory(_cat.name, _cat.id);
+                    _categories.AddIssueToCategory(_issue.id, _cat.id);
+                }
+                
+            }
+            _twixlCategories = _categories;
         }
 
-        private async Task<TwixlAPIJsonResponse> getAppData()
+        private async Task<TwixlAPIAppData> getAppDataAsync()
         {
             var client = new RestClient("https://platform.twixlmedia.com/admin-api/1");
             var request = new RestRequest("app", Method.POST);
@@ -109,16 +151,16 @@ namespace KonterbontLODConnector
             IRestResponse resp = client.Execute(request);
             JsonTextReader _reader = new JsonTextReader(new StringReader(resp.Content));
             JsonSerializer serializer = new JsonSerializer();
-            TwixlAPIJsonResponse res = serializer.Deserialize<TwixlAPIJsonResponse>(_reader);
+            TwixlAPIAppData res = serializer.Deserialize<TwixlAPIAppData>(_reader);
 
             return res;
         }
 
-        public async Task<TwixlAPIJsonIssue[]> getIssues()
+       /* public async Task<TwixlAPIJsonIssue[]> getIssues()
         {
-            TwixlAPIJsonResponse tmp = await this.getAppData();
+            TwixlAPIAppData tmp = getAppData();
             return tmp.issues;
-        }
+        }*/
 
         private string ZipContent(string filepath)
         {
@@ -127,9 +169,17 @@ namespace KonterbontLODConnector
             ZipFile.CreateFromDirectory(filepath, newfilename, CompressionLevel.Optimal, true);
             return newfilename;
         }
+
+        public void getAppData()
+        {
+            var appdata = getAppDataAsync();
+            appdata.Wait();
+            _twixlAPIAppData=appdata.Result;
+        }
+
     }
 
-    class TwixlAPIRequest
+    public class TwixlAPIRequest
     {
         public string admin_api_key { get; set; }
         public string app_key { get; set; }
@@ -137,7 +187,7 @@ namespace KonterbontLODConnector
         public string issue_file; //Should be a file, can't declare static <File>
     }
 
-    partial class TwixlAPIJsonResponse
+    public partial class TwixlAPIJsonResponse
     {
         public string result;
         public TwixlAPIJsonIssue issue;
@@ -145,7 +195,7 @@ namespace KonterbontLODConnector
         public string error;
     }
   
-    class TwixlAPIJsonCategorie
+    public class TwixlAPIJsonCategorie
     {
         public int id;
         public string name;
@@ -153,8 +203,9 @@ namespace KonterbontLODConnector
         public List<TwixlAPIJsonIssue> issues;
     }
 
-class TwixlAPIJsonIssue
+    public class TwixlAPIJsonIssue
     {
+        public int id;
         public int content_size_android10;
         public int content_size_android7;
         public int content_size_ipad;
@@ -171,5 +222,84 @@ class TwixlAPIJsonIssue
         public string status;
         public string uuid;
         public string description;
+        public TwixlAPIJsonCategorie[] categories;
+    }
+
+    public class TwixlAPIAppData
+    {
+        public int id;
+        public string mode;
+        public string name;
+        public string[] issue_identifiers;
+        public TwixlAPIJsonIssue[] issues;
+    }
+
+    public class TwixlCategories
+    {
+        public List<TwixlCategory> categories;
+
+        public TwixlCategories()
+        {
+            this.InitCategories();
+        }
+
+        public TwixlCategories(TwixlAPIJsonCategorie[] _twixlAPIJsonCategories)
+        {
+            this.InitCategories();
+            foreach (TwixlAPIJsonCategorie categorie in _twixlAPIJsonCategories)
+            {
+                this.AddCategory(categorie.name, categorie.id);
+            }
+        }
+
+        public void AddCategory(string _name, int _id)
+        {
+            if (!this.HasCategory(_id))
+            { this.categories.Add(new TwixlCategory() { name = _name, id = _id }); }
+        }
+
+        private bool HasCategory(int _id)
+        {
+            if (this.categories.FirstOrDefault(x => x.id == _id) != null) return true;
+            else return false;
+        }
+
+        public void AddIssueToCategory(int _issueid, int _catid)
+        {
+            if (!this.IsIssueInCategory(_issueid, _catid))
+            { this.categories.First(cat => cat.id == _catid).issue_ids.Add(_issueid); }
+           
+        }
+
+        public bool IsIssueInCategory(int _issueid, int _catid)
+        {
+            try
+            {
+                if (this.categories.FirstOrDefault(cat => cat.id == _catid && cat.issue_ids.FirstOrDefault(issue => issue == _issueid) > 0) != null)
+                { return true; }
+                else return false;
+            } catch (ArgumentNullException ex)
+            {
+                return false;
+            }
+        }
+
+        public void InitCategories()
+        {
+            this.categories = new List<TwixlCategory>();
+
+        }
+    }
+
+    public class TwixlCategory
+    {
+        public string name;
+        public int id;
+        public List<int> issue_ids;
+
+        public TwixlCategory()
+        {
+            this.issue_ids = new List<int>();
+        }
     }
 }
