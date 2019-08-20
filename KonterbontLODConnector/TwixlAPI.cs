@@ -280,6 +280,7 @@ namespace KonterbontLODConnector
                 else return false;
             } catch (ArgumentNullException ex)
             {
+                Console.WriteLine(ex.ToString());
                 return false;
             }
         }

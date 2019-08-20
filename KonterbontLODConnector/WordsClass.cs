@@ -122,6 +122,8 @@ namespace KonterbontLODConnector
                                         //trim ouni -n
                                         int posi = Pluriel.IndexOf("ouni -n");
                                         if (posi > 0) { Pluriel = Pluriel.Remove(posi, Pluriel.Length - posi); }
+                                        posi = Pluriel.IndexOf("sem -n");
+                                        if (posi > 0) { Pluriel = Pluriel.Remove(posi, Pluriel.Length - posi); }
                                         Pluriel = Pluriel.Replace("&lt;", "<");
                                         Pluriel = Pluriel.Replace("&gt;", ">");
                                     }

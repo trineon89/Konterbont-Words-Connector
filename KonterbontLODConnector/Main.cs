@@ -169,7 +169,7 @@ namespace KonterbontLODConnector
             {
                 HttpClient httpClient;
                 //if more than 30 connections => Exception
-                if (i >= 30) { throw new Exception("More than 30 connections, proxy not working!"); }
+                if (i >= 2) { throw new Exception("Probably blocked?"); }
                 if (_Globals.useProxy && i > 0)
                 {
                     //get random Proxy & setup Proxy
@@ -903,8 +903,9 @@ namespace KonterbontLODConnector
         /// Weist all Bedeitungen zu engem Wuert un (Gëtt als Parameter uginn)
         /// </summary>
         /// <param name="wuert"></param>
+        /// <param name="occurence"></param>
         /// <returns></returns>
-        private Wuert SelectMeaning(Wuert wuert)
+        private async Task<Wuert> SelectMeaning(Wuert wuert, string _occurence)
         {
             frmSelectMeaning frmSelectMeaning = new frmSelectMeaning();
             int _m = 1;
@@ -1033,8 +1034,9 @@ namespace KonterbontLODConnector
             frmSelectMeaning.gbMeanings.Controls.Add(rbtn);
 
             frmSelectMeaning.gbMeanings_Click(this, null);
-            ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.HighlightSelText(TextForm.Controls.OfType<RichTextBox>().First(), wuert.WuertLu));
+            ControlInvokeRequired(TextForm.Controls.OfType<RichTextBox>().First(), () => Utility.HighlightSelText(TextForm.Controls.OfType<RichTextBox>().First(), _occurence));
             ControlInvokeRequired(TextForm, () => TextForm.Activate());
+
             if (frmSelectMeaning.ShowDialog() == DialogResult.OK)
             {
                 RadioButton selectedMeaning = frmSelectMeaning.gbMeanings.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
@@ -1092,7 +1094,7 @@ namespace KonterbontLODConnector
         }
 
 
-        private AutoComplete ShowSelections(AutoComplete ac)
+        private async Task<AutoComplete> ShowSelections(AutoComplete ac)
         {
             Wuert tmpwuert = null;
             if (ac.Wierder.Count() > 1)
@@ -1153,7 +1155,9 @@ namespace KonterbontLODConnector
                     Wuert SelWuert = ac.Wierder[ac.Selection - 1];
                     if (SelWuert.Meanings.Count() > 1)
                     {
-                        SelWuert = SelectMeaning(SelWuert);
+                        //SelWuert = SelectMeaning(SelWuert);
+
+                        SelWuert= await Task.Run(() => SelectMeaning(SelWuert, ac.Occurence));
                     }
                     else
                     {
@@ -1177,7 +1181,8 @@ namespace KonterbontLODConnector
                 wuert.Selection = 1;
                 if (wuert.Meanings.Count() > 1)
                 {
-                    wuert = SelectMeaning(wuert);
+                    //wuert = SelectMeaning(wuert);
+                    wuert = await Task.Run(() => SelectMeaning(wuert, ac.Occurence));
                 }
                 else
                 {
@@ -1319,7 +1324,7 @@ namespace KonterbontLODConnector
                             if (acword != null)
                             {
                                 //
-                                acword = ShowSelections(acword);
+                                acword = await ShowSelections(acword);
                                 dtt.AddWordToList(acword);
                                 acword.internalId = c;
                             }
@@ -1331,6 +1336,12 @@ namespace KonterbontLODConnector
                     progressDialog.Line2 = "Oofgeschloss zu " + _currprog.ToString() + "%";
                     progressDialog.Value = _currprog;
                     c++;
+                    //Break out of the loop if User Has Cancelled
+                    if (progressDialog.HasUserCancelled)
+                    {
+                        progressDialog.CloseDialog();
+                        break;
+                    }
                 }
 
                 progressDialog.CloseDialog();

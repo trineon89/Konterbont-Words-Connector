@@ -117,14 +117,15 @@ namespace KonterbontLODConnector
 
             if (word == string.Empty)
                 return;
-            Color myRgbColor = Color.FromArgb(20, 118, 212);
+            Color myRgbColor = Color.FromArgb(128, 20, 118, 212);
             int s_start = myRtb.SelectionStart, startIndex = 0, index;
 
             while ((index = myRtb.Text.IndexOf(word, startIndex)) != -1)
             {
                 myRtb.Select(index, word.Length);
 
-                if (myRtb.SelectionBackColor != Color.FromArgb(255, 255, 255, 255))
+                if (myRtb.SelectionBackColor.A != 255 || myRtb.SelectionBackColor.R != 255 
+                    || myRtb.SelectionBackColor.G != 255 || myRtb.SelectionBackColor.B != 255)
                 {
                     LastColor = myRtb.SelectionBackColor;
                     myRtb.SelectionBackColor = myRgbColor;
