@@ -10,3 +10,8 @@ catch variante (exception on <span class="mentioun_adress"></span>)
 add numbers to examples on select meaning
 
 catch ♦
+
+
+
+*** 2019-08-20 ****
+Export -> Deletes Content in "WebRessources"
