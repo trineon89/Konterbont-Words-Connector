@@ -2188,6 +2188,6 @@ namespace KonterbontLODConnector
 
     public static class _Globals
     {
-        public static bool useProxy = false;
+        public static bool useProxy = true;
     }
 }
