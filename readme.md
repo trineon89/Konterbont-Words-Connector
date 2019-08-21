@@ -14,4 +14,4 @@ catch ♦
 
 
 *** 2019-08-20 ****
-Export -> Deletes Content in "WebRessources"
+Export -> Deletes Content in "WebRessources" (on click create popups)
