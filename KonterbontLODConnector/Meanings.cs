@@ -110,6 +110,7 @@ namespace KonterbontLODConnector
             myRtb.SelectionStart = s_start;
             myRtb.SelectionLength = 0;
             myRtb.SelectionColor = Color.Black;
+            myRtb.ScrollToCaret();
         }
 
         public static void HighlightSelText(this RichTextBox myRtb, string word)
@@ -129,6 +130,7 @@ namespace KonterbontLODConnector
                 {
                     LastColor = myRtb.SelectionBackColor;
                     myRtb.SelectionBackColor = myRgbColor;
+                    myRtb.ScrollToCaret();
                     return;
                 }
 

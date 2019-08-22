@@ -48,6 +48,9 @@ namespace KonterbontLODConnector
         private Form TextForm;
         private RichTextBox rtb;
 
+        private FormStartPosition textFormPosition = FormStartPosition.WindowsDefaultLocation;
+        private Point textFormLocation = new Point();
+
         void generateTextForm()
         {
             TextForm = new Form()
@@ -60,15 +63,20 @@ namespace KonterbontLODConnector
                 Left = 0,
                 MaximizeBox = false,
                 MinimizeBox = false,
-                FormBorderStyle = FormBorderStyle.FixedToolWindow
-            };
+                FormBorderStyle = FormBorderStyle.SizableToolWindow
+        };
+            if (!textFormLocation.IsEmpty)
+            {
+                TextForm.StartPosition = FormStartPosition.Manual;
+                TextForm.Location = textFormLocation;
+            }
+            TextForm.FormClosing += new FormClosingEventHandler(textFormClosing);
             generateRichTextBox();
         }
 
-        void TextForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void textFormClosing(object sender, FormClosingEventArgs e)
         {
-            // Do something
-            TextFormClosed = true;
+            textFormLocation = TextForm.Location;
         }
 
         void generateRichTextBox()
@@ -837,6 +845,7 @@ namespace KonterbontLODConnector
             if (lbWords.SelectedIndex == -1)
                 return;
             var _i = 0;
+            Utility.UnSelText(TextForm.Controls.OfType<RichTextBox>().First());
             lbSelectWord.Items.Clear();
             foreach (Wuert SelWuert in globaldt.WordList[lbWords.SelectedIndex].Wierder)
             {
@@ -861,6 +870,7 @@ namespace KonterbontLODConnector
                 }
                 _i++;
             }
+            Utility.HighlightSelText(TextForm.Controls.OfType<RichTextBox>().First(), globaldt.WordList[lbWords.SelectedIndex].Occurence);
         }
 
         private void LbSelectWord_SelectedIndexChanged(object sender, EventArgs e)
