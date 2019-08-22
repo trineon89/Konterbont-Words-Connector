@@ -1880,6 +1880,7 @@ namespace KonterbontLODConnector
             lbSelectWord.Items.Clear();
             lbWords.Items.Clear();
             rtbDetails.Clear();
+            if (TextForm!=null) TextForm.Close();
             generateTextForm();
             TextForm.Owner = this;
             if (TextForm.Visible)

@@ -312,7 +312,7 @@ namespace KonterbontLODConnector
         {
             if (Directory.Exists(Filepath + "WebResources\\popupbase-web-resources"))
             {
-                System.IO.DirectoryInfo di = new DirectoryInfo(Filepath + "WebResources");
+                System.IO.DirectoryInfo di = new DirectoryInfo(Filepath + "WebResources\\popupbase-web-resources");
                 foreach (FileInfo file in di.EnumerateFiles())
                 {
                     file.Delete();
