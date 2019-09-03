@@ -17,9 +17,9 @@ namespace KonterbontLODConnector
     {
         private TwixlAPI twixlAPI;
 
-        public string MagazinePath = "\\\\cubecluster\\Konterbont_Produktioun\\Magazines\\";
-        public string ArticlePath = "\\\\cubecluster\\Konterbont_Produktioun\\Artikelen\\";
-        public string CustomAudioPath = "\\\\cubecluster\\Konterbont_Audio\\";
+        public string MagazinePath = "\\\\192.168.11.75\\Konterbont_Produktioun\\Magazines\\";
+        public string ArticlePath = "\\\\192.168.11.75\\Konterbont_Produktioun\\Artikelen\\";
+        public string CustomAudioPath = "\\\\192.168.11.75\\Konterbont_Audio\\";
         public Color OArticleColor = Color.Black;
         public Color ArticleColor = Color.Black;
         public bool TextFormClosed = true;
@@ -34,7 +34,7 @@ namespace KonterbontLODConnector
         public VistaOpenFileDialog CustomAudioBrowser = new VistaOpenFileDialog
         {
             Filter = "MP3 (*.mp3)|*.mp3",
-            InitialDirectory = "\\\\cubecluster\\Konterbont_Audio\\",
+            InitialDirectory = "\\\\192.168.11.75\\Konterbont_Audio\\",
             //RestoreDirectory = true,
             Title = "Neien Toun fir den Popup auswielen"
         };
