@@ -17,8 +17,8 @@ namespace KonterbontLODConnector
     {
         private TwixlAPI twixlAPI;
 
-        public string MagazinePath = "\\\\192.168.11.75\\Konterbont_Produktioun\\Magazines\\";
-        public string ArticlePath = "\\\\192.168.11.75\\Konterbont_Produktioun\\Artikelen\\";
+        public string MagazinePath = "\\\\cubecluster01\\Konterbont_Produktioun\\Magazines\\";
+        public string ArticlePath = "\\\\cubecluster01\\Konterbont_Produktioun\\Artikelen\\";
         public string CustomAudioPath = "\\\\192.168.11.75\\Konterbont_Audio\\";
         public Color OArticleColor = Color.Black;
         public Color ArticleColor = Color.Black;
@@ -791,9 +791,16 @@ namespace KonterbontLODConnector
                             if (acword != null)
                             {
                                 //
-                                acword = await ShowSelections(acword);
-                                dtt.AddWordToList(acword);
-                                acword.internalId = c;
+                                try
+                                {
+                                    acword = await ShowSelections(acword);
+                                    dtt.AddWordToList(acword);
+                                    acword.internalId = c;
+                                }
+                                catch
+                                {
+                                    MessageBox.Show("\"" + acword.Occurence + "\" ass eng Variant oder eng Diminutivform. W.e.g. erausläschen","Variant oder Diminutivform",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                                }
                             }
                         }
                     }
