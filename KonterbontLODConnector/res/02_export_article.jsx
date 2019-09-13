@@ -3,7 +3,9 @@
 #targetengine "session"
 #include "zz_twixlForServer.jsx";
 
-var magazineFolderPath = "K:\\Magazines\\" + arguments[0] + "\\export\\articles\\";
+//app.userInteractionLevel = UserInteractionLevel.DONTDISPLAYALERTS;
+
+var magazineFolderPath = arguments[0] + arguments[1] + "\\export\\articles\\";
 
 var myFile = app.activeDocument;
 var exportFileNamePath = myFile.fullName.name.split('.')[0];

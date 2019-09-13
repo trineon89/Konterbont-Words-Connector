@@ -1615,7 +1615,7 @@ namespace KonterbontLODConnector
                 
                 string scriptpath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Adobe\InDesign\Version 14.0\en_US\Scripts\Scripts Panel\KB4\02_export_article.jsx";
 
-                string[] myParams = { globaldt.targetMag };
+                string[] myParams = { globaldt.getTemppath(), globaldt.targetMag };
 
                 oIndesign.DoScript(@scriptpath, InDesign.idScriptLanguage.idJavascript, myParams);
                 oDocument.Save();
@@ -1628,7 +1628,7 @@ namespace KonterbontLODConnector
 
                 string Result = Path.GetFileNameWithoutExtension(indesignfilepath);
 
-                string temppath = @"K:\Magazines\" + globaldt.targetMag + @"\export\articles\" + Result + ".article";
+                string temppath = globaldt.getTemppath() + globaldt.targetMag + @"\export\articles\" + Result + ".article";
 
                 var ggtask = twixlAPI.uploadIssue(temppath);
                 var gg = ggtask.Result;
