@@ -19,7 +19,7 @@ namespace KonterbontLODConnector
 
         public string MagazinePath = "\\\\cubecluster01\\Konterbont_Produktioun\\Magazines\\";
         public string ArticlePath = "\\\\cubecluster01\\Konterbont_Produktioun\\Artikelen\\";
-        public string CustomAudioPath = "\\\\192.168.11.75\\Konterbont_Audio\\";
+        public string CustomAudioPath = "\\\\cubecluster01\\Konterbont_Audio\\";
         public Color OArticleColor = Color.Black;
         public Color ArticleColor = Color.Black;
         public bool TextFormClosed = true;
