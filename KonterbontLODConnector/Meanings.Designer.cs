@@ -36,13 +36,13 @@ namespace KonterbontLODConnector
             this.tpInfo = new System.Windows.Forms.ToolTip(this.components);
             this.tcLang = new System.Windows.Forms.TabControl();
             this.tpDE = new System.Windows.Forms.TabPage();
+            this.rtbDE = new System.Windows.Forms.RichTextBox();
             this.tpFR = new System.Windows.Forms.TabPage();
+            this.rtbFR = new System.Windows.Forms.RichTextBox();
             this.tpEN = new System.Windows.Forms.TabPage();
+            this.rtbEN = new System.Windows.Forms.RichTextBox();
             this.tpPT = new System.Windows.Forms.TabPage();
             this.rtbPT = new System.Windows.Forms.RichTextBox();
-            this.rtbEN = new System.Windows.Forms.RichTextBox();
-            this.rtbFR = new System.Windows.Forms.RichTextBox();
-            this.rtbDE = new System.Windows.Forms.RichTextBox();
             this.gbMeanings.SuspendLayout();
             this.tcLang.SuspendLayout();
             this.tpDE.SuspendLayout();
@@ -102,6 +102,18 @@ namespace KonterbontLODConnector
             this.tpDE.Text = "DE";
             this.tpDE.UseVisualStyleBackColor = true;
             // 
+            // rtbDE
+            // 
+            this.rtbDE.BackColor = System.Drawing.SystemColors.Window;
+            this.rtbDE.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbDE.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbDE.Location = new System.Drawing.Point(3, 3);
+            this.rtbDE.Name = "rtbDE";
+            this.rtbDE.ReadOnly = true;
+            this.rtbDE.Size = new System.Drawing.Size(382, 366);
+            this.rtbDE.TabIndex = 0;
+            this.rtbDE.Text = "";
+            // 
             // tpFR
             // 
             this.tpFR.Controls.Add(this.rtbFR);
@@ -114,6 +126,18 @@ namespace KonterbontLODConnector
             this.tpFR.UseVisualStyleBackColor = true;
             this.tpFR.Click += new System.EventHandler(this.tpFR_Click);
             // 
+            // rtbFR
+            // 
+            this.rtbFR.BackColor = System.Drawing.SystemColors.Window;
+            this.rtbFR.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbFR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbFR.Location = new System.Drawing.Point(3, 3);
+            this.rtbFR.Name = "rtbFR";
+            this.rtbFR.ReadOnly = true;
+            this.rtbFR.Size = new System.Drawing.Size(382, 366);
+            this.rtbFR.TabIndex = 0;
+            this.rtbFR.Text = "";
+            // 
             // tpEN
             // 
             this.tpEN.Controls.Add(this.rtbEN);
@@ -124,6 +148,18 @@ namespace KonterbontLODConnector
             this.tpEN.TabIndex = 2;
             this.tpEN.Text = "EN";
             this.tpEN.UseVisualStyleBackColor = true;
+            // 
+            // rtbEN
+            // 
+            this.rtbEN.BackColor = System.Drawing.SystemColors.Window;
+            this.rtbEN.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbEN.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbEN.Location = new System.Drawing.Point(3, 3);
+            this.rtbEN.Name = "rtbEN";
+            this.rtbEN.ReadOnly = true;
+            this.rtbEN.Size = new System.Drawing.Size(382, 366);
+            this.rtbEN.TabIndex = 0;
+            this.rtbEN.Text = "";
             // 
             // tpPT
             // 
@@ -147,42 +183,6 @@ namespace KonterbontLODConnector
             this.rtbPT.Size = new System.Drawing.Size(382, 366);
             this.rtbPT.TabIndex = 0;
             this.rtbPT.Text = "";
-            // 
-            // rtbEN
-            // 
-            this.rtbEN.BackColor = System.Drawing.SystemColors.Window;
-            this.rtbEN.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbEN.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbEN.Location = new System.Drawing.Point(3, 3);
-            this.rtbEN.Name = "rtbEN";
-            this.rtbEN.ReadOnly = true;
-            this.rtbEN.Size = new System.Drawing.Size(382, 366);
-            this.rtbEN.TabIndex = 0;
-            this.rtbEN.Text = "";
-            // 
-            // rtbFR
-            // 
-            this.rtbFR.BackColor = System.Drawing.SystemColors.Window;
-            this.rtbFR.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbFR.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbFR.Location = new System.Drawing.Point(3, 3);
-            this.rtbFR.Name = "rtbFR";
-            this.rtbFR.ReadOnly = true;
-            this.rtbFR.Size = new System.Drawing.Size(382, 366);
-            this.rtbFR.TabIndex = 0;
-            this.rtbFR.Text = "";
-            // 
-            // rtbDE
-            // 
-            this.rtbDE.BackColor = System.Drawing.SystemColors.Window;
-            this.rtbDE.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbDE.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbDE.Location = new System.Drawing.Point(3, 3);
-            this.rtbDE.Name = "rtbDE";
-            this.rtbDE.ReadOnly = true;
-            this.rtbDE.Size = new System.Drawing.Size(382, 366);
-            this.rtbDE.TabIndex = 0;
-            this.rtbDE.Text = "";
             // 
             // frmSelectMeaning
             // 

@@ -14,6 +14,8 @@
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>ftp://webhost-web02.pt.lu/htdocs/autisme.lu/software/KWC/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,8 +28,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>http://www.autisme.lu/software/KWC/</UpdateUrl>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>19</ApplicationRevision>
-    <ApplicationVersion>0.9.2.%2a</ApplicationVersion>
+    <ApplicationRevision>34</ApplicationRevision>
+    <ApplicationVersion>0.10.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -57,19 +59,19 @@
     </StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>2AD23390B56BFB452DDBC24E4728CC8BCA6AD6D1</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>1DA609DCC124D30B1227D689FD8A489A33959FD2</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>KonterbontLODConnector_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>KonterbontLODConnector_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>KonterbontLODConnector_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>KonterbontLODConnector.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <DelaySign>false</DelaySign>
@@ -88,8 +90,8 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HtmlAgilityPack, Version=1.11.7.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
-      <HintPath>..\packages\HtmlAgilityPack.1.11.7\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    <Reference Include="HtmlAgilityPack, Version=1.11.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -97,10 +99,15 @@
     <Reference Include="Ookii.Dialogs.WinForms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
       <HintPath>..\packages\Ookii.Dialogs.WinForms.1.1.0\lib\net45\Ookii.Dialogs.WinForms.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -112,6 +119,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmTwixlCategorySelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTwixlCategorySelector.Designer.cs">
+      <DependentUpon>frmTwixlCategorySelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LogClass.cs" />
+    <Compile Include="Color.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Color.Designer.cs">
+      <DependentUpon>Color.cs</DependentUpon>
+    </Compile>
     <Compile Include="INDConnector.cs" />
     <Compile Include="DataHandlerClass.cs" />
     <Compile Include="frmMagazineSelector.cs">
@@ -136,9 +156,22 @@
     <Compile Include="Pietschoft.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TwixlAPI.cs" />
+    <Compile Include="TwixlAPIForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TwixlAPIForm.Designer.cs">
+      <DependentUpon>TwixlAPIForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="WordsClass.cs" />
+    <EmbeddedResource Include="Color.resx">
+      <DependentUpon>Color.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMagazineSelector.resx">
       <DependentUpon>frmMagazineSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTwixlCategorySelector.resx">
+      <DependentUpon>frmTwixlCategorySelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Meanings.resx">
       <DependentUpon>Meanings.cs</DependentUpon>
@@ -156,7 +189,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="KonterbontLODConnector_TemporaryKey.pfx" />
+    <EmbeddedResource Include="TwixlAPIForm.resx">
+      <DependentUpon>TwixlAPIForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="KonterbontLODConnector.snk" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -195,7 +231,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <None Include="res\02_Export_Book.jsx" />
+    <Content Include="res\02_export_article.jsx" />
+    <Content Include="res\02_Export_Articles_From_Book.jsx" />
     <Content Include="res\popupstyle.css" />
+    <None Include="res\zz_twixlForServer.jsx" />
     <None Include="res\VS2017\Save\SaveStatusBar8_16x.png" />
     <None Include="res\VS2017\SelectFileGroup\SelectFileGroup_16x.png" />
     <None Include="res\VS2017\Save\save_16xMD.png" />

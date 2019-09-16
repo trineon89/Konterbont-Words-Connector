@@ -41,8 +41,16 @@ namespace KonterbontLODConnector
             this.astellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.magazineSelectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiText = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiColor = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmUseProxy = new System.Windows.Forms.ToolStripMenuItem();
             this.tssExperimental = new System.Windows.Forms.ToolStripMenuItem();
             this.iNDesignConnectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bookContentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.twixlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getIssueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.twixlAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tlpMain = new System.Windows.Forms.TableLayoutPanel();
             this.btnCopyToMag = new System.Windows.Forms.Button();
             this.btnCreatePopups = new System.Windows.Forms.Button();
@@ -55,16 +63,22 @@ namespace KonterbontLODConnector
             this.tssNeedSave = new System.Windows.Forms.ToolStripStatusLabel();
             this.tssMagazine = new System.Windows.Forms.ToolStripStatusLabel();
             this.tssArticle = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnCustomAudio = new System.Windows.Forms.Button();
-            this.btnPlayAudio = new System.Windows.Forms.Button();
-            this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
             this.tssInDesign = new System.Windows.Forms.ToolStripStatusLabel();
-            this.bookContentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tssCustomColor = new System.Windows.Forms.ToolStripStatusLabel();
+            this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
+            this.btnFetch = new System.Windows.Forms.Button();
+            this.tsMain = new System.Windows.Forms.ToolStrip();
+            this.tsbCustomAudio = new System.Windows.Forms.ToolStripButton();
+            this.tsbPlayAudio = new System.Windows.Forms.ToolStripButton();
+            this.tss1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbCustomPT = new System.Windows.Forms.ToolStripButton();
+            this.tsbCustomEN = new System.Windows.Forms.ToolStripButton();
             this.mmMain.SuspendLayout();
             this.tlpMain.SuspendLayout();
             this.pnlDetails.SuspendLayout();
             this.ssStatus.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
+            this.tsMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // mmMain
@@ -72,10 +86,11 @@ namespace KonterbontLODConnector
             this.mmMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dateiToolStripMenuItem,
             this.astellungenToolStripMenuItem,
-            this.tssExperimental});
+            this.tssExperimental,
+            this.twixlToolStripMenuItem});
             this.mmMain.Location = new System.Drawing.Point(0, 0);
             this.mmMain.Name = "mmMain";
-            this.mmMain.Size = new System.Drawing.Size(735, 24);
+            this.mmMain.Size = new System.Drawing.Size(772, 24);
             this.mmMain.TabIndex = 7;
             this.mmMain.Text = "menuStrip1";
             // 
@@ -98,7 +113,7 @@ namespace KonterbontLODConnector
             this.tsmiNew.Image = global::KonterbontLODConnector.Properties.Resources.NewFile_16x;
             this.tsmiNew.Name = "tsmiNew";
             this.tsmiNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.tsmiNew.Size = new System.Drawing.Size(246, 22);
+            this.tsmiNew.Size = new System.Drawing.Size(245, 22);
             this.tsmiNew.Text = "Nei";
             this.tsmiNew.Click += new System.EventHandler(this.TsmiNew_Click);
             // 
@@ -108,21 +123,21 @@ namespace KonterbontLODConnector
             this.tsmiSave.Image = global::KonterbontLODConnector.Properties.Resources.save_16xMD;
             this.tsmiSave.Name = "tsmiSave";
             this.tsmiSave.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.tsmiSave.Size = new System.Drawing.Size(246, 22);
+            this.tsmiSave.Size = new System.Drawing.Size(245, 22);
             this.tsmiSave.Text = "Späicheren";
             this.tsmiSave.Click += new System.EventHandler(this.BtnSave_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(242, 6);
             // 
             // tsmiOpenArticle
             // 
             this.tsmiOpenArticle.Image = global::KonterbontLODConnector.Properties.Resources.OpenFile_16x;
             this.tsmiOpenArticle.Name = "tsmiOpenArticle";
             this.tsmiOpenArticle.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.tsmiOpenArticle.Size = new System.Drawing.Size(246, 22);
+            this.tsmiOpenArticle.Size = new System.Drawing.Size(245, 22);
             this.tsmiOpenArticle.Text = "Artikel opmaachen...";
             this.tsmiOpenArticle.Click += new System.EventHandler(this.ArtikelOpmaachenToolStripMenuItem_Click);
             // 
@@ -139,14 +154,14 @@ namespace KonterbontLODConnector
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(243, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(242, 6);
             // 
             // tsmiExit
             // 
             this.tsmiExit.Image = global::KonterbontLODConnector.Properties.Resources.Exit_16x;
             this.tsmiExit.Name = "tsmiExit";
             this.tsmiExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.tsmiExit.Size = new System.Drawing.Size(246, 22);
+            this.tsmiExit.Size = new System.Drawing.Size(245, 22);
             this.tsmiExit.Text = "Zoumaachen";
             this.tsmiExit.Click += new System.EventHandler(this.TsmiExit_Click);
             // 
@@ -154,7 +169,10 @@ namespace KonterbontLODConnector
             // 
             this.astellungenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.magazineSelectorToolStripMenuItem,
-            this.tsmiText});
+            this.tsmiText,
+            this.tsmiColor,
+            this.toolStripSeparator4,
+            this.tsmUseProxy});
             this.astellungenToolStripMenuItem.Name = "astellungenToolStripMenuItem";
             this.astellungenToolStripMenuItem.Size = new System.Drawing.Size(82, 20);
             this.astellungenToolStripMenuItem.Text = "Astellungen";
@@ -163,7 +181,7 @@ namespace KonterbontLODConnector
             // 
             this.magazineSelectorToolStripMenuItem.Image = global::KonterbontLODConnector.Properties.Resources.SelectFileGroup_16x;
             this.magazineSelectorToolStripMenuItem.Name = "magazineSelectorToolStripMenuItem";
-            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+            this.magazineSelectorToolStripMenuItem.Size = new System.Drawing.Size(205, 22);
             this.magazineSelectorToolStripMenuItem.Text = "Magasinn auswielen...";
             this.magazineSelectorToolStripMenuItem.Click += new System.EventHandler(this.MagazineSelectorToolStripMenuItem_Click);
             // 
@@ -171,9 +189,31 @@ namespace KonterbontLODConnector
             // 
             this.tsmiText.Enabled = false;
             this.tsmiText.Name = "tsmiText";
-            this.tsmiText.Size = new System.Drawing.Size(190, 22);
+            this.tsmiText.Size = new System.Drawing.Size(205, 22);
             this.tsmiText.Text = "Text uweisen...";
             this.tsmiText.Click += new System.EventHandler(this.textUweisenToolStripMenuItem_Click);
+            // 
+            // tsmiColor
+            // 
+            this.tsmiColor.Enabled = false;
+            this.tsmiColor.Name = "tsmiColor";
+            this.tsmiColor.Size = new System.Drawing.Size(205, 22);
+            this.tsmiColor.Text = "Faarf setzen...";
+            this.tsmiColor.Click += new System.EventHandler(this.EegenFaarfSetzenToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(202, 6);
+            // 
+            // tsmUseProxy
+            // 
+            this.tsmUseProxy.Checked = true;
+            this.tsmUseProxy.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.tsmUseProxy.Name = "tsmUseProxy";
+            this.tsmUseProxy.Size = new System.Drawing.Size(205, 22);
+            this.tsmUseProxy.Text = "fallback Proxy benotzen?";
+            this.tsmUseProxy.Click += new System.EventHandler(this.TsmUseProxy_Click);
             // 
             // tssExperimental
             // 
@@ -181,7 +221,7 @@ namespace KonterbontLODConnector
             this.iNDesignConnectorToolStripMenuItem,
             this.bookContentToolStripMenuItem});
             this.tssExperimental.Name = "tssExperimental";
-            this.tssExperimental.Size = new System.Drawing.Size(92, 20);
+            this.tssExperimental.Size = new System.Drawing.Size(93, 20);
             this.tssExperimental.Text = "*experimental";
             this.tssExperimental.Click += new System.EventHandler(this.tssExperimental_Click);
             // 
@@ -192,45 +232,81 @@ namespace KonterbontLODConnector
             this.iNDesignConnectorToolStripMenuItem.Text = "INDesign Connector";
             this.iNDesignConnectorToolStripMenuItem.Click += new System.EventHandler(this.iNDesignConnectorToolStripMenuItem_Click);
             // 
+            // bookContentToolStripMenuItem
+            // 
+            this.bookContentToolStripMenuItem.Name = "bookContentToolStripMenuItem";
+            this.bookContentToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.bookContentToolStripMenuItem.Text = "Book Content";
+            this.bookContentToolStripMenuItem.Click += new System.EventHandler(this.bookContentToolStripMenuItem_Click);
+            // 
+            // twixlToolStripMenuItem
+            // 
+            this.twixlToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.getIssueToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.twixlAPIToolStripMenuItem});
+            this.twixlToolStripMenuItem.Name = "twixlToolStripMenuItem";
+            this.twixlToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.twixlToolStripMenuItem.Text = "Twixl";
+            // 
+            // getIssueToolStripMenuItem
+            // 
+            this.getIssueToolStripMenuItem.Name = "getIssueToolStripMenuItem";
+            this.getIssueToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.getIssueToolStripMenuItem.Text = "Export & Publish (Sandbox)";
+            this.getIssueToolStripMenuItem.Click += new System.EventHandler(this.PublishStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(207, 6);
+            // 
+            // twixlAPIToolStripMenuItem
+            // 
+            this.twixlAPIToolStripMenuItem.Name = "twixlAPIToolStripMenuItem";
+            this.twixlAPIToolStripMenuItem.Size = new System.Drawing.Size(210, 22);
+            this.twixlAPIToolStripMenuItem.Text = "Twixl API...";
+            this.twixlAPIToolStripMenuItem.Click += new System.EventHandler(this.TwixlAPIToolStripMenuItem_Click);
+            // 
             // tlpMain
             // 
             this.tlpMain.AutoSize = true;
             this.tlpMain.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.tlpMain.ColumnCount = 5;
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.88742F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.88742F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.32479F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.05698F));
-            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 39F));
-            this.tlpMain.Controls.Add(this.btnCopyToMag, 1, 0);
-            this.tlpMain.Controls.Add(this.btnCreatePopups, 0, 0);
+            this.tlpMain.ColumnCount = 6;
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.35311F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.37916F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.76829F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.18411F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.29148F));
+            this.tlpMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 73F));
+            this.tlpMain.Controls.Add(this.btnCopyToMag, 2, 0);
+            this.tlpMain.Controls.Add(this.btnCreatePopups, 1, 0);
             this.tlpMain.Controls.Add(this.lbWords, 0, 1);
             this.tlpMain.Controls.Add(this.lbSelectWord, 2, 1);
-            this.tlpMain.Controls.Add(this.lbSelectMeaning, 3, 1);
+            this.tlpMain.Controls.Add(this.lbSelectMeaning, 4, 1);
             this.tlpMain.Controls.Add(this.pnlDetails, 2, 2);
             this.tlpMain.Controls.Add(this.ssStatus, 0, 3);
-            this.tlpMain.Controls.Add(this.btnCustomAudio, 4, 0);
-            this.tlpMain.Controls.Add(this.btnPlayAudio, 3, 0);
-            this.tlpMain.Controls.Add(this.axWindowsMediaPlayer1, 2, 0);
+            this.tlpMain.Controls.Add(this.axWindowsMediaPlayer1, 3, 0);
+            this.tlpMain.Controls.Add(this.btnFetch, 0, 0);
             this.tlpMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpMain.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tlpMain.Location = new System.Drawing.Point(0, 24);
+            this.tlpMain.Location = new System.Drawing.Point(0, 49);
             this.tlpMain.Name = "tlpMain";
             this.tlpMain.RowCount = 4;
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 47.36842F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 52.63158F));
             this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tlpMain.Size = new System.Drawing.Size(735, 483);
+            this.tlpMain.Size = new System.Drawing.Size(772, 515);
             this.tlpMain.TabIndex = 15;
             // 
             // btnCopyToMag
             // 
             this.btnCopyToMag.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnCopyToMag.Enabled = false;
-            this.btnCopyToMag.Location = new System.Drawing.Point(120, 3);
+            this.btnCopyToMag.Location = new System.Drawing.Point(245, 3);
             this.btnCopyToMag.Name = "btnCopyToMag";
-            this.btnCopyToMag.Size = new System.Drawing.Size(111, 24);
+            this.btnCopyToMag.Size = new System.Drawing.Size(125, 24);
             this.btnCopyToMag.TabIndex = 15;
             this.btnCopyToMag.Text = "An de Magasinn";
             this.btnCopyToMag.UseVisualStyleBackColor = true;
@@ -240,9 +316,9 @@ namespace KonterbontLODConnector
             // 
             this.btnCreatePopups.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnCreatePopups.Enabled = false;
-            this.btnCreatePopups.Location = new System.Drawing.Point(3, 3);
+            this.btnCreatePopups.Location = new System.Drawing.Point(117, 3);
             this.btnCreatePopups.Name = "btnCreatePopups";
-            this.btnCreatePopups.Size = new System.Drawing.Size(111, 24);
+            this.btnCreatePopups.Size = new System.Drawing.Size(122, 24);
             this.btnCreatePopups.TabIndex = 14;
             this.btnCreatePopups.Text = "Popups erstellen";
             this.btnCreatePopups.UseVisualStyleBackColor = true;
@@ -258,18 +334,19 @@ namespace KonterbontLODConnector
             this.lbWords.Margin = new System.Windows.Forms.Padding(5);
             this.lbWords.Name = "lbWords";
             this.tlpMain.SetRowSpan(this.lbWords, 2);
-            this.lbWords.Size = new System.Drawing.Size(224, 422);
+            this.lbWords.Size = new System.Drawing.Size(232, 454);
             this.lbWords.TabIndex = 8;
             this.lbWords.SelectedIndexChanged += new System.EventHandler(this.LbWords_SelectedIndexChanged);
             // 
             // lbSelectWord
             // 
+            this.tlpMain.SetColumnSpan(this.lbSelectWord, 2);
             this.lbSelectWord.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSelectWord.FormattingEnabled = true;
-            this.lbSelectWord.Location = new System.Drawing.Point(239, 35);
+            this.lbSelectWord.Location = new System.Drawing.Point(247, 35);
             this.lbSelectWord.Margin = new System.Windows.Forms.Padding(5);
             this.lbSelectWord.Name = "lbSelectWord";
-            this.lbSelectWord.Size = new System.Drawing.Size(242, 195);
+            this.lbSelectWord.Size = new System.Drawing.Size(220, 210);
             this.lbSelectWord.TabIndex = 9;
             this.lbSelectWord.SelectedIndexChanged += new System.EventHandler(this.LbSelectWord_SelectedIndexChanged);
             this.lbSelectWord.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectWord_MouseDoubleClick);
@@ -279,10 +356,10 @@ namespace KonterbontLODConnector
             this.tlpMain.SetColumnSpan(this.lbSelectMeaning, 2);
             this.lbSelectMeaning.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbSelectMeaning.FormattingEnabled = true;
-            this.lbSelectMeaning.Location = new System.Drawing.Point(491, 35);
+            this.lbSelectMeaning.Location = new System.Drawing.Point(477, 35);
             this.lbSelectMeaning.Margin = new System.Windows.Forms.Padding(5);
             this.lbSelectMeaning.Name = "lbSelectMeaning";
-            this.lbSelectMeaning.Size = new System.Drawing.Size(239, 195);
+            this.lbSelectMeaning.Size = new System.Drawing.Size(290, 210);
             this.lbSelectMeaning.TabIndex = 10;
             this.lbSelectMeaning.SelectedIndexChanged += new System.EventHandler(this.LbSelectMeaning_SelectedIndexChanged);
             this.lbSelectMeaning.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbSelectMeaning_MouseDoubleClick);
@@ -290,14 +367,14 @@ namespace KonterbontLODConnector
             // pnlDetails
             // 
             this.pnlDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tlpMain.SetColumnSpan(this.pnlDetails, 3);
+            this.tlpMain.SetColumnSpan(this.pnlDetails, 4);
             this.pnlDetails.Controls.Add(this.rtbDetails);
             this.pnlDetails.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlDetails.Location = new System.Drawing.Point(239, 240);
+            this.pnlDetails.Location = new System.Drawing.Point(247, 255);
             this.pnlDetails.Margin = new System.Windows.Forms.Padding(5);
             this.pnlDetails.Name = "pnlDetails";
             this.pnlDetails.Padding = new System.Windows.Forms.Padding(5);
-            this.pnlDetails.Size = new System.Drawing.Size(491, 217);
+            this.pnlDetails.Size = new System.Drawing.Size(520, 234);
             this.pnlDetails.TabIndex = 17;
             // 
             // rtbDetails
@@ -310,22 +387,23 @@ namespace KonterbontLODConnector
             this.rtbDetails.Margin = new System.Windows.Forms.Padding(5);
             this.rtbDetails.Name = "rtbDetails";
             this.rtbDetails.ReadOnly = true;
-            this.rtbDetails.Size = new System.Drawing.Size(479, 205);
+            this.rtbDetails.Size = new System.Drawing.Size(508, 222);
             this.rtbDetails.TabIndex = 17;
             this.rtbDetails.Text = "";
             // 
             // ssStatus
             // 
-            this.tlpMain.SetColumnSpan(this.ssStatus, 5);
+            this.tlpMain.SetColumnSpan(this.ssStatus, 6);
             this.ssStatus.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ssStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tssNeedSave,
             this.tssMagazine,
             this.tssArticle,
-            this.tssInDesign});
-            this.ssStatus.Location = new System.Drawing.Point(0, 462);
+            this.tssInDesign,
+            this.tssCustomColor});
+            this.ssStatus.Location = new System.Drawing.Point(0, 494);
             this.ssStatus.Name = "ssStatus";
-            this.ssStatus.Size = new System.Drawing.Size(735, 21);
+            this.ssStatus.Size = new System.Drawing.Size(772, 21);
             this.ssStatus.TabIndex = 18;
             // 
             // tssNeedSave
@@ -344,44 +422,8 @@ namespace KonterbontLODConnector
             // 
             this.tssArticle.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
             this.tssArticle.Name = "tssArticle";
-            this.tssArticle.Size = new System.Drawing.Size(42, 16);
+            this.tssArticle.Size = new System.Drawing.Size(41, 16);
             this.tssArticle.Text = "_ART_";
-            // 
-            // btnCustomAudio
-            // 
-            this.btnCustomAudio.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnCustomAudio.Enabled = false;
-            this.btnCustomAudio.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnCustomAudio.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCustomAudio.Location = new System.Drawing.Point(707, 3);
-            this.btnCustomAudio.Name = "btnCustomAudio";
-            this.btnCustomAudio.Size = new System.Drawing.Size(25, 24);
-            this.btnCustomAudio.TabIndex = 19;
-            this.btnCustomAudio.Text = "♬";
-            this.btnCustomAudio.UseVisualStyleBackColor = true;
-            this.btnCustomAudio.Click += new System.EventHandler(this.btnCustomAudio_Click);
-            // 
-            // btnPlayAudio
-            // 
-            this.btnPlayAudio.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btnPlayAudio.Enabled = false;
-            this.btnPlayAudio.Location = new System.Drawing.Point(667, 3);
-            this.btnPlayAudio.Name = "btnPlayAudio";
-            this.btnPlayAudio.Size = new System.Drawing.Size(24, 24);
-            this.btnPlayAudio.TabIndex = 20;
-            this.btnPlayAudio.Text = "▶";
-            this.btnPlayAudio.UseVisualStyleBackColor = true;
-            this.btnPlayAudio.Click += new System.EventHandler(this.btnPlayAudio_Click);
-            // 
-            // axWindowsMediaPlayer1
-            // 
-            this.axWindowsMediaPlayer1.Enabled = true;
-            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(237, 3);
-            this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
-            this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
-            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(245, 23);
-            this.axWindowsMediaPlayer1.TabIndex = 21;
-            this.axWindowsMediaPlayer1.Visible = false;
             // 
             // tssInDesign
             // 
@@ -390,19 +432,109 @@ namespace KonterbontLODConnector
             this.tssInDesign.Size = new System.Drawing.Size(143, 16);
             this.tssInDesign.Text = "not connected to InDesign";
             // 
-            // bookContentToolStripMenuItem
+            // tssCustomColor
             // 
-            this.bookContentToolStripMenuItem.Name = "bookContentToolStripMenuItem";
-            this.bookContentToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.bookContentToolStripMenuItem.Text = "Book Content";
-            this.bookContentToolStripMenuItem.Click += new System.EventHandler(this.bookContentToolStripMenuItem_Click);
+            this.tssCustomColor.BackColor = System.Drawing.SystemColors.Control;
+            this.tssCustomColor.Name = "tssCustomColor";
+            this.tssCustomColor.Size = new System.Drawing.Size(88, 16);
+            this.tssCustomColor.Text = "Gewielten Faarf";
+            this.tssCustomColor.Click += new System.EventHandler(this.ToolStripStatusLabel1_Click);
+            // 
+            // axWindowsMediaPlayer1
+            // 
+            this.axWindowsMediaPlayer1.Enabled = true;
+            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(376, 3);
+            this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
+            this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
+            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(83, 23);
+            this.axWindowsMediaPlayer1.TabIndex = 21;
+            this.axWindowsMediaPlayer1.Visible = false;
+            // 
+            // btnFetch
+            // 
+            this.btnFetch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnFetch.Enabled = false;
+            this.btnFetch.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFetch.Location = new System.Drawing.Point(3, 3);
+            this.btnFetch.Name = "btnFetch";
+            this.btnFetch.Size = new System.Drawing.Size(108, 24);
+            this.btnFetch.TabIndex = 22;
+            this.btnFetch.Text = "Sync LOD";
+            this.btnFetch.UseVisualStyleBackColor = true;
+            // 
+            // tsMain
+            // 
+            this.tsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbCustomAudio,
+            this.tsbPlayAudio,
+            this.tss1,
+            this.tsbCustomPT,
+            this.tsbCustomEN});
+            this.tsMain.Location = new System.Drawing.Point(0, 24);
+            this.tsMain.Name = "tsMain";
+            this.tsMain.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tsMain.Size = new System.Drawing.Size(772, 25);
+            this.tsMain.TabIndex = 16;
+            this.tsMain.Text = "toolStrip1";
+            // 
+            // tsbCustomAudio
+            // 
+            this.tsbCustomAudio.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbCustomAudio.Enabled = false;
+            this.tsbCustomAudio.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.tsbCustomAudio.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCustomAudio.Name = "tsbCustomAudio";
+            this.tsbCustomAudio.Size = new System.Drawing.Size(24, 22);
+            this.tsbCustomAudio.Text = "♬";
+            this.tsbCustomAudio.ToolTipText = "Custom Audio setzen";
+            this.tsbCustomAudio.Click += new System.EventHandler(this.btnCustomAudio_Click);
+            // 
+            // tsbPlayAudio
+            // 
+            this.tsbPlayAudio.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbPlayAudio.Enabled = false;
+            this.tsbPlayAudio.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.tsbPlayAudio.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbPlayAudio.Name = "tsbPlayAudio";
+            this.tsbPlayAudio.Size = new System.Drawing.Size(23, 22);
+            this.tsbPlayAudio.Text = "▶";
+            this.tsbPlayAudio.ToolTipText = "Custom Audio ofspillen";
+            this.tsbPlayAudio.Click += new System.EventHandler(this.btnPlayAudio_Click);
+            // 
+            // tss1
+            // 
+            this.tss1.Name = "tss1";
+            this.tss1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbCustomPT
+            // 
+            this.tsbCustomPT.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbCustomPT.Enabled = false;
+            this.tsbCustomPT.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCustomPT.Name = "tsbCustomPT";
+            this.tsbCustomPT.Size = new System.Drawing.Size(24, 22);
+            this.tsbCustomPT.Text = "PT";
+            this.tsbCustomPT.ToolTipText = "Portugisesch Iwwersetzung setzen";
+            this.tsbCustomPT.Click += new System.EventHandler(this.TsbCustomPT_Click);
+            // 
+            // tsbCustomEN
+            // 
+            this.tsbCustomEN.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsbCustomEN.Enabled = false;
+            this.tsbCustomEN.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbCustomEN.Name = "tsbCustomEN";
+            this.tsbCustomEN.Size = new System.Drawing.Size(26, 22);
+            this.tsbCustomEN.Text = "EN";
+            this.tsbCustomEN.ToolTipText = "Englesch Iwwersetzung setzen";
+            this.tsbCustomEN.Click += new System.EventHandler(this.TlbCustomEN_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(735, 507);
+            this.ClientSize = new System.Drawing.Size(772, 564);
             this.Controls.Add(this.tlpMain);
+            this.Controls.Add(this.tsMain);
             this.Controls.Add(this.mmMain);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -410,6 +542,7 @@ namespace KonterbontLODConnector
             this.Name = "frmMain";
             this.Text = "Konterbont LOD Connector";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FrmMain_FormClosed);
             this.mmMain.ResumeLayout(false);
             this.mmMain.PerformLayout();
             this.tlpMain.ResumeLayout(false);
@@ -418,6 +551,8 @@ namespace KonterbontLODConnector
             this.ssStatus.ResumeLayout(false);
             this.ssStatus.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
+            this.tsMain.ResumeLayout(false);
+            this.tsMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -447,14 +582,27 @@ namespace KonterbontLODConnector
         private System.Windows.Forms.ToolStripStatusLabel tssMagazine;
         private System.Windows.Forms.ToolStripStatusLabel tssArticle;
         private System.Windows.Forms.ToolStripStatusLabel tssNeedSave;
-        private System.Windows.Forms.Button btnCustomAudio;
-        private System.Windows.Forms.Button btnPlayAudio;
         private System.Windows.Forms.ToolStripMenuItem tsmiText;
         private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
         private System.Windows.Forms.ToolStripMenuItem tssExperimental;
         private System.Windows.Forms.ToolStripMenuItem iNDesignConnectorToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel tssInDesign;
         private System.Windows.Forms.ToolStripMenuItem bookContentToolStripMenuItem;
+        private System.Windows.Forms.Button btnFetch;
+        private System.Windows.Forms.ToolStripMenuItem tsmiColor;
+        private System.Windows.Forms.ToolStripStatusLabel tssCustomColor;
+        private System.Windows.Forms.ToolStrip tsMain;
+        private System.Windows.Forms.ToolStripButton tsbPlayAudio;
+        private System.Windows.Forms.ToolStripButton tsbCustomAudio;
+        private System.Windows.Forms.ToolStripButton tsbCustomEN;
+        private System.Windows.Forms.ToolStripButton tsbCustomPT;
+        private System.Windows.Forms.ToolStripSeparator tss1;
+        private System.Windows.Forms.ToolStripMenuItem twixlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem getIssueToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem twixlAPIToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem tsmUseProxy;
     }
 }
 
