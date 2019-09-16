@@ -1678,6 +1678,11 @@ namespace KonterbontLODConnector
             _Globals.useProxy = !_Globals.useProxy;
             tsmUseProxy.Checked = _Globals.useProxy;
         }
+
+        private void LbSelectMeaning_RightToLeftChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 
 

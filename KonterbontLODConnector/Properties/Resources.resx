@@ -157,4 +157,16 @@
   <data name="SaveStatusBar8_16x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\res\VS2017\Save\SaveStatusBar8_16x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="zz_twixlForServer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\zz_twixlForServer.jsx;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="_02_export_article" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\02_export_article.jsx;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="_02_Export_Articles_From_Book" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\02_Export_Articles_From_Book.jsx;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="_02_Export_Book" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\res\02_Export_Book.jsx;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>
