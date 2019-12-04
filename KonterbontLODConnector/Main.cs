@@ -1431,7 +1431,7 @@ namespace KonterbontLODConnector
             //if (CustomAudioBrowser.ShowDialog() == DialogResult.OK)
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = "MP3 (*.mp3)|*.mp3";
-            fileDialog.InitialDirectory = "\\\\192.168.11.75\\Konterbont_Audio\\";
+            fileDialog.InitialDirectory = "\\\\cubecluster01\\Konterbont_Audio\\";
             //RestoreDirectory = true,
             fileDialog.Title = "Neien Toun fir den Popup auswielen";
 
