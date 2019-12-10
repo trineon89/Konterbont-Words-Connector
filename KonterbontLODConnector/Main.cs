@@ -1624,7 +1624,7 @@ namespace KonterbontLODConnector
 
                 string[] myParams = { globaldt.getTemppath(), globaldt.targetMag };
 
-                oIndesign.DoScript(@scriptpath, InDesign.idScriptLanguage.idJavascript, myParams);
+            //    oIndesign.DoScript(@scriptpath, InDesign.idScriptLanguage.idJavascript, myParams);
                 oDocument.Save();
                 oDocument.Close();
 
