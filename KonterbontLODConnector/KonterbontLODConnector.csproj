@@ -124,12 +124,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="classes\Example.cs" />
+    <Compile Include="classes\Meaning.cs" />
+    <Compile Include="classes\Word.cs" />
+    <Compile Include="classes\WordForm.cs" />
     <Compile Include="frmTwixlCategorySelector.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmTwixlCategorySelector.Designer.cs">
       <DependentUpon>frmTwixlCategorySelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interfaces\ILODConnectors.cs" />
     <Compile Include="LogClass.cs" />
     <Compile Include="Color.cs">
       <SubType>Form</SubType>

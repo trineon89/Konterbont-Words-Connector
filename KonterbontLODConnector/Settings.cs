@@ -47,18 +47,5 @@ namespace KonterbontLODConnector
 
             return language;
         }
-
-        public void SetLanguage()
-        {
-            
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(GetLanguage());
-            
-        }
-
-        private void cbLanguage_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            langId = cbLanguage.SelectedIndex;
-            SetLanguage();
-        }
     }
 }
