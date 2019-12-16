@@ -28,87 +28,185 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.panelMenu = new System.Windows.Forms.Panel();
+            this.btnMenuFolder = new System.Windows.Forms.Button();
+            this.btnArtikelOpman = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel2.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.rbText = new System.Windows.Forms.RichTextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.richText_WinformHost1 = new KonterbontLODConnector.RichText_WinformHost();
+            this.hostedComponent1 = new KonterbontLODConnector.RichTextWPF();
+            this.panelMenu.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.statusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panel1
+            // panelMenu
             // 
-            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(237, 748);
-            this.panel1.TabIndex = 1;
+            this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelMenu.Controls.Add(this.btnMenuFolder);
+            this.panelMenu.Controls.Add(this.btnArtikelOpman);
+            this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelMenu.Location = new System.Drawing.Point(0, 0);
+            this.panelMenu.Name = "panelMenu";
+            this.panelMenu.Size = new System.Drawing.Size(240, 748);
+            this.panelMenu.TabIndex = 1;
             // 
-            // panel2
+            // btnMenuFolder
             // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.panel2.Controls.Add(this.menuStrip1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(237, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1113, 29);
-            this.panel2.TabIndex = 2;
+            this.btnMenuFolder.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnMenuFolder.FlatAppearance.BorderSize = 0;
+            this.btnMenuFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMenuFolder.Font = new System.Drawing.Font("Acumin Pro Light", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMenuFolder.ForeColor = System.Drawing.Color.White;
+            this.btnMenuFolder.Location = new System.Drawing.Point(0, 0);
+            this.btnMenuFolder.Name = "btnMenuFolder";
+            this.btnMenuFolder.Size = new System.Drawing.Size(240, 30);
+            this.btnMenuFolder.TabIndex = 1;
+            this.btnMenuFolder.Text = "<<";
+            this.btnMenuFolder.UseVisualStyleBackColor = true;
+            this.btnMenuFolder.Click += new System.EventHandler(this.btnMenuFolder_Click);
+            // 
+            // btnArtikelOpman
+            // 
+            this.btnArtikelOpman.FlatAppearance.BorderSize = 0;
+            this.btnArtikelOpman.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnArtikelOpman.Font = new System.Drawing.Font("Acumin Pro Light", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnArtikelOpman.ForeColor = System.Drawing.Color.White;
+            this.btnArtikelOpman.Location = new System.Drawing.Point(0, 29);
+            this.btnArtikelOpman.Name = "btnArtikelOpman";
+            this.btnArtikelOpman.Size = new System.Drawing.Size(240, 50);
+            this.btnArtikelOpman.TabIndex = 0;
+            this.btnArtikelOpman.Text = "Artikel opmaachen";
+            this.btnArtikelOpman.UseVisualStyleBackColor = true;
             // 
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panel3.Controls.Add(this.statusStrip);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(237, 719);
+            this.panel3.Location = new System.Drawing.Point(240, 719);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(1113, 29);
+            this.panel3.Size = new System.Drawing.Size(1110, 29);
             this.panel3.TabIndex = 3;
             // 
-            // menuStrip1
+            // statusStrip
             // 
-            this.menuStrip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.menuStrip1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1113, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.statusStrip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripProgressBar,
+            this.toolStripStatusLabel});
+            this.statusStrip.Location = new System.Drawing.Point(0, 3);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(1110, 26);
+            this.statusStrip.SizingGrip = false;
+            this.statusStrip.TabIndex = 0;
+            this.statusStrip.Text = "statusStrip";
             // 
-            // fileToolStripMenuItem
+            // toolStripProgressBar
             // 
-            this.fileToolStripMenuItem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
+            this.toolStripProgressBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.toolStripProgressBar.Name = "toolStripProgressBar";
+            this.toolStripProgressBar.Size = new System.Drawing.Size(200, 20);
+            this.toolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            // 
+            // toolStripStatusLabel
+            // 
+            this.toolStripStatusLabel.ForeColor = System.Drawing.Color.White;
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(92, 21);
+            this.toolStripStatusLabel.Text = "-----------------";
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(240, 15);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.richText_WinformHost1);
+            this.splitContainer1.Panel1.Controls.Add(this.rbText);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
+            this.splitContainer1.Size = new System.Drawing.Size(1110, 704);
+            this.splitContainer1.SplitterDistance = 777;
+            this.splitContainer1.TabIndex = 4;
+            // 
+            // rbText
+            // 
+            this.rbText.BackColor = System.Drawing.Color.White;
+            this.rbText.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rbText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rbText.Location = new System.Drawing.Point(0, 0);
+            this.rbText.Name = "rbText";
+            this.rbText.Size = new System.Drawing.Size(777, 704);
+            this.rbText.TabIndex = 0;
+            this.rbText.Text = "";
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(240, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1110, 15);
+            this.panel2.TabIndex = 2;
+            // 
+            // richText_WinformHost1
+            // 
+            this.richText_WinformHost1.Location = new System.Drawing.Point(121, 162);
+            this.richText_WinformHost1.Name = "richText_WinformHost1";
+            this.richText_WinformHost1.Size = new System.Drawing.Size(538, 226);
+            this.richText_WinformHost1.TabIndex = 1;
+            this.richText_WinformHost1.Text = "richText_WinformHost1";
+            this.richText_WinformHost1.Child = this.hostedComponent1;
             // 
             // frmMainProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 748);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panelMenu);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "frmMainProgram";
             this.Text = "MainProgram";
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.panelMenu.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panelMenu;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.RichTextBox rbText;
+        private System.Windows.Forms.Button btnArtikelOpman;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnMenuFolder;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+        private RichText_WinformHost richText_WinformHost1;
+        private RichTextWPF hostedComponent1;
     }
 }

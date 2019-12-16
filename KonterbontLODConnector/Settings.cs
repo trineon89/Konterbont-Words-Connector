@@ -16,6 +16,12 @@ namespace KonterbontLODConnector
     {
         private int langId;
 
+        private int menuFoldedWidth = 30;
+        private int menuUnFoldedWidth = 240;
+
+        public int MenuFoldedWidth { get => menuFoldedWidth; set => menuFoldedWidth = value; }
+        public int MenuUnFoldedWidth { get => menuUnFoldedWidth; set => menuUnFoldedWidth = value; }
+
         public Settings()
         {
             InitializeComponent();

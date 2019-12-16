@@ -63,9 +63,9 @@ namespace KonterbontLODConnector {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Point similar to {X=17,Y=17}.
         /// </summary>
-        public static System.Drawing.Point menuStrip1_TrayLocation {
+        public static System.Drawing.Point statusStrip_TrayLocation {
             get {
-                object obj = ResourceManager.GetObject("menuStrip1.TrayLocation", resourceCulture);
+                object obj = ResourceManager.GetObject("statusStrip.TrayLocation", resourceCulture);
                 return ((System.Drawing.Point)(obj));
             }
         }
