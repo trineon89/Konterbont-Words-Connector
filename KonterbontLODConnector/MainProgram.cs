@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Forms;
+using wpf = System.Windows.Controls;
 
 namespace KonterbontLODConnector
 {
@@ -30,7 +32,7 @@ namespace KonterbontLODConnector
 
 #endregion
 
-#region public functions
+    #region public functions
 
         public void openArticle(string articlePath)
         {
@@ -42,12 +44,12 @@ namespace KonterbontLODConnector
 
         private void LoadArticleInText()
         {
-            RichTextFormatter.RichTextBox = rbText;
             RichTextFormatter.Article = _article;
-            rbText.LoadFile(_article.RtfPath);
-            RichTextFormatter.ReDecorate();
 
-            System.Windows.Documents.FlowDocument _doc = richText_WinformHost1.flowDocument();
+            //rbText.LoadFile(_article.RtfPath);
+            RichTextFormatter.LoadArticle(_article.RtfPath);
+
+            RichTextFormatter.ReDecorate();
         }
 
         public frmMainProgram()
@@ -56,6 +58,10 @@ namespace KonterbontLODConnector
             instance = this;
             settings = new Settings();
             InitReset();
+
+            RichTextFormatter.elementHost = elementHost1;
+            RichTextFormatter.LoadRtfHandler(richTextWPF1.richTextBox);
+
         }
 
         #endregion
@@ -134,6 +140,33 @@ namespace KonterbontLODConnector
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void btnArtikelOpman_Click(object sender, EventArgs e)
+        {
+            //Open File
+            if (vistaOpenFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                openArticle(vistaOpenFileDialog.FileName);
+            }
+        }
+
+        /*
+         *  Call from WPF ->
+         */
+        public void RichTextBox_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            //check what item is clicked
+            if (RichTextFormatter.getClickedWord() != null)
+            {
+                //clicked on a marked Word
+
+                MessageBox.Show("Clicked on the Word: " + RichTextFormatter.activeWord);
+
+                /*
+                 * Check State
+                 */
+            }
         }
     }
 

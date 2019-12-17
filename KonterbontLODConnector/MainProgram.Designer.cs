@@ -36,10 +36,10 @@
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.rbText = new System.Windows.Forms.RichTextBox();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.richTextWPF1 = new KonterbontLODConnector.RichTextWPF();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.richText_WinformHost1 = new KonterbontLODConnector.RichText_WinformHost();
-            this.hostedComponent1 = new KonterbontLODConnector.RichTextWPF();
+            this.vistaOpenFileDialog = new Ookii.Dialogs.WinForms.VistaOpenFileDialog();
             this.panelMenu.SuspendLayout();
             this.panel3.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -64,7 +64,7 @@
             this.btnMenuFolder.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnMenuFolder.FlatAppearance.BorderSize = 0;
             this.btnMenuFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMenuFolder.Font = new System.Drawing.Font("Acumin Pro Light", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMenuFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnMenuFolder.ForeColor = System.Drawing.Color.White;
             this.btnMenuFolder.Location = new System.Drawing.Point(0, 0);
             this.btnMenuFolder.Name = "btnMenuFolder";
@@ -78,7 +78,7 @@
             // 
             this.btnArtikelOpman.FlatAppearance.BorderSize = 0;
             this.btnArtikelOpman.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnArtikelOpman.Font = new System.Drawing.Font("Acumin Pro Light", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnArtikelOpman.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnArtikelOpman.ForeColor = System.Drawing.Color.White;
             this.btnArtikelOpman.Location = new System.Drawing.Point(0, 29);
             this.btnArtikelOpman.Name = "btnArtikelOpman";
@@ -86,6 +86,7 @@
             this.btnArtikelOpman.TabIndex = 0;
             this.btnArtikelOpman.Text = "Artikel opmaachen";
             this.btnArtikelOpman.UseVisualStyleBackColor = true;
+            this.btnArtikelOpman.Click += new System.EventHandler(this.btnArtikelOpman_Click);
             // 
             // panel3
             // 
@@ -132,8 +133,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.richText_WinformHost1);
-            this.splitContainer1.Panel1.Controls.Add(this.rbText);
+            this.splitContainer1.Panel1.Controls.Add(this.elementHost1);
             // 
             // splitContainer1.Panel2
             // 
@@ -142,16 +142,15 @@
             this.splitContainer1.SplitterDistance = 777;
             this.splitContainer1.TabIndex = 4;
             // 
-            // rbText
+            // elementHost1
             // 
-            this.rbText.BackColor = System.Drawing.Color.White;
-            this.rbText.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rbText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rbText.Location = new System.Drawing.Point(0, 0);
-            this.rbText.Name = "rbText";
-            this.rbText.Size = new System.Drawing.Size(777, 704);
-            this.rbText.TabIndex = 0;
-            this.rbText.Text = "";
+            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.elementHost1.Location = new System.Drawing.Point(0, 0);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(777, 704);
+            this.elementHost1.TabIndex = 2;
+            this.elementHost1.Text = "elementHost1";
+            this.elementHost1.Child = this.richTextWPF1;
             // 
             // panel2
             // 
@@ -162,14 +161,10 @@
             this.panel2.Size = new System.Drawing.Size(1110, 15);
             this.panel2.TabIndex = 2;
             // 
-            // richText_WinformHost1
+            // vistaOpenFileDialog
             // 
-            this.richText_WinformHost1.Location = new System.Drawing.Point(121, 162);
-            this.richText_WinformHost1.Name = "richText_WinformHost1";
-            this.richText_WinformHost1.Size = new System.Drawing.Size(538, 226);
-            this.richText_WinformHost1.TabIndex = 1;
-            this.richText_WinformHost1.Text = "richText_WinformHost1";
-            this.richText_WinformHost1.Child = this.hostedComponent1;
+            this.vistaOpenFileDialog.FileName = "vistaOpenFileDialog";
+            this.vistaOpenFileDialog.Filter = null;
             // 
             // frmMainProgram
             // 
@@ -199,14 +194,14 @@
         private System.Windows.Forms.Panel panelMenu;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.RichTextBox rbText;
         private System.Windows.Forms.Button btnArtikelOpman;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnMenuFolder;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
-        private RichText_WinformHost richText_WinformHost1;
-        private RichTextWPF hostedComponent1;
+        private Ookii.Dialogs.WinForms.VistaOpenFileDialog vistaOpenFileDialog;
+        private System.Windows.Forms.Integration.ElementHost elementHost1;
+        private RichTextWPF richTextWPF1;
     }
 }

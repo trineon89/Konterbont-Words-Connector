@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace KonterbontLODConnector.classes
 {
-    class Word
+    public class Word
     {
         string baseWordLu;
+        string occurence;
         WordForm wordForm;
+
+        public Word(string occ)
+        {
+            occurence = occ;
+        }
 
     }
 

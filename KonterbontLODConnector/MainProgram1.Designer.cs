@@ -69,5 +69,15 @@ namespace KonterbontLODConnector {
                 return ((System.Drawing.Point)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Point similar to {X=126,Y=17}.
+        /// </summary>
+        public static System.Drawing.Point vistaOpenFileDialog_TrayLocation {
+            get {
+                object obj = ResourceManager.GetObject("vistaOpenFileDialog.TrayLocation", resourceCulture);
+                return ((System.Drawing.Point)(obj));
+            }
+        }
     }
 }

@@ -24,5 +24,10 @@ namespace KonterbontLODConnector
         {
             InitializeComponent();
         }
+
+        public void richTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            frmMainProgram.getInstance().RichTextBox_Click(sender, e);
+        }
     }
 }
