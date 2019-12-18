@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KonterbontLODConnector.forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,6 +19,7 @@ namespace KonterbontLODConnector
     {
         private static Settings settings;
 
+
         private Article _article;
 
         private static frmMainProgram instance = null;
@@ -30,9 +32,11 @@ namespace KonterbontLODConnector
 
         private bool _Menufolded = false;
 
-#endregion
+        public static Settings Settings { get => settings; set => settings = value; }
 
-    #region public functions
+        #endregion
+
+        #region public functions
 
         public void openArticle(string articlePath)
         {
@@ -56,7 +60,7 @@ namespace KonterbontLODConnector
         {
             InitializeComponent();
             instance = this;
-            settings = new Settings();
+            Settings = new Settings();
             InitReset();
 
             RichTextFormatter.elementHost = elementHost1;
@@ -88,12 +92,12 @@ namespace KonterbontLODConnector
             if (_Menufolded)
             {
                 btnMenuFolder.Text = ">>";
-                panelMenu.Width = settings.MenuFoldedWidth;
+                panelMenu.Width = Settings.MenuFoldedWidth;
             }
             else
             {
                 btnMenuFolder.Text = "<<";
-                panelMenu.Width = settings.MenuUnFoldedWidth;
+                panelMenu.Width = Settings.MenuUnFoldedWidth;
             }
         }
 
@@ -126,7 +130,7 @@ namespace KonterbontLODConnector
         private void programmAstellungenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Open Settings
-            settings.ShowDialog();
+            Settings.ShowDialog();
         }
 
 
@@ -144,11 +148,32 @@ namespace KonterbontLODConnector
 
         private void btnArtikelOpman_Click(object sender, EventArgs e)
         {
+            ArticleSelector articleSelector = new ArticleSelector();
+
+            Helpers _helper = new Helpers();
+            List<ArticleFile> articleFiles = _helper.getArticles();
+
+            articleSelector.ClearItemsInView();
+
+            foreach (ArticleFile articleFile in articleFiles)
+            {
+                articleSelector.AddItemToView(articleFile);
+            }
+
+            DialogResult ar = articleSelector.ShowDialog();
+            if (ar == DialogResult.OK)
+            {
+                string selectedItem = articleSelector.listView1.SelectedItems[0].Tag as string;
+                openArticle(selectedItem + @"\" + articleSelector.listView1.SelectedItems[0].Name);
+            }
+
+            /*
             //Open File
             if (vistaOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
                 openArticle(vistaOpenFileDialog.FileName);
             }
+            */
         }
 
         /*
@@ -173,5 +198,20 @@ namespace KonterbontLODConnector
     public class Helpers
     {
        //
+       public List<ArticleFile> getArticles()
+        {
+            List<ArticleFile> res = new List<ArticleFile>();
+
+            string path = frmMainProgram.Settings.ArticlePath;
+            var dirs = from dir in System.IO.Directory.EnumerateDirectories(path, "????_*", System.IO.SearchOption.TopDirectoryOnly) select dir;
+            
+            foreach (var dir in dirs)
+            {
+                ArticleFile _articleFile = new ArticleFile(dir);
+                res.Add(_articleFile);
+            }
+
+            return res;
+        }
     }
 }

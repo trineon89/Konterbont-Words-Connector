@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using System.Windows.Media;
 using wpf = System.Windows.Controls;
 
 namespace KonterbontLODConnector
@@ -16,6 +17,11 @@ namespace KonterbontLODConnector
     {
         private static Article article;
         private static Dictionary<string, Word> clickItemDic = new Dictionary<string, Word>();
+
+        private static Brush brush_notSelected = Brushes.LightSlateGray;
+        private static Brush brush_notVerified = new SolidColorBrush(Color.FromArgb(255, 102, 217, 255));
+        private static Brush brush_withError = Brushes.OrangeRed;
+        private static Brush brush_Verified = Brushes.LimeGreen;
 
         public static string activeWord;
 
@@ -84,6 +90,7 @@ namespace KonterbontLODConnector
                             activeWord = null;
                             return null;
                         }
+                        
                         if (c.Background != null)
                         {
                             string inlineTextElement = new TextRange(c.ContentStart, c.ContentEnd).Text;
@@ -128,9 +135,11 @@ namespace KonterbontLODConnector
                 if (block is Paragraph)
                 {
                     Paragraph p = block as Paragraph;
+                    Random arrr = new Random();
                     foreach (Inline inline in p.Inlines)
                     {
-                        string inlineTextElement = new TextRange(inline.ContentStart, inline.ContentEnd).Text;
+                        TextRange tx = new TextRange(inline.ContentStart, inline.ContentEnd);
+                        string inlineTextElement = tx.Text;
                         if (inline is Span)
                         {
                             if (inline.Background != null)
@@ -138,6 +147,26 @@ namespace KonterbontLODConnector
                                 //should be word
                                 Console.WriteLine(inlineTextElement);
                                 addWordToList(inlineTextElement);
+
+                                //If is not set
+                                Brush brush;
+                                //Brush brush = Brushes.Red;
+                                
+
+                                int r = arrr.Next(0,4);
+
+                                switch (r)
+                                {
+                                    case 0: brush = brush_notSelected; break;
+                                    case 1: brush = brush_notVerified; break;
+                                    case 2: brush = brush_Verified; break;
+                                    case 3:
+                                    default: brush = brush_withError; break;
+                                }
+
+                                inline.Background = brush;
+
+
                             } else
                             {
                                 Console.WriteLine("#NOBG# - "+ inlineTextElement);

@@ -19,8 +19,11 @@ namespace KonterbontLODConnector
         private int menuFoldedWidth = 30;
         private int menuUnFoldedWidth = 240;
 
+        private string articlePath = @"\\cubecluster01\Konterbont_Produktioun\Artikelen";
+
         public int MenuFoldedWidth { get => menuFoldedWidth; set => menuFoldedWidth = value; }
         public int MenuUnFoldedWidth { get => menuUnFoldedWidth; set => menuUnFoldedWidth = value; }
+        public string ArticlePath { get => articlePath; set => articlePath = value; }
 
         public Settings()
         {

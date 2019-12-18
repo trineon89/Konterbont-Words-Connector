@@ -162,10 +162,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Article.cs" />
+    <Compile Include="classes\ArticleFiles.cs" />
     <Compile Include="classes\Example.cs" />
     <Compile Include="classes\Meaning.cs" />
     <Compile Include="classes\Word.cs" />
     <Compile Include="classes\WordForm.cs" />
+    <Compile Include="forms\ArticleSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\ArticleSelector.Designer.cs">
+      <DependentUpon>ArticleSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmTwixlCategorySelector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -236,17 +243,14 @@
     <EmbeddedResource Include="Color.resx">
       <DependentUpon>Color.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="forms\ArticleSelector.resx">
+      <DependentUpon>ArticleSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMagazineSelector.resx">
       <DependentUpon>frmMagazineSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTwixlCategorySelector.resx">
       <DependentUpon>frmTwixlCategorySelector.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainProgram.de.resx">
-      <DependentUpon>MainProgram.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainProgram.lb.resx">
-      <DependentUpon>MainProgram.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainProgram.resx">
       <DependentUpon>MainProgram.cs</DependentUpon>
@@ -317,6 +321,7 @@
     <None Include="res\02_Export_Book.jsx" />
     <Content Include="res\02_export_article.jsx" />
     <Content Include="res\02_Export_Articles_From_Book.jsx" />
+    <Content Include="res\images\txt-file.png" />
     <Content Include="res\popupstyle.css" />
     <None Include="res\zz_twixlForServer.jsx" />
     <None Include="res\VS2017\Save\SaveStatusBar8_16x.png" />
@@ -383,6 +388,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
