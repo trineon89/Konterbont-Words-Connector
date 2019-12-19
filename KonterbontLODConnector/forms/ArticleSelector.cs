@@ -24,6 +24,7 @@ namespace KonterbontLODConnector.forms
 
         public void AddItemToView(ArticleFile articleFile)
         {
+            if (articleFile == null) return;
             ListViewItem listViewItem = new ListViewItem();
             listViewItem.Text = articleFile.ArticleId + " " + articleFile.ArticleName;
             listViewItem.ImageIndex = 0;

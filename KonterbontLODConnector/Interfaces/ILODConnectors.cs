@@ -8,6 +8,6 @@ namespace KonterbontLODConnector.Interfaces
 {
     interface ILODConnectors
     {
-        void searchWord();
+        classes.WordOverview searchWord(string occ);
     }
 }

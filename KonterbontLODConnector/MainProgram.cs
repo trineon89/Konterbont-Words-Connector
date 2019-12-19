@@ -19,8 +19,8 @@ namespace KonterbontLODConnector
     {
         private static Settings settings;
 
-
-        private Article _article;
+        public ArticleFile _articleFile;
+        public Article _article;
 
         private static frmMainProgram instance = null;
         public static frmMainProgram getInstance()
@@ -28,7 +28,7 @@ namespace KonterbontLODConnector
             return instance;
         }
 
-    #region variables
+        #region variables
 
         private bool _Menufolded = false;
 
@@ -40,8 +40,20 @@ namespace KonterbontLODConnector
 
         public void openArticle(string articlePath)
         {
-            //MessageBox.Show("Loading article: "+articlePath, "Yes!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            _article = new Article(articlePath);
+            //check if articleFile exists
+            if (System.IO.File.Exists(articlePath))
+            {
+                // Load aricleFile
+                _articleFile = ArticleFile.LoadFromFile(new System.IO.DirectoryInfo(articlePath).Parent.FullName);
+            } else
+            {
+                //Create new articleFile
+                _articleFile = new ArticleFile(new System.IO.DirectoryInfo(articlePath).Parent.FullName);
+                _articleFile.SaveToFile();
+                Console.WriteLine(_articleFile.ToString());
+            }
+
+            _article = _articleFile.article;
 
             LoadArticleInText();
         }
@@ -52,7 +64,7 @@ namespace KonterbontLODConnector
 
             //rbText.LoadFile(_article.RtfPath);
             RichTextFormatter.LoadArticle(_article.RtfPath);
-
+            RichTextFormatter.Decorate();
             RichTextFormatter.ReDecorate();
         }
 
@@ -111,11 +123,6 @@ namespace KonterbontLODConnector
             //New Article Click
         }
 
-        private void opmachenToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //Open Article Click
-        }
-
         private void magazinnOpmachenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Open Magazine Click
@@ -134,7 +141,7 @@ namespace KonterbontLODConnector
         }
 
 
-#endregion
+    
 
         private void btnMenuFolder_Click(object sender, EventArgs e)
         {
@@ -166,14 +173,6 @@ namespace KonterbontLODConnector
                 string selectedItem = articleSelector.listView1.SelectedItems[0].Tag as string;
                 openArticle(selectedItem + @"\" + articleSelector.listView1.SelectedItems[0].Name);
             }
-
-            /*
-            //Open File
-            if (vistaOpenFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                openArticle(vistaOpenFileDialog.FileName);
-            }
-            */
         }
 
         /*
@@ -186,13 +185,25 @@ namespace KonterbontLODConnector
             {
                 //clicked on a marked Word
 
-                MessageBox.Show("Clicked on the Word: " + RichTextFormatter.activeWord);
+                //MessageBox.Show("Clicked on the Word: " + RichTextFormatter.activeWord);
+
+                if (_article._Words.ContainsKey(RichTextFormatter.activeWord) )
+                {
+                    
+                } else
+                {
+                    classes.WordOverview wo = new classes.WordOverview();
+                    _articleFile.article._Words.Add(RichTextFormatter.activeWord, wo);
+                    _articleFile.SaveToFile();
+                }
 
                 /*
                  * Check State
                  */
             }
         }
+
+        #endregion
     }
 
     public class Helpers
@@ -202,7 +213,7 @@ namespace KonterbontLODConnector
         {
             List<ArticleFile> res = new List<ArticleFile>();
 
-            string path = frmMainProgram.Settings.ArticlePath;
+            string path = frmMainProgram.Settings.GetArticlePath();
             var dirs = from dir in System.IO.Directory.EnumerateDirectories(path, "????_*", System.IO.SearchOption.TopDirectoryOnly) select dir;
             
             foreach (var dir in dirs)

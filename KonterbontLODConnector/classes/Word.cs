@@ -8,9 +8,9 @@ namespace KonterbontLODConnector.classes
 {
     public class Word
     {
-        string baseWordLu;
-        string occurence;
-        WordForm wordForm;
+        public string baseWordLu;
+        public string occurence;
+        public WordForm wordForm;
 
         public Word(string occ)
         {

@@ -31,6 +31,23 @@ namespace KonterbontLODConnector
             FillLanguageCombobox();
         }
 
+        public string GetArticlePath()
+        {
+            if (System.IO.Directory.Exists(articlePath))
+            {
+                return articlePath;
+            } else
+            {
+                MessageBox.Show("Wiel den Dossier aus, an deem alleguerten d'Artikele léien.","Articles not found");
+                Ookii.Dialogs.WinForms.VistaFolderBrowserDialog folderBrowserDialog = new Ookii.Dialogs.WinForms.VistaFolderBrowserDialog();
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                {
+                    articlePath = folderBrowserDialog.SelectedPath;
+                }
+                return articlePath;
+            }
+        }
+
         private void FillLanguageCombobox()
         {
             cbLanguage.Items.Add("(Default)");

@@ -121,17 +121,43 @@ namespace KonterbontLODConnector
             }
         }
 
-        public static void ReDecorate()
+        public static void Decorate()
         {
-            /*
-             *  Document : Blocks (aka Paragraph) : Inlines
-             * 
-             */
-
             foreach (Block block in richText.Document.Blocks)
             {
-                //string textElement = new TextRange(block.ContentStart, block.ContentEnd).Text;
-                
+                if (block is Paragraph)
+                {
+                    Paragraph p = block as Paragraph;
+                    foreach (Inline inline in p.Inlines)
+                    {
+                        TextRange tx = new TextRange(inline.ContentStart, inline.ContentEnd);
+                        string inlineTextElement = tx.Text;
+                        if (inline is Span)
+                        {
+                            if (inline.Background != null)
+                            {
+                                //should be word
+                                Console.WriteLine(inlineTextElement);
+                                addWordToList(inlineTextElement);
+                                inline.Background = brush_notSelected;
+                            } else
+                            {
+                                Console.WriteLine("#NOBG# - "+ inlineTextElement);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("##NOSPAN##");
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void ReDecorate()
+        {
+            foreach (Block block in richText.Document.Blocks)
+            {
                 if (block is Paragraph)
                 {
                     Paragraph p = block as Paragraph;
@@ -145,31 +171,31 @@ namespace KonterbontLODConnector
                             if (inline.Background != null)
                             {
                                 //should be word
-                                Console.WriteLine(inlineTextElement);
-                                addWordToList(inlineTextElement);
 
                                 //If is not set
                                 Brush brush;
                                 //Brush brush = Brushes.Red;
-                                
 
-                                int r = arrr.Next(0,4);
+                                WordOverview wo = new WordOverview();
+                                frmMainProgram.getInstance()._article._Words.TryGetValue(inlineTextElement, out wo);
+                               if (wo!= null)
+                               { 
+                                    switch (wo.state)
+                                    {
+                                        case 0: brush = brush_notSelected; break;
+                                        case 1: brush = brush_notVerified; break;
+                                        case 2: brush = brush_Verified; break;
+                                        case 3:
+                                        default: brush = brush_withError; break;
+                                    }
 
-                                switch (r)
-                                {
-                                    case 0: brush = brush_notSelected; break;
-                                    case 1: brush = brush_notVerified; break;
-                                    case 2: brush = brush_Verified; break;
-                                    case 3:
-                                    default: brush = brush_withError; break;
-                                }
+                                    inline.Background = brush;
 
-                                inline.Background = brush;
-
-
-                            } else
+                               }
+                            }
+                            else
                             {
-                                Console.WriteLine("#NOBG# - "+ inlineTextElement);
+                                Console.WriteLine("#NOBG# - " + inlineTextElement);
                             }
                         }
                         else
@@ -185,6 +211,9 @@ namespace KonterbontLODConnector
         {
             if (clickItemDic.ContainsKey(wuert)) { MessageBox.Show("D'wuert "+wuert+" existéiert schonn am Artikel!"); }
             clickItemDic.Add(wuert, new Word(wuert));
+            Word wo = new Word(wuert);
+            var v = frmMainProgram.getInstance();
+            v._article._workingWords.Add(wo);
         }
     }
 
