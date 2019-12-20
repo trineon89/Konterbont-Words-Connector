@@ -1,14 +1,16 @@
 ﻿using System.IO;
 
-namespace KonterbontLODConnector
+namespace KonterbontLODConnector.classes
 {
     [System.Serializable]
     public class Article
     {
         public string RtfPath { get; set; }
 
+        /// <summary>
+        /// Key is occurence
+        /// </summary>
         public System.Collections.Generic.Dictionary<string, classes.WordOverview> _Words;
-        public System.Collections.Generic.List<classes.Word> _workingWords;
 
         public Article() { }
 
@@ -21,14 +23,12 @@ namespace KonterbontLODConnector
             string articleid = new DirectoryInfo(_path).Parent.Name.Substring(0,4);
             RtfPath = new DirectoryInfo(_path).Parent.Parent.FullName + @"\" + articleid + @"_Text\Text.rtf";
             _Words = new System.Collections.Generic.Dictionary<string, classes.WordOverview>();
-            _workingWords = new System.Collections.Generic.List<classes.Word>();
         }
 
         public Article(string articlePath, string articleId)
         {
             RtfPath = new DirectoryInfo(articlePath).FullName + @"\" + articleId + @"_Text\Text.rtf";
             _Words = new System.Collections.Generic.Dictionary<string, classes.WordOverview>();
-            _workingWords = new System.Collections.Generic.List<classes.Word>();
         }
     }
 }

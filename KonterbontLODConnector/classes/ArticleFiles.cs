@@ -2,15 +2,15 @@
 using Newtonsoft.Json.Converters;
 using System.IO;
 
-namespace KonterbontLODConnector
+namespace KonterbontLODConnector.classes
 {
     [System.Serializable]
     public class ArticleFile
     {
-        public string ArticlePath { get; }
-        public string ArticleFileName { get; }
-        public string ArticleId { get; }
-        public string ArticleName { get; }
+        public string ArticlePath { get; set; }
+        public string ArticleFileName { get; set; }
+        public string ArticleId { get; set; }
+        public string ArticleName { get; set; }
 
         public Article article;
 

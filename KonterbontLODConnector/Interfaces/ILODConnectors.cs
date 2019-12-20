@@ -9,5 +9,6 @@ namespace KonterbontLODConnector.Interfaces
     interface ILODConnectors
     {
         classes.WordOverview searchWord(string occ);
+
     }
 }

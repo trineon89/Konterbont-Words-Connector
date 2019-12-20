@@ -30,21 +30,39 @@ namespace KonterbontLODConnector
 
         public static Article Article { get => article; set => article = value; }
 
-        public static void LoadArticle(string ArticlePath)
+        public static void LoadArticle(ArticleFile articleFile)
         {
             // _richText_WinformHost.LoadDocument(ArticlePath);
 
             TextRange textRange;
             System.IO.FileStream fileStream;
-            if (System.IO.File.Exists(ArticlePath))
+            if (System.IO.File.Exists(articleFile.article.RtfPath))
             {
-                textRange = new TextRange(richText.Document.ContentStart, richText.Document.ContentEnd);
-                string oldcontent = textRange.Text;
-                Console.WriteLine(oldcontent);
-                using (fileStream = new System.IO.FileStream(ArticlePath, System.IO.FileMode.Open))
+                   
+            } else
+            {
+                //maybe the Directory changed?
+                string newpath = frmMainProgram.getSettings().ArticlePath + @"\" + articleFile.ArticleId + @"_" + articleFile.ArticleName + @"\" + articleFile.ArticleId + @"_Text\Text.rtf";
+                if (File.Exists(newpath))
                 {
-                    textRange.Load(fileStream, System.Windows.DataFormats.Rtf);
+                    articleFile.article.RtfPath = newpath;
+                } else
+                {
+                    //not found, exit
+                    MessageBox.Show("Den Artikel existéiert net", "Article not found!");
+                    return;
                 }
+                // article.RtfPath
+
+                
+            }
+
+            textRange = new TextRange(richText.Document.ContentStart, richText.Document.ContentEnd);
+            string oldcontent = textRange.Text;
+            Console.WriteLine(oldcontent);
+            using (fileStream = new System.IO.FileStream(articleFile.article.RtfPath, System.IO.FileMode.Open))
+            {
+                textRange.Load(fileStream, System.Windows.DataFormats.Rtf);
             }
         }
 
@@ -177,7 +195,7 @@ namespace KonterbontLODConnector
                                 //Brush brush = Brushes.Red;
 
                                 WordOverview wo = new WordOverview();
-                                frmMainProgram.getInstance()._article._Words.TryGetValue(inlineTextElement, out wo);
+                                frmMainProgram.getInstance()._articleFile.article._Words.TryGetValue(inlineTextElement, out wo);
                                if (wo!= null)
                                { 
                                     switch (wo.state)
@@ -213,7 +231,7 @@ namespace KonterbontLODConnector
             clickItemDic.Add(wuert, new Word(wuert));
             Word wo = new Word(wuert);
             var v = frmMainProgram.getInstance();
-            v._article._workingWords.Add(wo);
+            //v._articleFile.article._workingWords.Add(wo);
         }
     }
 

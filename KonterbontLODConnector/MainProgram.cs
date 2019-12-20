@@ -1,4 +1,5 @@
 ﻿using KonterbontLODConnector.forms;
+using KonterbontLODConnector.classes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Forms;
 using wpf = System.Windows.Controls;
+using System.Net.Http;
 
 namespace KonterbontLODConnector
 {
@@ -20,12 +22,16 @@ namespace KonterbontLODConnector
         private static Settings settings;
 
         public ArticleFile _articleFile;
-        public Article _article;
 
         private static frmMainProgram instance = null;
         public static frmMainProgram getInstance()
         {
             return instance;
+        }
+
+        public static Settings getSettings()
+        {
+            return settings;
         }
 
         #region variables
@@ -53,17 +59,15 @@ namespace KonterbontLODConnector
                 Console.WriteLine(_articleFile.ToString());
             }
 
-            _article = _articleFile.article;
-
             LoadArticleInText();
         }
 
         private void LoadArticleInText()
         {
-            RichTextFormatter.Article = _article;
+            RichTextFormatter.Article = _articleFile.article;
 
             //rbText.LoadFile(_article.RtfPath);
-            RichTextFormatter.LoadArticle(_article.RtfPath);
+            RichTextFormatter.LoadArticle(_articleFile);
             RichTextFormatter.Decorate();
             RichTextFormatter.ReDecorate();
         }
@@ -172,6 +176,11 @@ namespace KonterbontLODConnector
             {
                 string selectedItem = articleSelector.listView1.SelectedItems[0].Tag as string;
                 openArticle(selectedItem + @"\" + articleSelector.listView1.SelectedItems[0].Name);
+
+                _articleFile.ArticleFileName = articleSelector.activeArticleFile.ArticleFileName;
+                _articleFile.ArticleId = articleSelector.activeArticleFile.ArticleId;
+                _articleFile.ArticleName = articleSelector.activeArticleFile.ArticleName;
+                _articleFile.ArticlePath = articleSelector.activeArticleFile.ArticlePath;
             }
         }
 
@@ -187,12 +196,15 @@ namespace KonterbontLODConnector
 
                 //MessageBox.Show("Clicked on the Word: " + RichTextFormatter.activeWord);
 
-                if (_article._Words.ContainsKey(RichTextFormatter.activeWord) )
+                if (_articleFile.article._Words.ContainsKey(RichTextFormatter.activeWord) )
                 {
-                    
+                    //
                 } else
                 {
                     classes.WordOverview wo = new classes.WordOverview();
+
+                    wo = checkLodForWord(wo, RichTextFormatter.activeWord);
+
                     _articleFile.article._Words.Add(RichTextFormatter.activeWord, wo);
                     _articleFile.SaveToFile();
                 }
@@ -204,6 +216,58 @@ namespace KonterbontLODConnector
         }
 
         #endregion
+
+        private WordOverview checkLodForWord(WordOverview wo, string occurence)
+        {
+            /*test for occurences
+             * wo.valid == true if Lod returns a valid result
+             */
+
+
+
+            Task<WordOverview> task = Task.Run<WordOverview>(async () => await getLodOccurences(wo, occurence).ConfigureAwait(true));
+            wo = task.Result;
+
+            if (wo.valid)
+            {
+                wo._wordMeanings = getLodForWord(wo);
+            }
+
+            return wo;
+        }
+
+        private async Task<WordOverview> getLodOccurences(WordOverview wo, string occurence)
+        {
+            HttpClient httpClient = new HttpClient();
+            string responseBody = null;
+            var httpContent = new HttpRequestMessage
+            {
+                RequestUri = new Uri("https://api.lod.lu/php/api.php?m=s&t=os&q={\"t\":\"" + occurence + "\"}"),
+                Method = HttpMethod.Get
+            };
+
+            try
+            {
+                var _response = await httpClient.SendAsync(httpContent);
+                responseBody = await _response.Content.ReadAsStringAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            httpClient.Dispose();
+
+            Implementation.LodApiResults lodApiResults = new Implementation.LodApiResults(responseBody);
+            Console.WriteLine("");
+            return wo;
+        }
+
+        private List<Word> getLodForWord(WordOverview wo)
+        {
+            List < Word > lwo = new List<Word>();
+
+            return lwo;
+        }
     }
 
     public class Helpers
