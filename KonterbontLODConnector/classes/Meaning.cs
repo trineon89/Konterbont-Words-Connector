@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KonterbontLODConnector.classes
 {
-    class Meaning
+    public class Meaning
     {
         protected string LU;
         protected string LUs;
@@ -15,9 +15,9 @@ namespace KonterbontLODConnector.classes
         protected string EN;
         protected string PT;
 
-        protected List<Example> examples;
+        public List<Example> examples;
 
-        protected enunciation enunciation;
+        public enunciation enunciation;
 
         public Meaning()
         {

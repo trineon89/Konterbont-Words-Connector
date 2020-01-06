@@ -139,6 +139,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
+            this.splitContainer1.Panel2Collapsed = true;
             this.splitContainer1.Size = new System.Drawing.Size(1110, 704);
             this.splitContainer1.SplitterDistance = 788;
             this.splitContainer1.TabIndex = 4;
@@ -148,7 +149,7 @@
             this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.elementHost1.Location = new System.Drawing.Point(0, 0);
             this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(788, 704);
+            this.elementHost1.Size = new System.Drawing.Size(1110, 704);
             this.elementHost1.TabIndex = 2;
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.Child = this.richTextWPF1;

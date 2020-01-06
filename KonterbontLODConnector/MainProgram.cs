@@ -93,6 +93,7 @@ namespace KonterbontLODConnector
             //toolStripStatusLabel.Visible = true;
             toolStripStatusLabel.Text = "";
             toolStripProgressBar.Visible = false;
+            splitContainer1.Panel2Collapsed = true;
         }
 
         private void foldMenu()
@@ -187,7 +188,7 @@ namespace KonterbontLODConnector
         /*
          *  Call from WPF ->
          */
-        public void RichTextBox_Click(object sender, System.Windows.RoutedEventArgs e)
+        public async void RichTextBox_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             //check what item is clicked
             if (RichTextFormatter.getClickedWord() != null)
@@ -199,11 +200,13 @@ namespace KonterbontLODConnector
                 if (_articleFile.article._Words.ContainsKey(RichTextFormatter.activeWord) )
                 {
                     //
+                    splitContainer1.Panel2Collapsed = false;
                 } else
                 {
                     classes.WordOverview wo = new classes.WordOverview();
 
-                    wo = checkLodForWord(wo, RichTextFormatter.activeWord);
+                    var task = checkLodForWord(wo, RichTextFormatter.activeWord);
+                    wo = await task;
 
                     _articleFile.article._Words.Add(RichTextFormatter.activeWord, wo);
                     _articleFile.SaveToFile();
@@ -217,21 +220,55 @@ namespace KonterbontLODConnector
 
         #endregion
 
-        private WordOverview checkLodForWord(WordOverview wo, string occurence)
+        private async Task<WordOverview> checkLodForWord(WordOverview wo, string occurence)
         {
-            /*test for occurences
-             * wo.valid == true if Lod returns a valid result
-             */
-
-
-
+            /*
+            check LOD
+            */
+            Task<WordOverview> task = getLodWords(wo, occurence);
+            wo = await task;
+            return wo;
+            /*
             Task<WordOverview> task = Task.Run<WordOverview>(async () => await getLodOccurences(wo, occurence).ConfigureAwait(true));
             wo = task.Result;
 
+            if (wo == null)
+                return null;
+
             if (wo.valid)
             {
-                wo._wordMeanings = getLodForWord(wo);
+                //wo._wordMeanings = getLodForWord(wo);
             }
+
+            return wo;
+            */
+        }
+
+        private async Task<WordOverview> getLodWords(WordOverview wo, string occ)
+        {
+            if (wo==null)
+            {
+                wo = new WordOverview();
+            }
+
+            Implementation.LodApiResults lodResults = new Implementation.LodApiResults();
+            lodResults.wordBase = _articleFile.article._WordBase;
+
+            var xmlTask = lodResults.GetXML(occ);
+            string xmlRes = await xmlTask;
+            (List<string> xml, List<string> mp3, List<string> occs, Boolean valid) = lodResults.ReturnBaseXmlData(xmlRes);
+
+            int i = 0;
+            foreach (var thexml in xml)
+            {
+                Word _word = new Word();
+                _word.occurence = occs[i];
+                _word.wordBasePointer = thexml;
+                i++;
+                wo._wordPossibleMeanings.Add(_word);
+            }
+
+            // word == occ
 
             return wo;
         }
@@ -258,7 +295,14 @@ namespace KonterbontLODConnector
             httpClient.Dispose();
 
             Implementation.LodApiResults lodApiResults = new Implementation.LodApiResults(responseBody);
+
+            lodApiResults.wordBase = _articleFile.article._WordBase;
+
+            //Fill WordMeanings
+            wo = lodApiResults.FillResults(wo);
             Console.WriteLine("");
+            //Select BaseWord
+
             return wo;
         }
 

@@ -93,7 +93,7 @@ namespace KonterbontLODConnector.classes
 
         protected new List<string> WordFormPlurals = null;
 
-        protected Word WordFormHelperVerb { get; set; }
+        protected WordBase WordFormHelperVerb { get; set; }
 
         protected string pastParticiple { get; set; }
     }
@@ -108,7 +108,7 @@ namespace KonterbontLODConnector.classes
 
         protected new List<string> WordFormPlurals = null;
 
-        protected Word WordFormHelperVerb { get; set; }
+        protected WordBase WordFormHelperVerb { get; set; }
 
         protected string pastParticiple { get; set; }
     }

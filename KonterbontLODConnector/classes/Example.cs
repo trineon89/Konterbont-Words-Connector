@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KonterbontLODConnector.classes
 {
-    class Example
+    public class Example
     {
         protected string exampleText { get; set; }
     }
@@ -17,7 +17,7 @@ namespace KonterbontLODConnector.classes
         protected string enunciationText { get; set; }
     }
 
-    enum enunciation
+    public enum enunciation
     {
         none, ëmgangssproochlech, colloquial
     }

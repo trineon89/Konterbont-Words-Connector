@@ -9,14 +9,13 @@ namespace KonterbontLODConnector.classes
     public class WordOverview
     {
         public bool valid = false;
-        public List<Word> _wordMeanings;
-
+        public List<Word> _wordPossibleMeanings;
         public int WordPointer = 0;
         public int state = 0;
 
         public WordOverview()
         {
-            _wordMeanings = new List<Word>();
+            _wordPossibleMeanings = new List<Word>();
         }
     }
 }

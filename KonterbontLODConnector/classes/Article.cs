@@ -11,6 +11,7 @@ namespace KonterbontLODConnector.classes
         /// Key is occurence
         /// </summary>
         public System.Collections.Generic.Dictionary<string, classes.WordOverview> _Words;
+        public System.Collections.Generic.Dictionary<string, classes.WordBase> _WordBase;
 
         public Article() { }
 

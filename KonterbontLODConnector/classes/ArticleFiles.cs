@@ -31,6 +31,11 @@ namespace KonterbontLODConnector.classes
                 ar = serializer.Deserialize<ArticleFile>(reader);
             }
 
+            if (ar.article._WordBase == null)
+            {
+                ar.article._WordBase = new System.Collections.Generic.Dictionary<string, WordBase>();
+            }
+
             return ar;
         }
 
