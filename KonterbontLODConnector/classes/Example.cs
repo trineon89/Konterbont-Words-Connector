@@ -11,7 +11,7 @@ namespace KonterbontLODConnector.classes
         protected string exampleText { get; set; }
     }
 
-    class Example_Extended : Example
+    public class Example_Extended : Example
     {
         protected enunciation enunciation { get; set; }
         protected string enunciationText { get; set; }

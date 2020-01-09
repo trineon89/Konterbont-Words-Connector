@@ -209,6 +209,7 @@ namespace KonterbontLODConnector
                     wo = await task;
 
                     _articleFile.article._Words.Add(RichTextFormatter.activeWord, wo);
+
                     _articleFile.SaveToFile();
                 }
 
@@ -228,6 +229,7 @@ namespace KonterbontLODConnector
             Task<WordOverview> task = getLodWords(wo, occurence);
             wo = await task;
             return wo;
+
             /*
             Task<WordOverview> task = Task.Run<WordOverview>(async () => await getLodOccurences(wo, occurence).ConfigureAwait(true));
             wo = task.Result;
@@ -264,11 +266,13 @@ namespace KonterbontLODConnector
                 Word _word = new Word();
                 _word.occurence = occs[i];
                 _word.wordBasePointer = thexml;
+
                 i++;
                 wo._wordPossibleMeanings.Add(_word);
             }
 
-            // word == occ
+            var tt = lodResults.insertBaseWords(xml, mp3, occs);
+            await tt;
 
             return wo;
         }

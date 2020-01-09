@@ -22,14 +22,22 @@ namespace KonterbontLODConnector.classes
         public static ArticleFile LoadFromFile(string filepath)
         {
             ArticleFile ar = new ArticleFile(filepath);
-
-            JsonSerializer serializer = new JsonSerializer();
+            JsonSerializerSettings jss = new JsonSerializerSettings();
+            //jss.TypeNameHandling = TypeNameHandling.All;
+            JsonSerializer serializer =JsonSerializer.Create(jss);
 
             using (StreamReader sr = new StreamReader(ar.ArticlePath + @"\" + ar.ArticleFileName))
             using (JsonReader reader = new JsonTextReader(sr))
             {
                 ar = serializer.Deserialize<ArticleFile>(reader);
             }
+
+            if (ar == null)
+            {
+                ar = new ArticleFile(new System.IO.DirectoryInfo(filepath).Parent.FullName);
+                ar.SaveToFile();
+            }
+
 
             if (ar.article._WordBase == null)
             {
@@ -41,7 +49,9 @@ namespace KonterbontLODConnector.classes
 
         public void SaveToFile()
         {
-            JsonSerializer serializer = new JsonSerializer();
+            JsonSerializerSettings jss = new JsonSerializerSettings();
+            //jss.TypeNameHandling = TypeNameHandling.All;
+            JsonSerializer serializer = JsonSerializer.Create(jss);
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
             serializer.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
 

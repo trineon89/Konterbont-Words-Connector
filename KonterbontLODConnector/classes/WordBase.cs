@@ -10,7 +10,7 @@ namespace KonterbontLODConnector.classes
     {
         public string baseWordLu;
         public string baseWordXml;
-        public WordForm wordForm;
+        public WordForm_Overload wordForm;
         public string baseMp3;
         public List<Meaning> meanings;
 

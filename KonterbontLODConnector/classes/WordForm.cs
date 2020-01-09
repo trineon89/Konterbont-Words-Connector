@@ -8,24 +8,24 @@ namespace KonterbontLODConnector.classes
 {
     public abstract class WordForm
     {
-        protected abstract string WordFormStringLu { get; set; }
-        protected abstract string WordFormStringDe { get; set; }
-        protected abstract string WordFormStringFr { get; set; }
-        protected abstract string WordFormStringEn { get; set; }
-        protected abstract string WordFormStringPt { get; set; }
+        public abstract string WordFormStringLu { get; set; }
+        public abstract string WordFormStringDe { get; set; }
+        public abstract string WordFormStringFr { get; set; }
+        public abstract string WordFormStringEn { get; set; }
+        public abstract string WordFormStringPt { get; set; }
 
-        protected abstract List<string> WordFormPlurals { get; }
+        public abstract List<string> WordFormPlurals { get; }
     }
 
     public class WordForm_Default : WordForm
     {
-        protected override string WordFormStringLu { get; set; } = "wordForm";
-        protected override string WordFormStringDe { get; set; } = "wordForm";
-        protected override string WordFormStringFr { get; set; } = "wordForm";
-        protected override string WordFormStringEn { get; set; } = "wordForm";
-        protected override string WordFormStringPt { get; set; } = "wordForm";
+        public override string WordFormStringLu { get; set; } = "wordForm";
+        public override string WordFormStringDe { get; set; } = "wordForm";
+        public override string WordFormStringFr { get; set; } = "wordForm";
+        public override string WordFormStringEn { get; set; } = "wordForm";
+        public override string WordFormStringPt { get; set; } = "wordForm";
 
-        protected override List<string> WordFormPlurals { get; }
+        public override List<string> WordFormPlurals { get; }
 
         public WordForm_Default()
         {
@@ -74,53 +74,87 @@ namespace KonterbontLODConnector.classes
 
     class WordForm_Adjectiv : WordForm_Default
     {
-        protected override string WordFormStringLu { get; set; } = "Adjektiv";
-        protected override string WordFormStringDe { get; set; } = "Adjektiv";
-        protected override string WordFormStringFr { get; set; } = "adjectif";
-        protected override string WordFormStringEn { get; set; } = "adjective";
-        protected override string WordFormStringPt { get; set; } = "adjetivo";
+        public override string WordFormStringLu { get; set; } = "Adjektiv";
+        public override string WordFormStringDe { get; set; } = "Adjektiv";
+        public override string WordFormStringFr { get; set; } = "adjectif";
+        public override string WordFormStringEn { get; set; } = "adjective";
+        public override string WordFormStringPt { get; set; } = "adjetivo";
 
-        protected new List<string> WordFormPlurals = null;
+        public new List<string> WordFormPlurals = null;
     }
 
     class WordForm_Verb : WordForm_Default
     {
-        protected override string WordFormStringLu { get; set; } = "Verb";
-        protected override string WordFormStringDe { get; set; } = "Verb";
-        protected override string WordFormStringFr { get; set; } = "verbe";
-        protected override string WordFormStringEn { get; set; } = "verb";
-        protected override string WordFormStringPt { get; set; } = "verbo";
+        public override string WordFormStringLu { get; set; } = "Verb";
+        public override string WordFormStringDe { get; set; } = "Verb";
+        public override string WordFormStringFr { get; set; } = "verbe";
+        public override string WordFormStringEn { get; set; } = "verb";
+        public override string WordFormStringPt { get; set; } = "verbo";
 
-        protected new List<string> WordFormPlurals = null;
+        public new List<string> WordFormPlurals = null;
 
-        protected WordBase WordFormHelperVerb { get; set; }
+        public string WordFormHelperVerb { get; set; }
 
-        protected string pastParticiple { get; set; }
+        public string pastParticiple { get; set; }
     }
 
     class WordForm_ModalVerb : WordForm_Default
     {
-        protected override string WordFormStringLu { get; set; } = "Modalverb";
-        protected override string WordFormStringDe { get; set; } = "Modalverb";
-        protected override string WordFormStringFr { get; set; } = "verbe de modalité";
-        protected override string WordFormStringEn { get; set; } = "modal verb";
-        protected override string WordFormStringPt { get; set; } = "verbo modal";
+        public override string WordFormStringLu { get; set; } = "Modalverb";
+        public override string WordFormStringDe { get; set; } = "Modalverb";
+        public override string WordFormStringFr { get; set; } = "verbe de modalité";
+        public override string WordFormStringEn { get; set; } = "modal verb";
+        public override string WordFormStringPt { get; set; } = "verbo modal";
 
-        protected new List<string> WordFormPlurals = null;
+        public new List<string> WordFormPlurals = null;
 
-        protected WordBase WordFormHelperVerb { get; set; }
+        public string WordFormHelperVerb { get; set; }
 
-        protected string pastParticiple { get; set; }
+        public string pastParticiple { get; set; }
     }
 
     class WordForm_ProperNoun : WordForm_Default
     {
-        protected override string WordFormStringLu { get; set; } = "Eegennumm";
-        protected override string WordFormStringDe { get; set; } = "Eigenname";
-        protected override string WordFormStringFr { get; set; } = "nom propre";
-        protected override string WordFormStringEn { get; set; } = "proper noun";
-        protected override string WordFormStringPt { get; set; } = "nome própio";
+        public override string WordFormStringLu { get; set; } = "Eegennumm";
+        public override string WordFormStringDe { get; set; } = "Eigenname";
+        public override string WordFormStringFr { get; set; } = "nom propre";
+        public override string WordFormStringEn { get; set; } = "proper noun";
+        public override string WordFormStringPt { get; set; } = "nome própio";
 
-        protected new List<string> WordFormPlurals = null;
+        public new List<string> WordFormPlurals = null;
+    }
+
+    public class WordForm_Overload
+    {
+        public string WordFormStringLu { get; set; } = "wordForm";
+        public string WordFormStringDe { get; set; } = "wordForm";
+        public string WordFormStringFr { get; set; } = "wordForm";
+        public string WordFormStringEn { get; set; } = "wordForm";
+        public string WordFormStringPt { get; set; } = "wordForm";
+
+        public List<string> WordFormPlurals { get; set; }
+        public string WordFormHelperVerb { get; set; }
+        public string pastParticiple { get; set; }
+        public string eiffelerForm { get; set; }
+        public bool isVariant { get; set; } = false;
+
+        public void SetWordForm(string languageCode, string newWordString)
+        {
+            switch (languageCode)
+            {
+                case "DE": WordFormStringDe = newWordString; break;
+                case "FR": WordFormStringFr = newWordString; break;
+                case "EN": WordFormStringEn = newWordString; break;
+                case "PT": WordFormStringPt = newWordString; break;
+                case "LU": WordFormStringLu = newWordString; break;
+                default: return;
+            }
+        }
+
+        public void InitWordFormPlurals()
+        {
+            if (WordFormPlurals == null)
+                WordFormPlurals = new List<string>();
+        }
     }
 }

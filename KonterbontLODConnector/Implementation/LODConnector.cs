@@ -19,6 +19,207 @@ namespace KonterbontLODConnector.Implementation
             return wo;
         }
 
+        public async static Task<(List<classes.Meaning>, classes.WordForm_Overload)> FetchWordDetails(string xmlWord)
+        {
+            List<classes.Meaning> lmOut = new List<classes.Meaning>();
+
+            string[] LangArray = { "LU", "DE", "FR", "EN", "PT" };
+            classes.WordForm_Overload wordForm = new classes.WordForm_Overload();
+
+            foreach (string currlang in LangArray)
+            {
+                EmptyClass em = new EmptyClass();
+                var responseTask = em.HttpRequest(currlang, xmlWord);
+                string responseBody = await responseTask;
+
+                //build wordForm
+                wordForm = getWordForm(wordForm, responseBody, currlang);
+
+                //getMeanings
+
+                lmOut = getMeanings(lmOut, responseBody, currlang);
+            }
+
+
+
+            return (lmOut, wordForm);
+        }
+
+        private static classes.WordForm_Overload getWordForm(classes.WordForm_Overload wf_ov, string responseBody, string currentLanguage)
+        {
+
+            HtmlAgilityPack.HtmlDocument LangDocument = new HtmlAgilityPack.HtmlDocument();
+            LangDocument.LoadHtml(responseBody);
+            string wuertForm = null;
+
+            if (LangDocument.DocumentNode.SelectNodes("//div[@class='uds_block']") != null)
+            {
+                if (LangDocument.DocumentNode.SelectSingleNode(".//span[@class='klass']").InnerText.Trim() != "♦")
+                {
+                    wuertForm = LangDocument.DocumentNode.SelectSingleNode(".//span[@class='klass']").InnerText.Trim();
+                }
+                else
+                {
+                    wuertForm = LangDocument.DocumentNode.SelectSingleNode(".//span[@class='klass'][2]").InnerText.Trim();
+                }
+                //Set Translated WordForms
+                wf_ov.SetWordForm(currentLanguage, wuertForm);
+
+                //Set Base Values (Pluriel(s), Hellefsverb, Adverb), ONLY WHEN LU
+                if (currentLanguage == "LU")
+                {
+                    /* Get <div class="artikel" ...... until <div class="uds_block" */
+
+                    string trgrgrgr = LangDocument.DocumentNode.SelectSingleNode("//div[@class='artikel']").InnerHtml;
+                    HtmlDocument articleDoc = new HtmlAgilityPack.HtmlDocument();
+                    articleDoc.LoadHtml(trgrgrgr);
+                    var divs = articleDoc.DocumentNode.SelectNodes("//div");
+                    foreach (var tag in divs)
+                    {
+                        tag.Remove();
+                    }
+                    
+                    //Gëtt schonn eischter agesaat
+                    var Basiswuert = articleDoc.DocumentNode.SelectNodes("//span[@class='adress mentioun_adress']/text()");
+                    /*BasisWuert(/Wieder) : //span[@class='adress mentioun_adress']/text()
+                     */
+
+                    var HV = articleDoc.DocumentNode.SelectSingleNode("//span[@class='text_gen']/span[@class='mentioun_adress']/text()");
+                    if (HV != null)
+                        wf_ov.WordFormHelperVerb = HV.InnerText.Trim();
+                    /*HV(en) : //span[@class='text_gen']/span[@class='mentioun_adress']/text()
+                     */
+
+                    var PP = articleDoc.DocumentNode.SelectSingleNode("//span[contains(.,'Participe passé')]/following-sibling::span[@class='mentioun_adress']/text()");
+                    if (PP != null)
+                        wf_ov.pastParticiple = PP.InnerText.Trim();
+                    /*PP : //div[@class='artikel']/span[@class='mentioun_adress']/text()
+                     */
+
+                    var Pluriel = articleDoc.DocumentNode.SelectNodes("//span[@class='mentioun_adress popup']/text()|//span[@class='mentioun_adress']/span[@class='mentioun_adress']/text()");
+                    if (Pluriel != null)
+                    {
+                        if (wf_ov.WordFormPlurals == null) wf_ov.InitWordFormPlurals();
+                        foreach (var pluriel in Pluriel)
+                        {
+                            wf_ov.WordFormPlurals.Add(pluriel.InnerText.Trim());
+                        }
+                    }
+                    /* Pluriel(en): //span[@class='mentioun_adress popup']/text()|//span[@class='mentioun_adress']/span[@class='mentioun_adress']/text()
+                     */
+
+                    // substring-after(//span[@id='myPopup'][1]/text(),'ouni -n ')
+                    var EiffelerTmp = articleDoc.DocumentNode.SelectSingleNode("//span[@id='myPopup'][1]/text()[1]");
+                    if (EiffelerTmp != null)
+                        wf_ov.eiffelerForm = EiffelerTmp.InnerText.Replace("ouni -n: ", "");
+                    /* Eiffeler Reegel: substring-after(//span[@id='myPopup'][1]/text(),'ouni -n')
+                     */
+
+                    var Variant = articleDoc.DocumentNode.SelectNodes("//span[@class='lu_link']");
+                    if (Variant != null)
+                        wf_ov.isVariant = true;
+                    else wf_ov.isVariant = false;
+                    /* isVariant: //span[@class='lu_link']
+                     */
+
+                    Console.WriteLine();
+                }
+                Console.WriteLine();
+            }
+            
+            
+            return wf_ov;
+        }
+
+        private static List<classes.Meaning> getMeanings(List<classes.Meaning> meanings, string responseBody, string currentLanguage)
+        {
+            HtmlAgilityPack.HtmlDocument LangDocument = new HtmlAgilityPack.HtmlDocument();
+            LangDocument.LoadHtml(responseBody);
+            if (LangDocument.DocumentNode.SelectNodes("//div[@class='uds_block']") != null)
+            {
+                //load cleaned Document
+                string trgrgrgr = LangDocument.DocumentNode.SelectSingleNode("//div[@class='artikel']").InnerHtml;
+                HtmlDocument articleDoc = new HtmlAgilityPack.HtmlDocument();
+                articleDoc.LoadHtml(trgrgrgr);
+                var meaningNodes = articleDoc.DocumentNode.SelectNodes("//div[@class='uds_block']");
+
+                int i = 0;
+                //run through different Meanings
+                if (meaningNodes != null)
+                    foreach (var meaningNode in meaningNodes)
+                    {
+                        classes.Meaning _meaning;
+                        if (currentLanguage == "LU") _meaning = new classes.Meaning();
+                        else _meaning = meanings[i];
+
+                        //Default Translation, NOT LU
+                        if (currentLanguage != "LU")
+                        {
+                            /*
+                             * //div[@class='artikel']//div[@class='uds_block']
+                             */
+
+
+                            // Get All Examples to Cutout //div[@class='artikel']//div[@class='uds_block']/div[@class='bspsblock']
+                        }
+                    }
+
+                if (currentLanguage == "LU")
+                {
+                    //get Examples
+                }
+            }
+
+
+
+
+
+
+
+
+
+            return meanings;
+        }
+    }
+
+    public class EmptyClass
+    {
+        public async Task<string> HttpRequest(string Lang, string XML)
+        {
+            string responseBody = null;
+            int i = 0;
+
+            HttpClient httpClient = new HttpClient();
+            string LangURL;
+
+            if (Lang == "LU") { LangURL = ""; }
+            else
+            { LangURL = Lang.ToLower(); }
+            var httpContent = new HttpRequestMessage
+            {
+                RequestUri = new Uri("https://www.lod.lu/php/getart" + LangURL + ".php?artid=" + XML),
+                Method = HttpMethod.Get,
+                Headers =
+                    {
+                        { HttpRequestHeader.Host.ToString(), "www.lod.lu" },
+                        { HttpRequestHeader.Referer.ToString(), "https://www.lod.lu/" }
+                    }
+            };
+            try
+            {
+                var _responseT = httpClient.SendAsync(httpContent, new HttpCompletionOption());
+                _responseT.Wait();
+                var _response = _responseT.Result;
+                responseBody = await _response.Content.ReadAsStringAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            httpClient.Dispose();
+
+            return responseBody;
+        }
     }
 
     public class LodApiResults
@@ -61,8 +262,6 @@ namespace KonterbontLODConnector.Implementation
                 }
             } 
         }
-
-
 
         public classes.WordOverview FillResults()
         {
@@ -109,7 +308,7 @@ namespace KonterbontLODConnector.Implementation
 
             Console.WriteLine("");
 
-            insertBaseWords(xml, mp3);
+            insertBaseWords(xml, mp3, occ);
 
             Console.WriteLine("");
 
@@ -189,7 +388,7 @@ namespace KonterbontLODConnector.Implementation
                 return (_xmlWords, _mp3s, _occ, true);
         }
 
-        private void insertBaseWords(List<string> xml, List<string> mp3)
+        public async Task insertBaseWords(List<string> xml, List<string> mp3, List<string> occs)
         {
             int i = 0;
             foreach (string thisXml in xml)
@@ -200,7 +399,11 @@ namespace KonterbontLODConnector.Implementation
                     //doesn't exists, so at it
                     outer = new classes.WordBase(thisXml);
                     outer.baseMp3 = mp3[i];
+                    outer.baseWordLu = occs[i];
                     wordBase.Add(thisXml, outer);
+
+                    var taskFillWordBaseDetails = frmMainProgram.getInstance()._articleFile.article.fillWordBaseDetails(outer);
+                    await taskFillWordBaseDetails;
                 }
                 i++;
             }
