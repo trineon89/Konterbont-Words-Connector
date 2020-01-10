@@ -8,13 +8,14 @@ namespace KonterbontLODConnector.classes
 {
     public class Example
     {
-        protected string exampleText { get; set; }
+        public string exampleText { get; set; }
     }
 
     public class Example_Extended : Example
     {
-        protected enunciation enunciation { get; set; }
-        protected string enunciationText { get; set; }
+        public string exampleText { get; set; }
+        public enunciation enunciation { get; set; }
+        public string enunciationText { get; set; }
     }
 
     public enum enunciation

@@ -148,8 +148,15 @@ namespace KonterbontLODConnector.Implementation
                 if (meaningNodes != null)
                     foreach (var meaningNode in meaningNodes)
                     {
+                        HtmlDocument meaningDoc = new HtmlDocument();
+                        meaningDoc.LoadHtml(meaningNode.InnerHtml);
+
                         classes.Meaning _meaning;
-                        if (currentLanguage == "LU") _meaning = new classes.Meaning();
+                        if (currentLanguage == "LU")
+                        {
+                            _meaning = new classes.Meaning();
+                            meanings.Add(_meaning);
+                        }
                         else _meaning = meanings[i];
 
                         //Default Translation, NOT LU
@@ -157,25 +164,130 @@ namespace KonterbontLODConnector.Implementation
                         {
                             /*
                              * //div[@class='artikel']//div[@class='uds_block']
+                             * 
+                             *  //span[@class='et'][not(ancestor::span)]/text()|//span[@class='text_gen']
                              */
 
+                            var langMeans = meaningDoc.DocumentNode.SelectNodes("//span[@class='et'][not(ancestor::span)]/text()|//span[@class='text_gen'][not(ancestor::span)]");
+                            if (langMeans != null)
+                            {
+                                foreach (var langMean in langMeans)
+                                {
+                                    _meaning.SetValue(currentLanguage, _meaning.GetValue(currentLanguage) + langMean.InnerText);
+                                }
+                            }
 
-                            // Get All Examples to Cutout //div[@class='artikel']//div[@class='uds_block']/div[@class='bspsblock']
                         }
-                    }
+                        else
+                        {
+                            /*
+                            * 1 Meaning (kee Pluriel) ::html:: <span class=text_gen> ( <span class=info_plex>kee Pluriel</span>  ) </span>
+                            * 
+                            * 2 Meaning (Pluriel PlurielWuert) ::html:: <span class=text_gen> ( <span class=info_plex>Pluriel <span class=mentioun_adress> 
+                            *      <span class=mentioun_adress> PlurielWuert </span> </span> </span>  ) </span>            
+                            * 
+                            * 3 Meaning SpecialWuert ::html:: <span class=polylex> SpecialWuert </span>
+                            * 
+                            * 4 Meaning DE Wuert ::html:: <span class=intro_et> ..... </span>
+                            * 
+                            */
+                            var mean1 = meaningDoc.DocumentNode.SelectSingleNode("//span[@class='text_gen']/span[@class='info_plex']");
+                            if (mean1 != null)
+                            {
+                               // _meaning.LUs = null;
+                                _meaning.NoPlural = true;
+                            }
+
+                            var mean2 = meaningDoc.DocumentNode.SelectSingleNode("//span[@class='text_gen']/span[@class='info_plex']/span/span[@class='mentioun_adress']");
+                            if (mean2 != null)
+                            {
+                                _meaning.LUs = mean2.InnerText.Trim();
+                            }
+
+                            var mean3 = meaningDoc.DocumentNode.SelectSingleNode("//span[@class='polylex']");
+                            if ( mean3 != null )
+                            {
+                                _meaning.LU = mean3.InnerText.Trim();
+                            }
+
+                            //getExamples
+
+                            //with EGS //span[@class='beispill']
+                            //without EGS //span[@class='beispill'][not(.//span[@class='mu_bsp'])]
+
+                            var examples = meaningDoc.DocumentNode.SelectNodes("//span[@class='beispill']");
+                            if (examples != null)
+                            {
+                                if (_meaning.examples == null)
+                                    _meaning.examples = new List<classes.Example>();
+
+                                foreach (var ex in examples)
+                                {
+                                    HtmlDocument theExample = new HtmlDocument();
+                                    theExample.LoadHtml(ex.InnerHtml);
+
+                                    Console.WriteLine("");
+
+                                    //exampleText ./a[@class='lu_link']|./span[@class='mentioun_adress']
+                                    //enunciation: //span[@class='mu_bsp'][2]/text()
+                                    //enunciationText: //span[@class='mu_bsp']/following::span[@class='text_gen']
+
+                                    classes.Example_Extended exe = new classes.Example_Extended();
+
+                                    var extendedTest = theExample.DocumentNode.SelectSingleNode("//span[@class='mu_bsp'][2]/text()");
+                                    if (extendedTest != null)
+                                    {
+                                        if (_meaning.examples_Extended == null)
+                                            _meaning.examples_Extended = new List<classes.Example_Extended>();
+
+                                        var exampleTexts = theExample.DocumentNode.SelectNodes("./a[@class='lu_link']|./span[@class='mentioun_adress']");
+                                        var enunciation = extendedTest.InnerText.Trim();
+                                        var enunciationText = theExample.DocumentNode.SelectSingleNode("//span[@class='mu_bsp']/following::span[@class='text_gen']");
+
+                                        if (enunciationText != null)
+                                        {
+                                            exe.enunciationText = enunciationText.InnerText.Trim();
+                                        }
+
+                                        string exampleText = null;
+                                        if (exampleTexts != null)
+                                        {
+                                            foreach (var exampletextelemes in exampleTexts)
+                                            {
+                                                exampleText += exampletextelemes.InnerText + " ";
+                                            }
+                                            exampleText = exampleText.Trim();
+                                            exe.exampleText = exampleText;
+                                        }
+                                        _meaning.examples_Extended.Add(exe);
+                                    }
+                                    else
+                                    {
+                                        //default example
+                                        classes.Example exo = new classes.Example();
+                                        exo.exampleText = ex.InnerText.Trim();
+
+                                        _meaning.examples.Add(exo);
+                                    }
+
+                                }
+                            }
+
+                            
+
+                            
+
+                            Console.WriteLine("");
+                        }
+
+                        i++;
+                    } // End foreach
 
                 if (currentLanguage == "LU")
                 {
                     //get Examples
                 }
             }
-
-
-
-
-
-
-
 
 
             return meanings;

@@ -10,6 +10,7 @@ namespace KonterbontLODConnector.classes
     {
         public string LU;
         public string LUs;
+        public bool NoPlural = false;
         public string DE;
         public string FR;
         public string EN;
@@ -23,13 +24,11 @@ namespace KonterbontLODConnector.classes
         public Meaning()
         {
             LU = null;
-            //LUs = null;
+            LUs = null;
             DE = null;
             FR = null;
             EN = null;
             PT = null;
-            examples = new List<Example>();
-            examples_Extended = new List<Example_Extended>();
             enunciation = enunciation.none;
         }
 
@@ -39,11 +38,25 @@ namespace KonterbontLODConnector.classes
             {
                 case "LU": LU = value; break;
                 case "DE": DE = value; break;
-                //case "LUs": LUs = value; break;
+                case "LUs": LUs = value; break;
                 case "FR": FR = value; break;
                 case "EN": EN = value; break;
                 case "PT": PT = value; break;
                 default: return;
+            }
+        }
+
+        public string GetValue(string selector)
+        {
+            switch (selector)
+            {
+                case "LU": return LU;
+                case "DE": return DE;
+                case "LUs": return LUs;
+                case "FR": return FR;
+                case "EN": return EN;
+                case "PT": return PT;
+                default: return null;
             }
         }
 
