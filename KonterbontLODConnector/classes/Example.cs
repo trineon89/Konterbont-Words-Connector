@@ -20,6 +20,6 @@ namespace KonterbontLODConnector.classes
 
     public enum enunciation
     {
-        none, ëmgangssproochlech, colloquial
+        none, ëmgangssproochlech
     }
 }

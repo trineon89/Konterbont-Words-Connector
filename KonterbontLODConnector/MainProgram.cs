@@ -213,6 +213,11 @@ namespace KonterbontLODConnector
                     _articleFile.SaveToFile();
                 }
 
+                //Fill splitContainer Content
+
+                FillsplitContainerContent();
+                splitContainer1.Panel2Collapsed = false;
+
                 /*
                  * Check State
                  */
@@ -220,6 +225,109 @@ namespace KonterbontLODConnector
         }
 
         #endregion
+
+        private void FillsplitContainerContent()
+        {
+            classes.WordOverview wo = new WordOverview();
+            _articleFile.article._Words.TryGetValue(RichTextFormatter.activeWord, out wo);
+
+            
+            if (wo._wordPossibleMeanings.Count > 1)
+            {
+                //Mei ewei 1 basiswuert
+                
+            }
+            else
+            {
+                //sprang direkt bei d'Meaning Selection
+                wo.WordPointer = 1;
+                FillsplitContainerContent_MeaningsByWordBaseString(wo._wordPossibleMeanings.First().wordBasePointer, wo._wordPossibleMeanings.First().meaningPointer, wo);
+            }
+
+            //splitContainer1.Panel2.Controls.Add();
+        }
+
+        private void FillsplitContainerContent_MeaningsByWordBaseString(string wordBase, int meaningPointer, WordOverview wo)
+        {
+            classes.WordBase wb = new WordBase();
+            bool wbExists = _articleFile.article._WordBase.TryGetValue(wordBase, out wb);
+            if (wbExists)
+            {
+                if (wb.meanings.Count > 1)
+                {
+                    //Mei ewei 1 Meaning
+                } else
+                {
+                    wo._wordPossibleMeanings[wo.WordPointer - 1].meaningPointer = 1;
+                    ShowMeaning(wo, wb);
+                }
+            }
+        }
+
+        private void ShowMeaning(WordOverview wo, WordBase wb)
+        {
+            splitContainer1.Panel2.Controls.Clear();
+
+            //Default Container
+            FlowLayoutPanel flowLayoutPanel = new FlowLayoutPanel();
+            flowLayoutPanel.AutoScroll = true;
+            flowLayoutPanel.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel.Dock = DockStyle.Fill;
+
+            Panel panelLu = new Panel
+            {
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                AutoSize = true
+            };
+
+            Label labelWuert = new Label
+            {
+                Width = 80,
+                AutoSize = true,
+                Font = new Font(this.Font, FontStyle.Bold),
+                Text = "Occurence"
+            };
+
+            TextBox lWuert = new TextBox
+            {
+                AutoSize = true,
+                Text = wo._wordPossibleMeanings[wo.WordPointer - 1].occurence,
+                Location = new Point(labelWuert.Width, 0)
+            };
+
+            Panel basis = new Panel
+            {
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                AutoSize = true
+            };
+
+            Label labelBasisWuert = new Label
+            {
+                Width = 80,
+                AutoSize = true,
+                Font = new Font(this.Font, FontStyle.Bold),
+                Text = "Wuert"
+            };
+
+            TextBox lbWuert = new TextBox
+            {
+                AutoSize = true,
+                Text = wb.baseWordLu,
+                Location = new Point(labelWuert.Width, 0)
+            };
+
+            panelLu.Controls.Add(labelWuert);
+            panelLu.Controls.Add(lWuert);
+
+            basis.Controls.Add(labelBasisWuert);
+            basis.Controls.Add(lbWuert);
+
+            flowLayoutPanel.Controls.Add(panelLu);
+            flowLayoutPanel.Controls.Add(basis);
+            splitContainer1.Panel2.Controls.Add(flowLayoutPanel);
+
+
+        }
 
         private async Task<WordOverview> checkLodForWord(WordOverview wo, string occurence)
         {
@@ -264,7 +372,7 @@ namespace KonterbontLODConnector
             foreach (var thexml in xml)
             {
                 Word _word = new Word();
-                _word.occurence = occs[i];
+                _word.occurence = occ;
                 _word.wordBasePointer = thexml;
 
                 i++;

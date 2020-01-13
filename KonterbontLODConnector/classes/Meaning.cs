@@ -19,8 +19,6 @@ namespace KonterbontLODConnector.classes
         public List<Example> examples;
         public List<Example_Extended> examples_Extended;
 
-        public enunciation enunciation;
-
         public Meaning()
         {
             LU = null;
@@ -29,7 +27,6 @@ namespace KonterbontLODConnector.classes
             FR = null;
             EN = null;
             PT = null;
-            enunciation = enunciation.none;
         }
 
         public void SetValue(string selector, string value)
@@ -58,6 +55,18 @@ namespace KonterbontLODConnector.classes
                 case "PT": return PT;
                 default: return null;
             }
+        }
+
+
+        public enunciation GetEnunciation(string enunText)
+        {
+            enunciation enun;
+            switch (enunText)
+            {
+                case "ëmgangssproochlech": enun = enunciation.ëmgangssproochlech; break;
+                default: enun = enunciation.none; break;
+            }
+            return enun;
         }
 
     }

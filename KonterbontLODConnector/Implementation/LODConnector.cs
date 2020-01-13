@@ -125,6 +125,39 @@ namespace KonterbontLODConnector.Implementation
                     Console.WriteLine();
                 }
                 Console.WriteLine();
+            } 
+            else
+            {
+                //Variant possible
+                var vi = LangDocument.DocumentNode.SelectSingleNode(".//span[@class='klass']");
+                if (vi != null)
+                {
+                    if (vi.InnerText.Trim() != "♦")
+                    {
+                        wuertForm = LangDocument.DocumentNode.SelectSingleNode(".//span[@class='klass']").InnerText.Trim();
+                    }
+                    else
+                    {
+                        wuertForm = LangDocument.DocumentNode.SelectSingleNode(".//span[@class='klass'][2]").InnerText.Trim();
+                    }
+                    //Set Translated WordForms
+                    wf_ov.SetWordForm(currentLanguage, wuertForm);
+
+                    if (currentLanguage == "LU")
+                    {
+                        /* Get <div class="artikel" ...... until <div class="uds_block" */
+
+                        string trgrgrgr = LangDocument.DocumentNode.SelectSingleNode("//div[@class='artikel']").InnerHtml;
+                        HtmlDocument articleDoc = new HtmlAgilityPack.HtmlDocument();
+                        articleDoc.LoadHtml(trgrgrgr);
+
+                        var Variant = articleDoc.DocumentNode.SelectNodes("//span[@class='lu_link']");
+                        if (Variant != null)
+                            wf_ov.isVariant = true;
+                        else wf_ov.isVariant = false;
+                    }
+                    
+                }
             }
             
             
@@ -168,7 +201,7 @@ namespace KonterbontLODConnector.Implementation
                              *  //span[@class='et'][not(ancestor::span)]/text()|//span[@class='text_gen']
                              */
 
-                            var langMeans = meaningDoc.DocumentNode.SelectNodes("//span[@class='et'][not(ancestor::span)]/text()|//span[@class='text_gen'][not(ancestor::span)]");
+                            var langMeans = meaningDoc.DocumentNode.SelectNodes("//span[@class='et'][not(ancestor::span)]/text()|//span[@class='text_gen'][not(ancestor::span)][not(.//span[@id='myPopup'])][not(contains(.,' plural)') or contains(., 'Plural)') or contains(., 'pluriel)'))]");
                             if (langMeans != null)
                             {
                                 foreach (var langMean in langMeans)
@@ -191,14 +224,14 @@ namespace KonterbontLODConnector.Implementation
                             * 4 Meaning DE Wuert ::html:: <span class=intro_et> ..... </span>
                             * 
                             */
-                            var mean1 = meaningDoc.DocumentNode.SelectSingleNode("//span[@class='text_gen']/span[@class='info_plex']");
+                            var mean1 = meaningDoc.DocumentNode.SelectSingleNode("//span[@class='text_gen']/span[@class='info_flex'][contains(.,'kee')]");
                             if (mean1 != null)
                             {
                                // _meaning.LUs = null;
                                 _meaning.NoPlural = true;
                             }
 
-                            var mean2 = meaningDoc.DocumentNode.SelectSingleNode("//span[@class='text_gen']/span[@class='info_plex']/span/span[@class='mentioun_adress']");
+                            var mean2 = meaningDoc.DocumentNode.SelectSingleNode("//span[@class='text_gen']/span[@class='info_plex']/span/span[@class='mentioun_adress']|//span[@class='mentioun_adress popup']/text()|//span[@class='mentioun_adress']/span[@class='mentioun_adress']/text()");
                             if (mean2 != null)
                             {
                                 _meaning.LUs = mean2.InnerText.Trim();
@@ -242,6 +275,9 @@ namespace KonterbontLODConnector.Implementation
 
                                         var exampleTexts = theExample.DocumentNode.SelectNodes("./a[@class='lu_link']|./span[@class='mentioun_adress']");
                                         var enunciation = extendedTest.InnerText.Trim();
+
+                                        exe.enunciation = _meaning.GetEnunciation(enunciation);
+
                                         var enunciationText = theExample.DocumentNode.SelectSingleNode("//span[@class='mu_bsp']/following::span[@class='text_gen']");
 
                                         if (enunciationText != null)
