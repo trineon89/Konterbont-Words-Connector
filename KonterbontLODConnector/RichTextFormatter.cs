@@ -139,6 +139,11 @@ namespace KonterbontLODConnector
             }
         }
 
+        public static void ResetWordList()
+        {
+            clickItemDic.Clear();
+        }
+
         public static void Decorate()
         {
             foreach (Block block in richText.Document.Blocks)

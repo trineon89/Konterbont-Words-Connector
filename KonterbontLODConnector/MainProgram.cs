@@ -14,6 +14,7 @@ using System.Windows.Documents;
 using System.Windows.Forms;
 using wpf = System.Windows.Controls;
 using System.Net.Http;
+using System.Diagnostics;
 
 namespace KonterbontLODConnector
 {
@@ -68,6 +69,7 @@ namespace KonterbontLODConnector
 
             //rbText.LoadFile(_article.RtfPath);
             RichTextFormatter.LoadArticle(_articleFile);
+            RichTextFormatter.ResetWordList();
             RichTextFormatter.Decorate();
             RichTextFormatter.ReDecorate();
         }
@@ -160,6 +162,8 @@ namespace KonterbontLODConnector
 
         private void btnArtikelOpman_Click(object sender, EventArgs e)
         {
+            InitReset();
+
             ArticleSelector articleSelector = new ArticleSelector();
 
             Helpers _helper = new Helpers();
@@ -190,6 +194,8 @@ namespace KonterbontLODConnector
          */
         public async void RichTextBox_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            splitContainer1.Panel2Collapsed = true;
+
             //check what item is clicked
             if (RichTextFormatter.getClickedWord() != null)
             {
@@ -224,6 +230,14 @@ namespace KonterbontLODConnector
             }
         }
 
+        public void ForwardStateTo(int newState)
+        {
+            classes.WordOverview wo = new WordOverview();
+            _articleFile.article._Words.TryGetValue(RichTextFormatter.activeWord, out wo);
+            wo.state = newState;
+            RichTextFormatter.ReDecorate();
+        }
+
         #endregion
 
         private void FillsplitContainerContent()
@@ -235,13 +249,13 @@ namespace KonterbontLODConnector
             if (wo._wordPossibleMeanings.Count > 1)
             {
                 //Mei ewei 1 basiswuert
-                
+                FillWordsTab(wo);
             }
             else
             {
                 //sprang direkt bei d'Meaning Selection
                 wo.WordPointer = 1;
-                FillsplitContainerContent_MeaningsByWordBaseString(wo._wordPossibleMeanings.First().wordBasePointer, wo._wordPossibleMeanings.First().meaningPointer, wo);
+                FillWordsTab(wo);
             }
 
             //splitContainer1.Panel2.Controls.Add();
@@ -259,73 +273,153 @@ namespace KonterbontLODConnector
                 } else
                 {
                     wo._wordPossibleMeanings[wo.WordPointer - 1].meaningPointer = 1;
-                    ShowMeaning(wo, wb);
                 }
             }
         }
 
-        private void ShowMeaning(WordOverview wo, WordBase wb)
+        private void FillWordsTab(WordOverview wo)
         {
-            splitContainer1.Panel2.Controls.Clear();
+            ClearWordsTab();
+            FontFamily fm = new FontFamily("Segoe UI");
+            Font defaultFont = new Font(fm, 9, FontStyle.Regular, GraphicsUnit.Point);
+            Font underlineFont = new Font(fm, 9, FontStyle.Underline, GraphicsUnit.Point);
 
-            //Default Container
-            FlowLayoutPanel flowLayoutPanel = new FlowLayoutPanel();
-            flowLayoutPanel.AutoScroll = true;
-            flowLayoutPanel.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel.Dock = DockStyle.Fill;
+            tabControl1.SelectedTab = tabPage1;
+            int i = 0;
 
-            Panel panelLu = new Panel
+            if (wo._wordPossibleMeanings.Count == 1)
             {
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                AutoSize = true
-            };
+                wo.WordPointer = 1;
+            }
 
-            Label labelWuert = new Label
+            foreach (Word _w in wo._wordPossibleMeanings)
             {
-                Width = 80,
-                AutoSize = true,
-                Font = new Font(this.Font, FontStyle.Bold),
-                Text = "Occurence"
-            };
+                classes.WordBase wb = new WordBase();
+                _articleFile.article._WordBase.TryGetValue(_w.wordBasePointer, out wb);
 
-            TextBox lWuert = new TextBox
+                ListViewGroup _listViewGroup = new ListViewGroup();
+                _listViewGroup.Header = wb.baseWordLu + " " + wb.wordForm.WordFormStringLu;
+                _listViewGroup.Tag = i;
+                _listViewGroup.Name = wb.baseWordXml;
+                listView_Words.Groups.Add(_listViewGroup);
+
+                int j = 0;
+
+                if (wb.meanings.Count == 1 && wo._wordPossibleMeanings.Count == 1)
+                {
+                    _w.meaningPointer = 1;
+                    ForwardStateTo(1);
+                }
+
+                foreach (classes.Meaning _m in wb.meanings)
+                {
+                    ListViewItem _listViewItem = new ListViewItem();
+                    if (_w.meaningPointer == j+1 && _w.meaningPointer != 0)
+                    {
+                        _listViewItem.Checked = true;
+                    }
+                    _listViewItem.Tag = j;
+                    _listViewItem.Name = wb.baseWordXml;
+                    _listViewItem.UseItemStyleForSubItems = false;
+                    _listViewItem.Group = _listViewGroup;
+                    if (_m.LU == null)
+                    {
+                        _listViewItem.Text = wb.baseWordLu;
+                        _listViewItem.Font = defaultFont;
+                    }
+                    else
+                    {
+                        _listViewItem.Text = _m.LU;
+                        _listViewItem.Font = underlineFont;
+                    }
+
+                    _listViewItem.SubItems.Add(_m.DE, _listViewItem.ForeColor, _listViewItem.BackColor, defaultFont);
+                    _listViewItem.SubItems.Add(_m.FR, _listViewItem.ForeColor, _listViewItem.BackColor, defaultFont);
+
+                    listView_Words.Items.Add(_listViewItem);
+                    j++;
+                }
+
+                i++;
+            }
+        }
+
+        private void ClearWordsTab()
+        {
+            listView_Words.Items.Clear();
+            listView_Words.Groups.Clear();
+        }
+
+
+        private void FillMeaningTab()
+        {
+            classes.WordOverview wo = new WordOverview();
+            _articleFile.article._Words.TryGetValue(RichTextFormatter.activeWord, out wo);
+            FillMeaningTab(wo);
+        }
+
+        private void FillMeaningTab(WordOverview wo)
+        {
+            int wordPointer = wo.WordPointer - 1;
+            int meaningPointer = wo._wordPossibleMeanings[wordPointer].meaningPointer - 1;
+            string xmlSelector = wo._wordPossibleMeanings[wordPointer].wordBasePointer;
+
+            classes.WordBase wb = new WordBase();
+            _articleFile.article._WordBase.TryGetValue(xmlSelector, out wb);
+
+            //check if has custom Translation
+            if (wo._wordPossibleMeanings[wordPointer].customMeaning != null)
             {
-                AutoSize = true,
-                Text = wo._wordPossibleMeanings[wo.WordPointer - 1].occurence,
-                Location = new Point(labelWuert.Width, 0)
-            };
-
-            Panel basis = new Panel
+                //TODO
+            } else
             {
-                AutoSizeMode = AutoSizeMode.GrowAndShrink,
-                AutoSize = true
-            };
+                label_MeaningTab_Header.Text = wo._wordPossibleMeanings[wordPointer].occurence;
+                edtBasisWuert.Text = wb.baseWordLu;
+                edtWordform.Text = wb.wordForm.WordFormStringLu;
+                edtMp3.Text = wb.baseMp3;
+                string hyperlink = "http://www.lod.lu/?" + wb.baseWordXml.Substring(0, wb.baseWordXml.Length - 4);
+                linkLod.Text = "um LOD ukucken...";
+                linkLod.Links.Clear();
+                LinkLabel.Link link = new LinkLabel.Link();
+                link.LinkData = hyperlink;
+                linkLod.Links.Add(link);
 
-            Label labelBasisWuert = new Label
-            {
-                Width = 80,
-                AutoSize = true,
-                Font = new Font(this.Font, FontStyle.Bold),
-                Text = "Wuert"
-            };
+                if (wb.wordForm.WordFormStringLu == "Verb" ||
+                    wb.wordForm.WordFormStringLu == "Modalverb")
+                {
+                    panelVerb.Visible = true;
+                    panelPlural.Visible = false;
+                    edtHelperVerb.Text = wb.wordForm.WordFormHelperVerb;
+                    edtParticipePasse.Text = wb.wordForm.pastParticiple;
+                } else
+                {
+                    if (wb.wordForm.WordFormStringLu == "Adjektiv")
+                    {
+                        panelVerb.Visible = false;
+                        panelPlural.Visible = false;
+                    }
+                    else
+                    {
+                        panelVerb.Visible = false;
+                        panelPlural.Visible = true;
+                        string plural = null;
+                        if (wb.wordForm.WordFormPlurals != null)
+                        foreach (string wfp in wb.wordForm.WordFormPlurals)
+                        {
+                            plural += wfp;
+                        }
+                        edtPlural.Text = plural;
+                    }
+                }
+                    
+            }
 
-            TextBox lbWuert = new TextBox
-            {
-                AutoSize = true,
-                Text = wb.baseWordLu,
-                Location = new Point(labelWuert.Width, 0)
-            };
+            //switch to meaningTab
+            tabControl1.SelectedTab = tabPage2;
+        }
 
-            panelLu.Controls.Add(labelWuert);
-            panelLu.Controls.Add(lWuert);
-
-            basis.Controls.Add(labelBasisWuert);
-            basis.Controls.Add(lbWuert);
-
-            flowLayoutPanel.Controls.Add(panelLu);
-            flowLayoutPanel.Controls.Add(basis);
-            splitContainer1.Panel2.Controls.Add(flowLayoutPanel);
-
+        private void PrepareMeaningTab()
+        {
 
         }
 
@@ -337,21 +431,6 @@ namespace KonterbontLODConnector
             Task<WordOverview> task = getLodWords(wo, occurence);
             wo = await task;
             return wo;
-
-            /*
-            Task<WordOverview> task = Task.Run<WordOverview>(async () => await getLodOccurences(wo, occurence).ConfigureAwait(true));
-            wo = task.Result;
-
-            if (wo == null)
-                return null;
-
-            if (wo.valid)
-            {
-                //wo._wordMeanings = getLodForWord(wo);
-            }
-
-            return wo;
-            */
         }
 
         private async Task<WordOverview> getLodWords(WordOverview wo, string occ)
@@ -418,11 +497,62 @@ namespace KonterbontLODConnector
             return wo;
         }
 
-        private List<Word> getLodForWord(WordOverview wo)
+        private void listView_Words_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            List < Word > lwo = new List<Word>();
+            //before check Raises
 
-            return lwo;
+            if (e.NewValue == CheckState.Checked)
+            {
+                try
+                {                    
+                    classes.WordOverview wo = new WordOverview();
+                    _articleFile.article._Words.TryGetValue(RichTextFormatter.activeWord, out wo);
+
+                    string meaningTag = (sender as ListView).Items[e.Index].Tag.ToString();
+                    string wordTag = (sender as ListView).Items[e.Index].Group.Tag.ToString();
+
+                    wo.WordPointer = Int32.Parse(wordTag) + 1;
+                    wo._wordPossibleMeanings[wo.WordPointer - 1].meaningPointer = Int32.Parse(meaningTag) + 1;
+
+                    //Unset old elements
+                    int i = 0;
+                    foreach (ListViewItem item in (sender as ListView).Items)
+                    {
+                        if (i!=e.Index)
+                        {
+                            item.Checked = false;
+                        }
+                    }
+
+                    _articleFile.SaveToFile();
+
+                    //ShowMeaning
+                    FillMeaningTab();
+                    ForwardStateTo(1);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+
+            Console.WriteLine("");
+        }
+
+        private void listView_Words_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            //after check Raised
+            Console.WriteLine("");
+        }
+
+        private void linkLod_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string url;
+            //if (e.Link.LinkData != null)
+            url = e.Link.LinkData.ToString();
+
+            var si = new ProcessStartInfo(url);
+            Process.Start(si);
         }
     }
 

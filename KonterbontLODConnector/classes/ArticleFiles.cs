@@ -47,8 +47,39 @@ namespace KonterbontLODConnector.classes
             return ar;
         }
 
+        private void CleanUp()
+        {
+            int i;
+            foreach (WordOverview _w in article._Words.Values)
+            {
+                i = 1;
+                if (_w._wordPossibleMeanings.Count == 1)
+                {
+                    _w.WordPointer = 1;
+                } else
+                {
+                    int j = _w.WordPointer; // Values 0 :-> not set, 1, 2, 3 -> specific word
+
+                    foreach (var _pm in _w._wordPossibleMeanings)
+                    {
+                        if (_pm.meaningPointer > 0)
+                        {
+                            if (j != i)
+                            {
+                                _pm.meaningPointer = 0;
+                            }
+                        }
+
+                        i++;
+                    }
+                }
+            }
+                
+        }
+
         public void SaveToFile()
         {
+            CleanUp();
             JsonSerializerSettings jss = new JsonSerializerSettings();
             //jss.TypeNameHandling = TypeNameHandling.All;
             JsonSerializer serializer = JsonSerializer.Create(jss);
