@@ -194,7 +194,7 @@ namespace KonterbontLODConnector
          */
         public async void RichTextBox_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            splitContainer1.Panel2Collapsed = true;
+            //splitContainer1.Panel2Collapsed = true;
 
             //check what item is clicked
             if (RichTextFormatter.getClickedWord() != null)
