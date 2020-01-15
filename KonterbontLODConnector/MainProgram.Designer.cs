@@ -48,6 +48,8 @@
             "(bouteille de) bière"}, -1);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMainProgram));
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.btnArticleExport = new System.Windows.Forms.Button();
+            this.btnArticleSave = new System.Windows.Forms.Button();
             this.btnMenuFolder = new System.Windows.Forms.Button();
             this.btnArtikelOpman = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -133,6 +135,8 @@
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelMenu.Controls.Add(this.btnArticleExport);
+            this.panelMenu.Controls.Add(this.btnArticleSave);
             this.panelMenu.Controls.Add(this.btnMenuFolder);
             this.panelMenu.Controls.Add(this.btnArtikelOpman);
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
@@ -140,6 +144,34 @@
             this.panelMenu.Name = "panelMenu";
             this.panelMenu.Size = new System.Drawing.Size(240, 748);
             this.panelMenu.TabIndex = 1;
+            // 
+            // btnArticleExport
+            // 
+            this.btnArticleExport.FlatAppearance.BorderSize = 0;
+            this.btnArticleExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnArticleExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnArticleExport.ForeColor = System.Drawing.Color.White;
+            this.btnArticleExport.Location = new System.Drawing.Point(0, 141);
+            this.btnArticleExport.Name = "btnArticleExport";
+            this.btnArticleExport.Size = new System.Drawing.Size(240, 50);
+            this.btnArticleExport.TabIndex = 2;
+            this.btnArticleExport.Text = "Artikel exportéieren";
+            this.btnArticleExport.UseVisualStyleBackColor = true;
+            this.btnArticleExport.Click += new System.EventHandler(this.btnArticleExport_Click);
+            // 
+            // btnArticleSave
+            // 
+            this.btnArticleSave.FlatAppearance.BorderSize = 0;
+            this.btnArticleSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnArticleSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnArticleSave.ForeColor = System.Drawing.Color.White;
+            this.btnArticleSave.Location = new System.Drawing.Point(0, 85);
+            this.btnArticleSave.Name = "btnArticleSave";
+            this.btnArticleSave.Size = new System.Drawing.Size(240, 50);
+            this.btnArticleSave.TabIndex = 2;
+            this.btnArticleSave.Text = "Artikel späicheren";
+            this.btnArticleSave.UseVisualStyleBackColor = true;
+            this.btnArticleSave.Click += new System.EventHandler(this.btnArticleSave_Click);
             // 
             // btnMenuFolder
             // 
@@ -196,9 +228,10 @@
             // toolStripProgressBar
             // 
             this.toolStripProgressBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.toolStripProgressBar.Maximum = 20;
             this.toolStripProgressBar.Name = "toolStripProgressBar";
             this.toolStripProgressBar.Size = new System.Drawing.Size(200, 20);
-            this.toolStripProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.toolStripProgressBar.Value = 10;
             // 
             // toolStripStatusLabel
             // 
@@ -776,8 +809,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnMenuFolder;
         private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private Ookii.Dialogs.WinForms.VistaOpenFileDialog vistaOpenFileDialog;
         private System.Windows.Forms.Integration.ElementHost elementHost1;
         private RichTextWPF richTextWPF1;
@@ -826,5 +857,9 @@
         public System.Windows.Forms.TextBox edtDE;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.RichTextBox richExamples;
+        public System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+        private System.Windows.Forms.Button btnArticleExport;
+        private System.Windows.Forms.Button btnArticleSave;
+        public System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
     }
 }

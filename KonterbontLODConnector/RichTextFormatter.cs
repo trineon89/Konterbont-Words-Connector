@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using System.Windows.Forms;
@@ -179,6 +180,13 @@ namespace KonterbontLODConnector
 
         public static void ReDecorate()
         {
+            int c0 = 0;
+            int c1 = 0;
+            int c2 = 0;
+            int c3 = 0;
+
+            int total = 0;
+
             foreach (Block block in richText.Document.Blocks)
             {
                 if (block is Paragraph)
@@ -205,19 +213,25 @@ namespace KonterbontLODConnector
                                { 
                                     switch (wo.state)
                                     {
-                                        case 0: brush = brush_notSelected; break;
-                                        case 1: brush = brush_notVerified; break;
-                                        case 2: brush = brush_Verified; break;
+                                        case 0: brush = brush_notSelected; c0++; break;
+                                        case 1: brush = brush_notVerified; c1++; break;
+                                        case 2: brush = brush_Verified; c2++; break;
                                         case 3:
-                                        default: brush = brush_withError; break;
+                                        default: brush = brush_withError; c3++; break;
                                     }
 
                                     inline.Background = brush;
 
-                               }
+                               } else
+                                {
+                                    c0++;
+                                }
+                                total += 1;
                             }
                             else
                             {
+                                MatchCollection wordColl = Regex.Matches(inlineTextElement, @"[\W]+");
+                                total += wordColl.Count;
                                 Console.WriteLine("#NOBG# - " + inlineTextElement);
                             }
                         }
@@ -228,6 +242,13 @@ namespace KonterbontLODConnector
                     }
                 }
             }
+
+
+
+            //Update StatusStrip
+            string statusStrip = "Net ausgewielt: "+c0+ " | ausgewielt: "+c1+ " | kontrolléiert: "+c2+" | Feeler: " +c3+ " / Insgesamt markéierten "+ (c0+c1+c2+c3).ToString()+ " Wierder"
+                + "(Total: )";
+            frmMainProgram.getInstance().toolStripStatusLabel.Text = statusStrip;
         }
 
         public static void addWordToList(string wuert)

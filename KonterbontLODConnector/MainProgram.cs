@@ -572,11 +572,11 @@ namespace KonterbontLODConnector
                         }
                     }
 
-                    _articleFile.SaveToFile();
-
                     //ShowMeaning
                     FillMeaningTab();
                     ForwardStateTo(1);
+
+                    _articleFile.SaveToFile();
                 }
                 catch (Exception ex)
                 {
@@ -601,6 +601,54 @@ namespace KonterbontLODConnector
 
             var si = new ProcessStartInfo(url);
             Process.Start(si);
+        }
+
+        private void btnArticleSave_Click(object sender, EventArgs e)
+        {
+            _articleFile.SaveToFile();
+        }
+
+        private void btnArticleExport_Click(object sender, EventArgs e)
+        {
+            //export
+            Task task = Task.Run(async () => await Export());
+            task.Wait();
+        }
+
+        classes.Exporter exp;
+
+        public async Task Export()
+        {
+            await PrepareExport();
+
+            foreach (WordOverview _w in _articleFile.article._Words.Values)
+            {
+                await exp.DoExport(_w);
+                toolStripProgressBar.PerformStep();
+            }
+        }
+
+        private async Task<bool> PrepareExport()
+        {
+            toolStripProgressBar.Visible = true;
+            toolStripProgressBar.Maximum = _articleFile.article._Words.Count();
+            toolStripProgressBar.Step = 1;
+            toolStripProgressBar.Value = 0;
+            exp = new Exporter();
+
+            Task<bool> initTask = Task.Run(async () => await exp.Init());
+            initTask.Wait();
+            return initTask.Result;
+        }
+
+        private void CompleteExport()
+        {
+            toolStripProgressBar.Visible = false;
+        }
+
+        private void CleanupWords()
+        {
+
         }
     }
 
