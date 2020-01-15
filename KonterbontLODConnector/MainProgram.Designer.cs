@@ -55,42 +55,55 @@
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.richTextWPF1 = new KonterbontLODConnector.RichTextWPF();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.vistaOpenFileDialog = new Ookii.Dialogs.WinForms.VistaOpenFileDialog();
-            this.label_WordsTab_Header = new System.Windows.Forms.Label();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.listView_Words = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label_MeaningTab_Header = new System.Windows.Forms.Label();
+            this.label_WordsTab_Header = new System.Windows.Forms.Label();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.gbBasic = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.edtBasisWuert = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.gbTranslation = new System.Windows.Forms.GroupBox();
             this.gbExamples = new System.Windows.Forms.GroupBox();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.edtWordform = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panelVerb = new System.Windows.Forms.Panel();
-            this.edtHelperVerb = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.edtParticipePasse = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.panelPlural = new System.Windows.Forms.Panel();
-            this.edtPlural = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.richExamples = new System.Windows.Forms.RichTextBox();
+            this.gbBasic = new System.Windows.Forms.GroupBox();
             this.panel6 = new System.Windows.Forms.Panel();
             this.linkLod = new System.Windows.Forms.LinkLabel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.edtMp3 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.richTextWPF1 = new KonterbontLODConnector.RichTextWPF();
+            this.panelPlural = new System.Windows.Forms.Panel();
+            this.edtPlural = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.panelVerb = new System.Windows.Forms.Panel();
+            this.edtParticipePasse = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.edtHelperVerb = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.edtWordform = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.edtBasisWuert = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.gbTranslation = new System.Windows.Forms.GroupBox();
+            this.panel10 = new System.Windows.Forms.Panel();
+            this.edtPT = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.edtEN = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.edtFR = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.edtDE = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label_MeaningTab_Header = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.vistaOpenFileDialog = new Ookii.Dialogs.WinForms.VistaOpenFileDialog();
             this.panelMenu.SuspendLayout();
             this.panel3.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -99,16 +112,22 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.gbExamples.SuspendLayout();
             this.gbBasic.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.panel4.SuspendLayout();
-            this.panelVerb.SuspendLayout();
-            this.panelPlural.SuspendLayout();
             this.panel6.SuspendLayout();
             this.panel5.SuspendLayout();
+            this.panelPlural.SuspendLayout();
+            this.panelVerb.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.gbTranslation.SuspendLayout();
+            this.panel10.SuspendLayout();
+            this.panel9.SuspendLayout();
+            this.panel8.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelMenu
@@ -206,6 +225,16 @@
             this.splitContainer1.SplitterDistance = 788;
             this.splitContainer1.TabIndex = 4;
             // 
+            // elementHost1
+            // 
+            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.elementHost1.Location = new System.Drawing.Point(0, 0);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(788, 704);
+            this.elementHost1.TabIndex = 2;
+            this.elementHost1.Text = "elementHost1";
+            this.elementHost1.Child = this.richTextWPF1;
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
@@ -217,39 +246,17 @@
             this.tabControl1.Size = new System.Drawing.Size(318, 704);
             this.tabControl1.TabIndex = 1;
             // 
-            // tabPage2
+            // tabPage1
             // 
-            this.tabPage2.Controls.Add(this.tableLayoutPanel1);
-            this.tabPage2.Controls.Add(this.label_MeaningTab_Header);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(310, 678);
-            this.tabPage2.TabIndex = 2;
-            this.tabPage2.Text = "Meaning";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(240, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1110, 15);
-            this.panel2.TabIndex = 2;
-            // 
-            // vistaOpenFileDialog
-            // 
-            this.vistaOpenFileDialog.FileName = "vistaOpenFileDialog";
-            this.vistaOpenFileDialog.Filter = null;
-            // 
-            // label_WordsTab_Header
-            // 
-            this.label_WordsTab_Header.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label_WordsTab_Header.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_WordsTab_Header.Location = new System.Drawing.Point(3, 3);
-            this.label_WordsTab_Header.Name = "label_WordsTab_Header";
-            this.label_WordsTab_Header.Size = new System.Drawing.Size(304, 51);
-            this.label_WordsTab_Header.TabIndex = 0;
+            this.tabPage1.Controls.Add(this.listView_Words);
+            this.tabPage1.Controls.Add(this.label_WordsTab_Header);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(310, 678);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Words";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // listView_Words
             // 
@@ -301,28 +308,25 @@
             this.columnHeader3.Text = "FR";
             this.columnHeader3.Width = 107;
             // 
-            // tabPage1
+            // label_WordsTab_Header
             // 
-            this.tabPage1.Controls.Add(this.listView_Words);
-            this.tabPage1.Controls.Add(this.label_WordsTab_Header);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(310, 678);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Words";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.label_WordsTab_Header.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label_WordsTab_Header.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_WordsTab_Header.Location = new System.Drawing.Point(3, 3);
+            this.label_WordsTab_Header.Name = "label_WordsTab_Header";
+            this.label_WordsTab_Header.Size = new System.Drawing.Size(304, 51);
+            this.label_WordsTab_Header.TabIndex = 0;
             // 
-            // label_MeaningTab_Header
+            // tabPage2
             // 
-            this.label_MeaningTab_Header.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label_MeaningTab_Header.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_MeaningTab_Header.Location = new System.Drawing.Point(0, 0);
-            this.label_MeaningTab_Header.Name = "label_MeaningTab_Header";
-            this.label_MeaningTab_Header.Size = new System.Drawing.Size(310, 31);
-            this.label_MeaningTab_Header.TabIndex = 1;
-            this.label_MeaningTab_Header.Text = "WUEEEEERTTTT";
-            this.label_MeaningTab_Header.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tabPage2.Controls.Add(this.tableLayoutPanel1);
+            this.tabPage2.Controls.Add(this.label_MeaningTab_Header);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(310, 678);
+            this.tabPage2.TabIndex = 2;
+            this.tabPage2.Text = "Meaning";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel1
             // 
@@ -335,11 +339,32 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 31);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.76271F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20.33898F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.8983F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.21757F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.51564F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.2668F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(310, 647);
             this.tableLayoutPanel1.TabIndex = 2;
+            // 
+            // gbExamples
+            // 
+            this.gbExamples.Controls.Add(this.richExamples);
+            this.gbExamples.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbExamples.Location = new System.Drawing.Point(3, 434);
+            this.gbExamples.Name = "gbExamples";
+            this.gbExamples.Size = new System.Drawing.Size(304, 210);
+            this.gbExamples.TabIndex = 6;
+            this.gbExamples.TabStop = false;
+            this.gbExamples.Text = "Beispiller";
+            // 
+            // richExamples
+            // 
+            this.richExamples.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richExamples.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richExamples.Location = new System.Drawing.Point(3, 16);
+            this.richExamples.Name = "richExamples";
+            this.richExamples.Size = new System.Drawing.Size(298, 191);
+            this.richExamples.TabIndex = 0;
+            this.richExamples.Text = "";
             // 
             // gbBasic
             // 
@@ -354,161 +379,10 @@
             this.gbBasic.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbBasic.Location = new System.Drawing.Point(3, 3);
             this.gbBasic.Name = "gbBasic";
-            this.gbBasic.Size = new System.Drawing.Size(304, 290);
+            this.gbBasic.Size = new System.Drawing.Size(304, 260);
             this.gbBasic.TabIndex = 3;
             this.gbBasic.TabStop = false;
             this.gbBasic.Text = "BasisInfo";
-            // 
-            // panel1
-            // 
-            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel1.Controls.Add(this.edtBasisWuert);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(3, 16);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(298, 39);
-            this.panel1.TabIndex = 2;
-            // 
-            // edtBasisWuert
-            // 
-            this.edtBasisWuert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.edtBasisWuert.Location = new System.Drawing.Point(89, 9);
-            this.edtBasisWuert.Name = "edtBasisWuert";
-            this.edtBasisWuert.Size = new System.Drawing.Size(206, 20);
-            this.edtBasisWuert.TabIndex = 2;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Basis Wuert";
-            // 
-            // gbTranslation
-            // 
-            this.gbTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbTranslation.Location = new System.Drawing.Point(3, 299);
-            this.gbTranslation.Name = "gbTranslation";
-            this.gbTranslation.Size = new System.Drawing.Size(304, 125);
-            this.gbTranslation.TabIndex = 4;
-            this.gbTranslation.TabStop = false;
-            this.gbTranslation.Text = "Iwwersetzungen";
-            // 
-            // gbExamples
-            // 
-            this.gbExamples.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbExamples.Location = new System.Drawing.Point(3, 430);
-            this.gbExamples.Name = "gbExamples";
-            this.gbExamples.Size = new System.Drawing.Size(304, 214);
-            this.gbExamples.TabIndex = 6;
-            this.gbExamples.TabStop = false;
-            this.gbExamples.Text = "Beispiller";
-            // 
-            // panel4
-            // 
-            this.panel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel4.Controls.Add(this.edtWordform);
-            this.panel4.Controls.Add(this.label2);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(3, 55);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(298, 39);
-            this.panel4.TabIndex = 3;
-            // 
-            // edtWordform
-            // 
-            this.edtWordform.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.edtWordform.Location = new System.Drawing.Point(89, 9);
-            this.edtWordform.Name = "edtWordform";
-            this.edtWordform.Size = new System.Drawing.Size(206, 20);
-            this.edtWordform.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 12);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "WuertForm";
-            // 
-            // panelVerb
-            // 
-            this.panelVerb.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panelVerb.Controls.Add(this.edtParticipePasse);
-            this.panelVerb.Controls.Add(this.label4);
-            this.panelVerb.Controls.Add(this.edtHelperVerb);
-            this.panelVerb.Controls.Add(this.label3);
-            this.panelVerb.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelVerb.Location = new System.Drawing.Point(3, 94);
-            this.panelVerb.Name = "panelVerb";
-            this.panelVerb.Size = new System.Drawing.Size(298, 67);
-            this.panelVerb.TabIndex = 4;
-            // 
-            // edtHelperVerb
-            // 
-            this.edtHelperVerb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.edtHelperVerb.Location = new System.Drawing.Point(89, 9);
-            this.edtHelperVerb.Name = "edtHelperVerb";
-            this.edtHelperVerb.Size = new System.Drawing.Size(206, 20);
-            this.edtHelperVerb.TabIndex = 2;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 12);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Hëllefsverb";
-            // 
-            // edtParticipePasse
-            // 
-            this.edtParticipePasse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.edtParticipePasse.Location = new System.Drawing.Point(89, 39);
-            this.edtParticipePasse.Name = "edtParticipePasse";
-            this.edtParticipePasse.Size = new System.Drawing.Size(206, 20);
-            this.edtParticipePasse.TabIndex = 4;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(8, 42);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(79, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Participe passé";
-            // 
-            // panelPlural
-            // 
-            this.panelPlural.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panelPlural.Controls.Add(this.edtPlural);
-            this.panelPlural.Controls.Add(this.label6);
-            this.panelPlural.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelPlural.Location = new System.Drawing.Point(3, 161);
-            this.panelPlural.Name = "panelPlural";
-            this.panelPlural.Size = new System.Drawing.Size(298, 39);
-            this.panelPlural.TabIndex = 7;
-            // 
-            // edtPlural
-            // 
-            this.edtPlural.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.edtPlural.Location = new System.Drawing.Point(89, 9);
-            this.edtPlural.Name = "edtPlural";
-            this.edtPlural.Size = new System.Drawing.Size(206, 20);
-            this.edtPlural.TabIndex = 2;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(8, 12);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 13);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Pluriel";
             // 
             // panel6
             // 
@@ -559,15 +433,287 @@
             this.label5.TabIndex = 1;
             this.label5.Text = "MP3";
             // 
-            // elementHost1
+            // panelPlural
             // 
-            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elementHost1.Location = new System.Drawing.Point(0, 0);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(788, 704);
-            this.elementHost1.TabIndex = 2;
-            this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = this.richTextWPF1;
+            this.panelPlural.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panelPlural.Controls.Add(this.edtPlural);
+            this.panelPlural.Controls.Add(this.label6);
+            this.panelPlural.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelPlural.Location = new System.Drawing.Point(3, 161);
+            this.panelPlural.Name = "panelPlural";
+            this.panelPlural.Size = new System.Drawing.Size(298, 39);
+            this.panelPlural.TabIndex = 7;
+            // 
+            // edtPlural
+            // 
+            this.edtPlural.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.edtPlural.Location = new System.Drawing.Point(89, 9);
+            this.edtPlural.Name = "edtPlural";
+            this.edtPlural.Size = new System.Drawing.Size(206, 20);
+            this.edtPlural.TabIndex = 2;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(8, 12);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Pluriel";
+            // 
+            // panelVerb
+            // 
+            this.panelVerb.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panelVerb.Controls.Add(this.edtParticipePasse);
+            this.panelVerb.Controls.Add(this.label4);
+            this.panelVerb.Controls.Add(this.edtHelperVerb);
+            this.panelVerb.Controls.Add(this.label3);
+            this.panelVerb.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelVerb.Location = new System.Drawing.Point(3, 94);
+            this.panelVerb.Name = "panelVerb";
+            this.panelVerb.Size = new System.Drawing.Size(298, 67);
+            this.panelVerb.TabIndex = 4;
+            // 
+            // edtParticipePasse
+            // 
+            this.edtParticipePasse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.edtParticipePasse.Location = new System.Drawing.Point(89, 39);
+            this.edtParticipePasse.Name = "edtParticipePasse";
+            this.edtParticipePasse.Size = new System.Drawing.Size(206, 20);
+            this.edtParticipePasse.TabIndex = 4;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(8, 42);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(79, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Participe passé";
+            // 
+            // edtHelperVerb
+            // 
+            this.edtHelperVerb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.edtHelperVerb.Location = new System.Drawing.Point(89, 9);
+            this.edtHelperVerb.Name = "edtHelperVerb";
+            this.edtHelperVerb.Size = new System.Drawing.Size(206, 20);
+            this.edtHelperVerb.TabIndex = 2;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(8, 12);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(60, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Hëllefsverb";
+            // 
+            // panel4
+            // 
+            this.panel4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel4.Controls.Add(this.edtWordform);
+            this.panel4.Controls.Add(this.label2);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel4.Location = new System.Drawing.Point(3, 55);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(298, 39);
+            this.panel4.TabIndex = 3;
+            // 
+            // edtWordform
+            // 
+            this.edtWordform.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.edtWordform.Location = new System.Drawing.Point(89, 9);
+            this.edtWordform.Name = "edtWordform";
+            this.edtWordform.Size = new System.Drawing.Size(206, 20);
+            this.edtWordform.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 12);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "WuertForm";
+            // 
+            // panel1
+            // 
+            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel1.Controls.Add(this.edtBasisWuert);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(3, 16);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(298, 39);
+            this.panel1.TabIndex = 2;
+            // 
+            // edtBasisWuert
+            // 
+            this.edtBasisWuert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.edtBasisWuert.Location = new System.Drawing.Point(89, 9);
+            this.edtBasisWuert.Name = "edtBasisWuert";
+            this.edtBasisWuert.Size = new System.Drawing.Size(206, 20);
+            this.edtBasisWuert.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(64, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Basis Wuert";
+            // 
+            // gbTranslation
+            // 
+            this.gbTranslation.Controls.Add(this.panel10);
+            this.gbTranslation.Controls.Add(this.panel9);
+            this.gbTranslation.Controls.Add(this.panel8);
+            this.gbTranslation.Controls.Add(this.panel7);
+            this.gbTranslation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbTranslation.Location = new System.Drawing.Point(3, 269);
+            this.gbTranslation.Name = "gbTranslation";
+            this.gbTranslation.Size = new System.Drawing.Size(304, 159);
+            this.gbTranslation.TabIndex = 4;
+            this.gbTranslation.TabStop = false;
+            this.gbTranslation.Text = "Iwwersetzungen";
+            // 
+            // panel10
+            // 
+            this.panel10.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel10.Controls.Add(this.edtPT);
+            this.panel10.Controls.Add(this.label10);
+            this.panel10.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel10.Location = new System.Drawing.Point(3, 109);
+            this.panel10.Name = "panel10";
+            this.panel10.Size = new System.Drawing.Size(298, 31);
+            this.panel10.TabIndex = 12;
+            // 
+            // edtPT
+            // 
+            this.edtPT.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.edtPT.Location = new System.Drawing.Point(89, 6);
+            this.edtPT.Name = "edtPT";
+            this.edtPT.Size = new System.Drawing.Size(206, 20);
+            this.edtPT.TabIndex = 2;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(8, 9);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(68, 13);
+            this.label10.TabIndex = 1;
+            this.label10.Text = "Portugisesch";
+            // 
+            // panel9
+            // 
+            this.panel9.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel9.Controls.Add(this.edtEN);
+            this.panel9.Controls.Add(this.label9);
+            this.panel9.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel9.Location = new System.Drawing.Point(3, 78);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(298, 31);
+            this.panel9.TabIndex = 11;
+            // 
+            // edtEN
+            // 
+            this.edtEN.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.edtEN.Location = new System.Drawing.Point(89, 6);
+            this.edtEN.Name = "edtEN";
+            this.edtEN.Size = new System.Drawing.Size(206, 20);
+            this.edtEN.TabIndex = 2;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(8, 9);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(51, 13);
+            this.label9.TabIndex = 1;
+            this.label9.Text = "Englesch";
+            // 
+            // panel8
+            // 
+            this.panel8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel8.Controls.Add(this.edtFR);
+            this.panel8.Controls.Add(this.label8);
+            this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel8.Location = new System.Drawing.Point(3, 47);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(298, 31);
+            this.panel8.TabIndex = 10;
+            // 
+            // edtFR
+            // 
+            this.edtFR.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.edtFR.Location = new System.Drawing.Point(89, 6);
+            this.edtFR.Name = "edtFR";
+            this.edtFR.Size = new System.Drawing.Size(206, 20);
+            this.edtFR.TabIndex = 2;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(8, 9);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(58, 13);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "Franséisch";
+            // 
+            // panel7
+            // 
+            this.panel7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel7.Controls.Add(this.edtDE);
+            this.panel7.Controls.Add(this.label7);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel7.Location = new System.Drawing.Point(3, 16);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(298, 31);
+            this.panel7.TabIndex = 9;
+            // 
+            // edtDE
+            // 
+            this.edtDE.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.edtDE.Location = new System.Drawing.Point(89, 6);
+            this.edtDE.Name = "edtDE";
+            this.edtDE.Size = new System.Drawing.Size(206, 20);
+            this.edtDE.TabIndex = 2;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(8, 9);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(43, 13);
+            this.label7.TabIndex = 1;
+            this.label7.Text = "Däitsch";
+            // 
+            // label_MeaningTab_Header
+            // 
+            this.label_MeaningTab_Header.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label_MeaningTab_Header.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_MeaningTab_Header.Location = new System.Drawing.Point(0, 0);
+            this.label_MeaningTab_Header.Name = "label_MeaningTab_Header";
+            this.label_MeaningTab_Header.Size = new System.Drawing.Size(310, 31);
+            this.label_MeaningTab_Header.TabIndex = 1;
+            this.label_MeaningTab_Header.Text = "WUEEEEERTTTT";
+            this.label_MeaningTab_Header.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(240, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1110, 15);
+            this.panel2.TabIndex = 2;
+            // 
+            // vistaOpenFileDialog
+            // 
+            this.vistaOpenFileDialog.FileName = "vistaOpenFileDialog";
+            this.vistaOpenFileDialog.Filter = null;
             // 
             // frmMainProgram
             // 
@@ -591,23 +737,33 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.gbExamples.ResumeLayout(false);
             this.gbBasic.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel4.ResumeLayout(false);
-            this.panel4.PerformLayout();
-            this.panelVerb.ResumeLayout(false);
-            this.panelVerb.PerformLayout();
-            this.panelPlural.ResumeLayout(false);
-            this.panelPlural.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
+            this.panelPlural.ResumeLayout(false);
+            this.panelPlural.PerformLayout();
+            this.panelVerb.ResumeLayout(false);
+            this.panelVerb.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.gbTranslation.ResumeLayout(false);
+            this.panel10.ResumeLayout(false);
+            this.panel10.PerformLayout();
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -657,5 +813,18 @@
         private System.Windows.Forms.Panel panelPlural;
         public System.Windows.Forms.TextBox edtPlural;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Panel panel10;
+        public System.Windows.Forms.TextBox edtPT;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Panel panel9;
+        public System.Windows.Forms.TextBox edtEN;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Panel panel8;
+        public System.Windows.Forms.TextBox edtFR;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Panel panel7;
+        public System.Windows.Forms.TextBox edtDE;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.RichTextBox richExamples;
     }
 }

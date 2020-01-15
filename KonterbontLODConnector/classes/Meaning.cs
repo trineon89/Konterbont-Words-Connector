@@ -58,6 +58,7 @@ namespace KonterbontLODConnector.classes
         }
 
 
+
         public enunciation GetEnunciation(string enunText)
         {
             enunciation enun;

@@ -360,6 +360,12 @@ namespace KonterbontLODConnector
 
         private void FillMeaningTab(WordOverview wo)
         {
+
+            FontFamily fm = new FontFamily("Segoe UI");
+            Font defaultFont = new Font(fm, 9, FontStyle.Regular, GraphicsUnit.Point);
+            Font underlineFont = new Font(fm, 9, FontStyle.Underline, GraphicsUnit.Point);
+            Font italicFont = new Font(fm, 9, FontStyle.Italic, GraphicsUnit.Point);
+
             int wordPointer = wo.WordPointer - 1;
             int meaningPointer = wo._wordPossibleMeanings[wordPointer].meaningPointer - 1;
             string xmlSelector = wo._wordPossibleMeanings[wordPointer].wordBasePointer;
@@ -373,7 +379,13 @@ namespace KonterbontLODConnector
                 //TODO
             } else
             {
-                label_MeaningTab_Header.Text = wo._wordPossibleMeanings[wordPointer].occurence;
+                if (wb.meanings[meaningPointer].LU != null)
+                {
+                    label_MeaningTab_Header.Text = wb.meanings[meaningPointer].LU;
+                } else
+                {
+                    label_MeaningTab_Header.Text = wo._wordPossibleMeanings[wordPointer].occurence;
+                }
                 edtBasisWuert.Text = wb.baseWordLu;
                 edtWordform.Text = wb.wordForm.WordFormStringLu;
                 edtMp3.Text = wb.baseMp3;
@@ -393,7 +405,8 @@ namespace KonterbontLODConnector
                     edtParticipePasse.Text = wb.wordForm.pastParticiple;
                 } else
                 {
-                    if (wb.wordForm.WordFormStringLu == "Adjektiv")
+                    if (wb.wordForm.WordFormStringLu == "Adjektiv" ||
+                        wb.wordForm.WordFormStringLu == "Adverb")
                     {
                         panelVerb.Visible = false;
                         panelPlural.Visible = false;
@@ -409,9 +422,44 @@ namespace KonterbontLODConnector
                             plural += wfp;
                         }
                         edtPlural.Text = plural;
+                        if (plural == null)
+                        {
+                            edtPlural.Text = "<kee Pluriel>";
+                            edtPlural.Font = italicFont;
+                        }
+                        else edtPlural.Font = defaultFont;
                     }
                 }
-                    
+
+                //Translation
+                edtDE.Text = wb.meanings[meaningPointer].DE;
+                edtFR.Text = wb.meanings[meaningPointer].FR;
+                edtEN.Text = wb.meanings[meaningPointer].EN;
+                edtPT.Text = wb.meanings[meaningPointer].PT;
+
+                richExamples.Clear();
+
+                int i = 1;
+                //Examples
+                if (wb.meanings[meaningPointer].examples != null)
+                {
+                    foreach (classes.Example _ex in wb.meanings[meaningPointer].examples)
+                    {
+                        richExamples.AppendText(i.ToString() + ": " +_ex.exampleText + Environment.NewLine);
+                        i++;
+                    }
+                }
+
+                if (wb.meanings[meaningPointer].examples_Extended != null)
+                {
+                    foreach (classes.Example_Extended _exe in wb.meanings[meaningPointer].examples_Extended)
+                    {
+                        richExamples.AppendText(i.ToString() + ": " + _exe.exampleText 
+                            + " <" + _exe.enunciation.ToString() + "> "
+                            + _exe.enunciationText + Environment.NewLine);
+                        i++;
+                    }
+                }
             }
 
             //switch to meaningTab
