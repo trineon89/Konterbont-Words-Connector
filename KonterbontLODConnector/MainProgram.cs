@@ -147,7 +147,12 @@ namespace KonterbontLODConnector
             Settings.ShowDialog();
         }
 
+        private void switchMp3button_Click(object sender, EventArgs e)
+        {
+            string newMp3Value = "";
 
+            switchMp3(newMp3Value);
+        }
     
 
         private void btnMenuFolder_Click(object sender, EventArgs e)
@@ -230,15 +235,49 @@ namespace KonterbontLODConnector
             }
         }
 
-        public void ForwardStateTo(int newState)
+        private void listView_Words_ItemChecked(object sender, ItemCheckedEventArgs e)
         {
-            classes.WordOverview wo = new WordOverview();
-            _articleFile.article._Words.TryGetValue(RichTextFormatter.activeWord, out wo);
-            wo.state = newState;
-            RichTextFormatter.ReDecorate();
+            //after check Raised
+            Console.WriteLine("");
         }
 
-        #endregion
+        private void linkLod_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            string url;
+            //if (e.Link.LinkData != null)
+            url = e.Link.LinkData.ToString();
+
+            var si = new ProcessStartInfo(url);
+            Process.Start(si);
+        }
+
+        private void btnArticleSave_Click(object sender, EventArgs e)
+        {
+            _articleFile.SaveToFile();
+        }
+
+        private void btnArticleExport_Click(object sender, EventArgs e)
+        {
+            //export
+            Task task = Task.Run(async () => await Export());
+            task.Wait();
+        }
+
+        #endregion //UIButtons
+
+        private void switchMp3(string newMp3Value)
+        {
+            classes.WordOverview _wo = new WordOverview();
+            _articleFile.article._Words.TryGetValue(RichTextFormatter.activeWord, out _wo);
+
+            if (_wo._wordPossibleMeanings[_wo.WordPointer-1].customMeaning == null)
+            {
+                classes.Meaning meaning = new classes.Meaning();
+                _wo._wordPossibleMeanings[_wo.WordPointer - 1].customMeaning = meaning;
+            }
+
+            _wo._wordPossibleMeanings[_wo.WordPointer - 1].customMeaning.MP3 = newMp3Value;
+        }
 
         private void FillsplitContainerContent()
         {
@@ -344,6 +383,15 @@ namespace KonterbontLODConnector
             }
         }
 
+        public void ForwardStateTo(int newState)
+        {
+            classes.WordOverview wo = new WordOverview();
+            _articleFile.article._Words.TryGetValue(RichTextFormatter.activeWord, out wo);
+            wo.state = newState;
+            RichTextFormatter.ReDecorate();
+        }
+
+
         private void ClearWordsTab()
         {
             listView_Words.Items.Clear();
@@ -406,7 +454,8 @@ namespace KonterbontLODConnector
                 } else
                 {
                     if (wb.wordForm.WordFormStringLu == "Adjektiv" ||
-                        wb.wordForm.WordFormStringLu == "Adverb")
+                        wb.wordForm.WordFormStringLu == "Adverb" ||
+                        wb.wordForm.WordFormStringLu == "Partikel")
                     {
                         panelVerb.Visible = false;
                         panelPlural.Visible = false;
@@ -587,33 +636,7 @@ namespace KonterbontLODConnector
             Console.WriteLine("");
         }
 
-        private void listView_Words_ItemChecked(object sender, ItemCheckedEventArgs e)
-        {
-            //after check Raised
-            Console.WriteLine("");
-        }
-
-        private void linkLod_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            string url;
-            //if (e.Link.LinkData != null)
-            url = e.Link.LinkData.ToString();
-
-            var si = new ProcessStartInfo(url);
-            Process.Start(si);
-        }
-
-        private void btnArticleSave_Click(object sender, EventArgs e)
-        {
-            _articleFile.SaveToFile();
-        }
-
-        private void btnArticleExport_Click(object sender, EventArgs e)
-        {
-            //export
-            Task task = Task.Run(async () => await Export());
-            task.Wait();
-        }
+        
 
         classes.Exporter exp;
 
@@ -623,27 +646,31 @@ namespace KonterbontLODConnector
 
             foreach (WordOverview _w in _articleFile.article._Words.Values)
             {
-                await exp.DoExport(_w);
-                toolStripProgressBar.PerformStep();
+                if (_w.state != 0)
+                {
+                    exp.DoExport(_w);
+                }
+                //toolStripProgressBar.PerformStep();
             }
+
+            await CompleteExport();
         }
 
         private async Task<bool> PrepareExport()
         {
-            toolStripProgressBar.Visible = true;
-            toolStripProgressBar.Maximum = _articleFile.article._Words.Count();
-            toolStripProgressBar.Step = 1;
-            toolStripProgressBar.Value = 0;
+            //toolStripProgressBar.Visible = true;
+            //toolStripProgressBar.Maximum = _articleFile.article._Words.Count();
+            //toolStripProgressBar.Step = 1;
+            //toolStripProgressBar.Value = 0;
             exp = new Exporter();
-
-            Task<bool> initTask = Task.Run(async () => await exp.Init());
-            initTask.Wait();
-            return initTask.Result;
+            return await exp.Init();
         }
 
-        private void CompleteExport()
+        private async Task CompleteExport()
         {
-            toolStripProgressBar.Visible = false;
+            //toolStripProgressBar.Visible = false;
+            await classes.BackgroundWorker.DoWork();
+            Console.WriteLine("finished");
         }
 
         private void CleanupWords()

@@ -90,9 +90,27 @@ namespace KonterbontLODConnector.Implementation
                     /*HV(en) : //span[@class='text_gen']/span[@class='mentioun_adress']/text()
                      */
 
-                    var PP = articleDoc.DocumentNode.SelectSingleNode("//span[contains(.,'Participe passé')]/following-sibling::span[@class='mentioun_adress']/text()");
+                    var PP = articleDoc.DocumentNode.SelectNodes("//span[contains(.,'Participe passé')]/following-sibling::span[@class='mentioun_adress']/text()");
+
                     if (PP != null)
-                        wf_ov.pastParticiple = PP.InnerText.Trim();
+                    {
+                        int ppc = 0;
+                        foreach (var pp in PP)
+                        {
+                            if (ppc == 0)
+                            {
+                                wf_ov.pastParticiple += pp.InnerText.Trim() + " / ";
+                                ppc++;
+                            } else
+                            {
+                                wf_ov.pastParticiple += pp.InnerText.Trim();
+                            }
+
+                        }
+                    }
+                    
+                            //wf_ov.pastParticiple = PP.InnerText.Trim();
+
                     /*PP : //div[@class='artikel']/span[@class='mentioun_adress']/text()
                      */
 

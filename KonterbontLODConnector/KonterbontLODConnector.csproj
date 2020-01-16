@@ -127,6 +127,7 @@
   <ItemGroup>
     <Compile Include="classes\Article.cs" />
     <Compile Include="classes\ArticleFiles.cs" />
+    <Compile Include="classes\BackgroundWorker.cs" />
     <Compile Include="classes\Example.cs" />
     <Compile Include="classes\Exporter.cs" />
     <Compile Include="classes\Meaning.cs" />

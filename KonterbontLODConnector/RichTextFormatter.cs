@@ -145,8 +145,17 @@ namespace KonterbontLODConnector
             clickItemDic.Clear();
         }
 
+        public static void PrepareStyling()
+        {
+            string rtfPath = frmMainProgram.getInstance()._articleFile.article.RtfPath;
+            RichTextBox rich = new RichTextBox();
+            rich.Rtf = File.ReadAllText(rtfPath);
+            Console.WriteLine();
+        }
+
         public static void Decorate()
         {
+            //PrepareStyling();
             foreach (Block block in richText.Document.Blocks)
             {
                 if (block is Paragraph)
@@ -166,6 +175,25 @@ namespace KonterbontLODConnector
                                 inline.Background = brush_notSelected;
                             } else
                             {
+                                //Maybee marker is Set, check by Checking Underline Property
+                                if (inline.TextDecorations.Count > 0)
+                                {
+                                    if (inline.TextDecorations[0].Location == System.Windows.TextDecorationLocation.Underline)
+                                    {
+                                        //should be a word
+                                        Console.WriteLine(inlineTextElement);
+                                        addWordToList(inlineTextElement);
+                                        inline.Background = brush_notSelected;
+                                        //inline.TextDecorations.Remove(inline.TextDecorations[0]);
+                                    } else
+                                    {
+                                        Console.WriteLine("#NOBG-NOUNDERLINE# - " + inlineTextElement);
+                                    }
+                                } else
+                                {
+                                    Console.WriteLine("#NOBG-NOTEXTDECORATION# - " + inlineTextElement);
+                                }
+
                                 Console.WriteLine("#NOBG# - "+ inlineTextElement);
                             }
                         }

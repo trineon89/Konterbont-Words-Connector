@@ -15,6 +15,7 @@ namespace KonterbontLODConnector.classes
         public string FR;
         public string EN;
         public string PT;
+        public string MP3;
 
         public List<Example> examples;
         public List<Example_Extended> examples_Extended;
@@ -27,6 +28,7 @@ namespace KonterbontLODConnector.classes
             FR = null;
             EN = null;
             PT = null;
+            MP3 = null;
         }
 
         public void SetValue(string selector, string value)
@@ -39,6 +41,7 @@ namespace KonterbontLODConnector.classes
                 case "FR": FR = value; break;
                 case "EN": EN = value; break;
                 case "PT": PT = value; break;
+                case "MP3": MP3 = value; break;
                 default: return;
             }
         }
@@ -53,6 +56,7 @@ namespace KonterbontLODConnector.classes
                 case "FR": return FR;
                 case "EN": return EN;
                 case "PT": return PT;
+                case "MP3": return MP3;
                 default: return null;
             }
         }
