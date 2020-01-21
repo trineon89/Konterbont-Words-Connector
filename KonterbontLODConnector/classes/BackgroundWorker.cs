@@ -11,6 +11,8 @@ namespace KonterbontLODConnector.classes
     public static class BackgroundWorker
     {
         private static bool _isWorking = false;
+        private static int _counter = 0;
+        private static Dictionary<string, string> _counterDic = new Dictionary<string, string>();
         static List<WorkingClassElement> workingClassElements = new List<WorkingClassElement>();
 
         /// <summary>
@@ -37,24 +39,41 @@ namespace KonterbontLODConnector.classes
 
         private static void finishWork()
         {
+           // WorkerLogger.WriteLog("transfered " + _counter.ToString() + " files"); ;
+            string res = "transfered: ";
+            foreach (var ic in _counterDic)
+            {
+                res += Environment.NewLine + "Type: " + ic.Key + " # " + ic.Value;
+            }
+            WorkerLogger.WriteLog(res);
             WorkerLogger.CloseLog();
             _isWorking = false;
+            _counterDic.Clear();
         }
 
-        /// <summary>
-        /// Start Worker
-        /// </summary>
-        public static async Task DoWork()
+       /// <summary>
+       /// 
+       /// </summary>
+       /// <param name="copy">if false move instead of copy</param>
+       /// <returns></returns>
+        public static async Task DoWork(bool copy = true)
         {
-            internalDoWork();
+            await internalDoWork(copy);
         }
 
-        private static void internalDoWork()
+        private static async Task internalDoWork(bool copy = true)
         {
             while (hasWork())
             {
                 WorkingClassElement wo = workingClassElements.First();
-                wo.CopyFile();
+                if (copy)
+                {
+                    await wo.CopyFile();
+                } else
+                {
+                    await wo.MoveFile();
+                }
+                
                 workingClassElements.Remove(wo);
             }
             finishWork();
@@ -71,6 +90,14 @@ namespace KonterbontLODConnector.classes
             wo.sourcePath = sourcePath;
             wo.destinationPath = destinationPath;
             workingClassElements.Add(wo);
+            
+            if (_counterDic.ContainsKey(Path.GetExtension(sourcePath)) )
+            {
+                _counterDic[Path.GetExtension(sourcePath)] = (Int32.Parse(_counterDic[Path.GetExtension(sourcePath)]) + 1).ToString();
+            } else
+            {
+                _counterDic.Add(Path.GetExtension(sourcePath), "1");
+            }
         }
     }
 
@@ -86,7 +113,9 @@ namespace KonterbontLODConnector.classes
             destinationPath = null;
         }
 
-        public void CopyFile()
+
+
+        public async Task CopyFile()
         {
             if (!File.Exists(sourcePath))
             {
@@ -98,7 +127,7 @@ namespace KonterbontLODConnector.classes
 
                     var request = (HttpWebRequest)WebRequest.Create(lodmp3path + filename);
                     request.Method = "GET";
-                    using (var response = request.GetResponse())
+                    using (var response = await request.GetResponseAsync())
                     {
                         if ((response as HttpWebResponse).StatusCode == HttpStatusCode.OK)
                         {
@@ -106,7 +135,7 @@ namespace KonterbontLODConnector.classes
                             {
                                 using (var fileToDownload = new System.IO.FileStream(sourcePath, System.IO.FileMode.Create, System.IO.FileAccess.ReadWrite))
                                 {
-                                    responseStream.CopyTo(fileToDownload);
+                                    await responseStream.CopyToAsync(fileToDownload);
                                     WorkerLogger.WriteLog("downloaded from " + lodmp3path + filename + " to " + sourcePath);
                                 }
                             }
@@ -128,14 +157,34 @@ namespace KonterbontLODConnector.classes
                     Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
                     using (Stream destination = File.Create(destinationPath))
                     {
-                        source.CopyTo(destination);
+                        await source.CopyToAsync(destination).ConfigureAwait(false);
                         WorkerLogger.WriteLog("copied " + sourcePath + " to " + destinationPath);
                     }
                 }
             } else
             {
                 //file not found on Server
-                WorkerLogger.WriteLog("file not found on " + sourcePath);
+                WorkerLogger.WriteLog("[ERROR] file not found on " + sourcePath);
+            }
+        }
+
+        public async Task MoveFile()
+        {
+            if (File.Exists(sourcePath))
+            {
+                using (Stream source = File.Open(sourcePath, FileMode.Open))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+                    using (Stream destination = File.Create(destinationPath))
+                    {
+                        await source.CopyToAsync(destination).ConfigureAwait(false);
+                        WorkerLogger.WriteLog("moved " + sourcePath + " to " + destinationPath);
+                    }
+                }
+                File.Delete(sourcePath);
+            } else
+            {
+                WorkerLogger.WriteLog("[ERROR] file not found on " + sourcePath);
             }
         }
     }
@@ -146,6 +195,7 @@ namespace KonterbontLODConnector.classes
     {
         static string FileName = "";
         static StreamWriter Log = null;
+        static string _internalLog;
 
         private static void CreateLog()
         {
@@ -157,22 +207,31 @@ namespace KonterbontLODConnector.classes
                 Log = File.CreateText(FileName);
 
             Log.AutoFlush = true;
-            Log.WriteLine("[" + DateTime.Now.ToString() + "] Begin Log");
+            //Log.WriteLine("[" + DateTime.Now.ToString() + "] Begin Log");
+            _internalLog = "";
         }
 
-        public static void WriteLog(string Text)
+        public static void WriteLog(string Text, bool _internal = true)
         {
             if (Log == null)
                 CreateLog();
 
-            Log.WriteLine("[" + DateTime.Now.ToString() + "] " + Text);
+            if (_internal)
+            {
+                if (_internalLog != "") { _internalLog += Environment.NewLine; }
+                _internalLog += "[" + DateTime.Now.ToString() + "] " + Text;
+            } else
+            {
+                Log.WriteLine("[" + DateTime.Now.ToString() + "] " + Text);
+            }
         }
 
         public static void CloseLog()
         {
             if (Log != null)
             {
-                Log.WriteLine("[" + DateTime.Now.ToString() + "] Close Log");
+                //Log.WriteLine("[" + DateTime.Now.ToString() + "] Close Log");
+                Log.Write(_internalLog + Environment.NewLine);
                 Log.Flush();
                 Log.Close();
                 Log = null;

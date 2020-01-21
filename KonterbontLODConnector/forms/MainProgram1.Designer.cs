@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace KonterbontLODConnector {
+namespace KonterbontLODConnector.forms {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace KonterbontLODConnector {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KonterbontLODConnector.MainProgram", typeof(MainProgram).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("KonterbontLODConnector.forms.MainProgram", typeof(MainProgram).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

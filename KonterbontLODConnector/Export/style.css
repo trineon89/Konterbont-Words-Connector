@@ -1,0 +1,53 @@
+@font-face {
+  font-family: 'FreightSansCmpPro Med';
+  src: url('FreightSansCmpPro-Med.ttf')  format('truetype');
+}
+@font-face {
+  font-family: 'FreightSansCmpPro Semi';
+  src: url('FreightSansCmpPro-Semi.ttf')  format('truetype');
+}
+@font-face {
+  font-family: 'FreightSansCmpPro Book Italic';
+  src: url('FreightSansCmpPro-BookItalic.ttf')  format('truetype');
+}
+@media screen and (orientation: portrait) {
+	/* phone-specific style */
+	.flex-innercontainer { flex-direction: column;margin:5px 5px 0 5px; }
+	.flex-1 { height:5px !important; }
+}
+@media screen and (orientation: landscape) {
+	/* tablet-specific style */
+}
+div { height:0; }
+body { margin:0; height:100%; }
+html,
+body {
+    position: fixed;
+    /*overflow: hidden;*/
+    width: 100%;
+} /* iOS disable bounce */
+html { height:100%; }
+.bigtitle {
+    font-size: larger;
+}
+.i {
+    font-style: italic;
+}
+.b { font-weight:bold; }
+div.divTable { font-family: "FreightSansCmpPro Med", Gadget, sans-serif; background-color: #000; width: 100vw; height: 100vh; text-align: center; border-collapse: collapse; }
+div.innerTableBody {background-color:black; height:100%; }
+div.divTableCell { color: white;height:auto; }
+.innerflex { display:block; height:auto;padding-bottom:5px;font-family: 'FreightSansCmpPro Med'; }
+.flex-container { display:flex; height:100%; width:100%; font-family:'FreightSansCmpPro Med'; }
+#audiocontainer { position:absolute;background-color:white;right:10px;top:10px;width:35px;height:35px;border-radius:23px; }
+.flex-innercontainer { display:flex;height:auto;padding-top:1px; }
+.flex-innerchild { height:auto;color:white; }
+.flex-1 {flex:1;}
+.flex-2 {flex:4;padding: 5px;}
+.flex-3 {flex:8;}
+.top {align-self: flex-start;}
+/*  */
+.highlight, .marker-color { color:yellow; } 
+p.Tab_Wuert {  color: rgb(118,185,0); }
+div.divTableBody { height:100%; width:100%;background-color:red;padding:2px; }
+.flex-child { border: 2px solid rgb(118,185,0);background-color:black;box-sizing:border-box; height:100%; width:100%;justify-content:center;display:flex; flex-direction:column; }

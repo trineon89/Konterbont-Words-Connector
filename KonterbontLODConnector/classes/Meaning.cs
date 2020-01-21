@@ -61,7 +61,23 @@ namespace KonterbontLODConnector.classes
             }
         }
 
+        public Meaning CopyOver(Meaning _orig)
+        {
+            Meaning _res = new Meaning();
 
+            _res.DE = _orig.DE;
+            _res.EN = _orig.EN;
+            _res.examples = _orig.examples;
+            _res.examples_Extended = _orig.examples_Extended;
+            _res.FR = _orig.FR;
+            _res.LU = _orig.LU;
+            _res.LUs = _orig.LUs;
+            _res.MP3 = _orig.MP3;
+            _res.NoPlural = _orig.NoPlural;
+            _res.PT = _orig.PT;
+
+            return _res;
+        }
 
         public enunciation GetEnunciation(string enunText)
         {

@@ -145,12 +145,13 @@ namespace KonterbontLODConnector
             clickItemDic.Clear();
         }
 
-        public static void PrepareStyling()
+        public static int CountWords()
         {
             string rtfPath = frmMainProgram.getInstance()._articleFile.article.RtfPath;
             RichTextBox rich = new RichTextBox();
             rich.Rtf = File.ReadAllText(rtfPath);
-            Console.WriteLine();
+            MatchCollection wordColl = Regex.Matches(rich.Text, @"\w+([-,.éèüöäëËÉÈËÜÖÄçàÀ]+\w+)*");
+            return wordColl.Count;
         }
 
         public static void Decorate()
@@ -251,15 +252,12 @@ namespace KonterbontLODConnector
                                     inline.Background = brush;
 
                                } else
-                                {
+                               {
                                     c0++;
-                                }
-                                total += 1;
+                               }
                             }
                             else
                             {
-                                MatchCollection wordColl = Regex.Matches(inlineTextElement, @"[\W]+");
-                                total += wordColl.Count;
                                 Console.WriteLine("#NOBG# - " + inlineTextElement);
                             }
                         }
@@ -271,11 +269,12 @@ namespace KonterbontLODConnector
                 }
             }
 
-
+            //count Words
+            total = CountWords();
 
             //Update StatusStrip
             string statusStrip = "Net ausgewielt: "+c0+ " | ausgewielt: "+c1+ " | kontrolléiert: "+c2+" | Feeler: " +c3+ " / Insgesamt markéierten "+ (c0+c1+c2+c3).ToString()+ " Wierder"
-                + "(Total: )";
+                + " (Total: "+ total +")";
             frmMainProgram.getInstance().toolStripStatusLabel.Text = statusStrip;
         }
 

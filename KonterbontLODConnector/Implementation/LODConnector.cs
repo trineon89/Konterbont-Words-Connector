@@ -353,7 +353,6 @@ namespace KonterbontLODConnector.Implementation
         public async Task<string> HttpRequest(string Lang, string XML)
         {
             string responseBody = null;
-            int i = 0;
 
             HttpClient httpClient = new HttpClient();
             string LangURL;
@@ -377,6 +376,8 @@ namespace KonterbontLODConnector.Implementation
                 _responseT.Wait();
                 var _response = _responseT.Result;
                 responseBody = await _response.Content.ReadAsStringAsync();
+                responseBody = responseBody.Replace("&lt;", "<");
+                responseBody = responseBody.Replace("&gt;", ">");
             }
             catch (Exception e)
             {
@@ -474,7 +475,8 @@ namespace KonterbontLODConnector.Implementation
 
             Console.WriteLine("");
 
-            insertBaseWords(xml, mp3, occ);
+            Task _t = Task.Run(async () => await insertBaseWords(xml, mp3, occ));
+            _t.Wait();
 
             Console.WriteLine("");
 

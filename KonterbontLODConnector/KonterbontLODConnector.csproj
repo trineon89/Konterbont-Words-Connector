@@ -141,6 +141,12 @@
     <Compile Include="forms\ArticleSelector.Designer.cs">
       <DependentUpon>ArticleSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="forms\MagazineSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="forms\MagazineSelector.Designer.cs">
+      <DependentUpon>MagazineSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmTwixlCategorySelector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,13 +171,13 @@
       <DependentUpon>frmMagazineSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="INDesignPlugin.cs" />
-    <Compile Include="MainProgram.cs">
+    <Compile Include="forms\MainProgram.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainProgram.Designer.cs">
+    <Compile Include="forms\MainProgram.Designer.cs">
       <DependentUpon>MainProgram.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainProgram1.Designer.cs">
+    <Compile Include="forms\MainProgram1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MainProgram.resx</DependentUpon>
@@ -215,13 +221,16 @@
     <EmbeddedResource Include="forms\ArticleSelector.resx">
       <DependentUpon>ArticleSelector.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="forms\MagazineSelector.resx">
+      <DependentUpon>MagazineSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMagazineSelector.resx">
       <DependentUpon>frmMagazineSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTwixlCategorySelector.resx">
       <DependentUpon>frmTwixlCategorySelector.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainProgram.resx">
+    <EmbeddedResource Include="forms\MainProgram.resx">
       <DependentUpon>MainProgram.cs</DependentUpon>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>MainProgram1.Designer.cs</LastGenOutput>
@@ -248,6 +257,9 @@
     <EmbeddedResource Include="TwixlAPIForm.resx">
       <DependentUpon>TwixlAPIForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Export\FreightSansCmpPro-BookItalic.ttf" />
+    <None Include="Export\FreightSansCmpPro-Med.ttf" />
+    <None Include="Export\FreightSansCmpPro-Semi.ttf" />
     <None Include="KonterbontLODConnector.snk" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
@@ -286,6 +298,10 @@
     <None Include="res\popup.html" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Export\base.html" />
+    <Content Include="Export\jquery.js" />
+    <Content Include="Export\kbhandler.js" />
+    <Content Include="Export\style.css" />
     <Content Include="Icon.ico" />
     <None Include="res\02_Export_Book.jsx" />
     <Content Include="res\02_export_article.jsx" />

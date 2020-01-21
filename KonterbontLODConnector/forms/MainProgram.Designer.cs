@@ -28,26 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Béier", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup4 = new System.Windows.Forms.ListViewGroup("Béier", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Béier", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Béier", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "Béier",
             "Bier [Getränk]",
             "bière [boisson]"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "Béier",
             "Eber",
             "verrat"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "Béier",
             "(Glas) Bier",
             "(verre de) bière"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "(Fläsch) Béier",
             "(Flasche) Bier",
             "(bouteille de) bière"}, -1);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMainProgram));
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.btnOpenSettings = new System.Windows.Forms.Button();
             this.btnArticleExport = new System.Windows.Forms.Button();
             this.btnArticleSave = new System.Windows.Forms.Button();
             this.btnMenuFolder = new System.Windows.Forms.Button();
@@ -57,8 +58,6 @@
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.richTextWPF1 = new KonterbontLODConnector.RichTextWPF();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.listView_Words = new System.Windows.Forms.ListView();
@@ -106,6 +105,10 @@
             this.label_MeaningTab_Header = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.vistaOpenFileDialog = new Ookii.Dialogs.WinForms.VistaOpenFileDialog();
+            this.btnAudioPlay = new System.Windows.Forms.Button();
+            this.btnChangeAudio = new System.Windows.Forms.Button();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.richTextWPF1 = new KonterbontLODConnector.RichTextWPF();
             this.panelMenu.SuspendLayout();
             this.panel3.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -135,6 +138,7 @@
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.panelMenu.Controls.Add(this.btnOpenSettings);
             this.panelMenu.Controls.Add(this.btnArticleExport);
             this.panelMenu.Controls.Add(this.btnArticleSave);
             this.panelMenu.Controls.Add(this.btnMenuFolder);
@@ -144,6 +148,21 @@
             this.panelMenu.Name = "panelMenu";
             this.panelMenu.Size = new System.Drawing.Size(240, 748);
             this.panelMenu.TabIndex = 1;
+            // 
+            // btnOpenSettings
+            // 
+            this.btnOpenSettings.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.btnOpenSettings.FlatAppearance.BorderSize = 0;
+            this.btnOpenSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOpenSettings.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOpenSettings.ForeColor = System.Drawing.Color.White;
+            this.btnOpenSettings.Location = new System.Drawing.Point(0, 698);
+            this.btnOpenSettings.Name = "btnOpenSettings";
+            this.btnOpenSettings.Size = new System.Drawing.Size(240, 50);
+            this.btnOpenSettings.TabIndex = 3;
+            this.btnOpenSettings.Text = "Astellungen";
+            this.btnOpenSettings.UseVisualStyleBackColor = true;
+            this.btnOpenSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // btnArticleExport
             // 
@@ -258,16 +277,6 @@
             this.splitContainer1.SplitterDistance = 788;
             this.splitContainer1.TabIndex = 4;
             // 
-            // elementHost1
-            // 
-            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elementHost1.Location = new System.Drawing.Point(0, 0);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(788, 704);
-            this.elementHost1.TabIndex = 2;
-            this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = this.richTextWPF1;
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
@@ -299,24 +308,24 @@
             this.columnHeader2,
             this.columnHeader3});
             this.listView_Words.Dock = System.Windows.Forms.DockStyle.Fill;
-            listViewGroup3.Header = "Béier";
-            listViewGroup3.Name = "listViewGroup1";
-            listViewGroup4.Header = "Béier";
-            listViewGroup4.Name = "listViewGroup2";
+            listViewGroup1.Header = "Béier";
+            listViewGroup1.Name = "listViewGroup1";
+            listViewGroup2.Header = "Béier";
+            listViewGroup2.Name = "listViewGroup2";
             this.listView_Words.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup3,
-            listViewGroup4});
+            listViewGroup1,
+            listViewGroup2});
             this.listView_Words.HideSelection = false;
-            listViewItem5.Checked = true;
-            listViewItem5.StateImageIndex = 1;
-            listViewItem6.StateImageIndex = 0;
-            listViewItem7.StateImageIndex = 0;
-            listViewItem8.StateImageIndex = 0;
+            listViewItem1.Checked = true;
+            listViewItem1.StateImageIndex = 1;
+            listViewItem2.StateImageIndex = 0;
+            listViewItem3.StateImageIndex = 0;
+            listViewItem4.StateImageIndex = 0;
             this.listView_Words.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem5,
-            listViewItem6,
-            listViewItem7,
-            listViewItem8});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4});
             this.listView_Words.Location = new System.Drawing.Point(3, 54);
             this.listView_Words.Name = "listView_Words";
             this.listView_Words.Size = new System.Drawing.Size(304, 621);
@@ -420,6 +429,8 @@
             // panel6
             // 
             this.panel6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel6.Controls.Add(this.btnChangeAudio);
+            this.panel6.Controls.Add(this.btnAudioPlay);
             this.panel6.Controls.Add(this.linkLod);
             this.panel6.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel6.Location = new System.Drawing.Point(3, 239);
@@ -748,6 +759,38 @@
             this.vistaOpenFileDialog.FileName = "vistaOpenFileDialog";
             this.vistaOpenFileDialog.Filter = null;
             // 
+            // btnAudioPlay
+            // 
+            this.btnAudioPlay.Location = new System.Drawing.Point(89, 0);
+            this.btnAudioPlay.Margin = new System.Windows.Forms.Padding(0);
+            this.btnAudioPlay.Name = "btnAudioPlay";
+            this.btnAudioPlay.Size = new System.Drawing.Size(21, 21);
+            this.btnAudioPlay.TabIndex = 1;
+            this.btnAudioPlay.Text = "▶";
+            this.btnAudioPlay.UseVisualStyleBackColor = true;
+            this.btnAudioPlay.Click += new System.EventHandler(this.btnAudioPlay_Click);
+            // 
+            // btnChangeAudio
+            // 
+            this.btnChangeAudio.Location = new System.Drawing.Point(119, 0);
+            this.btnChangeAudio.Margin = new System.Windows.Forms.Padding(0);
+            this.btnChangeAudio.Name = "btnChangeAudio";
+            this.btnChangeAudio.Size = new System.Drawing.Size(21, 21);
+            this.btnChangeAudio.TabIndex = 2;
+            this.btnChangeAudio.Text = "♫";
+            this.btnChangeAudio.UseVisualStyleBackColor = true;
+            this.btnChangeAudio.Click += new System.EventHandler(this.btnChangeAudio_Click);
+            // 
+            // elementHost1
+            // 
+            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.elementHost1.Location = new System.Drawing.Point(0, 0);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(788, 704);
+            this.elementHost1.TabIndex = 2;
+            this.elementHost1.Text = "elementHost1";
+            this.elementHost1.Child = this.richTextWPF1;
+            // 
             // frmMainProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -861,5 +904,8 @@
         private System.Windows.Forms.Button btnArticleExport;
         private System.Windows.Forms.Button btnArticleSave;
         public System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
+        private System.Windows.Forms.Button btnOpenSettings;
+        private System.Windows.Forms.Button btnChangeAudio;
+        private System.Windows.Forms.Button btnAudioPlay;
     }
 }

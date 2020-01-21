@@ -15,13 +15,15 @@ using System.Windows.Forms;
 using wpf = System.Windows.Controls;
 using System.Net.Http;
 using System.Diagnostics;
+using System.IO;
+using System.Media;
+using WMPLib;
 
 namespace KonterbontLODConnector
 {
     public partial class frmMainProgram : Form
     {
         private static Settings settings;
-
         public ArticleFile _articleFile;
 
         private static frmMainProgram instance = null;
@@ -191,6 +193,9 @@ namespace KonterbontLODConnector
                 _articleFile.ArticleId = articleSelector.activeArticleFile.ArticleId;
                 _articleFile.ArticleName = articleSelector.activeArticleFile.ArticleName;
                 _articleFile.ArticlePath = articleSelector.activeArticleFile.ArticlePath;
+
+                //Test if color exists [color.export]
+                TestColor();
             }
         }
 
@@ -256,11 +261,26 @@ namespace KonterbontLODConnector
             _articleFile.SaveToFile();
         }
 
-        private void btnArticleExport_Click(object sender, EventArgs e)
+        private async void btnArticleExport_Click(object sender, EventArgs e)
         {
+            //visual
+            toolStripProgressBar.Visible = true;
+            toolStripProgressBar.Maximum = 3;
+            toolStripProgressBar.Step = 1;
+            toolStripProgressBar.Value = 0;
             //export
-            Task task = Task.Run(async () => await Export());
-            task.Wait();
+            await Export();
+            WorkerLogger.WriteLog("finished Export (click)");
+            toolStripProgressBar.PerformStep();
+            await MoveToArticle();
+            WorkerLogger.WriteLog("moved to Article ()");
+            toolStripProgressBar.PerformStep();
+            await CopyToMag();
+            WorkerLogger.WriteLog("copied to Mag");
+            WorkerLogger.CloseLog();
+            toolStripProgressBar.PerformStep();
+            MessageBox.Show("Fäerdeg exportéiert!");
+            toolStripProgressBar.Visible = false;
         }
 
         #endregion //UIButtons
@@ -425,7 +445,106 @@ namespace KonterbontLODConnector
             if (wo._wordPossibleMeanings[wordPointer].customMeaning != null)
             {
                 //TODO
-            } else
+                
+
+                if (wo._wordPossibleMeanings[wordPointer].customMeaning.LU != null)
+                {
+                    label_MeaningTab_Header.Text = wo._wordPossibleMeanings[wordPointer].customMeaning.LU;
+                }
+                else
+                {
+                    label_MeaningTab_Header.Text = wo._wordPossibleMeanings[wordPointer].occurence;
+                }
+                edtBasisWuert.Text = wb.baseWordLu;
+                edtWordform.Text = wb.wordForm.WordFormStringLu;
+                // if MP3 has changed
+                if (wb.baseMp3 != wo._wordPossibleMeanings[wordPointer].customMeaning.MP3)
+                {
+                    edtMp3.Font = new Font(edtMp3.Font, FontStyle.Italic | FontStyle.Bold);
+                    edtMp3.Text = wo._wordPossibleMeanings[wordPointer].customMeaning.MP3;
+                } else
+                {
+                    edtMp3.Text = wb.baseMp3;
+                    edtMp3.Font = edtWordform.Font;
+                }
+                
+                string hyperlink = "http://www.lod.lu/?" + wb.baseWordXml.Substring(0, wb.baseWordXml.Length - 4);
+                linkLod.Text = "um LOD ukucken...";
+                linkLod.Links.Clear();
+                LinkLabel.Link link = new LinkLabel.Link();
+                link.LinkData = hyperlink;
+                linkLod.Links.Add(link);
+
+                if (wb.wordForm.WordFormStringLu == "Verb" ||
+                    wb.wordForm.WordFormStringLu == "Modalverb")
+                {
+                    panelVerb.Visible = true;
+                    panelPlural.Visible = false;
+                    edtHelperVerb.Text = wb.wordForm.WordFormHelperVerb;
+                    edtParticipePasse.Text = wb.wordForm.pastParticiple;
+                }
+                else
+                {
+                    if (wb.wordForm.WordFormStringLu == "Adjektiv" ||
+                        wb.wordForm.WordFormStringLu == "Adverb" ||
+                        wb.wordForm.WordFormStringLu == "Partikel")
+                    {
+                        panelVerb.Visible = false;
+                        panelPlural.Visible = false;
+                    }
+                    else
+                    {
+                        panelVerb.Visible = false;
+                        panelPlural.Visible = true;
+                        string plural = null;
+                        if (wb.wordForm.WordFormPlurals != null)
+                            foreach (string wfp in wb.wordForm.WordFormPlurals)
+                            {
+                                plural += wfp;
+                            }
+                        edtPlural.Text = plural;
+                        if (plural == null)
+                        {
+                            edtPlural.Text = "<kee Pluriel>";
+                            edtPlural.Font = italicFont;
+                        }
+                        else edtPlural.Font = defaultFont;
+                    }
+                }
+
+                //Translation
+                edtDE.Text = wo._wordPossibleMeanings[wordPointer].customMeaning.DE;
+                edtFR.Text = wo._wordPossibleMeanings[wordPointer].customMeaning.FR;
+                edtEN.Text = wo._wordPossibleMeanings[wordPointer].customMeaning.EN;
+                edtPT.Text = wo._wordPossibleMeanings[wordPointer].customMeaning.PT;
+
+                richExamples.Clear();
+
+                int i = 1;
+                //Examples
+                if (wo._wordPossibleMeanings[wordPointer].customMeaning.examples != null)
+                {
+                    foreach (classes.Example _ex in wo._wordPossibleMeanings[wordPointer].customMeaning.examples)
+                    {
+                        richExamples.AppendText(i.ToString() + ": " + _ex.exampleText + Environment.NewLine);
+                        i++;
+                    }
+                }
+
+                if (wo._wordPossibleMeanings[wordPointer].customMeaning.examples_Extended != null)
+                {
+                    foreach (classes.Example_Extended _exe in wo._wordPossibleMeanings[wordPointer].customMeaning.examples_Extended)
+                    {
+                        richExamples.AppendText(i.ToString() + ": " + _exe.exampleText
+                            + " <" + _exe.enunciation.ToString() + "> "
+                            + _exe.enunciationText + Environment.NewLine);
+                        i++;
+                    }
+                }
+
+
+            } //END CUSTOM MEANING
+            else
             {
                 if (wb.meanings[meaningPointer].LU != null)
                 {
@@ -437,6 +556,7 @@ namespace KonterbontLODConnector
                 edtBasisWuert.Text = wb.baseWordLu;
                 edtWordform.Text = wb.wordForm.WordFormStringLu;
                 edtMp3.Text = wb.baseMp3;
+                edtMp3.Font = edtWordform.Font;
                 string hyperlink = "http://www.lod.lu/?" + wb.baseWordXml.Substring(0, wb.baseWordXml.Length - 4);
                 linkLod.Text = "um LOD ukucken...";
                 linkLod.Links.Clear();
@@ -509,7 +629,7 @@ namespace KonterbontLODConnector
                         i++;
                     }
                 }
-            }
+            } // END NO CUSTOM MEANING
 
             //switch to meaningTab
             tabControl1.SelectedTab = tabPage2;
@@ -636,13 +756,25 @@ namespace KonterbontLODConnector
             Console.WriteLine("");
         }
 
-        
 
         classes.Exporter exp;
+
+        private void TestColor()
+        {
+            if (File.Exists(_articleFile.ArticlePath + @"\color.export"))
+            {
+                string color = File.ReadAllText(_articleFile.ArticlePath + @"\color.export");
+                _articleFile.globalrgb = color;
+            } else
+            {
+                WorkerLogger.WriteLog("COLOR DOESN'T EXISTS");
+            }
+        }
 
         public async Task Export()
         {
             await PrepareExport();
+
 
             foreach (WordOverview _w in _articleFile.article._Words.Values)
             {
@@ -663,19 +795,133 @@ namespace KonterbontLODConnector
             //toolStripProgressBar.Step = 1;
             //toolStripProgressBar.Value = 0;
             exp = new Exporter();
-            return await exp.Init();
+            return await exp.Init(_articleFile);
         }
 
         private async Task CompleteExport()
         {
             //toolStripProgressBar.Visible = false;
+            exp.WriteOutput();
             await classes.BackgroundWorker.DoWork();
-            Console.WriteLine("finished");
+            WorkerLogger.WriteLog("finished DoWork");
+            WorkerLogger.CloseLog();
+        }
+
+        private async Task MoveToArticle()
+        {
+            string destBase =_articleFile.ArticlePath +
+                @"\" + _articleFile.ArticleId + @"_Artikel\"
+                + @"WebResources\popupbase-web-resources\";
+            string sourceBase = Path.GetTempPath() + @"_KBLODCONN\" + @"WebResources\popupbase-web-resources\";
+
+            Helpers helpers = new Helpers();
+            helpers.prepareAllTempFiles(sourceBase, destBase);
+
+            await classes.BackgroundWorker.DoWork(false); //move instead of copy
+        }
+
+        private async Task CopyToMag()
+        {
+            if (_articleFile.Magazine == null)
+            {
+                forms.MagazineSelector magazineSelector = new MagazineSelector();
+                Helpers _helper = new Helpers();
+                List<ArticleFile> magazineFiles = _helper.getMagazines();
+
+                magazineSelector.ClearItemsInView();
+
+                foreach (ArticleFile magazineFile in magazineFiles)
+                {
+                    magazineSelector.AddItemToView(magazineFile);
+                }
+
+                //Show MagazineSelector
+                DialogResult dr = magazineSelector.ShowDialog();
+                if (dr == DialogResult.OK)
+                {
+                    _articleFile.Magazine = magazineSelector.listView1.SelectedItems[0].Name as string;
+                    _articleFile.MagazinePath = magazineSelector.listView1.SelectedItems[0].Tag as string;
+                    _articleFile.SaveToFile();
+                }
+            }
+
+            string destBase = _articleFile.MagazinePath + @"\WebResources\";
+            string sourceBase = _articleFile.ArticlePath + @"\" + _articleFile.ArticleId + @"_Artikel\" + @"WebResources\";
+
+            Helpers helpers = new Helpers();
+            helpers.prepareAllTempFiles(sourceBase, destBase);
+
+            await classes.BackgroundWorker.DoWork(); //copy from article to mag
         }
 
         private void CleanupWords()
         {
 
+        }
+
+        private void CleanupOutput()
+        {
+            string destBase = _articleFile.ArticlePath +
+                @"\" + _articleFile.ArticleId + @"_Artikel\"
+                + @"WebResources\popupbase-web-resources\";
+
+            foreach (string _sourcefile in Directory.GetFiles(destBase, "*.*", SearchOption.AllDirectories))
+            {
+                File.Delete(_sourcefile);
+            }
+
+            string temppath = Path.GetTempPath() + @"_KBLODCONN\" 
+                + @"WebResources\popupbase-web-resources\";
+
+            foreach (string _sourcefile in Directory.GetFiles(temppath, "*.*", SearchOption.AllDirectories))
+            {
+                File.Delete(_sourcefile);
+            }
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            //Settings
+            settings.ShowDialog();
+        }
+
+        WindowsMediaPlayer mediaPlayer = new WindowsMediaPlayer();
+
+        private void btnAudioPlay_Click(object sender, EventArgs e)
+        {
+            mediaPlayer.URL = settings.Mp3Path + @"\" + this.edtMp3.Text;
+            mediaPlayer.controls.play();
+        }
+
+        private void btnChangeAudio_Click(object sender, EventArgs e)
+        {
+            vistaOpenFileDialog.InitialDirectory = settings.Mp3Path;
+            DialogResult dr = vistaOpenFileDialog.ShowDialog();
+
+            if (dr == DialogResult.OK)
+            {
+                string newMp3 = vistaOpenFileDialog.FileName.Substring(vistaOpenFileDialog.FileName.LastIndexOf("\\") + 1);
+                edtMp3.Text = newMp3;
+                edtMp3.Font = new Font(edtMp3.Font, FontStyle.Italic | FontStyle.Bold);
+
+                //Set CustomMeaning w MP3
+                classes.WordOverview _wb = new WordOverview();
+                _articleFile.article._Words.TryGetValue(RichTextFormatter.activeWord, out _wb);
+
+                if (_wb._wordPossibleMeanings[_wb.WordPointer-1].customMeaning != null)
+                {
+                    //has customMeaning
+                    _wb._wordPossibleMeanings[_wb.WordPointer - 1].customMeaning.MP3 = newMp3;
+                } else
+                {
+                    classes.Meaning meaning = new classes.Meaning();
+                    classes.WordBase _wo = new WordBase();
+                    _articleFile.article._WordBase.TryGetValue(_wb._wordPossibleMeanings[_wb.WordPointer - 1].wordBasePointer, out _wo);
+                    meaning = meaning.CopyOver(_wo.meanings[_wb._wordPossibleMeanings[_wb.WordPointer -1].meaningPointer -1]);
+                    meaning.MP3 = newMp3;
+                    _wb._wordPossibleMeanings[_wb.WordPointer - 1].customMeaning = meaning;
+                }
+            }
         }
     }
 
@@ -693,6 +939,34 @@ namespace KonterbontLODConnector
             {
                 ArticleFile _articleFile = new ArticleFile(dir);
                 res.Add(_articleFile);
+            }
+
+            return res;
+        }
+
+        public List<ArticleFile> getMagazines()
+        {
+            List<ArticleFile> res = new List<ArticleFile>();
+
+            string path = frmMainProgram.Settings.GetMagazinePath();
+            var dirs = from dir in System.IO.Directory.EnumerateDirectories(path, "????_??", System.IO.SearchOption.TopDirectoryOnly) select dir;
+
+            foreach (var dir in dirs)
+            {
+                ArticleFile _articleFile = new ArticleFile(dir, true);
+                res.Add(_articleFile);
+            }
+            return res;
+        }
+
+        public List<string> prepareAllTempFiles(string sourcepath, string destpath)
+        {
+            List<string> res = new List<string>();
+
+            foreach (string _sourcefile in Directory.GetFiles(sourcepath, "*.*", SearchOption.AllDirectories))
+            {
+                string destfile = _sourcefile.Replace(sourcepath, destpath);
+                classes.BackgroundWorker.AddWork(_sourcefile, destfile);
             }
 
             return res;

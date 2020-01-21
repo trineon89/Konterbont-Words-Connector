@@ -11,12 +11,16 @@ namespace KonterbontLODConnector.classes
         public string ArticleFileName { get; set; }
         public string ArticleId { get; set; }
         public string ArticleName { get; set; }
-
+        public string Magazine { get; set; }
+        public string MagazinePath { get; set; }
+        public string globalrgb { get; set; }
         public Article article;
 
         public ArticleFile()
         {
             this.ArticlePath = null;
+            Magazine = null;
+            globalrgb = null;
         }
 
         public static ArticleFile LoadFromFile(string filepath)
@@ -102,6 +106,14 @@ namespace KonterbontLODConnector.classes
             //ArticleFileName = ArticleId + @"_Artikel\" + ArticleId + ".article";
             ArticleFileName = ArticleId + ".article";
             article = new Article(ArticlePath, ArticleId);
+        }
+
+        public ArticleFile(string articlePath, bool isMag)
+        {
+            ArticlePath = articlePath;
+            string tmpstring = articlePath.Substring(articlePath.LastIndexOf("\\") + 1);
+            ArticleId = tmpstring;
+            ArticleFileName = ArticleId;
         }
     }
 }
