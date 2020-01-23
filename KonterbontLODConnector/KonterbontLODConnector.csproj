@@ -130,6 +130,7 @@
     <Compile Include="classes\BackgroundWorker.cs" />
     <Compile Include="classes\Example.cs" />
     <Compile Include="classes\Exporter.cs" />
+    <Compile Include="classes\INDesignPlugin.cs" />
     <Compile Include="classes\Meaning.cs" />
     <Compile Include="classes\Word.cs" />
     <Compile Include="classes\WordBase.cs" />
@@ -298,6 +299,7 @@
     <None Include="res\popup.html" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Export\01-prepare_doc.jsx" />
     <Content Include="Export\base.html" />
     <Content Include="Export\jquery.js" />
     <Content Include="Export\kbhandler.js" />

@@ -24,6 +24,7 @@ namespace KonterbontLODConnector
     public partial class frmMainProgram : Form
     {
         private static Settings settings;
+        private static classes.INDesignPlugin iNDesignPlugin;
         public ArticleFile _articleFile;
 
         private static frmMainProgram instance = null;
@@ -82,6 +83,8 @@ namespace KonterbontLODConnector
             instance = this;
             Settings = new Settings();
             InitReset();
+
+            iNDesignPlugin = new classes.INDesignPlugin();
 
             RichTextFormatter.elementHost = elementHost1;
             RichTextFormatter.LoadRtfHandler(richTextWPF1.richTextBox);

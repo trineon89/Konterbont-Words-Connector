@@ -51,6 +51,24 @@ namespace KonterbontLODConnector.classes
 
             //Replace __JSON_PATH__ 
 
+            CopyOverFiles();
+        }
+
+
+        private void CopyOverFiles()
+        {
+            //Properties.Resources._base
+            string path = Path.GetTempPath() + @"_KBLODCONN\" + @"WebResources\popupbase-web-resources\";
+            File.WriteAllBytes(path + "FreightSansCmpPro-BookItalic.ttf", Properties.Resources.FreightSansCmpPro_BookItalic);
+            File.WriteAllBytes(path + "FreightSansCmpPro-Med.ttf", Properties.Resources.FreightSansCmpPro_Med);
+            File.WriteAllBytes(path + "FreightSansCmpPro-Semi.ttf", Properties.Resources.FreightSansCmpPro_Semi);
+            File.WriteAllText(path + "jquery.js", Properties.Resources.jquery, new UTF8Encoding(true));
+            File.WriteAllText(path + "style.css", Properties.Resources.style, new UTF8Encoding(true));
+            File.WriteAllText(path + "kbhandler.js", Properties.Resources.kbhandler, new UTF8Encoding(true));
+
+            string currcontent = Properties.Resources.bases;
+            string newcontent = currcontent.Replace("src=\"__JSON_PATH__", "src=\""+exportName);
+            File.WriteAllText(path + articleid + "_popups.html", newcontent, new UTF8Encoding(true));
         }
 
         public void Finish()

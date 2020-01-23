@@ -281,7 +281,13 @@ namespace KonterbontLODConnector
         public static void addWordToList(string wuert)
         {
             if (clickItemDic.ContainsKey(wuert)) { MessageBox.Show("D'wuert "+wuert+" existéiert schonn am Artikel!"); }
-            clickItemDic.Add(wuert, new Word(wuert));
+            try
+            {
+                clickItemDic.Add(wuert, new Word(wuert));
+            } catch (Exception e)
+            {
+                Console.WriteLine("gett et schonn");
+            }
             Word wo = new Word(wuert);
             var v = frmMainProgram.getInstance();
             //v._articleFile.article._workingWords.Add(wo);

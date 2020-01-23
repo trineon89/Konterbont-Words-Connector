@@ -61,6 +61,28 @@ namespace KonterbontLODConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;!doctype html&gt;
+        ///&lt;html lang=&quot;lb&quot;&gt;
+        ///&lt;head&gt;
+        ///    &lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0,user-scalable=no&quot;&gt;
+        ///    &lt;title&gt;popup&lt;/title&gt;
+        ///	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;style.css?&quot;&gt;
+        ///	&lt;script type=&quot;text/javascript&quot; src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+        ///	&lt;script id=&quot;scriptpath&quot; type=&quot;text/javascript&quot; src=&quot;__JSON_PATH__&quot;&gt;&lt;/script&gt;
+        ///&lt;/head&gt;
+        ///&lt;body&gt;
+        ///	
+        ///&lt;div class=&quot;flex-container&quot;&gt;
+        ///        &lt;div class=&quot;flex-child&quot;&gt;
+        ///            &lt;div class=&quot;flex-innercontainer&quot;&gt;        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string bases {
+            get {
+                return ResourceManager.GetString("bases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to #targetengine &quot;session&quot;
         ///
         ////*
@@ -90,73 +112,9 @@ namespace KonterbontLODConnector.Properties {
         ///                f(this.getUTCMonth() + 1) + &apos;-&apos; +
         ///                f(this.getUTCDate( [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string _01_prepare_doc {
+        public static string create_popups_script {
             get {
-                return ResourceManager.GetString("_01_prepare_doc", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to //#target &quot;indesign&quot;
-        /////#targetengine &quot;com.twixlmedia.publisher.idserver&quot;
-        ///#targetengine &quot;session&quot;
-        ///#include &quot;zz_twixlForServer.jsx&quot;;
-        ///
-        /////app.userInteractionLevel = UserInteractionLevel.DONTDISPLAYALERTS;
-        ///
-        ///var magazineFolderPath = arguments[0] + arguments[1] + &quot;\\export\\articles\\&quot;;
-        ///
-        ///var myFile = app.activeDocument;
-        ///var exportFileNamePath = myFile.fullName.name.split(&apos;.&apos;)[0];
-        /////$.writeln(exportFileNamePath);
-        ///
-        ///var tmpFileName = myFile.fullName.fsName.replace(&apos;/&apos;, &apos;//&apos;); //.replace (&quot;/k/&quot;, with)
-        ///va [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string _02_export_article {
-            get {
-                return ResourceManager.GetString("_02_export_article", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to #target &quot;indesign&quot;
-        ///#targetengine &quot;com.twixlmedia.publisher.idserver&quot;
-        ///#include &quot;zz_twixlForServer.jsx&quot;;
-        ///
-        ///var magazineFolderPath = &quot;K:\\Magazines\\&quot;;
-        ///
-        ///var myBookContents = TMUtilities.collectionToArray(app.activeBook.bookContents);
-        ///var myBookContentsCount = myBookContents.length;
-        ///for (var ii = 0; ii &lt; myBookContentsCount; ii++) {
-        ///    var myFile = myBookContents[ii];
-        ///    var exportFileNamePath = myFile.fullName.name.split(&apos;.&apos;)[0];
-        ///    $.writeln(exportFileNamePath);
-        ///    if (ii == 0) {
-        ///        //Cov [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string _02_Export_Articles_From_Book {
-            get {
-                return ResourceManager.GetString("_02_Export_Articles_From_Book", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to #target &quot;indesign&quot;
-        ///#targetengine &quot;com.twixlmedia.publisher.idserver&quot;
-        ///#include &quot;zz_twixlForServer.jsx&quot;;
-        ///
-        ///var magazineFolderPath = &quot;K:\\Magazines\\&quot;;
-        ///var destinationPath = magazineFolderPath + app.activeBook.name.substr(0, 7) + &quot;\\export\\&quot; + app.activeBook.name.substr(0, 7) + &quot;.publication&quot;;
-        ///var myFile = app.activeBook.fullName.fsName;
-        ///TwixlPublisherPluginAPI.setExportFormat(&quot;pdf&quot;);
-        ///TwixlPublisherPluginAPI.exportPublication(app.activeBook, destinationPath);
-        ///
-        ///.
-        /// </summary>
-        public static string _02_Export_Book {
-            get {
-                return ResourceManager.GetString("_02_Export_Book", resourceCulture);
+                return ResourceManager.GetString("create_popups_script", resourceCulture);
             }
         }
         
@@ -201,6 +159,67 @@ namespace KonterbontLODConnector.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to /*!
+        /// * jQuery JavaScript Library v3.4.1
+        /// * https://jquery.com/
+        /// *
+        /// * Includes Sizzle.js
+        /// * https://sizzlejs.com/
+        /// *
+        /// * Copyright JS Foundation and other contributors
+        /// * Released under the MIT license
+        /// * https://jquery.org/license
+        /// *
+        /// * Date: 2019-05-01T21:04Z
+        /// */
+        ///( function( global, factory ) {
+        ///
+        ///	&quot;use strict&quot;;
+        ///
+        ///	if ( typeof module === &quot;object&quot; &amp;&amp; typeof module.exports === &quot;object&quot; ) {
+        ///
+        ///		// For CommonJS and CommonJS-like environments where a proper `window`
+        ///		// is present, execute the f [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string jquery {
+            get {
+                return ResourceManager.GetString("jquery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to let KBHandler = {
+        ///	_selword:null,
+        ///	_selwordid:null,
+        ///	
+        ///	init:function(){
+        ///		_selwordid = 0;
+        ///	},
+        ///	setWord:function(selectedWord)
+        ///	{
+        ///		_selword = selectedWord;
+        ///	},
+        ///	getWord:function()
+        ///	{
+        ///		let url = new URL(window.location.href);
+        ///		this.setWord(url.searchParams.get(&quot;word&quot;));
+        ///		if (_selword!=null)
+        ///		{
+        ///			//_selwordid = 0;
+        ///			for (var i = 0; i &lt; theObject.wordlist.length; i++)
+        ///			{
+        ///				if (theObject.wordlist[i].Occurence == _selword) { _selwordid=i; }
+        ///				if (_selwordid != null) 
+        ///				{ 
+        ///			 [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string kbhandler {
+            get {
+                return ResourceManager.GetString("kbhandler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap NewFile_16x {
@@ -227,47 +246,6 @@ namespace KonterbontLODConnector.Properties {
             get {
                 object obj = ResourceManager.GetObject("OpenFileFromProject_16x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
-        ///	&lt;head&gt;
-        ///		&lt;meta charset=&quot;utf-8&quot;&gt;&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0,user-scalable=no&quot;&gt;
-        ///		&lt;title&gt;popup&lt;/title&gt;
-        ///        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;popupstyle.css&quot;/&gt;
-        ///		&lt;style&gt;
-        ///			.highlight, .marker-color { color: rgb(leColorCSScolor) !important; color:yellow; } 
-        ///			p.Tab_Wuert {  color: rgb(leColorCSScolor) !important; }
-        ///			div.divTableBody { height:100%; width:100%; background-color:rgb(leC [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string popup {
-            get {
-                return ResourceManager.GetString("popup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to @font-face {
-        ///  font-family: &apos;FreightSansCmpPro Med&apos;;
-        ///  src: url(&apos;FreightSansCmpPro-Med.ttf&apos;)  format(&apos;truetype&apos;);
-        ///}
-        ///@font-face {
-        ///  font-family: &apos;FreightSansCmpPro Semi&apos;;
-        ///  src: url(&apos;FreightSansCmpPro-Semi.ttf&apos;)  format(&apos;truetype&apos;);
-        ///}
-        ///@font-face {
-        ///  font-family: &apos;FreightSansCmpPro Book Italic&apos;;
-        ///  src: url(&apos;FreightSansCmpPro-BookItalic.ttf&apos;)  format(&apos;truetype&apos;);
-        ///}
-        ///@media screen and (orientation: portrait) {
-        ///	/* phone-specific style */
-        ///	.flex-innercontainer { flex-direction: column;margin:5px 5px [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string popupstyle {
-            get {
-                return ResourceManager.GetString("popupstyle", resourceCulture);
             }
         }
         
@@ -302,21 +280,25 @@ namespace KonterbontLODConnector.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to /**
-        /// * ------------------------------------------------------------------------
-        /// * Twixl media Confidential
-        /// * ------------------------------------------------------------------------
-        /// *
-        /// * (c) 2010-2016 Twixl media, http://twixlmedia.com
-        /// *
-        /// * NOTICE: All information contained herein is, and remains the property of
-        /// * Twixl media and its suppliers, if any. The intellectual and technical
-        /// * concepts contained herein are proprietary to Twixl media and its
-        /// * suppliers and may be covered by U.S. and [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to @font-face {
+        ///  font-family: &apos;FreightSansCmpPro Med&apos;;
+        ///  src: url(&apos;FreightSansCmpPro-Med.ttf&apos;)  format(&apos;truetype&apos;);
+        ///}
+        ///@font-face {
+        ///  font-family: &apos;FreightSansCmpPro Semi&apos;;
+        ///  src: url(&apos;FreightSansCmpPro-Semi.ttf&apos;)  format(&apos;truetype&apos;);
+        ///}
+        ///@font-face {
+        ///  font-family: &apos;FreightSansCmpPro Book Italic&apos;;
+        ///  src: url(&apos;FreightSansCmpPro-BookItalic.ttf&apos;)  format(&apos;truetype&apos;);
+        ///}
+        ///@media screen and (orientation: portrait) {
+        ///	/* phone-specific style */
+        ///	.flex-innercontainer { flex-direction: column;margin:5px 5px [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string zz_twixlForServer {
+        public static string style {
             get {
-                return ResourceManager.GetString("zz_twixlForServer", resourceCulture);
+                return ResourceManager.GetString("style", resourceCulture);
             }
         }
     }

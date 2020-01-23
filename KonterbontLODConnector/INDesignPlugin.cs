@@ -32,11 +32,11 @@ namespace KonterbontLODConnector
 
         public void PushScriptFile()
         {
-            string _filecontent = Properties.Resources._01_prepare_doc;
-            string _filecontent2 = Properties.Resources._02_Export_Articles_From_Book;
-            string _filecontent3 = Properties.Resources._02_Export_Book;
-            string _filecontent4 = Properties.Resources.zz_twixlForServer;
-            string _filecontent5 = Properties.Resources._02_export_article;
+            //string _filecontent = Properties.Resources._01_prepare_doc;
+            //string _filecontent2 = Properties.Resources._02_Export_Articles_From_Book;
+            //string _filecontent3 = Properties.Resources._02_Export_Book;
+            //string _filecontent4 = Properties.Resources.zz_twixlForServer;
+            //string _filecontent5 = Properties.Resources._02_export_article;
 
             foreach (string adbscriptfolder in AdobeScriptsSubFolders)
             {
@@ -52,11 +52,11 @@ namespace KonterbontLODConnector
                     }
                 }
                 Directory.CreateDirectory(adbscriptfolder + "KB4");
-                File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname, _filecontent, new UTF8Encoding(true));
-                File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname2, _filecontent2, new UTF8Encoding(true));
-                File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname3, _filecontent3, new UTF8Encoding(true));
-                File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname4, _filecontent4, new UTF8Encoding(true));
-                File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname5, _filecontent5, new UTF8Encoding(true));
+                //File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname, _filecontent, new UTF8Encoding(true));
+                //File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname2, _filecontent2, new UTF8Encoding(true));
+               // File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname3, _filecontent3, new UTF8Encoding(true));
+                //File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname4, _filecontent4, new UTF8Encoding(true));
+                //File.WriteAllText(adbscriptfolder + "KB4\\" + scriptname5, _filecontent5, new UTF8Encoding(true));
             }
         }
 

@@ -233,7 +233,7 @@ namespace KonterbontLODConnector
         {
             if (wuert.Selection != 0)
             {
-                string _tmpfilecontent = Properties.Resources.popup;
+                /*string _tmpfilecontent = Properties.Resources.popup;
                 _tmpfilecontent = _tmpfilecontent.Replace("leColorCSScolor", rgbvalue);
                 _tmpfilecontent = _tmpfilecontent.Replace("aarbecht1.mp3", wuert.Meanings[wuert.Selection - 1].MP3);
                 _tmpfilecontent = _tmpfilecontent.Replace("_LUXWORD_", wuert.Meanings[wuert.Selection - 1].LU);
@@ -264,6 +264,7 @@ namespace KonterbontLODConnector
                 occurence = DeUmlaut(occurence);
                 GetMp3(wuert.Meanings[wuert.Selection - 1].MP3, wuert.Meanings[wuert.Selection - 1].hasCustomAudio);
                 File.WriteAllText(Temppath + "WebResources\\popupbase-web-resources\\" + Path.GetFileNameWithoutExtension(Filename) + "popup_" + occurence + ".html", _tmpfilecontent);
+                */
             }
         }
 
@@ -357,7 +358,7 @@ namespace KonterbontLODConnector
             File.WriteAllBytes(Temppath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-BookItalic.ttf", Properties.Resources.FreightSansCmpPro_BookItalic);
             File.WriteAllBytes(Temppath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-Med.ttf", Properties.Resources.FreightSansCmpPro_Med);
             File.WriteAllBytes(Temppath + "WebResources\\popupbase-web-resources\\FreightSansCmpPro-Semi.ttf", Properties.Resources.FreightSansCmpPro_Semi);
-            File.WriteAllText(Temppath + "WebResources\\popupbase-web-resources\\popupstyle.css", Properties.Resources.popupstyle);
+            //File.WriteAllText(Temppath + "WebResources\\popupbase-web-resources\\popupstyle.css", Properties.Resources.popupstyle);
         }
 
         public string[] InitCopyToMag()
