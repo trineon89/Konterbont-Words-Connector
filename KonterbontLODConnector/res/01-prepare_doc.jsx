@@ -255,15 +255,8 @@ for (var c=0; c < _docStories.length; c++)
     {
         var _textRange = _textRanges[j];
 
-        try 
-		{
-			var _spread = _textRange.parentTextFrames[0].parentPage.parent.index;
-		}
-		catch (_ve)
-		{
-			//Textbox Parent Error (z.b. Bei type on Path)
-		}
-		
+
+        var _spread = _textRange.parentTextFrames[0].parentPage.parent.index;
         if (_textRange.appliedCharacterStyle.name == "Marker")
         {
             currentTimeDate = new Date();
@@ -409,7 +402,6 @@ function deUmlaut(value){
     value = value.replace(/û/gi, 'u');
     value = value.replace(/â/gi, 'a');
     value = value.replace(/ô/gi, 'o');
-    value = value.replace(/ç/gi, 'c');
     return value;
 }
 

@@ -306,7 +306,6 @@ namespace KonterbontLODConnector
             Result = Regex.Replace(Result, "û", "u", RegexOptions.IgnoreCase);
             Result = Regex.Replace(Result, "â", "a", RegexOptions.IgnoreCase);
             Result = Regex.Replace(Result, "ô", "o", RegexOptions.IgnoreCase);
-            Result = Regex.Replace(Result, "ç", "c", RegexOptions.IgnoreCase);
             return Result;
         }
 
