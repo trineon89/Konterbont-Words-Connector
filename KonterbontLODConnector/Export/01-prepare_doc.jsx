@@ -315,7 +315,9 @@ function setPopup(mod, _thespread, _found) {
 function createbutton(GB, _theSpread, _theButtonName, _pageSel, _count) {
     var popupLayer = app.activeDocument.layers.itemByName("Buttons");
     app.activeDocument.activeLayer = popupLayer;
-    var _button = app.activeDocument.spreads[_theSpread].buttons.add();
+    var _button = app.activeDocument.spreads[_theSpread].textFrames.add();
+    _button.contentType = ContentType.GRAPHIC_TYPE;
+    _button.label = "LODBUTTON";
     GB[0] = GB[0] - 5;
     GB[1] = GB[1] - 10;
     GB[2] = GB[2] + 15;
@@ -371,14 +373,16 @@ function getScriptFolder() {
 
 
 function createms() {
-    /*while (app.activeDocument.multiStateObjects.length > 0)
- {
-     app.activeDocument.multiStateObjects[0].remove();
- }*/
-    for (var i = 0; i < app.activeDocument.spreads.length - 1; i++) {
+    for (var i = 0; i < app.activeDocument.spreads.length; i++) {
         var buttonLayer = app.activeDocument.layers.itemByName("Buttons");
         app.activeDocument.activeLayer = buttonLayer;
         buttonLayer.buttons.everyItem().remove();
+        for (var j = buttonLayer.rectangles.length - 1; j >= 0; j--) {
+            var item = buttonLayer.rectangles[j];
+            if (item.label == "LODBUTTON") {
+                buttonLayer.rectangles[j].remove();
+            }
+        }
     }
 }
 
