@@ -75,6 +75,7 @@ namespace KonterbontLODConnector
             RichTextFormatter.ResetWordList();
             RichTextFormatter.Decorate();
             RichTextFormatter.ReDecorate();
+            Text = "Konterbont LOD Connector | Artikel: " + _articleFile.ArticleId + " " + _articleFile.ArticleName;
         }
 
         public frmMainProgram()

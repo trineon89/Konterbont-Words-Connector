@@ -27,7 +27,6 @@ namespace KonterbontLODConnector.classes
         {
             ArticleFile ar = new ArticleFile(filepath);
             JsonSerializerSettings jss = new JsonSerializerSettings();
-            //jss.TypeNameHandling = TypeNameHandling.All;
             JsonSerializer serializer =JsonSerializer.Create(jss);
 
             using (StreamReader sr = new StreamReader(ar.ArticlePath + @"\" + ar.ArticleFileName))
@@ -85,7 +84,6 @@ namespace KonterbontLODConnector.classes
         {
             CleanUp();
             JsonSerializerSettings jss = new JsonSerializerSettings();
-            //jss.TypeNameHandling = TypeNameHandling.All;
             JsonSerializer serializer = JsonSerializer.Create(jss);
             serializer.Converters.Add(new JavaScriptDateTimeConverter());
             serializer.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -103,7 +101,6 @@ namespace KonterbontLODConnector.classes
             string tmpstring = articlePath.Substring(articlePath.LastIndexOf("\\") + 1);
             ArticleId = tmpstring.Substring(0, 4);
             ArticleName = tmpstring.Substring(5, tmpstring.Length-5);
-            //ArticleFileName = ArticleId + @"_Artikel\" + ArticleId + ".article";
             ArticleFileName = ArticleId + ".article";
             article = new Article(ArticlePath, ArticleId);
         }

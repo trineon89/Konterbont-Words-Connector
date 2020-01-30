@@ -147,11 +147,17 @@ namespace KonterbontLODConnector
 
         public static int CountWords()
         {
-            string rtfPath = frmMainProgram.getInstance()._articleFile.article.RtfPath;
-            RichTextBox rich = new RichTextBox();
-            rich.Rtf = File.ReadAllText(rtfPath);
-            MatchCollection wordColl = Regex.Matches(rich.Text, @"\w+([-,.éèüöäëËÉÈËÜÖÄçàÀ]+\w+)*");
-            return wordColl.Count;
+            try
+            {
+                string rtfPath = frmMainProgram.getInstance()._articleFile.article.RtfPath;
+                RichTextBox rich = new RichTextBox();
+                rich.Rtf = File.ReadAllText(rtfPath);
+                MatchCollection wordColl = Regex.Matches(rich.Text, @"\w+([-,.éèüöäëËÉÈËÜÖÄçàÀ]+\w+)*");
+                return wordColl.Count;
+            } catch (Exception e)
+            {
+                return 0;
+            }
         }
 
         public static void Decorate()
@@ -290,7 +296,6 @@ namespace KonterbontLODConnector
             }
             Word wo = new Word(wuert);
             var v = frmMainProgram.getInstance();
-            //v._articleFile.article._workingWords.Add(wo);
         }
     }
 
@@ -301,8 +306,7 @@ namespace KonterbontLODConnector
         public RichText_WinformHost()
         {
             base.Child = m_richTextWPF;
-            //string text = new TextRange(m_richTextWPF.richTextBox.Document.ContentStart, m_richTextWPF.richTextBox.Document.ContentEnd).Text;
-            //Console.WriteLine(text);
+
         }
     }
 }

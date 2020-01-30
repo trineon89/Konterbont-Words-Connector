@@ -58,6 +58,8 @@
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.richTextWPF1 = new KonterbontLODConnector.RichTextWPF();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.listView_Words = new System.Windows.Forms.ListView();
@@ -71,6 +73,8 @@
             this.richExamples = new System.Windows.Forms.RichTextBox();
             this.gbBasic = new System.Windows.Forms.GroupBox();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.btnChangeAudio = new System.Windows.Forms.Button();
+            this.btnAudioPlay = new System.Windows.Forms.Button();
             this.linkLod = new System.Windows.Forms.LinkLabel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.edtMp3 = new System.Windows.Forms.TextBox();
@@ -105,10 +109,6 @@
             this.label_MeaningTab_Header = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.vistaOpenFileDialog = new Ookii.Dialogs.WinForms.VistaOpenFileDialog();
-            this.btnAudioPlay = new System.Windows.Forms.Button();
-            this.btnChangeAudio = new System.Windows.Forms.Button();
-            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.richTextWPF1 = new KonterbontLODConnector.RichTextWPF();
             this.panelMenu.SuspendLayout();
             this.panel3.SuspendLayout();
             this.statusStrip.SuspendLayout();
@@ -277,6 +277,16 @@
             this.splitContainer1.SplitterDistance = 788;
             this.splitContainer1.TabIndex = 4;
             // 
+            // elementHost1
+            // 
+            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.elementHost1.Location = new System.Drawing.Point(0, 0);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(788, 704);
+            this.elementHost1.TabIndex = 2;
+            this.elementHost1.Text = "elementHost1";
+            this.elementHost1.Child = this.richTextWPF1;
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
@@ -437,6 +447,28 @@
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(298, 24);
             this.panel6.TabIndex = 9;
+            // 
+            // btnChangeAudio
+            // 
+            this.btnChangeAudio.Location = new System.Drawing.Point(119, 0);
+            this.btnChangeAudio.Margin = new System.Windows.Forms.Padding(0);
+            this.btnChangeAudio.Name = "btnChangeAudio";
+            this.btnChangeAudio.Size = new System.Drawing.Size(21, 21);
+            this.btnChangeAudio.TabIndex = 2;
+            this.btnChangeAudio.Text = "♫";
+            this.btnChangeAudio.UseVisualStyleBackColor = true;
+            this.btnChangeAudio.Click += new System.EventHandler(this.btnChangeAudio_Click);
+            // 
+            // btnAudioPlay
+            // 
+            this.btnAudioPlay.Location = new System.Drawing.Point(89, 0);
+            this.btnAudioPlay.Margin = new System.Windows.Forms.Padding(0);
+            this.btnAudioPlay.Name = "btnAudioPlay";
+            this.btnAudioPlay.Size = new System.Drawing.Size(21, 21);
+            this.btnAudioPlay.TabIndex = 1;
+            this.btnAudioPlay.Text = "▶";
+            this.btnAudioPlay.UseVisualStyleBackColor = true;
+            this.btnAudioPlay.Click += new System.EventHandler(this.btnAudioPlay_Click);
             // 
             // linkLod
             // 
@@ -759,38 +791,6 @@
             this.vistaOpenFileDialog.FileName = "vistaOpenFileDialog";
             this.vistaOpenFileDialog.Filter = null;
             // 
-            // btnAudioPlay
-            // 
-            this.btnAudioPlay.Location = new System.Drawing.Point(89, 0);
-            this.btnAudioPlay.Margin = new System.Windows.Forms.Padding(0);
-            this.btnAudioPlay.Name = "btnAudioPlay";
-            this.btnAudioPlay.Size = new System.Drawing.Size(21, 21);
-            this.btnAudioPlay.TabIndex = 1;
-            this.btnAudioPlay.Text = "▶";
-            this.btnAudioPlay.UseVisualStyleBackColor = true;
-            this.btnAudioPlay.Click += new System.EventHandler(this.btnAudioPlay_Click);
-            // 
-            // btnChangeAudio
-            // 
-            this.btnChangeAudio.Location = new System.Drawing.Point(119, 0);
-            this.btnChangeAudio.Margin = new System.Windows.Forms.Padding(0);
-            this.btnChangeAudio.Name = "btnChangeAudio";
-            this.btnChangeAudio.Size = new System.Drawing.Size(21, 21);
-            this.btnChangeAudio.TabIndex = 2;
-            this.btnChangeAudio.Text = "♫";
-            this.btnChangeAudio.UseVisualStyleBackColor = true;
-            this.btnChangeAudio.Click += new System.EventHandler(this.btnChangeAudio_Click);
-            // 
-            // elementHost1
-            // 
-            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elementHost1.Location = new System.Drawing.Point(0, 0);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(788, 704);
-            this.elementHost1.TabIndex = 2;
-            this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = this.richTextWPF1;
-            // 
             // frmMainProgram
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -802,7 +802,7 @@
             this.Controls.Add(this.panelMenu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMainProgram";
-            this.Text = "MainProgram";
+            this.Text = "Konterbont LOD Connector";
             this.panelMenu.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();

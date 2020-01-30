@@ -95,5 +95,19 @@ namespace KonterbontLODConnector
 
             return language;
         }
+
+        private void btnImportOldContent_Click(object sender, EventArgs e)
+        {
+            /*
+             *  Import
+             */
+        }
+
+        private void btnCleanupArticle_Click(object sender, EventArgs e)
+        {
+            /*
+             *  Cleanup Article
+             */
+        }
     }
 }
