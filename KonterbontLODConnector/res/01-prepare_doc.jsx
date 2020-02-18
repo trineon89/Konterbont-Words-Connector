@@ -256,7 +256,12 @@ for (var c=0; c < _docStories.length; c++)
         var _textRange = _textRanges[j];
 
 
-        var _spread = _textRange.parentTextFrames[0].parentPage.parent.index;
+        try {
+            var _spread = _textRange.parentTextFrames[0].parentPage.parent.index;
+        }
+        catch (_ve) {
+            //Textbox Parent Error (z.b. Bei type on Path)
+        }
         if (_textRange.appliedCharacterStyle.name == "Marker")
         {
             currentTimeDate = new Date();
@@ -312,7 +317,9 @@ function createbutton(GB, _theSpread, _theButtonName, _pageSel, _count)
 {
    var popupLayer = app.activeDocument.layers.itemByName("Buttons");
    app.activeDocument.activeLayer=popupLayer;
-   var _button = app.activeDocument.spreads[_theSpread].buttons.add();
+    var _button = app.activeDocument.spreads[_theSpread].textFrames.add();
+    _button.contentType = ContentType.GRAPHIC_TYPE;
+    _button.label = "LODBUTTON";
        GB[0] = GB[0] - 5;
        GB[1] = GB[1] - 10;
        GB[2] = GB[2] + 15;
@@ -374,12 +381,17 @@ function createms()
     {
         app.activeDocument.multiStateObjects[0].remove();
     }*/
-     for (var i = 0; i < app.activeDocument.spreads.length-1; i++)
-    {
-            var buttonLayer = app.activeDocument.layers.itemByName("Buttons");
-            app.activeDocument.activeLayer=buttonLayer;
-            buttonLayer.buttons.everyItem().remove(); 
+    for (var i = 0; i < app.activeDocument.spreads.length; i++) {
+        var buttonLayer = app.activeDocument.layers.itemByName("Buttons");
+        app.activeDocument.activeLayer = buttonLayer;
+        buttonLayer.buttons.everyItem().remove();
+        for (var j = buttonLayer.rectangles.length - 1; j >= 0; j--) {
+            var item = buttonLayer.rectangles[j];
+            if (item.label == "LODBUTTON") {
+                buttonLayer.rectangles[j].remove();
+            }
         }
+    }
 }
 
 function deUmlaut(value){
@@ -402,6 +414,7 @@ function deUmlaut(value){
     value = value.replace(/û/gi, 'u');
     value = value.replace(/â/gi, 'a');
     value = value.replace(/ô/gi, 'o');
+    value = value.replace(/ç/gi, 'c');
     return value;
 }
 
