@@ -211,7 +211,14 @@ namespace KonterbontLODConnector
             {
                 using (WebClient wc = new WebClient())
                 {
-                    wc.DownloadFile(new Uri(lodmp3path + mp3filename), Temppath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
+                    try
+                    {
+                        wc.DownloadFile(new Uri(lodmp3path + mp3filename), Temppath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
+                    } 
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("mp3 not found on LOD Site: " + mp3filename);
+                    }
                 }
             }
         }

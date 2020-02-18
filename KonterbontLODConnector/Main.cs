@@ -34,7 +34,7 @@ namespace KonterbontLODConnector
         public VistaOpenFileDialog CustomAudioBrowser = new VistaOpenFileDialog
         {
             Filter = "MP3 (*.mp3)|*.mp3",
-            InitialDirectory = "\\\\192.168.11.75\\Konterbont_Audio\\",
+            InitialDirectory = "\\\\cubecluster01\\Konterbont_Audio\\",
             //RestoreDirectory = true,
             Title = "Neien Toun fir den Popup auswielen"
         };
