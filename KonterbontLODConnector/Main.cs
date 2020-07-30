@@ -1069,6 +1069,7 @@ namespace KonterbontLODConnector
                 Ex++;
             }
             // delete all mp3 of word meanings
+            /*
             foreach (Meaning Meaning in globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings)
             {
                 if (File.Exists(globaldt.Filepath + "WebResources\\popupbase-web-resources\\audio\\" + Meaning.MP3))
@@ -1081,7 +1082,7 @@ namespace KonterbontLODConnector
                     {
                     }
                 }
-            }
+            }*/
             // gets mp3 for new selected meaning
             globaldt.GetMp3(globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3, globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].hasCustomAudio);
         }
