@@ -40,6 +40,18 @@ namespace KonterbontLODConnector
 
         }
 
+        string GetWuertForm (string LODString)
+        {
+            switch (LODString)
+            {
+                case "SUBST": return "Substantiv";
+                case "SUBST+F": return "weiblecht Substantiv";
+                case "SUBST+M": return "männlecht Substantiv"; 
+                case "SUBST+N": return "sächlecht Substantiv";
+                default: return LODString;
+            }
+        }
+
         public async Task<AutoComplete> GetAutoComplete2022(string searchstring, LodSearch fetchedSearch, LogClass log)
         {
             this.Occurence = searchstring;
@@ -76,7 +88,9 @@ namespace KonterbontLODConnector
                 if (IsContainsKey(article.entry, "partOfSpeechLabel")) wuert.WuertForm.WuertForm = article.entry.partOfSpeechLabel;
                 else wuert.WuertForm.WuertForm = article.entry.partOfSpeech;
                 Console.WriteLine(article.entry);
-                wuert.MP3 = article.entry.audioFiles.aac;
+                string mp3url = article.entry.audioFiles.aac;
+                string[] urlpaths = mp3url.Split('/');
+                wuert.MP3 = urlpaths.Last();
                 if (IsContainsKey(article.entry, "microStructures"))
                 {
                     List<MicroStructure> lms = article.entry.microStructures.ToObject<List<MicroStructure>>();
@@ -102,15 +116,17 @@ namespace KonterbontLODConnector
                             {
                                 foreach (LODMeaning _meaning in _a.Meanings)
                                 {
-                                    meaning.MP3 = wuert.MP3;
+                                    Meaning meaningInside = new Meaning() { LUs = meaning.LUs };
 
-                                    meaning.DE = returnBuildedLanguage(_meaning.TargetLanguages.De.Parts);
-                                    meaning.FR = returnBuildedLanguage(_meaning.TargetLanguages.Fr.Parts);
-                                    meaning.EN = returnBuildedLanguage(_meaning.TargetLanguages.En.Parts);
-                                    meaning.PT = returnBuildedLanguage(_meaning.TargetLanguages.Pt.Parts);
+                                    meaningInside.MP3 = wuert.MP3;
 
-                                    if (_meaning.SecondaryHeadword != null) meaning.LU = _meaning.SecondaryHeadword;
-                                    else meaning.LU = wuert.WuertLu;
+                                    meaningInside.DE = returnBuildedLanguage(_meaning.TargetLanguages.De.Parts);
+                                    meaningInside.FR = returnBuildedLanguage(_meaning.TargetLanguages.Fr.Parts);
+                                    meaningInside.EN = returnBuildedLanguage(_meaning.TargetLanguages.En.Parts);
+                                    meaningInside.PT = returnBuildedLanguage(_meaning.TargetLanguages.Pt.Parts);
+
+                                    if (_meaning.SecondaryHeadword != null) meaningInside.LU = _meaning.SecondaryHeadword;
+                                    else meaningInside.LU = wuert.WuertLu;
 
                                     foreach (LODExample example in _meaning.LODExamples)
                                     {
@@ -123,6 +139,8 @@ namespace KonterbontLODConnector
                                                 string concat = "";
                                                 foreach (PartPart _subpart in part.Parts)
                                                 {
+                                                    if (_subpart.Type == PurpleType.Attribute
+                                                        && _subpart.Content == "EGS") continue;
                                                     if (concat.Length>0) { concat += " "; }
                                                     concat += _subpart.Content;
                                                 }
@@ -140,14 +158,16 @@ namespace KonterbontLODConnector
                                             }
                                         }
 
-                                        meaning.Examples.Add(exampletmp);
+                                        meaningInside.Examples.Add(exampletmp);
                                     }
+                                    wuert.Meanings.Add(meaningInside);
                                 }
+                                
                             }
                         }
                         
 
-                        wuert.Meanings.Add(meaning);
+                        //wuert.Meanings.Add(meaning);
                     }
                 } else
                 {
