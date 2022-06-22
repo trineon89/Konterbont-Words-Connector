@@ -413,6 +413,8 @@ namespace KonterbontLODConnector
             DateParseHandling = DateParseHandling.None,
             Converters =
             {
+                PurpleTypeConverter.Singleton,
+                FluffyTypeConverter.Singleton,
                 new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
             },
         };

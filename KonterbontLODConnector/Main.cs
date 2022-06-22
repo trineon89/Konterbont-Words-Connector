@@ -131,28 +131,29 @@ namespace KonterbontLODConnector
         {
             AutoComplete ac = new AutoComplete();
             //Yolo & Lolo
-            Task<string> task = Task.Run(async () => await FetchXMLasync(searchstring));
+            Task<LodSearch> task = Task.Run(async () => await FetchJSONSearchAsync(searchstring));
             task.Wait();
-            string fetchedXml = task.Result;
-            Log.WriteToLog("XML fetched");
+            LodSearch fetchedSearch = task.Result;
+            Log.WriteToLog("fetched");
 
-            Task<AutoComplete> act = Task.Run(async () => await ac.GetFullAutoComplete(searchstring, fetchedXml, Log));
+            Task<AutoComplete> act = Task.Run(async () => await ac.GetAutoComplete2022(searchstring, fetchedSearch, Log));
             act.Wait();
             AutoComplete actemp = new AutoComplete();
             actemp = act.Result;
             return actemp;
         }
 
-        private async Task<string> FetchXMLasync(string Word)
+        private async Task<LodSearch> FetchJSONSearchAsync(string Word)
         {
-            return await Task.Run(() => FetchXML(Word));
+            return await Task.Run(() => FetchJSONSearch(Word));
         }
 
-        private async Task<string> FetchXML(string Word)
+        private async Task<LodSearch> FetchJSONSearch(string Word)
         {
             bool blocked = true;
             string responseBody = null;
             int i = 0;
+            LodSearch LodSearch = new LodSearch();
             while (blocked)
             {
                 HttpClient httpClient;
@@ -182,18 +183,19 @@ namespace KonterbontLODConnector
             
                 var httpContent = new HttpRequestMessage
                 {
-                    RequestUri = new Uri("https://www.lod.lu/php/lod-search.php?v=H&s=lu&w=" + Word.ToLower()), //Word has to be Lowercase
+                    RequestUri = new Uri("https://lod.lu/api/lb/search?lang=lb&query=" + Word), //Word has to be Lowercase
                     Method = HttpMethod.Get,
-                    Headers =
+                    /*Headers =
                                {
                                   { HttpRequestHeader.Host.ToString(), "www.lod.lu" },
                                   { HttpRequestHeader.Referer.ToString(), "https://www.lod.lu/" }
-                               }
+                               }*/
                 };
                 try { 
                     var _response = await httpClient.SendAsync(httpContent);
                     blocked = !_response.IsSuccessStatusCode;
                     responseBody = await _response.Content.ReadAsStringAsync();
+                    LodSearch = LodSearch.FromJson(responseBody);
                 } catch (Exception e)
                 {
                     Log.WriteToLog(e.ToString());
@@ -201,7 +203,7 @@ namespace KonterbontLODConnector
                 httpClient.Dispose();
                 i++;
             }
-            return responseBody;
+            return LodSearch;
         }
 
         private void rbClicked(object sender, EventArgs e)
@@ -1678,6 +1680,6 @@ namespace KonterbontLODConnector
 
     public static class _Globals
     {
-        public static bool useProxy = true;
+        public static bool useProxy = false;
     }
 }

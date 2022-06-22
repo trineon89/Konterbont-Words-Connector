@@ -125,6 +125,9 @@
     <Compile Include="frmTwixlCategorySelector.Designer.cs">
       <DependentUpon>frmTwixlCategorySelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="LODArticleClass.cs" />
+    <Compile Include="LODMicrostructure.cs" />
+    <Compile Include="LODSearchClass.cs" />
     <Compile Include="LogClass.cs" />
     <Compile Include="Color.cs">
       <SubType>Form</SubType>

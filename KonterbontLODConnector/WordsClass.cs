@@ -8,26 +8,182 @@ using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Globalization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using J = Newtonsoft.Json.JsonPropertyAttribute;
 using N = Newtonsoft.Json.NullValueHandling;
 using NIL = Newtonsoft.Json.DefaultValueHandling;
 
 namespace KonterbontLODConnector
 {
-
+  
     public class AutoComplete : IEquatable<AutoComplete>
     {
-        public int internalId;
         public string Occurence;
         public List<Wuert> Wierder;
         public int Selection;
+        public int internalId; [JsonProperty("id")] public string id { get; set; }
+        [JsonProperty("article_id")] public string ArticleId { get; set; }
+        [JsonProperty("word_lb")]  public string WordLb { get; set; }
+        [JsonProperty("scientific_name")] public string ScientificName { get; set; }
+        [JsonProperty("pos")] public string Pos { get; set; }
+        [JsonProperty("erroneous")] public bool Erroneous { get; set; }
+        [JsonProperty("matches", NullValueHandling = NullValueHandling.Ignore)] public List<string> Matches { get; set; }
 
+        public static AutoComplete FromJson(string json) => JsonConvert.DeserializeObject<AutoComplete>(json, KonterbontLODConnector.Converter.Settings);
 
         public AutoComplete()
         {
             Wierder = new List<Wuert>();
             Selection = 0;
 
+        }
+
+        public async Task<AutoComplete> GetAutoComplete2022(string searchstring, LodSearch fetchedSearch, LogClass log)
+        {
+            this.Occurence = searchstring;
+
+            int _i = 1;
+            string attrib = null;
+
+            AutoComplete actemp = new AutoComplete();
+
+            foreach (Result _result in fetchedSearch.Results)
+            {
+                Wuert wuert = new Wuert
+                {
+                    WuertLu = _result.WordLb,
+                    WuertForm = new WordForm(null),
+                    Selection = 1,
+                    XMLFile = _result.ArticleId,
+                    MP3 = null //not accessesible yet
+                };
+
+                //ac.Wierder.Add(wuert);
+
+                actemp.Wierder.Add(wuert);
+                _i++;
+            }
+
+            this.Selection = 1;
+
+            int _Total = 0;
+
+            foreach (Wuert wuert in actemp.Wierder)
+            {
+                dynamic article = await RequestArticle(wuert.XMLFile);
+                if (IsContainsKey(article.entry, "partOfSpeechLabel")) wuert.WuertForm.WuertForm = article.entry.partOfSpeechLabel;
+                else wuert.WuertForm.WuertForm = article.entry.partOfSpeech;
+                Console.WriteLine(article.entry);
+                wuert.MP3 = article.entry.audioFiles.aac;
+                if (IsContainsKey(article.entry, "microStructures"))
+                {
+                    List<MicroStructure> lms = article.entry.microStructures.ToObject<List<MicroStructure>>();
+                    
+                    foreach (MicroStructure ms in lms)
+                    {
+                        //Meanings
+                        Meaning meaning = new Meaning();
+
+
+                        if (ms.Inflection != null)
+                        {
+                            foreach (LODForm _form in ms.Inflection.Forms)
+                            {
+                                if (meaning.LUs != null) { meaning.LUs += "/"; }
+                                meaning.LUs += _form.Content;
+                            }
+                        }
+
+                        if (ms.GrammaticalUnits != null)
+                        {
+                            foreach (var _a in ms.GrammaticalUnits)
+                            {
+                                foreach (LODMeaning _meaning in _a.Meanings)
+                                {
+                                    meaning.MP3 = wuert.MP3;
+
+                                    meaning.DE = returnBuildedLanguage(_meaning.TargetLanguages.De.Parts);
+                                    meaning.FR = returnBuildedLanguage(_meaning.TargetLanguages.Fr.Parts);
+                                    meaning.EN = returnBuildedLanguage(_meaning.TargetLanguages.En.Parts);
+                                    meaning.PT = returnBuildedLanguage(_meaning.TargetLanguages.Pt.Parts);
+
+                                    if (_meaning.SecondaryHeadword != null) meaning.LU = _meaning.SecondaryHeadword;
+                                    else meaning.LU = wuert.WuertLu;
+
+                                    foreach (LODExample example in _meaning.LODExamples)
+                                    {
+                                        Example exampletmp = new Example();
+                                        foreach (ExamplePart part in example.Parts)
+                                        {
+                                            //if type: "gloss" <- still same example
+                                            if (part.Type == FluffyType.Text)
+                                            {
+                                                string concat = "";
+                                                foreach (PartPart _subpart in part.Parts)
+                                                {
+                                                    if (concat.Length>0) { concat += " "; }
+                                                    concat += _subpart.Content;
+                                                }
+                                                exampletmp.ExampleText = concat;
+                                            }
+                                            if (part.Type == FluffyType.Gloss)
+                                            {
+                                                string concat = "";
+                                                foreach (PartPart _subpart in part.Parts)
+                                                {
+                                                    if (concat.Length > 0) { concat += " "; }
+                                                    concat += _subpart.Content;
+                                                }
+                                                exampletmp.EGS = "[" + concat + "]";
+                                            }
+                                        }
+
+                                        meaning.Examples.Add(exampletmp);
+                                    }
+                                }
+                            }
+                        }
+                        
+
+                        wuert.Meanings.Add(meaning);
+                    }
+                } else
+                {
+                    Console.WriteLine("No microStructure");
+                }
+               
+                int _j = 1;
+                string Selection = "";
+
+
+                //wuert.WuertForm.WuertForm = 
+                
+                this.Wierder.Add(wuert);
+            }
+
+            return this;
+        }
+
+        string returnBuildedLanguage(List<DePart> parts)
+        {
+            string tmp = "";
+            foreach (DePart part in parts)
+            {
+                if (part.Type == "translation")
+                {
+                    if (tmp.Length > 0) { tmp += ", "; }
+                    tmp += part.Content;
+                }
+                if (part.Type == "semanticClarifier") { tmp += "[" + part.Content + "]"; }
+            }
+            return tmp;
+        }
+
+        bool IsContainsKey(dynamic newtonsoftDynamic, string propertyName)
+        {
+            return (newtonsoftDynamic as Newtonsoft.Json.Linq.JObject).ContainsKey(propertyName);
         }
 
         public async Task<AutoComplete> GetFullAutoComplete(string searchstring, string fetchedXml, LogClass Log)
@@ -374,6 +530,64 @@ namespace KonterbontLODConnector
             return this;
         }
 
+        private async Task<dynamic> RequestArticle(string id_Article)
+        {
+            bool blocked = true;
+            string responseBody = null;
+            int i = 0;
+            dynamic d = null;
+
+            while (blocked)
+            {
+                HttpClient httpClient;
+                //if more than 30 connections => Exception
+                if (i >= 30) { throw new Exception("More than 30 connections, proxy not working!"); }
+                if (_Globals.useProxy && i > 0)
+                {
+                    //get random Proxy & setup Proxy
+                    string _proxy = GetProxie();
+                    string proxyHost = _proxy.Substring(0, _proxy.IndexOf(":"));
+                    string proxyPort = _proxy.Substring(_proxy.IndexOf(":") + 1);
+                    var proxy = new WebProxy
+                    {
+                        Address = new Uri($"http://{proxyHost}:{proxyPort}"),
+                        UseDefaultCredentials = true
+                    };
+
+                    HttpClientHandler handler = new HttpClientHandler() { Proxy = proxy };
+                    handler.DefaultProxyCredentials = CredentialCache.DefaultCredentials;
+                    httpClient = new HttpClient(handler);
+                } else
+                {
+                    httpClient = new HttpClient();
+                }
+
+                var httpContent = new HttpRequestMessage
+                {
+                    RequestUri = new Uri("https://lod.lu/api/lb/entry/" + id_Article),
+                    Method = HttpMethod.Get
+                };
+                try
+                {
+                    var _responseT = httpClient.SendAsync(httpContent, new HttpCompletionOption());
+                    _responseT.Wait();
+                    var _response = _responseT.Result;
+                    blocked = !_response.IsSuccessStatusCode;
+                    responseBody = await _response.Content.ReadAsStringAsync();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.ToString());
+                }
+                //article = LodArticle.FromJson(responseBody);
+                d = JsonConvert.DeserializeObject(responseBody);
+
+                httpClient.Dispose();
+                i++;
+            }
+            return d;
+        }
+
         private async Task<string> HttpRequest(string Lang, string XML)
         {
             bool blocked = true;
@@ -582,6 +796,7 @@ namespace KonterbontLODConnector
         public Example()
         {
             this.ExampleText = null;
+            this.EGS = "";
         }
         public Example(string ExText, string EGSText)
         {
