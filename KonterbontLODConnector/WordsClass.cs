@@ -40,15 +40,20 @@ namespace KonterbontLODConnector
 
         }
 
-        string GetWuertForm (string LODString)
+        public string GetWuertForm (dynamic LODString)
         {
-            switch (LODString)
+            string convertedValue = Convert.ToString(LODString);
+            switch (convertedValue)
             {
                 case "SUBST": return "Substantiv";
                 case "SUBST+F": return "weiblecht Substantiv";
                 case "SUBST+M": return "männlecht Substantiv"; 
                 case "SUBST+N": return "sächlecht Substantiv";
-                default: return LODString;
+                case "VRB": return "Verb";
+                case "ADV": return "Adverb";
+                case "ADJ": return "Adjektiv";
+                case "ADJ+INV": return "onverännerbaart Adjektiv";
+                default: return convertedValue;
             }
         }
 
@@ -69,7 +74,8 @@ namespace KonterbontLODConnector
                     WuertForm = new WordForm(null),
                     Selection = 1,
                     XMLFile = _result.ArticleId,
-                    MP3 = null //not accessesible yet
+                    MP3 = null, //not accessesible yet
+                    M4A = null
                 };
 
                 //ac.Wierder.Add(wuert);
@@ -85,12 +91,14 @@ namespace KonterbontLODConnector
             foreach (Wuert wuert in actemp.Wierder)
             {
                 dynamic article = await RequestArticle(wuert.XMLFile);
-                if (IsContainsKey(article.entry, "partOfSpeechLabel")) wuert.WuertForm.WuertForm = article.entry.partOfSpeechLabel;
-                else wuert.WuertForm.WuertForm = article.entry.partOfSpeech;
+                if (IsContainsKey(article.entry, "partOfSpeechLabel")) wuert.WuertForm.WuertForm = GetWuertForm(article.entry.partOfSpeechLabel);
+                else wuert.WuertForm.WuertForm = GetWuertForm(article.entry.partOfSpeech);
                 Console.WriteLine(article.entry);
                 string mp3url = article.entry.audioFiles.aac;
+                wuert.M4A = mp3url;
                 string[] urlpaths = mp3url.Split('/');
-                wuert.MP3 = urlpaths.Last();
+                string[] filename = urlpaths.Last().Split('.');
+                wuert.MP3 = filename[0]+".mp3";
                 if (IsContainsKey(article.entry, "microStructures"))
                 {
                     List<MicroStructure> lms = article.entry.microStructures.ToObject<List<MicroStructure>>();
@@ -110,6 +118,21 @@ namespace KonterbontLODConnector
                             }
                         }
 
+                        if (ms.PastParticiple != null)
+                        {
+                            foreach (string _pp in ms.PastParticiple)
+                            {
+                                if (meaning.LUs != null) { meaning.LUs += "/"; }
+                                meaning.LUs += _pp;
+                            }
+                        }
+
+                        if (ms.AuxiliaryVerb != null)
+                        {
+                            //Hellefs VERB
+                            meaning.HV = ms.AuxiliaryVerb;
+                        }
+
                         if (ms.GrammaticalUnits != null)
                         {
                             foreach (var _a in ms.GrammaticalUnits)
@@ -117,8 +140,10 @@ namespace KonterbontLODConnector
                                 foreach (LODMeaning _meaning in _a.Meanings)
                                 {
                                     Meaning meaningInside = new Meaning() { LUs = meaning.LUs };
+                                    if (meaning.HV != null) meaningInside.HV = meaning.HV;
 
                                     meaningInside.MP3 = wuert.MP3;
+                                    meaningInside.M4A = wuert.M4A;
 
                                     meaningInside.DE = returnBuildedLanguage(_meaning.TargetLanguages.De.Parts);
                                     meaningInside.FR = returnBuildedLanguage(_meaning.TargetLanguages.Fr.Parts);
@@ -773,6 +798,7 @@ namespace KonterbontLODConnector
         public List<Meaning> Meanings;
         public int Selection;
         public string MP3;
+        public string M4A;
         public string XMLFile;
         public bool IsVariant;
 
@@ -784,6 +810,7 @@ namespace KonterbontLODConnector
             WuertForm = new WordForm();
             Selection = 0;
             MP3 = null;
+            M4A = null;
             XMLFile = null;
             IsVariant = false;
         }
@@ -836,6 +863,7 @@ namespace KonterbontLODConnector
         public string PT;
         public List<Example> Examples;
         public string MP3;
+        public string M4A;
         [J("hasCustomAudio", NullValueHandling = N.Ignore)] public bool hasCustomAudio;
         [DefaultValue(false)] [J("hasCustomEN", NullValueHandling = N.Ignore, DefaultValueHandling = NIL.Populate)] public bool hasCustomEN;
         [DefaultValue(false)] [J("hasCustomPT", NullValueHandling = N.Ignore, DefaultValueHandling = NIL.Populate)] public bool hasCustomPT;

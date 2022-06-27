@@ -10,6 +10,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using WMPLib;
 using Ookii.Dialogs.WinForms;
+using System.Collections.Generic;
 
 namespace KonterbontLODConnector
 {
@@ -112,9 +113,15 @@ namespace KonterbontLODConnector
         {
             //This gives us an array of 3 strings each representing a number in text form.
             var splitString = getcolor.Split(',');
-
+            List<string> cleansplitstring = new List<string>();
+            foreach (var color in splitString)
+            {
+                string c = color;
+                if (color.IndexOf('.') >= 0) c = color.Split('.')[0];
+                cleansplitstring.Add(c);
+            }
             //converts the array of 3 strings in to an array of 3 ints.
-            var splitInts = splitString.Select(item => int.Parse(item)).ToArray();
+            var splitInts = cleansplitstring.ToArray().Select(item => int.Parse(item)).ToArray();
 
             //takes each element of the array of 3 and passes it in to the correct slot
             Color setcolor = Color.FromArgb(splitInts[0], splitInts[1], splitInts[2]);
@@ -204,6 +211,17 @@ namespace KonterbontLODConnector
                 i++;
             }
             return LodSearch;
+        }
+
+        private LodSearch cleanupSearch(LodSearch lodSearch)
+        {
+            AutoComplete ac = new AutoComplete();
+
+            foreach (Result rs in lodSearch.Results)
+            {
+                rs.Pos = ac.GetWuertForm(rs.Pos);
+            }
+            return lodSearch;
         }
 
         private void rbClicked(object sender, EventArgs e)
@@ -763,11 +781,15 @@ namespace KonterbontLODConnector
                     Value = 0,
                     Line3 = "Calculating Time Remaining..."
                 };
-
+                
                 progressDialog.ShowDialog(Pietschsoft.NativeProgressDialog.PROGDLG.Modal, Pietschsoft.NativeProgressDialog.PROGDLG.AutoTime, Pietschsoft.NativeProgressDialog.PROGDLG.NoMinimize);
 
                 foreach (string line in lines)
                 {
+                    if (progressDialog.HasUserCancelled)
+                    {
+                        progressDialog.CloseDialog();
+                    }
                     progressDialog.Line1 = "Wuert: " + line;
                     if (c == 0)
                     {
@@ -840,6 +862,8 @@ namespace KonterbontLODConnector
                 tsmiText.Enabled = true;
                 tsmiColor.Enabled = true;
             }
+            globaldt = globaldt.AddM4A(globaldt);
+
             globaldt.SaveToFile(globaldt);
             SetIsSaved(true);
 
@@ -1086,7 +1110,9 @@ namespace KonterbontLODConnector
                 }
             }*/
             // gets mp3 for new selected meaning
-            globaldt.GetMp3(globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3, globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].hasCustomAudio);
+            globaldt.GetMp3(globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3,
+                globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].hasCustomAudio,
+                globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].M4A);
         }
 
         private void MagazineSelectorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1436,7 +1462,8 @@ namespace KonterbontLODConnector
             {
                 globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3 = Path.GetFileName(CustomAudioBrowser.FileName);
                 globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].hasCustomAudio = true;
-                globaldt.GetMp3(globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3, globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].hasCustomAudio);
+                globaldt.GetMp3(globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].MP3,
+                    globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].hasCustomAudio);
 
                 LbSelectMeaning_SelectedIndexChanged(sender, e);
                 Log.WriteToLog("Audio for " + globaldt.WordList[lbWords.SelectedIndex].Wierder[lbSelectWord.SelectedIndex].Meanings[lbSelectMeaning.SelectedIndex].LU + " changed");

@@ -21,8 +21,13 @@ namespace KonterbontLODConnector
 
     public partial class MicroStructure
     {
+        [JsonProperty("auxiliaryVerb", NullValueHandling = NullValueHandling.Ignore)]
+        public string AuxiliaryVerb { get; set; }
 
+        [JsonProperty("pastParticiple", NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> PastParticiple { get; set; }
     }
+
 
     public partial class GrammaticalUnit
     {

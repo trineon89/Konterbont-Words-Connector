@@ -7,6 +7,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 //using Independentsoft.Office.Odf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -138,6 +139,39 @@ namespace KonterbontLODConnector
             return true;
         }
 
+        public void ConvertMP3(string inputfile, string outputfile)
+        {
+            int lastIndex = inputfile.Contains("\\") ? inputfile.LastIndexOf('\\') : 0;
+            string tempFileName = Environment.CurrentDirectory + "\\temp\\" + inputfile.Substring(lastIndex);
+
+            if (File.Exists(tempFileName))
+            {
+                File.Delete(tempFileName);
+            }
+            if (!Directory.GetParent(tempFileName).Exists)
+            {
+                Directory.GetParent(tempFileName).Create();
+            }
+
+            Interaction.Shell(String.Format("res/conv/faad.exe -o {0} {1}",
+                    InQuotes(tempFileName),
+                    InQuotes(inputfile)),
+               // AppWinStyle.NormalFocus, true, -1);
+            AppWinStyle.Hide, true, -1);
+            Interaction.Shell(String.Format("res/conv/lame.exe --preset standard {0} {1}",
+                    InQuotes(tempFileName),
+                    InQuotes(outputfile)),
+               // AppWinStyle.NormalFocus, true, -1);
+            AppWinStyle.Hide, true, -1);
+
+            File.Delete(tempFileName);
+        }
+
+        private  string InQuotes(string withoutQuotes)
+        {
+            return "\"" + withoutQuotes + "\"";
+        }
+
         public void ShowMagazineSelector()
         {
             theform.ShowDialog();
@@ -168,6 +202,26 @@ namespace KonterbontLODConnector
             {
                 AddWordToList(ac);
             }
+        }
+
+        public DataHandler AddM4A(DataHandler dt)
+        {
+            foreach (AutoComplete ac in dt.WordList)
+            {
+                foreach (Wuert w in ac.Wierder)
+                {
+                    if (w.M4A == null) { w.M4A = "https://lod.lu/uploads/AAC/" + w.MP3.Split('.')[0] + ".m4a"; }
+                    foreach (Meaning m in w.Meanings)
+                    {
+                        if (m.M4A == null)
+                        {
+                            m.M4A = "https://lod.lu/uploads/AAC/" + m.MP3.Split('.')[0] + ".m4a";
+                        }
+                    }
+                }
+            }
+
+            return dt;
         }
 
         public void SaveToFile(DataHandler dt)
@@ -201,7 +255,7 @@ namespace KonterbontLODConnector
         /// </summary>
         /// <param name="mp3filename"></param>
         /// <param name="hasCustomAudio"></param>
-        public void GetMp3(string mp3filename, bool hasCustomAudio)
+        public void GetMp3(string mp3filename, bool hasCustomAudio, string m4apath = null)
         {
             if (hasCustomAudio)
             {
@@ -213,13 +267,34 @@ namespace KonterbontLODConnector
                 {
                     try
                     {
-                        wc.DownloadFile(new Uri(lodmp3path + mp3filename), Temppath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
+                        if (m4apath != null)
+                        {
+                            string tmpfile = mp3filename.Split('.')[0] + ".m4a";
+                            wc.DownloadFile(new Uri(m4apath), Temppath + "WebResources\\popupbase-web-resources\\audio\\" + tmpfile);
+                            ConvertMP3(Temppath + "WebResources\\popupbase-web-resources\\audio\\" + tmpfile, Temppath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename.Split('.')[0] + ".mp3");
+                            File.Delete(Temppath + "WebResources\\popupbase-web-resources\\audio\\" + tmpfile);
+                        } else
+                        {
+                            string extfile = mp3filename.Split('.')[1];
+                            if (extfile == "m4a")
+                            {
+                                string tmpfile = mp3filename.Split('.')[0] + ".m4a";
+                                wc.DownloadFile(new Uri(lodmp3path + mp3filename), Temppath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
+                                ConvertMP3(Temppath + "WebResources\\popupbase-web-resources\\audio\\" + tmpfile, Temppath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename.Split('.')[0] + ".mp3");
+                            } else
+                            {
+                                wc.DownloadFile(new Uri(lodmp3path + mp3filename), Temppath + "WebResources\\popupbase-web-resources\\audio\\" + mp3filename);
+                            }
+
+                            
+                        }
                     } 
                     catch (Exception e)
                     {
-                        MessageBox.Show("mp3 not found on LOD Site: " + mp3filename);
+                        MessageBox.Show("mp3 (m4a) not found on LOD Site: " + mp3filename);
                     }
                 }
+               
             }
         }
 
@@ -269,7 +344,7 @@ namespace KonterbontLODConnector
                 _tmpfilecontent = _tmpfilecontent.Replace("_ENWORD_", wuert.Meanings[wuert.Selection - 1].EN);
                 _tmpfilecontent = _tmpfilecontent.Replace("_PTWORD_", wuert.Meanings[wuert.Selection - 1].PT);
                 occurence = DeUmlaut(occurence);
-                GetMp3(wuert.Meanings[wuert.Selection - 1].MP3, wuert.Meanings[wuert.Selection - 1].hasCustomAudio);
+                GetMp3(wuert.Meanings[wuert.Selection - 1].MP3, wuert.Meanings[wuert.Selection - 1].hasCustomAudio, wuert.Meanings[wuert.Selection - 1].M4A);
                 File.WriteAllText(Temppath + "WebResources\\popupbase-web-resources\\" + Path.GetFileNameWithoutExtension(Filename) + "popup_" + occurence + ".html", _tmpfilecontent);
             }
         }
