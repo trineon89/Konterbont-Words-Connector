@@ -53,6 +53,14 @@ namespace KonterbontLODConnector
                 case "ADV": return "Adverb";
                 case "ADJ": return "Adjektiv";
                 case "ADJ+INV": return "onverännerbaart Adjektiv";
+                case "NP": return "Eegennumm";
+                case "PART": return "Partikel";
+                case "VRBPART": return "Verbpartikel";
+                case "PREP": return "Prepositioun";
+                case "PRON+INDEF": return "Indefinitpronomen";
+                case "SUBST+MN": return "männlecht/sächlecht Substantiv";
+                case "PRON+POSS": return "Possessivpronomen";
+                case "PRON+PERS": return "Personalpronomen";
                 default: return convertedValue;
             }
         }
@@ -179,7 +187,7 @@ namespace KonterbontLODConnector
                                                     if (concat.Length > 0) { concat += " "; }
                                                     concat += _subpart.Content;
                                                 }
-                                                exampletmp.EGS = "[" + concat + "]";
+                                                exampletmp.EGS = " [" + concat + "]";
                                             }
                                         }
 
@@ -221,7 +229,7 @@ namespace KonterbontLODConnector
                     if (tmp.Length > 0) { tmp += ", "; }
                     tmp += part.Content;
                 }
-                if (part.Type == "semanticClarifier") { tmp += "[" + part.Content + "]"; }
+                if (part.Type == "semanticClarifier") { tmp += " [" + part.Content + "]"; }
             }
             return tmp;
         }
