@@ -1702,6 +1702,35 @@ namespace KonterbontLODConnector
             _Globals.useProxy = !_Globals.useProxy;
             tsmUseProxy.Checked = _Globals.useProxy;
         }
+
+        private void contextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //
+            
+        }
+
+        private async void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            //Reload this word from LOD
+            if (lbWords.SelectedIndex >= 0)
+            {
+                string theWord = lbWords.SelectedItem.ToString();
+                AutoComplete acword = await Task.Run(async () => await ReturnFullAutoComplete(theWord));
+
+                //(acword.Occurence)
+                var res = acword.CompareAutoComplete(acword, globaldt.WordList[lbWords.SelectedIndex], globaldt, lbWords.SelectedIndex);
+                if (res)
+                {
+                    MessageBox.Show(this, "Update fir d'Wuert "+theWord+" beim LOD fonnt gin.", "Upsi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LbSelectWord_SelectedIndexChanged(sender, e);
+                    globaldt.SaveToFile(globaldt);
+                } else
+                {
+                    MessageBox.Show(this, "Keen neien Update fir d'Wuert " + theWord + ".", "Alles ok", MessageBoxButtons.OK, MessageBoxIcon.None);
+                }
+                Console.Write("");
+            }
+        }
     }
 
 

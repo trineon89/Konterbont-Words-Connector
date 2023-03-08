@@ -210,12 +210,16 @@ namespace KonterbontLODConnector
             {
                 foreach (Wuert w in ac.Wierder)
                 {
-                    if (w.M4A == null) { w.M4A = "https://lod.lu/uploads/AAC/" + w.MP3.Split('.')[0] + ".m4a"; }
+                    if (w.M4A == null) { 
+                        if (w.MP3 == null) w.M4A = "https://lod.lu/uploads/AAC/" + "moien" + ".m4a";
+                        else w.M4A = "https://lod.lu/uploads/AAC/" + w.MP3.Split('.')[0] + ".m4a"; 
+                    }
                     foreach (Meaning m in w.Meanings)
                     {
                         if (m.M4A == null)
                         {
-                            m.M4A = "https://lod.lu/uploads/AAC/" + m.MP3.Split('.')[0] + ".m4a";
+                            if (w.MP3 == null) w.M4A = "https://lod.lu/uploads/AAC/" + "moien" + ".m4a";
+                            else m.M4A = "https://lod.lu/uploads/AAC/" + m.MP3.Split('.')[0] + ".m4a";
                         }
                     }
                 }
@@ -329,6 +333,11 @@ namespace KonterbontLODConnector
                 {
                     _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "(Participe Passé: ");
                     _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", ")");
+                }
+                else if (wuert.Meanings[wuert.Selection - 1].LUs == "(kee Singulier)" || wuert.Meanings[wuert.Selection - 1].LUs == "(kee Pluriel)")
+                {
+                    _tmpfilecontent = _tmpfilecontent.Replace("_PLURALBEGIN_", "");
+                    _tmpfilecontent = _tmpfilecontent.Replace("_PLURALEND_", "");
                 }
                 else
                 {

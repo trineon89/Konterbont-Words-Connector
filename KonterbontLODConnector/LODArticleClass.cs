@@ -113,6 +113,12 @@ namespace KonterbontLODConnector
 
         [JsonProperty("examples")]
         public List<LODExample> LODExamples { get; set; }
+
+        [JsonProperty("inflection", NullValueHandling = NullValueHandling.Ignore)]
+        public Inflection Inflection { get; set; }
+
+        [JsonProperty("declensionInfo", NullValueHandling = NullValueHandling.Ignore)]
+        public string DeclensionInfo { get; set; }
     }
 
     public partial class LODExample
@@ -182,12 +188,18 @@ namespace KonterbontLODConnector
     {
         [JsonProperty("forms")]
         public List<LODForm> Forms { get; set; }
+
+        [JsonProperty("declensionInfo", NullValueHandling = NullValueHandling.Ignore)]
+        public string DeclensionInfo { get; set; }
     }
 
     public partial class LODForm
     {
         [JsonProperty("content")]
         public string Content { get; set; }
+
+        [JsonProperty("nRuleForm", NullValueHandling = NullValueHandling.Ignore)]
+        public string nRuleForm { get; set; }
     }
 
     public partial class Video

@@ -49,6 +49,7 @@ namespace KonterbontLODConnector
                 case "SUBST+F": return "weiblecht Substantiv";
                 case "SUBST+M": return "männlecht Substantiv"; 
                 case "SUBST+N": return "sächlecht Substantiv";
+                case "SUBST+MF": return "männlecht/weiblecht Substantiv";
                 case "VRB": return "Verb";
                 case "ADV": return "Adverb";
                 case "ADJ": return "Adjektiv";
@@ -61,8 +62,79 @@ namespace KonterbontLODConnector
                 case "SUBST+MN": return "männlecht/sächlecht Substantiv";
                 case "PRON+POSS": return "Possessivpronomen";
                 case "PRON+PERS": return "Personalpronomen";
+                case "CONJ": return "Konjunktioun";
+                case "INTERJ": return "Interjektioun";
+                case "NB+CARD": return "Kardinalzuel";
+                case "ART+INDEF": return "onbestëmmten Artikel";
+                case "SUBST+FN": return "weiblecht/sächlecht Substantiv";
+                case "NB+ORD": return "Ordinalzuel";
+                case "PRON+DEM": return "Demonstrativpronomen";
+                case "PRON+REL": return "Relativpronomen";
+                case "ART+DEF": return "bestëmmten Artikel";
+                case "VRB+MOD": return "Modalverb";
+
                 default: return convertedValue;
             }
+        }
+
+        public bool CompareAutoComplete(AutoComplete first, AutoComplete second, DataHandler dataHandler, int index)
+        {
+            bool result = false;
+            List<string> results = new List<string>();
+            //Set Selections
+            first.Selection = second.Selection;
+            for (int i = 0; i < first.Wierder.Count; i++)
+                if (i < second.Wierder.Count) first.Wierder[i].Selection = second.Wierder[i].Selection; else first.Wierder[i].Selection = 1;
+                
+            //Check Counts
+            if (first.Wierder.Count != second.Wierder.Count) { result = true; }
+            for (int i = 0; i < first.Wierder.Count; i++) if (first.Wierder[i].Meanings.Count != second.Wierder[i].Meanings.Count) 
+                { 
+                    result = true; 
+                }
+
+            for (int i = 0; i < first.Wierder.Count; i++)
+                for (int j = 0; j < first.Wierder[i].Meanings.Count; j++)
+                    if (second.Wierder[i].Meanings[j].hasCustomAudio == false)
+                    {
+                        first.Wierder[i].Meanings[j].hasCustomAudio = true;
+                        first.Wierder[i].Meanings[j].MP3 = second.Wierder[i].Meanings[j].MP3;
+                    }
+
+                if (result)
+            {
+                dataHandler.WordList[index] = first;
+                return result;
+            } else
+            {
+                for (int i = 0; i < first.Wierder.Count; i++)
+                {
+                    if (first.Wierder[i].WuertLu != second.Wierder[i].WuertLu) { result = true; results.Add(second.Wierder[i].WuertLu); }
+                    if (first.Wierder[i].WuertForm.ToString() != second.Wierder[i].WuertForm.ToString()) 
+                    { result = true; results.Add(second.Wierder[i].WuertForm.ToString()); }
+                    if (first.Wierder[i].WuertLuS != second.Wierder[i].WuertLuS) { result = true; results.Add(second.Wierder[i].WuertLuS); }
+                    if (first.Wierder[i].M4A != second.Wierder[i].M4A) { result = true; results.Add(second.Wierder[i].M4A); }
+                    if (first.Wierder[i].MP3 != second.Wierder[i].MP3) { result = true; results.Add(second.Wierder[i].MP3); }
+                    for (int j = 0; j< first.Wierder[i].Meanings.Count; j++)
+                    {
+                        if (first.Wierder[i].Meanings[j].DE != second.Wierder[i].Meanings[j].DE) { result = true; results.Add(second.Wierder[i].Meanings[j].DE); }
+                        if (first.Wierder[i].Meanings[j].EN != second.Wierder[i].Meanings[j].EN) { result = true; results.Add(second.Wierder[i].Meanings[j].EN); }
+                        if (first.Wierder[i].Meanings[j].FR != second.Wierder[i].Meanings[j].FR) { result = true; results.Add(second.Wierder[i].Meanings[j].FR); }
+                        if (first.Wierder[i].Meanings[j].PT != second.Wierder[i].Meanings[j].PT) { result = true; results.Add(second.Wierder[i].Meanings[j].PT); }
+                        if (first.Wierder[i].Meanings[j].HV != second.Wierder[i].Meanings[j].HV) { result = true; results.Add(second.Wierder[i].Meanings[j].HV); }
+                        if (first.Wierder[i].Meanings[j].LU != second.Wierder[i].Meanings[j].LU) { result = true; results.Add(second.Wierder[i].Meanings[j].LU); }
+                        if (first.Wierder[i].Meanings[j].LUs != second.Wierder[i].Meanings[j].LUs) { result = true; results.Add(second.Wierder[i].Meanings[j].LUs); }
+                        if (first.Wierder[i].Meanings[j].M4A != second.Wierder[i].Meanings[j].M4A) { result = true; results.Add(second.Wierder[i].Meanings[j].M4A); }
+                        if (first.Wierder[i].Meanings[j].MP3 != second.Wierder[i].Meanings[j].MP3 && second.Wierder[i].Meanings[j].hasCustomAudio != false) { result = true; results.Add(second.Wierder[i].Meanings[j].MP3); }
+                        if (first.Wierder[i].Meanings[j].Examples.ToString() != second.Wierder[i].Meanings[j].Examples.ToString()) 
+                        { result = true; results.Add(second.Wierder[i].Meanings[j].Examples.ToString()); }
+                    }
+                }
+
+            }
+
+            dataHandler.WordList[index] = first;
+            return result;
         }
 
         public async Task<AutoComplete> GetAutoComplete2022(string searchstring, LodSearch fetchedSearch, LogClass log)
@@ -102,11 +174,15 @@ namespace KonterbontLODConnector
                 if (IsContainsKey(article.entry, "partOfSpeechLabel")) wuert.WuertForm.WuertForm = GetWuertForm(article.entry.partOfSpeechLabel);
                 else wuert.WuertForm.WuertForm = GetWuertForm(article.entry.partOfSpeech);
                 Console.WriteLine(article.entry);
-                string mp3url = article.entry.audioFiles.aac;
-                wuert.M4A = mp3url;
-                string[] urlpaths = mp3url.Split('/');
-                string[] filename = urlpaths.Last().Split('.');
-                wuert.MP3 = filename[0]+".mp3";
+                if (IsContainsKey(article.entry,"audioFiles"))
+                {
+                    string mp3url = article.entry.audioFiles.aac;
+                    wuert.M4A = mp3url;
+                    string[] urlpaths = mp3url.Split('/');
+                    string[] filename = urlpaths.Last().Split('.');
+                    wuert.MP3 = filename[0] + ".mp3";
+                }
+                
                 if (IsContainsKey(article.entry, "microStructures"))
                 {
                     List<MicroStructure> lms = article.entry.microStructures.ToObject<List<MicroStructure>>();
@@ -150,6 +226,36 @@ namespace KonterbontLODConnector
                                     Meaning meaningInside = new Meaning() { LUs = meaning.LUs };
                                     if (meaning.HV != null) meaningInside.HV = meaning.HV;
 
+                                    if (_meaning.SecondaryHeadword != null) meaningInside.LU = _meaning.SecondaryHeadword;
+                                    else meaningInside.LU = wuert.WuertLu;
+
+                                    if (_meaning.Inflection != null)
+                                    {
+                                        if (_meaning.Inflection.Forms != null) {
+                                            foreach (LODForm _form in _meaning.Inflection.Forms)
+                                            {
+                                                if (meaningInside.LUs != null) { meaningInside.LUs += "/"; }
+                                                meaningInside.LUs += _form.Content;
+                                            }
+                                        }
+
+                                        if (_meaning.Inflection.DeclensionInfo != null)
+                                        {
+                                            string tmp = meaningInside.LUs;
+                                            meaningInside.LUs = "(" + _meaning.Inflection.DeclensionInfo + ")";
+
+                                            if (_meaning.Inflection.DeclensionInfo == "kee Singulier")
+                                                meaningInside.LU = tmp;
+                                            //if (_meaning.Inflection.DeclensionInfo == "kee Pluriel")
+                                                    
+                                        }
+                                    }
+
+                                    if (_meaning.DeclensionInfo != null)
+                                    {
+                                        if (_meaning.DeclensionInfo == "kee Pluriel") meaningInside.LUs = "(" + _meaning.DeclensionInfo + ")";
+                                    }
+
                                     meaningInside.MP3 = wuert.MP3;
                                     meaningInside.M4A = wuert.M4A;
 
@@ -157,9 +263,6 @@ namespace KonterbontLODConnector
                                     meaningInside.FR = returnBuildedLanguage(_meaning.TargetLanguages.Fr.Parts);
                                     meaningInside.EN = returnBuildedLanguage(_meaning.TargetLanguages.En.Parts);
                                     meaningInside.PT = returnBuildedLanguage(_meaning.TargetLanguages.Pt.Parts);
-
-                                    if (_meaning.SecondaryHeadword != null) meaningInside.LU = _meaning.SecondaryHeadword;
-                                    else meaningInside.LU = wuert.WuertLu;
 
                                     foreach (LODExample example in _meaning.LODExamples)
                                     {
